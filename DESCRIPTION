@@ -1,0 +1,19 @@
+Package: condformat
+Type: Package
+Title: Apply and visualize conditional formatting to data frames
+Version: 0.1
+Date: 2015-05-20
+Author: person("Sergio", c("Oller", "Moreno"), email = "sergioller@gmail.com", role = c("aut", "cph"))
+Maintainer: Who to complain to <yourfault@somewhere.net>
+Description: Apply and visualize conditional formatting to data frames
+    in R. It presents a data frame as an HTML table with cells CSS formatted
+    according to criteria defined by rules. It uses the dplyr and magrittr
+    to provide an easy to use syntax, and htmlTable to render the data.frame
+    in HTML. The table is printed either opening a web browser or within the
+    RStudio viewer if available.
+    The conditional formatting rules allow to highlight cells matching a condition
+    or add a gradient background to a given column based on a column values.
+License: BSD_3_clause + file LICENSE
+LazyData: TRUE
+Imports: htmlTable, scales, magrittr, dplyr
+Suggests: testthat
