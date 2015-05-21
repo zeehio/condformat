@@ -1,7 +1,6 @@
 #' Fills the background color of a column using a gradient based on
 #' the values of a given column
 #'
-#' @param x A condformat_tbl object.
 #' @param column a character string or vector with the column names to be coloured.
 #' @param colour_by a character string with the column name of the values to be used to generate the gradient
 #' @param low,high a character string with the CSS color code

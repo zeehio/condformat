@@ -1,6 +1,5 @@
 #' Highlights cells of a column based on a given condition
 #'
-#' @param x A condformat_tbl object.
 #' @param column a character string or vector with the column names to be coloured.
 #' @param condition a character string with the condition to be evaluated to apply the given css format.
 #' @param css a character string with the CSS code to be applied to those columns

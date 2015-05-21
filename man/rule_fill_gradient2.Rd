@@ -5,15 +5,11 @@
 \title{Fills the background color of a column using a three colors gradient based on
 the values of a given column}
 \usage{
-rule_fill_gradient2(x, column, colour_by = column,
-  low = scales::muted("red"), mid = "white", high = scales::muted("blue"),
-  midpoint = stats::median(x[[colour_by]], na.rm = TRUE), space = "rgb",
-  na.value = "#7F7F7F", limits = range(x[, colour_by], na.rm = TRUE),
-  lockcells = FALSE)
+rule_fill_gradient2(column, colour_by = column, low = scales::muted("red"),
+  mid = "white", high = scales::muted("blue"), midpoint = NA,
+  space = "rgb", na.value = "#7F7F7F", limits = NA, lockcells = FALSE)
 }
 \arguments{
-\item{x}{A condformat_tbl object.}
-
 \item{column}{a character string or vector with the column names to be coloured.}
 
 \item{colour_by}{a character string with the column name of the values to be used to generate the gradient}

@@ -4,11 +4,9 @@
 \alias{rule_highlight}
 \title{Highlights cells of a column based on a given condition}
 \usage{
-rule_highlight(x, column, condition, css, lockcells = FALSE)
+rule_highlight(column, condition, css, lockcells = FALSE)
 }
 \arguments{
-\item{x}{A condformat_tbl object.}
-
 \item{column}{a character string or vector with the column names to be coloured.}
 
 \item{condition}{a character string with the condition to be evaluated to apply the given css format.}

@@ -1,6 +1,5 @@
 #' Formats a whole column of a condformat_tbl
 #'
-#' @param x A condformat_tbl, or an object that can be coerced to that
 #' @param column a character string or vector with the column names to be coloured.
 #' @param css a character string with the CSS code to be applied to those columns
 #' @param lockcells logical value determining if no further rules should be applied to the affected cells.
@@ -17,17 +16,7 @@ rule_column <- function(column, css, lockcells=FALSE) {
   return(rule)
 }
 
-#' Prints the data frame in an html page and shows it.
-#'
-#' @param rule A rule_column object
-#' @param finalformat
-#' @param x The data to which format has to be applied
-#' @return finalformat
-#' @examples
-#' data(iris)
-#' library(dplyr)
-#' condformat(iris) %>% rule_column(column="Species", css="background: red")
-applyrule.rule_column <- function(rule, finalformat, x, ...) {
+applyrule.rule_column <- function(rule, finalformat, x) {
   condformatopts <- attr(x, "condformat")
   index.j <- match(rule$column, condformatopts$view_select)
   if (is.na(index.j)) {

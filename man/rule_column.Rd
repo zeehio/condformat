@@ -12,8 +12,6 @@ rule_column(column, css, lockcells = FALSE)
 \item{css}{a character string with the CSS code to be applied to those columns}
 
 \item{lockcells}{logical value determining if no further rules should be applied to the affected cells.}
-
-\item{x}{A condformat_tbl, or an object that can be coerced to that}
 }
 \value{
 The condformat_tbl object, with the added information

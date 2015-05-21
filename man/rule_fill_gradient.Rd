@@ -5,13 +5,11 @@
 \title{Fills the background color of a column using a gradient based on
 the values of a given column}
 \usage{
-rule_fill_gradient(x, column, colour_by = column, low = "#132B43",
-  high = "#56B1F7", space = "Lab", na.value = "#7F7F7F",
-  limits = range(x[, colour_by], na.rm = TRUE), lockcells = FALSE)
+rule_fill_gradient(column, colour_by = column, low = "#132B43",
+  high = "#56B1F7", space = "Lab", na.value = "#7F7F7F", limits = NA,
+  lockcells = FALSE)
 }
 \arguments{
-\item{x}{A condformat_tbl object.}
-
 \item{column}{a character string or vector with the column names to be coloured.}
 
 \item{colour_by}{a character string with the column name of the values to be used to generate the gradient}
