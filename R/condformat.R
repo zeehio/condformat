@@ -61,7 +61,7 @@ print.condformat_tbl <- function(x, ...) {
   condformatopts <- attr(x, "condformat")
   xview <- x[,condformatopts$view_select]
   colnames(xview) <- condformatopts$view_names
-  do.call(htmlTable::htmlTable, c(list(xview,
+  do.call(htmlTable::htmlTable, c(list(format(xview),
                             rnames=FALSE,
                             css.cell=condformatopts$css.cell),
                        condformatopts$htmltable_args))
