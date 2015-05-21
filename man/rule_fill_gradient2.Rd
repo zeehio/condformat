@@ -7,7 +7,7 @@ the values of a given column}
 \usage{
 rule_fill_gradient2(x, column, colour_by = column,
   low = scales::muted("red"), mid = "white", high = scales::muted("blue"),
-  midpoint = median(x[[colour_by]], na.rm = TRUE), space = "rgb",
+  midpoint = stats::median(x[[colour_by]], na.rm = TRUE), space = "rgb",
   na.value = "#7F7F7F", limits = range(x[, colour_by], na.rm = TRUE),
   lockcells = FALSE)
 }
@@ -22,7 +22,7 @@ rule_fill_gradient2(x, column, colour_by = column,
 
 \item{midpoint}{the value used for the middle color}
 
-\item{space}{the color space passed to scales::seq_gradient_pal}
+\item{space}{the color space passed to scales::div_gradient_pal}
 
 \item{na.value}{a character string with the CSS color to be used in missing values}
 

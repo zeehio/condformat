@@ -13,6 +13,7 @@
 #' @param ... additional arguments passed to htmlTable
 #'
 #' @return The condformat_tbl object, that can be printed to generate the output.
+#' @importFrom dplyr tbl_df
 #' @examples
 #' data(iris)
 #' library(magrittr)
@@ -52,6 +53,7 @@ condformat <- function(x, select, col.names, ...) {
 #' @param x A condformat_tbl object
 #' @param ... optional arguments to print
 #' @return the value returned by htmlTable
+#' @importFrom htmlTable htmlTable
 #' @examples
 #' data(iris)
 #' library(dplyr)

@@ -6,7 +6,7 @@
 #' @param colour_by a character string with the column name of the values to be used to generate the gradient
 #' @param low,mid,high a character string with the CSS color code for the three levels of the gradient
 #' @param midpoint the value used for the middle color
-#' @param space the color space passed to scales::seq_gradient_pal
+#' @param space the color space passed to scales::div_gradient_pal
 #' @param na.value a character string with the CSS color to be used in missing values
 #' @param limits range of limits that the gradient should cover
 #' @param lockcells logical value determining if no further rules should be applied to the affected cells.
@@ -17,10 +17,12 @@
 #' library(magrittr)
 #' condformat(iris) %>% rule_fill_gradient(column="Sepal.Length") %>% print
 #' @export
+#' @importFrom scales muted div_gradient_pal rescale_mid
+#' @importFrom stats median
 rule_fill_gradient2 <- function(x, column,
                                 colour_by=column,
                                 low = scales::muted("red"), mid="white", high = scales::muted("blue"),
-                                midpoint = median(x[[colour_by]], na.rm=TRUE),
+                                midpoint = stats::median(x[[colour_by]], na.rm=TRUE),
                                 space = "rgb",
                                 na.value = "#7F7F7F",
                                 limits=range(x[,colour_by], na.rm = TRUE),

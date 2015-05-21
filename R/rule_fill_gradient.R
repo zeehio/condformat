@@ -16,6 +16,7 @@
 #' library(magrittr)
 #' condformat(iris) %>% rule_fill_gradient(column="Sepal.Length") %>% print
 #' @export
+#' @importFrom scales seq_gradient_pal rescale
 rule_fill_gradient <- function(x, column,
                                colour_by=column,
                                low = "#132B43", high = "#56B1F7",
