@@ -15,24 +15,27 @@
 #'                  condition="Sepal.Width > Sepal.Length - 2.25",
 #'                  css="background: #7D00FF") %>% print
 #' @export
-rule_highlight <- function(x, column, condition, css, lockcells=FALSE) {
+rule_highlight <- function(column, condition, css, lockcells=FALSE) {
   rule <- structure(list(column=column, condition=condition,
                          css=css, lockcells=lockcells),
                     class=c("condformat_rule", "rule_highlight"))
+  return(rule)
+}
+
+applyrule.rule_highlight <- function(rule, finalformat, x, ...) {
   condformatopts <- attr(x, "condformat")
   index.j <- match(rule$column, condformatopts$view_select)
   if (is.na(index.j)) {
-    return(x)
+    return(finalformat)
   }
 
   apply_to <- matrix(data=FALSE, nrow=nrow(x), ncol=length(condformatopts$view_select))
   indexes.i <- which(with(x, eval(parse(text=rule$condition))))
   apply_to[indexes.i, index.j] <- TRUE
 
-  condformatopts$css.cell[apply_to & condformatopts$css_cell_unlocked] <- rule$css
+  finalformat$css_cell[apply_to & finalformat$css_cell_unlocked] <- rule$css
   if (rule$lockcells) {
-    condformatopts$css_cell_unlocked[apply_to] <- FALSE
+    finalformat$css_cell_unlocked[apply_to] <- FALSE
   }
-  attr(x, "condformat") <- condformatopts
-  return(x)
+  return(finalformat)
 }

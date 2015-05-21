@@ -11,14 +11,27 @@
 #' library(magrittr)
 #' condformat(iris) %>% rule_column(column="Species", css="background: red")
 #' @export
-rule_column <- function(x, column, css, lockcells=FALSE) {
+rule_column <- function(column, css, lockcells=FALSE) {
   rule <- structure(list(column=column, css=css, lockcells=lockcells),
                     class=c("condformat_rule", "rule_column"))
+  return(rule)
+}
 
+#' Prints the data frame in an html page and shows it.
+#'
+#' @param rule A rule_column object
+#' @param finalformat
+#' @param x The data to which format has to be applied
+#' @return finalformat
+#' @examples
+#' data(iris)
+#' library(dplyr)
+#' condformat(iris) %>% rule_column(column="Species", css="background: red")
+applyrule.rule_column <- function(rule, finalformat, x, ...) {
   condformatopts <- attr(x, "condformat")
   index.j <- match(rule$column, condformatopts$view_select)
   if (is.na(index.j)) {
-    return(x)
+    return(finalformat)
   }
 
   apply_to <- matrix(data=FALSE,
@@ -27,11 +40,10 @@ rule_column <- function(x, column, css, lockcells=FALSE) {
 
   apply_to[, index.j] <- TRUE
 
-  condformatopts$css.cell[apply_to & condformatopts$css_cell_unlocked] <- rule$css
+  finalformat$css_cell[apply_to & finalformat$css_cell_unlocked] <- rule$css
 
   if (rule$lockcells) {
-    condformatopts$css_cell_unlocked[apply_to & condformatopts$css_cell_unlocked] <- FALSE
+    finalformat$css_cell_unlocked[apply_to & finalformat$css_cell_unlocked] <- FALSE
   }
-  attr(x, "condformat") <- condformatopts
-  return(x)
+  return(finalformat)
 }

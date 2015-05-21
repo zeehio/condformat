@@ -19,39 +19,52 @@
 #' @export
 #' @importFrom scales muted div_gradient_pal rescale_mid
 #' @importFrom stats median
-rule_fill_gradient2 <- function(x, column,
+rule_fill_gradient2 <- function(column,
                                 colour_by=column,
                                 low = scales::muted("red"), mid="white", high = scales::muted("blue"),
-                                midpoint = stats::median(x[[colour_by]], na.rm=TRUE),
+                                midpoint = NA,
                                 space = "rgb",
                                 na.value = "#7F7F7F",
-                                limits=range(x[,colour_by], na.rm = TRUE),
+                                limits=NA,
                                 lockcells = FALSE) {
 
   rule <- structure(list(column = column, colour_by = column,
                          low = low, mid = mid, high = high, midpoint = midpoint, space = space,
                          na.value = na.value, limits = limits, lockcells = lockcells),
                     class = c("condformat_rule", "rule_fill_gradient2"))
+  return(rule)
+}
+
+applyrule.rule_fill_gradient2 <- function(rule, finalformat, x, ...) {
+  if (is.na(rule$limits)) {
+    limits <- range(x[,rule$colour_by], na.rm = TRUE)
+  } else {
+    limits <- rule$limits
+  }
+  if (is.na(rule$midpoint)) {
+    midpoint <- stats::median(x[[rule$colour_by]], na.rm=TRUE)
+  } else {
+    midpoint <- rule$midpoint
+  }
   condformatopts <- attr(x, "condformat")
   index.j <- match(rule$column, condformatopts$view_select)
   if (is.na(index.j)) {
-    return(x)
+    return(finalformat)
   }
 
   col_scale <- scales::div_gradient_pal(low = rule$low, mid = rule$mid, high = rule$high, space = rule$space)
 
   values_determining_color <- x[[rule$colour_by]]
   values_rescaled <- scales::rescale_mid(x = values_determining_color,
-                                         from = rule$limits, mid = rule$midpoint)
+                                         from = limits, mid = midpoint)
   colours_for_values <- col_scale(values_rescaled)
 
-  unlocked_rows <- condformatopts$css_cell_unlocked[,index.j]
+  unlocked_rows <- finalformat$css_cell_unlocked[,index.j]
 
-  condformatopts$css.cell[unlocked_rows, index.j] <- paste0("background: ", colours_for_values[unlocked_rows])
+  finalformat$css_cell[unlocked_rows, index.j] <- paste0("background: ", colours_for_values[unlocked_rows])
   if (rule$lockcells) {
-    condformatopts$css_cell_unlocked[unlocked_rows, index.j] <- FALSE
+    finalformat$css_cell_unlocked[unlocked_rows, index.j] <- FALSE
   }
-  attr(x, "condformat") <- condformatopts
-  return(x)
+  return(finalformat)
 }
 

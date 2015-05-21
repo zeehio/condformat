@@ -17,10 +17,9 @@ To use:
 ```
 data(iris)
 library(condformat)
-condformat(iris) %>%
+condformat(iris) +
  rule_highlight(column="Species",
                 condition="Sepal.Width > Sepal.Length - 2.25",
-                css="background: #7D00FF") %>%
- rule_fill_gradient2(column="Sepal.Length") %>%
- print
+                css="background: #7D00FF") +
+ rule_fill_gradient2(column="Sepal.Length")
 ```

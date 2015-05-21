@@ -31,15 +31,11 @@ condformat <- function(x, select, col.names, ...) {
     col.names <- select
   }
 
-  css_cell <- matrix(data="", nrow=nrow(x), ncol=length(select))
-  css_cell_unlocked <- matrix(data=TRUE, nrow=nrow(x), ncol=length(select))
-
   x <- dplyr::tbl_df(x)
   attr(x, "condformat") <- list(view_dim=c(nrow(x), length(select)),
                                 view_select=select,
                                 view_names=col.names,
-                                css.cell=css_cell,
-                                css_cell_unlocked=css_cell_unlocked,
+                                rules=list(),
                                 htmltable_args=list(...))
 
   if (! ("condformat_tbl" %in% class(x))) {
@@ -47,6 +43,34 @@ condformat <- function(x, select, col.names, ...) {
   }
   return(x)
 }
+
+applyrule <- function(rule, finalformat, x, ...) UseMethod("applyrule")
+
+applyrule.default <- function(rule, finalformat, x, ...) {
+  finalformat
+}
+
+#' Prints the data frame in an html page and shows it.
+#'
+#' @param x A condformat_tbl object
+#' @param rule The rule to be applied
+#' @return x, with an attribute defining the rule
+#' @examples
+#' data(iris)
+#' condformat(iris) + rule_column("Species", "background:red")
+#' @method + condformat_tbl
+#' @export
+"+.condformat_tbl" <- function(x, rule) {
+  if (inherits(rule, "condformat_rule")) {
+    condformatopts <- attr(x, "condformat")
+    condformatopts$rules <- c(condformatopts$rules, list(rule))
+    attr(x, "condformat") <- condformatopts
+    return(x)
+  } else {
+    NextMethod()
+  }
+}
+
 
 #' Prints the data frame in an html page and shows it.
 #'
@@ -63,10 +87,25 @@ print.condformat_tbl <- function(x, ...) {
   condformatopts <- attr(x, "condformat")
   xview <- x[,condformatopts$view_select]
   colnames(xview) <- condformatopts$view_names
-  do.call(htmlTable::htmlTable, c(list(format(xview),
-                            rnames=FALSE,
-                            css.cell=condformatopts$css.cell),
-                       condformatopts$htmltable_args))
+
+  rules <- condformatopts$rules
+
+  finalformat <- list(css_cell = matrix(data="",
+                                        nrow=nrow(xview),
+                                        ncol=ncol(xview)),
+                      css_cell_unlocked = matrix(data=TRUE,
+                                                 nrow=nrow(xview),
+                                                 ncol=ncol(xview)))
+
+  for (rule in rules) {
+    finalformat <- applyrule(rule, finalformat, x)
+  }
+
+  thetable <- do.call(htmlTable::htmlTable, c(list(format(xview),
+                                                   rnames=FALSE,
+                                                   css.cell=finalformat$css_cell),
+                                              condformatopts$htmltable_args))
+  print(thetable)
 }
 
 #' Pipe operator

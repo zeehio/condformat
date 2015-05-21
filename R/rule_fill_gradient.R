@@ -17,37 +17,45 @@
 #' condformat(iris) %>% rule_fill_gradient(column="Sepal.Length") %>% print
 #' @export
 #' @importFrom scales seq_gradient_pal rescale
-rule_fill_gradient <- function(x, column,
+rule_fill_gradient <- function(column,
                                colour_by=column,
                                low = "#132B43", high = "#56B1F7",
                                space = "Lab",
                                na.value = "#7F7F7F",
-                               limits=range(x[,colour_by], na.rm = TRUE),
+                               limits=NA,
                                lockcells=FALSE) {
 
   rule <- structure(list(column = column, colour_by = column,
                          low = low, high = high, space = space, na.value = na.value,
                          limits = limits, lockcells = lockcells),
                     class = c("condformat_rule", "rule_fill_gradient"))
+  return(rule)
+}
+
+applyrule.rule_fill_gradient <- function(rule, finalformat, x, ...) {
+  if (is.na(rule$limits)) {
+    limits <- range(x[,rule$colour_by], na.rm = TRUE)
+  } else {
+    limits <- rule$limits
+  }
   condformatopts <- attr(x, "condformat")
   index.j <- match(rule$column, condformatopts$view_select)
   if (is.na(index.j)) {
-    return(x)
+    return(finalformat)
   }
 
   col_scale <- scales::seq_gradient_pal(low = rule$low, high = rule$high, space = rule$space)
 
   values_determining_color <- x[[rule$colour_by]]
-  values_rescaled <- scales::rescale(x = values_determining_color, from = rule$limits)
+  values_rescaled <- scales::rescale(x = values_determining_color, from = limits)
   colours_for_values <- col_scale(values_rescaled)
 
-  unlocked_rows <- condformatopts$css_cell_unlocked[,index.j]
+  unlocked_rows <- finalformat$css_cell_unlocked[,index.j]
 
-  condformatopts$css.cell[unlocked_rows, index.j] <-
+  finalformat$css_cell[unlocked_rows, index.j] <-
     paste0("background: ", colours_for_values[unlocked_rows])
   if (rule$lockcells) {
-    condformatopts$css_cell_unlocked[unlocked_rows, index.j] <- FALSE
+    finalformat$css_cell_unlocked[unlocked_rows, index.j] <- FALSE
   }
-  attr(x, "condformat") <- condformatopts
-  return(x)
+  return(finalformat)
 }

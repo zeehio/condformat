@@ -4,16 +4,16 @@
 \alias{rule_column}
 \title{Formats a whole column of a condformat_tbl}
 \usage{
-rule_column(x, column, css, lockcells = FALSE)
+rule_column(column, css, lockcells = FALSE)
 }
 \arguments{
-\item{x}{A condformat_tbl, or an object that can be coerced to that}
-
 \item{column}{a character string or vector with the column names to be coloured.}
 
 \item{css}{a character string with the CSS code to be applied to those columns}
 
 \item{lockcells}{logical value determining if no further rules should be applied to the affected cells.}
+
+\item{x}{A condformat_tbl, or an object that can be coerced to that}
 }
 \value{
 The condformat_tbl object, with the added information
