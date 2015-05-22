@@ -32,14 +32,14 @@ rule_fill_gradient <- function(column,
 }
 
 applyrule.rule_fill_gradient <- function(rule, finalformat, x, ...) {
-  if (is.na(rule$limits)) {
+  if (identical(rule$limits, NA)) {
     limits <- range(x[,rule$colour_by], na.rm = TRUE)
   } else {
     limits <- rule$limits
   }
   condformatopts <- attr(x, "condformat")
   index.j <- match(rule$column, condformatopts$view_select)
-  if (is.na(index.j)) {
+  if (identical(index.j, NA)) {
     return(finalformat)
   }
 
