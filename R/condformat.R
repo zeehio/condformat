@@ -105,8 +105,16 @@ print.condformat_tbl <- function(x, ...) {
                                                    rnames=FALSE,
                                                    css.cell=finalformat$css_cell),
                                               condformatopts$htmltable_args))
-  print(thetable)
+  invisible(print(thetable))
 }
+
+#' @importFrom knitr knit_print
+#' @export
+knit_print.condformat_tbl <- function(x, ...) {
+  knitr::knit_print(print(x), ...)
+}
+
+
 
 #' Pipe operator
 #'
