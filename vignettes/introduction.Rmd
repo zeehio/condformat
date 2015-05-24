@@ -12,13 +12,28 @@ vignette: >
 condformat provides an HTML representation of a data frame in which
 cells in columns are formatted according to several rules or criteria.
 
+## How to install condformat:
+
+condformat is not yet on CRAN.
+
+* To install the latest development version: 
+
+    ```
+    devtools::install_github("gforge/htmlTable", ref="develop")
+    devtools::install_github("zeehio/condformat")
+    ```
+
+To use:
 
 ```{r}
 data(iris)
 library(condformat)
-condformat(iris) +
-  rule_fill_discrete(Species, expression = Sepal.Width > Sepal.Length - 2.25,
+condformat(iris[c(1:5,70:75, 120:125),]) +
+  rule_fill_discrete(Species) + 
+  rule_fill_discrete(Sepal.Width, Sepal.Length,
+                     expression = Sepal.Width > Sepal.Length - 2.25,
                      colours = c("TRUE" = "#7D00FF")) + 
-  rule_fill_gradient2(Sepal.Length)
+  rule_fill_gradient2(Petal.Length)
 ```
 
+<!-- rmarkdown::render("vignettes/introduction.Rmd", output_format = rmarkdown::md_document(), output_file="../README.md") ->
