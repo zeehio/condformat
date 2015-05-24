@@ -2,23 +2,24 @@
 % Please edit documentation in R/condformat.R
 \name{+.condformat_tbl}
 \alias{+.condformat_tbl}
-\title{Prints the data frame in an html page and shows it.}
+\title{Combines the data with the formatting rules and graphical options.}
 \usage{
-\method{+}{condformat_tbl}(x, rule)
+\method{+}{condformat_tbl}(x, obj)
 }
 \arguments{
 \item{x}{A condformat_tbl object}
 
-\item{rule}{The rule to be applied}
+\item{obj}{A condformat_show or a condformat_rule object to be combined
+Any other type of object will be added as expected to the data frame.}
 }
 \value{
-x, with an attribute defining the rule
+x, with extended condformat_tbl attributes
 }
 \description{
-Prints the data frame in an html page and shows it.
+Combines the data with the formatting rules and graphical options.
 }
 \examples{
 data(iris)
-condformat(iris) + rule_column("Species", "background:red")
+condformat(iris) + show_columns(Species)
 }
 

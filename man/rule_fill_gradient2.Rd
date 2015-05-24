@@ -2,40 +2,73 @@
 % Please edit documentation in R/rule_fill_gradient2.R
 \name{rule_fill_gradient2}
 \alias{rule_fill_gradient2}
-\title{Fills the background color of a column using a three colors gradient based on
-the values of a given column}
+\alias{rule_fill_gradient2_}
+\title{Fill column with divergent colour gradient}
 \usage{
-rule_fill_gradient2(column, colour_by = column, low = scales::muted("red"),
+rule_fill_gradient2(..., expression, low = scales::muted("red"),
   mid = "white", high = scales::muted("blue"), midpoint = NA,
   space = "rgb", na.value = "#7F7F7F", limits = NA, lockcells = FALSE)
+
+rule_fill_gradient2_(columns, expression, low = scales::muted("red"),
+  mid = "white", high = scales::muted("blue"), midpoint = NA,
+  space = "rgb", na.value = "#7F7F7F", limits = NA, lockcells = FALSE,
+  env = parent.frame())
 }
 \arguments{
-\item{column}{a character string or vector with the column names to be coloured.}
+\item{...}{Comma separated list of unquoted column names.
+If expression is also given, then this list can use any of the
+\code{\link[dplyr]{select}} syntax possibilities.}
 
-\item{colour_by}{a character string with the column name of the values to be used to generate the gradient}
+\item{expression}{An expression to be evaluated with the data frame this rule applies to.
+It should evaluate to a numeric vector, that will be used
+to compute the color gradient values.
+In rule_fill_gradient_, a character string.}
 
-\item{low,mid,high}{a character string with the CSS color code for the three levels of the gradient}
+\item{low}{colour for low end of gradient.}
 
-\item{midpoint}{the value used for the middle color}
+\item{mid}{colour for mid point}
 
-\item{space}{the color space passed to scales::div_gradient_pal}
+\item{high}{colour for high end of gradient.}
 
-\item{na.value}{a character string with the CSS color to be used in missing values}
+\item{midpoint}{the value used for the middle color (the median by default)}
+
+\item{space}{colour space in which to calculate gradient.  "Lab" usually
+best unless gradient goes through white.}
+
+\item{na.value}{fill color for missing values}
 
 \item{limits}{range of limits that the gradient should cover}
 
 \item{lockcells}{logical value determining if no further rules should be applied to the affected cells.}
+
+\item{columns}{[SE] a character vector with the column names (Only in rule_fill_gradient2_)}
+
+\item{env}{[SE] the environment where `expression` is to be evaluated (Only in rule_fill_gradient2_)}
 }
 \value{
-The condformat_tbl object, with the added gradient information
+The condformat_tbl object, with the added formatting information
 }
 \description{
 Fills the background color of a column using a three colors gradient based on
-the values of a given column
+the values by an expression
 }
 \examples{
 data(iris)
-library(magrittr)
-condformat(iris) \%>\% rule_fill_gradient(column="Sepal.Length") \%>\% print
+condformat(iris) + rule_fill_gradient2(Sepal.Length)
+condformat(iris) + rule_fill_gradient2(Species, expression=Sepal.Length - Sepal.Width)
+data(iris)
+condformat(iris) + rule_fill_gradient2_(columns=c("Sepal.Length"))
+condformat(iris) + rule_fill_gradient2_("Species", expression="Sepal.Length-Sepal.Width")
+}
+\seealso{
+Other rule: \code{\link{rule_fill_discrete}},
+  \code{\link{rule_fill_discrete_}};
+  \code{\link{rule_fill_gradient}},
+  \code{\link{rule_fill_gradient_}}
+
+Other rule: \code{\link{rule_fill_discrete}},
+  \code{\link{rule_fill_discrete_}};
+  \code{\link{rule_fill_gradient}},
+  \code{\link{rule_fill_gradient_}}
 }
 

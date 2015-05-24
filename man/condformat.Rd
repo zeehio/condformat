@@ -2,35 +2,31 @@
 % Please edit documentation in R/condformat.R
 \name{condformat}
 \alias{condformat}
-\title{Converts a data frame or matrix to a condformat_tbl class.
-condformat_tbl objects allow to add conditional formatting information,
-that can be viewed when the condformat_tbl object is printed.}
+\title{Converts a data frame or matrix to a condformat_tbl class.}
 \usage{
-condformat(x, select, col.names, ...)
+condformat(x)
 }
 \arguments{
 \item{x}{A matrix or data.frame}
-
-\item{select}{a character string or vector with the column names to be printed.
-Columns not listed here may be used in conditional rules, although
-will not appear in the generated table when printing. Default: colnames(x)}
-
-\item{col.names}{a character string or vector of the same length of `select` with the desired column names to be shown
-in the printed table.}
-
-\item{...}{additional arguments passed to htmlTable}
 }
 \value{
-The condformat_tbl object, that can be printed to generate the output.
+The condformat_tbl object. This object can be used
+        in a ggplot-like syntax to apply conditional formatting
+        rules. It can also be used as a conventional
+        data frame.
+
+        The condformat_tbl print method generates an htmlTable, to be
+        viewed using RStudio Viewer or an HTML browser, as available.
 }
 \description{
+condformat_tbl objects allow to add conditional formatting information,
+that can be viewed when the condformat_tbl object is printed.
+}
+\details{
 They also have all properties from conventional data frames.
 }
 \examples{
 data(iris)
-library(magrittr)
-condformat(iris,
-           select=c("Sepal.Length", "Species"),
-           col.names=c("Sepal length", "Species")) \%>\% print
+condformat(iris)
 }
 
