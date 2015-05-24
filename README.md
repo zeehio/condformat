@@ -18,8 +18,9 @@ To use:
 data(iris)
 library(condformat)
 condformat(iris) +
- rule_highlight(column="Species",
-                condition="Sepal.Width > Sepal.Length - 2.25",
-                css="background: #7D00FF") +
- rule_fill_gradient2(column="Sepal.Length")
+ rule_fill_discrete(Sepal.Width,
+                    expression=Sepal.Width > Sepal.Length - 2.25,
+                    colours = c("TRUE" = "#7D00FF")) +
+ rule_fill_discrete(Species) +
+ rule_fill_gradient2(Sepal.Length)
 ```
