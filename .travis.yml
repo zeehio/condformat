@@ -1,6 +1,6 @@
 language: r
 
-r_packages:
+r_binary_packages:
   - dplyr
   - lazyeval
   - scales
