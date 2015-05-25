@@ -71,3 +71,14 @@ test_that("show_row works after modifying data frame", {
   expect_that(out[1], not(matches("8")))
 })
 
+test_that("custom show_ passes doing nothing", {
+    custom_showobj <- structure(list(),
+                                class = c("condformat_show_columns"))
+    data(iris)
+    x <- condformat(head(iris))
+    y <- x + custom_showobj
+    out_x <- condformat2html(x)
+    out_y <- condformat2html(y)
+    expect_that(out_x, is_identical_to(out_y))
+})
+

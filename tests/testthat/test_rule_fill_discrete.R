@@ -70,3 +70,14 @@ test_that("rule_fill_discrete_ works", {
   out <- condformat2html(y)
   expect_that(out[1], matches("^<table.*</table>$"))
 })
+
+test_that("custom rule_ passes doing nothing", {
+  custom_ruleobj <- structure(list(),
+                              class = c("condformat_rule"))
+  data(iris)
+  x <- condformat(head(iris))
+  y <- x + custom_ruleobj
+  out_x <- condformat2html(x)
+  out_y <- condformat2html(y)
+  expect_that(out_x, is_identical_to(out_y))
+})

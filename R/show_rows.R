@@ -39,12 +39,12 @@ show_rows_ <- function(..., .dots) {
 #     row_names <- NA
 #   }
   showobj <- structure(list(row_expr = dots),
-                       class = c("condformat_show", "condformat_show_rows"))
+                       class = c("condformat_show_rows", "condformat_show_rows_filter"))
   return(showobj)
 }
 
 #' @importFrom dplyr filter_
-render_show.condformat_show_rows <- function(showobj, finalshow, x, ...) {
+render_show.condformat_show_rows_filter <- function(showobj, finalshow, x, ...) {
 
   # col_to_show: The columns that this show_columns would keep:
   xfiltered <- dplyr::filter_(x, .dots = showobj$row_expr)

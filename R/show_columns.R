@@ -40,12 +40,13 @@ show_columns_ <- function(..., .dots, col_names) {
     col_names <- NA
   }
   showobj <- structure(list(column_expr = dots, col_names = col_names),
-                       class = c("condformat_show", "condformat_show_columns"))
+                       class = c("condformat_show_columns",
+                                 "condformat_show_columns_select"))
   return(showobj)
 }
 
 #' @importFrom dplyr select_vars_
-render_show.condformat_show_columns <- function(showobj, finalshow, x, ...) {
+render_show.condformat_show_columns_select <- function(showobj, finalshow, x, ...) {
 
   # col_to_show: The columns that this show_columns would keep:
   col_to_show <- dplyr::select_vars_(colnames(x), showobj$column_expr)

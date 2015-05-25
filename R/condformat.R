@@ -24,7 +24,7 @@ condformat <- function(x) {
   attr(x, "condformat") <- list(show = list(rows = list(),
                                             cols = list()),
                                 rules = list(),
-                                theme = list())
+                                themes = list())
 
   class(x) <- c("condformat_tbl", class(x))
   return(x)
@@ -60,7 +60,7 @@ condformat <- function(x) {
     return(x)
   } else if (inherits(obj, "condformat_theme")) {
     condformatopts <- attr(x, "condformat")
-    condformatopts$theme <- c(condformatopts$theme, list(obj))
+    condformatopts$themes <- c(condformatopts$themes, list(obj))
     attr(x, "condformat") <- condformatopts
     return(x)
   } else {

@@ -31,7 +31,8 @@ condformat2html <- function(x) {
   finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview)
   # Rename the columns according to show options:
   colnames(xview) <- names(finalshow$cols)
-  finaltheme <- render_theme_condformat_tbl(xview, xview)
+  themes <- attr(x, "condformat")$themes
+  finaltheme <- render_theme_condformat_tbl(themes, xview)
   thetable <- do.call(htmlTable::htmlTable, c(list(format(xview),
                                                    css.cell = finalformat$css_cell),
                                               finaltheme))
@@ -45,9 +46,11 @@ knit_print.condformat_tbl <- function(x, ...) {
   knitr::knit_print(condformat2html(x), ...)
 }
 
-render_theme_condformat_tbl <- function(x, xview) {
-  condformatopts <- attr(x, "condformat")
+render_theme_condformat_tbl <- function(themes, xview) {
   finaltheme <- list()
+  for (themeobj in themes) {
+    finaltheme <- render_theme(themeobj, finaltheme, xview)
+  }
   return(finaltheme)
 }
 
@@ -107,13 +110,20 @@ render_rules_condformat_tbl <- function(rules, xfiltered, xview) {
 
 render_show <- function(showobj, finalshow, x, ...) UseMethod("render_show")
 
-# render_show.default <- function(showobj, finalshow, x , ...) {
-#   finalshow
-# }
+render_show.default <- function(showobj, finalshow, x , ...) {
+  finalshow
+}
 
 applyrule <- function(rule, finalformat, xfiltered, xview, ...) UseMethod("applyrule")
 
-#
-# applyrule.default <- function(rule, finalformat, xfiltered, xview, ...) {
-#   finalformat
-# }
+
+applyrule.default <- function(rule, finalformat, xfiltered, xview, ...) {
+   finalformat
+}
+
+render_theme <- function(themeobj, finaltheme, xview, ...) UseMethod("render_theme")
+
+
+render_theme.default <- function(themeobj, finaltheme, xview, ...) {
+  finaltheme
+}
