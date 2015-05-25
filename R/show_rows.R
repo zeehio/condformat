@@ -9,8 +9,10 @@
 #' @return A condformat_show_rows object, usually to be added to a condformat_tbl object
 #'         as shown in the examples
 #' @examples
+#' library(condformat)
 #' data(iris)
-#' condformat(iris) + show_rows(Sepal.Length > 4.5, Species == "setosa")
+#' x <- head(iris)
+#' condformat(x) + show_rows(Sepal.Length > 4.5, Species == "setosa")
 #' @importFrom lazyeval lazy_dots
 #' @export
 #' @seealso \code{\link[dplyr]{filter}}
@@ -26,6 +28,11 @@ show_rows <- function(...) {
 #' @importFrom lazyeval all_dots
 #' @aliases show_rows
 #' @export
+#' @examples
+#' library(condformat)
+#' data(iris)
+#' x <- head(iris)
+#' condformat(x) + show_rows_(.docts = c("Sepal.Length > 4.5", "Species == 'setosa'"))
 show_rows_ <- function(..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
 #   if (missing(row_names)) {

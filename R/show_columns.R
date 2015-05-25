@@ -10,9 +10,10 @@
 #' @return A condformat_show_columns object, usually to be added to a condformat_tbl object
 #' @examples
 #' data(iris)
-#' condformat(iris) + show_columns(Sepal.Length, Sepal.Width, Species)
-#' condformat(iris) + show_columns(-Petal.Length, -Petal.Width)
-#' condformat(iris) + show_columns(starts_with("Petal"), Species)
+#' x <- head(iris)
+#' condformat(x) + show_columns(Sepal.Length, Sepal.Width, Species)
+#' condformat(x) + show_columns(-Petal.Length, -Petal.Width)
+#' condformat(x) + show_columns(starts_with("Petal"), Species)
 #' @importFrom lazyeval lazy_dots
 #' @export
 #' @seealso \code{\link[dplyr]{select}}
@@ -27,6 +28,12 @@ show_columns <- function(..., col_names) {
 #' @inheritParams dplyr::select
 #' @importFrom lazyeval all_dots
 #' @export
+#' @examples
+#' data(iris)
+#' x <- head(iris)
+#' condformat(x) + show_columns_(.dots = c("Sepal.Length", "Species"))
+#' condformat(x) + show_columns_(.dots = c("Sepal.Length", "Species"),
+#'                               col_names = c("Sepal Length", "Species"))
 show_columns_ <- function(..., .dots, col_names) {
   dots <- lazyeval::all_dots(.dots, ...)
   if (missing(col_names)) {

@@ -28,9 +28,15 @@ on them.
 }
 \examples{
 data(iris)
-condformat(iris) + show_columns(Sepal.Length, Sepal.Width, Species)
-condformat(iris) + show_columns(-Petal.Length, -Petal.Width)
-condformat(iris) + show_columns(starts_with("Petal"), Species)
+x <- head(iris)
+condformat(x) + show_columns(Sepal.Length, Sepal.Width, Species)
+condformat(x) + show_columns(-Petal.Length, -Petal.Width)
+condformat(x) + show_columns(starts_with("Petal"), Species)
+data(iris)
+x <- head(iris)
+condformat(x) + show_columns_(.dots = c("Sepal.Length", "Species"))
+condformat(x) + show_columns_(.dots = c("Sepal.Length", "Species"),
+                              col_names = c("Sepal Length", "Species"))
 }
 \seealso{
 \code{\link[dplyr]{select}}

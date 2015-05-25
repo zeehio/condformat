@@ -112,7 +112,7 @@ applyrule.rule_fill_discrete_ <- function(rule, finalformat, xfiltered, xview, .
 rule_fill_discrete_common <- function(rule, finalformat, xfiltered, xview,
                                       columns, values_determining_color) {
   colours_for_values <- NA
-  if (is.na(rule$colours)) {
+  if (identical(rule$colours, NA)) {
     number_colours <- length(levels(values_determining_color))
     col_scale <- scales::hue_pal(h = rule$h, c = rule$c, l = rule$l,
                                  h.start = rule$h.start,

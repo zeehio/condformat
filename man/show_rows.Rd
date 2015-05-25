@@ -25,8 +25,14 @@ Compared to \code{\link[dplyr]{filter}}, show_rows does not remove the
 rows from the actual data frame, they are removed only for printing.
 }
 \examples{
+library(condformat)
 data(iris)
-condformat(iris) + show_rows(Sepal.Length > 4.5, Species == "setosa")
+x <- head(iris)
+condformat(x) + show_rows(Sepal.Length > 4.5, Species == "setosa")
+library(condformat)
+data(iris)
+x <- head(iris)
+condformat(x) + show_rows_(.docts = c("Sepal.Length > 4.5", "Species == 'setosa'"))
 }
 \seealso{
 \code{\link[dplyr]{filter}}
