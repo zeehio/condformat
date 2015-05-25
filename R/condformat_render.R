@@ -107,13 +107,13 @@ render_rules_condformat_tbl <- function(rules, xfiltered, xview) {
 
 render_show <- function(showobj, finalshow, x, ...) UseMethod("render_show")
 
-render_show.default <- function(showobj, finalshow, x , ...) {
-  finalshow
-}
+# render_show.default <- function(showobj, finalshow, x , ...) {
+#   finalshow
+# }
 
 applyrule <- function(rule, finalformat, xfiltered, xview, ...) UseMethod("applyrule")
 
-
-applyrule.default <- function(rule, finalformat, xfiltered, xview, ...) {
-  finalformat
-}
+#
+# applyrule.default <- function(rule, finalformat, xfiltered, xview, ...) {
+#   finalformat
+# }

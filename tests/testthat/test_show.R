@@ -16,6 +16,16 @@ test_that("show_column works", {
   expect_that(out[1], matches("Species"))
 })
 
+test_that("show_column_ works", {
+  data(iris)
+  x <- condformat(head(iris)) + show_columns_(.dots = c("Sepal.Length", "Petal.Length"))
+  expect_true("Sepal.Width" %in% colnames(x))
+  out <- condformat2html(x)
+  expect_that(out[1], not(matches("Sepal.Width")))
+  expect_that(out[1], matches("Petal.Length"))
+})
+
+
 test_that("show_column works with custom names", {
   data(iris)
   x <- condformat(head(iris)) + show_columns(Sepal.Length, Petal.Width, Species,
@@ -45,3 +55,19 @@ test_that("show_row works", {
   # the html code only shows one row (that does not have any 8 digit)
   expect_that(out[1], not(matches("8")))
 })
+
+
+test_that("show_row works after modifying data frame", {
+  data(iris)
+  x <- condformat(head(iris, n = 10))
+  x$Sepal.Length <- x$Sepal.Length + 1
+
+  x <- x + show_rows(Sepal.Length == 6.1, Sepal.Width == 3.5,
+                     Petal.Length == 1.4, Petal.Width == 0.2)
+  # in the data frame nothing is filtered
+  expect_that(nrow(x), equals(10))
+  out <- condformat2html(x)
+  # the html code only shows one row (that does not have any 8 digit)
+  expect_that(out[1], not(matches("8")))
+})
+
