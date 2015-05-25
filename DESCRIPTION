@@ -1,7 +1,7 @@
 Package: condformat
 Type: Package
 Title: Conditional Formatting in Data Frames
-Version: 0.1.1.9001
+Version: 0.1.1.9002
 Date: 2015-05-20
 Author: person("Sergio", c("Oller", "Moreno"), email = "sergioller@gmail.com", role = c("aut", "cph"))
 Maintainer: Sergio Oller <sergioller@gmail.com>
