@@ -2,18 +2,27 @@
 title: "Introduction to condformat"
 author: "Sergio Oller"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Introduction to condformat}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output: rmarkdown::md_document
 ---
 
 condformat provides an HTML representation of a data frame in which
 cells in columns are formatted according to several rules or criteria.
 
+[![Build Status](https://travis-ci.org/zeehio/condformat.svg?branch=master)](https://travis-ci.org/zeehio/condformat)
+[![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=master)](https://codecov.io/github/zeehio/condformat)
 
-## Example:
+## How to install condformat:
+
+condformat is not yet on CRAN.
+
+* To install the latest development version: 
+
+    ```
+    devtools::install_github("gforge/htmlTable", ref="develop")
+    devtools::install_github("zeehio/condformat")
+    ```
+
+## Example
 
 ```{r}
 data(iris)

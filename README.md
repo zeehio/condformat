@@ -1,6 +1,10 @@
 condformat provides an HTML representation of a data frame in which
 cells in columns are formatted according to several rules or criteria.
 
+[![Build
+Status](https://travis-ci.org/zeehio/condformat.svg?branch=master)](https://travis-ci.org/zeehio/condformat)
+[![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=master)](https://codecov.io/github/zeehio/condformat)
+
 How to install condformat:
 --------------------------
 
@@ -11,7 +15,8 @@ condformat is not yet on CRAN.
         devtools::install_github("gforge/htmlTable", ref="develop")
         devtools::install_github("zeehio/condformat")
 
-To use:
+Example
+-------
 
     data(iris)
     library(condformat)
@@ -387,5 +392,3 @@ virginica
 </tr>
 </tbody>
 </table>
-\<!-- rmarkdown::render("vignettes/introduction.Rmd", output\_format =
-rmarkdown::md\_document(), output\_file="README.md") -\>
