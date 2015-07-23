@@ -5,6 +5,12 @@ cells in columns are formatted according to several rules or criteria.
 Status](https://travis-ci.org/zeehio/condformat.svg?branch=master)](https://travis-ci.org/zeehio/condformat)
 [![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=master)](https://codecov.io/github/zeehio/condformat)
 
+Browse source code
+------------------
+
+Checkout the code and browse it at
+[<http://github.com/zeehio/condformat>](http://github.com/zeehio/condformat).
+
 How to install condformat:
 --------------------------
 
@@ -17,6 +23,9 @@ condformat is not yet on CRAN.
 
 Example
 -------
+
+The example is properly formatted at
+[<http://zeehio.github.io/condformat>](http://zeehio.github.io/condformat).
 
     data(iris)
     library(condformat)
