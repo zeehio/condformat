@@ -7,10 +7,10 @@ r_binary_packages:
   - assertthat
   - knitr
   - testthat
+  - htmlTable
   - rmarkdown
 
 r_github_packages:
-  - gforge/htmlTable@develop
   - jimhester/covr
 
 after_success:
