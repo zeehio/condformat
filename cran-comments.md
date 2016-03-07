@@ -1,3 +1,12 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Fixed the Description: Quote software names like 'ggplot2'
+
+* Reduce the example run times so it complies with CRAN policies.
+
+* Updated the Authors in DESCRIPTION, properly using Authors@R.
+
 ## Test environments
 * local Ubuntu 14.04 install, R 3.2.3
 * ubuntu 12.04.5 (on travis-ci), R 3.2.3
