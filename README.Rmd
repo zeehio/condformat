@@ -18,12 +18,9 @@ Checkout the code and browse it at
 
 ## How to install condformat:
 
-condformat is not yet on CRAN.
-
 * To install the latest development version: 
 
     ```
-    devtools::install_github("gforge/htmlTable", ref="develop")
     devtools::install_github("zeehio/condformat")
     ```
 
@@ -32,7 +29,7 @@ condformat is not yet on CRAN.
 The example is properly formatted at
 [http://zeehio.github.io/condformat](http://zeehio.github.io/condformat).
 
-```{r}
+```{r, warning=FALSE}
 data(iris)
 library(condformat)
 condformat(iris[c(1:5,70:75, 120:125),]) +

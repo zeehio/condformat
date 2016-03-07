@@ -14,11 +14,8 @@ Checkout the code and browse it at
 How to install condformat:
 --------------------------
 
-condformat is not yet on CRAN.
-
 -   To install the latest development version:
 
-        devtools::install_github("gforge/htmlTable", ref="develop")
         devtools::install_github("zeehio/condformat")
 
 Example
@@ -36,7 +33,7 @@ The example is properly formatted at
                          colours = c("TRUE" = "#7D00FF")) + 
       rule_fill_gradient2(Petal.Length)
 
-<table class="gmisc_table" style="border-collapse: collapse;">
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
 <thead>
 <tr>
 <th style="border-bottom: 1px solid grey; border-top: 2px solid grey;">
@@ -69,7 +66,7 @@ Species
 <td style="; background-color: #7D00FF; text-align: center;">
 3.5
 </td>
-<td style="; background-color: #862A2A; text-align: center;">
+<td style="; background-color: #872B29; text-align: center;">
 1.4
 </td>
 <td style="; background-color:; text-align: center;">
@@ -89,7 +86,7 @@ setosa
 <td style="; background-color: #7D00FF; text-align: center;">
 3.0
 </td>
-<td style="; background-color: #862A2A; text-align: center;">
+<td style="; background-color: #872B29; text-align: center;">
 1.4
 </td>
 <td style="; background-color:; text-align: center;">
@@ -129,7 +126,7 @@ setosa
 <td style="; background-color: #7D00FF; text-align: center;">
 3.1
 </td>
-<td style="; background-color: #8A3030; text-align: center;">
+<td style="; background-color: #8C322F; text-align: center;">
 1.5
 </td>
 <td style="; background-color:; text-align: center;">
@@ -149,7 +146,7 @@ setosa
 <td style="; background-color: #7D00FF; text-align: center;">
 3.6
 </td>
-<td style="; background-color: #862A2A; text-align: center;">
+<td style="; background-color: #872B29; text-align: center;">
 1.4
 </td>
 <td style="; background-color:; text-align: center;">
@@ -169,7 +166,7 @@ setosa
 <td style="; background-color: blank; text-align: center;">
 2.5
 </td>
-<td style="; background-color: #E1CBCB; text-align: center;">
+<td style="; background-color: #E7CAC6; text-align: center;">
 3.9
 </td>
 <td style="; background-color:; text-align: center;">
@@ -189,7 +186,7 @@ versicolor
 <td style="; background-color: blank; text-align: center;">
 3.2
 </td>
-<td style="; background-color: #F9F9FB; text-align: center;">
+<td style="; background-color: #F9F9FC; text-align: center;">
 4.8
 </td>
 <td style="; background-color:; text-align: center;">
@@ -209,7 +206,7 @@ versicolor
 <td style="; background-color: blank; text-align: center;">
 2.8
 </td>
-<td style="; background-color: #E5D1D1; text-align: center;">
+<td style="; background-color: #EAD0CD; text-align: center;">
 4.0
 </td>
 <td style="; background-color:; text-align: center;">
@@ -229,7 +226,7 @@ versicolor
 <td style="; background-color: blank; text-align: center;">
 2.5
 </td>
-<td style="; background-color: #F3F3F8; text-align: center;">
+<td style="; background-color: #F4F2F9; text-align: center;">
 4.9
 </td>
 <td style="; background-color:; text-align: center;">
@@ -269,7 +266,7 @@ versicolor
 <td style="; background-color: blank; text-align: center;">
 2.9
 </td>
-<td style="; background-color: #F0E5E5; text-align: center;">
+<td style="; background-color: #F3E4E2; text-align: center;">
 4.3
 </td>
 <td style="; background-color:; text-align: center;">
@@ -289,7 +286,7 @@ versicolor
 <td style="; background-color: blank; text-align: center;">
 2.2
 </td>
-<td style="; background-color: #EDEDF5; text-align: center;">
+<td style="; background-color: #EEECF6; text-align: center;">
 5.0
 </td>
 <td style="; background-color:; text-align: center;">
@@ -309,7 +306,7 @@ virginica
 <td style="; background-color: blank; text-align: center;">
 3.2
 </td>
-<td style="; background-color: #C5C5E0; text-align: center;">
+<td style="; background-color: #C8C1E1; text-align: center;">
 5.7
 </td>
 <td style="; background-color:; text-align: center;">
@@ -329,7 +326,7 @@ virginica
 <td style="; background-color: blank; text-align: center;">
 2.8
 </td>
-<td style="; background-color: #F3F3F8; text-align: center;">
+<td style="; background-color: #F4F2F9; text-align: center;">
 4.9
 </td>
 <td style="; background-color:; text-align: center;">
@@ -349,7 +346,7 @@ virginica
 <td style="; background-color: blank; text-align: center;">
 2.8
 </td>
-<td style="; background-color: #8B8BC2; text-align: center;">
+<td style="; background-color: #9085C3; text-align: center;">
 6.7
 </td>
 <td style="; background-color:; text-align: center;">
@@ -369,7 +366,7 @@ virginica
 <td style="; background-color: blank; text-align: center;">
 2.7
 </td>
-<td style="; background-color: #F3F3F8; text-align: center;">
+<td style="; background-color: #F4F2F9; text-align: center;">
 4.9
 </td>
 <td style="; background-color:; text-align: center;">
@@ -389,7 +386,7 @@ virginica
 <td style="; background-color: blank; border-bottom: 2px solid grey; text-align: center;">
 3.3
 </td>
-<td style="; background-color: #C5C5E0; border-bottom: 2px solid grey; text-align: center;">
+<td style="; background-color: #C8C1E1; border-bottom: 2px solid grey; text-align: center;">
 5.7
 </td>
 <td style="; background-color:; border-bottom: 2px solid grey; text-align: center;">
