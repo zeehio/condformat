@@ -27,6 +27,6 @@ They also have all properties from conventional data frames.
 }
 \examples{
 data(iris)
-condformat(iris)
+condformat(iris[1:5,])
 }
 
