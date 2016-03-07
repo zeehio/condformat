@@ -9,7 +9,7 @@ Browse source code
 ------------------
 
 Checkout the code and browse it at
-[<http://github.com/zeehio/condformat>](http://github.com/zeehio/condformat).
+<http://github.com/zeehio/condformat>.
 
 How to install condformat:
 --------------------------
@@ -22,7 +22,7 @@ Example
 -------
 
 The example is properly formatted at
-[<http://zeehio.github.io/condformat>](http://zeehio.github.io/condformat).
+<http://zeehio.github.io/condformat>.
 
     data(iris)
     library(condformat)

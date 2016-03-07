@@ -29,7 +29,7 @@ Checkout the code and browse it at
 The example is properly formatted at
 [http://zeehio.github.io/condformat](http://zeehio.github.io/condformat).
 
-```{r, warning=FALSE}
+```{r}
 data(iris)
 library(condformat)
 condformat(iris[c(1:5,70:75, 120:125),]) +

@@ -7,11 +7,11 @@
 \usage{
 rule_fill_gradient2(..., expression, low = scales::muted("red"),
   mid = "white", high = scales::muted("blue"), midpoint = NA,
-  space = "rgb", na.value = "#7F7F7F", limits = NA, lockcells = FALSE)
+  space = "Lab", na.value = "#7F7F7F", limits = NA, lockcells = FALSE)
 
 rule_fill_gradient2_(columns, expression, low = scales::muted("red"),
   mid = "white", high = scales::muted("blue"), midpoint = NA,
-  space = "rgb", na.value = "#7F7F7F", limits = NA, lockcells = FALSE,
+  space = "Lab", na.value = "#7F7F7F", limits = NA, lockcells = FALSE,
   env = parent.frame())
 }
 \arguments{
