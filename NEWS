@@ -1,3 +1,11 @@
+condformat 0.2.0
+----------------------------------------------------------------
+
+* First CRAN submission
+* Add theme_htmlTable to pass custom formatting options to htmlTable.
+* Improve knitr compatibility
+
+
 condformat 0.1.1
 ----------------------------------------------------------------
 
