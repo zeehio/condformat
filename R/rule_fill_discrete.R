@@ -20,11 +20,13 @@
 #' @return The condformat_tbl object, with the added formatting information
 #' @examples
 #' data(iris)
-#' condformat(iris) + rule_fill_discrete(Species, colours = c("setosa" = "red",
-#'                                                            "versicolor" = "blue",
-#'                                                            "virginica" = "green"))
-#' condformat(iris) + rule_fill_discrete(Species, expression=Sepal.Length > 4.6,
-#'                                       colours=c("TRUE"="red"))
+#' condformat(iris[c(1:5, 70:75, 120:125), ]) +
+#'  rule_fill_discrete(Species, colours = c("setosa" = "red",
+#'                                          "versicolor" = "blue",
+#'                                          "virginica" = "green"))
+#' condformat(iris[c(1:5, 70:75, 120:125), ]) +
+#'  rule_fill_discrete(Species, expression=Sepal.Length > 4.6,
+#'                     colours=c("TRUE"="red"))
 #' @export
 #' @importFrom lazyeval lazy_dots lazy
 rule_fill_discrete <- function(...,

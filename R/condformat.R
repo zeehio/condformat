@@ -17,7 +17,7 @@
 #' @importFrom dplyr tbl_df
 #' @examples
 #' data(iris)
-#' condformat(iris)
+#' condformat(iris[1:5,])
 #' @export
 condformat <- function(x) {
   x <- dplyr::tbl_df(x)

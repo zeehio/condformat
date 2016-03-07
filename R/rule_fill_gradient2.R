@@ -21,8 +21,10 @@
 #' @return The condformat_tbl object, with the added formatting information
 #' @examples
 #' data(iris)
-#' condformat(iris) + rule_fill_gradient2(Sepal.Length)
-#' condformat(iris) + rule_fill_gradient2(Species, expression=Sepal.Length - Sepal.Width)
+#' condformat(iris[c(1:5, 70:75, 120:125), ]) +
+#'  rule_fill_gradient2(Sepal.Length)
+#' condformat(iris[c(1:5, 70:75, 120:125), ]) +
+#'  rule_fill_gradient2(Species, expression=Sepal.Length - Sepal.Width)
 #' @export
 #' @importFrom lazyeval lazy_dots lazy
 #' @importFrom scales muted
