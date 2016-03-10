@@ -8,6 +8,7 @@ output: rmarkdown::md_document
 condformat provides an HTML representation of a data frame in which
 cells in columns are formatted according to several rules or criteria.
 
+[![Downloads](http://cranlogs.r-pkg.org/badges/condformat)](http://cran.rstudio.com/web/packages/condformat/index.html)
 [![Build Status](https://travis-ci.org/zeehio/condformat.svg?branch=master)](https://travis-ci.org/zeehio/condformat)
 [![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=master)](https://codecov.io/github/zeehio/condformat)
 
@@ -17,6 +18,12 @@ Checkout the code and browse it at
 [http://github.com/zeehio/condformat](http://github.com/zeehio/condformat).
 
 ## How to install condformat:
+
+* From CRAN: 
+
+    ```
+    install.packages("condformat")
+    ```
 
 * To install the latest development version: 
 
