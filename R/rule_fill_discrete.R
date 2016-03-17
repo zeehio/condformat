@@ -32,7 +32,7 @@
 rule_fill_discrete <- function(...,
                                expression,
                                colours,
-                               na.value = "blank",
+                               na.value = "#FFFFFF",
                                h = c(0, 360) + 15, c = 100, l = 65,
                                h.start = 0, direction = 1,
                                lockcells=FALSE) {
@@ -71,7 +71,7 @@ rule_fill_discrete_ <- function(columns,
                                 expression,
                                 colours,
                                 h = c(0, 360) + 15, c = 100, l = 65,
-                                h.start = 0, direction = 1, na.value = "blank",
+                                h.start = 0, direction = 1, na.value = "#FFFFFF",
                                 lockcells=FALSE,
                                 env=parent.frame()) {
   if (missing(expression)) {
