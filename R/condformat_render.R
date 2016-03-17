@@ -28,7 +28,8 @@ condformat2html <- function(x) {
   xfiltered <- finalshow$xfiltered
   xview <- xfiltered[, finalshow$cols, drop = FALSE]
   rules <- attr(x, "condformat")$rules
-  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview)
+  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview,
+                                             format = "html")
   # Rename the columns according to show options:
   colnames(xview) <- names(finalshow$cols)
   themes <- attr(x, "condformat")$themes
@@ -39,11 +40,59 @@ condformat2html <- function(x) {
   return(thetable)
 }
 
+#' Converts the table to LaTeX code
+#' @param x A condformat_tbl object
+#' @param ... arguments passed to knitr::kable
+#' @return A character vector of the table source code
+#' @importFrom knitr kable
+#' @export
+condformat2latex <- function(x, ...) {
+  finalshow <- render_show_condformat_tbl(x)
+  xfiltered <- finalshow$xfiltered
+  xview <- xfiltered[, finalshow$cols, drop = FALSE]
+  rules <- attr(x, "condformat")$rules
+  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview,
+                                             format = "latex")
+  # Rename the columns according to show options:
+  colnames(finalformat) <- names(finalshow$cols)
+  # Theme is ignored in LaTeX
+  # themes <- attr(x, "condformat")$themes
+  # finaltheme <- render_theme_condformat_tbl(themes, xview)
+  return(knitr::kable(finalformat, format = "latex", escape = FALSE, ...))
+}
+
 
 #' @importFrom knitr knit_print
+#' @importFrom rmarkdown metadata
+#' @importFrom  knitr asis_output
+#' @importFrom knitr opts_knit
+#'
 #' @export
 knit_print.condformat_tbl <- function(x, ...) {
-  knitr::knit_print(condformat2html(x), ...)
+  rmd_output <- tryCatch({rmarkdown::metadata$output},
+                         error = function(e) {NULL})
+  if (is.null(rmd_output)) {
+    rmd_output = ""
+  }
+  if (is.list(rmd_output)) {
+    rmd_output <- names(rmd_output)[1]
+  }
+  if (rmd_output == "pdf_document") {
+    return(knitr::asis_output(condformat2latex(x)))
+  } else if (rmd_output %in% c("html_document", "html_vignette")) {
+    return(knitr::asis_output(condformat2html(x)))
+  } else if (rmd_output != "") {
+    stop("Unsupported rmarkdown output format:", rmd_output)
+  }
+  # No rmarkdown, let's try with knitr:
+  format <- knitr::opts_knit$get("out.format")
+  if (format %in% c("html", "markdown")) {
+    return(knitr::asis_output(condformat2html(x)))
+  } else if (format %in% c("latex")) {
+    return(knitr::asis_output(condformat2latex(x, ...)))
+  } else {
+    stop("Format not supported!")
+  }
 }
 
 render_theme_condformat_tbl <- function(themes, xview) {
@@ -69,7 +118,6 @@ render_show_condformat_tbl <- function(x) {
   for (showobj in showobjs) {
     finalshow <- render_show(showobj, finalshow, finalshow$xfiltered)
   }
-
   return(finalshow)
 }
 
@@ -84,14 +132,56 @@ merge_css_conditions <- function(initial_value, css_fields) {
   return(output)
 }
 
+#' @importFrom gplots col2hex
+merge_css_conditions_to_latex <- function(css_fields, raw_text) {
+  css_keys <- names(css_fields)
+  output <- ""
+  before <- ""
+  after <- ""
+  for (key in css_keys) {
+    if (key == 'background-color') {
+      # Get the colors
+      colors <- css_fields[[key]]
+      # Convert to hex:
+      colors[nchar(colors) > 0] <- gplots::col2hex(colors[nchar(colors) > 0])
+      # remove initial hash "#......"
+      colors <- substr(colors, 2, nchar(colors))
+      # if color, wrap latex code:
+      colors[nchar(colors) > 0] <- paste0("\\cellcolor[HTML]{", colors[nchar(colors) > 0], "}")
+      before <- colors
+    }
+    #thisfield <- paste(key, css_fields[[key]], sep = ": ")
+    #output <- paste(output, thisfield, sep = "; ") # I don't care about a leading "; "
+  }
+  output <- paste0(before, raw_text, after)
+  output <- matrix(output, nrow = nrow(raw_text), ncol = ncol(raw_text))
+  return(output)
+}
+
+
+# escape special LaTeX characters:
+# from https://github.com/yihui/knitr (R/utils.R)
+escape_latex = function(x, newlines = FALSE, spaces = FALSE) {
+  x = gsub('\\\\', '\\\\textbackslash', x)
+  x = gsub('([#$%&_{}])', '\\\\\\1', x)
+  x = gsub('\\\\textbackslash', '\\\\textbackslash{}', x)
+  x = gsub('~', '\\\\textasciitilde{}', x)
+  x = gsub('\\^', '\\\\textasciicircum{}', x)
+  if (newlines) x = gsub('(?<!\n)\n(?!\n)', '\\\\\\\\', x, perl = TRUE)
+  if (spaces) x = gsub('  ', '\\\\ \\\\ ', x)
+  x
+}
+
+
 #' Renders the css matrix to format the xview table
 #'
 #' @param rules List of rules to be applied
 #' @param xview Data frame with the rows and columns that will be printed
 #' @param xfiltered Like xview, but with all the columns (rules
 #'                  will use columns that won't be printed)
+#' @param format Output format (either "html" or "latex")
 #' @return List with the CSS information
-render_rules_condformat_tbl <- function(rules, xfiltered, xview) {
+render_rules_condformat_tbl <- function(rules, xfiltered, xview, format) {
 
   finalformat <- list(css_fields = list(),
                       css_cell = matrix(data = "", nrow = nrow(xview), ncol = ncol(xview)),
@@ -102,10 +192,19 @@ render_rules_condformat_tbl <- function(rules, xfiltered, xview) {
   for (rule in rules) {
     finalformat <- applyrule(rule, finalformat, xfiltered, xview)
   }
-  if (length(finalformat$css_fields) > 0) {
-    finalformat$css_cell <- merge_css_conditions(finalformat$css_cell, finalformat$css_fields)
+  if (format == "html") {
+    if (length(finalformat$css_fields) > 0) {
+      finalformat$css_cell <- merge_css_conditions(finalformat$css_cell, finalformat$css_fields)
+    }
+    return(finalformat)
+  } else if (format == "latex") {
+    raw_text <- escape_latex(as.matrix(format(xview)))
+    # Need to wrap raw_text with formatting rules
+    formatted_text <- merge_css_conditions_to_latex(css_fields = finalformat$css_fields, raw_text = raw_text)
+    return(formatted_text)
+  } else {
+    stop("Unsupported format:", format)
   }
-  return(finalformat)
 }
 
 render_show <- function(showobj, finalshow, x, ...) UseMethod("render_show")

@@ -2,7 +2,7 @@
 title: "Introduction to condformat"
 author: "Sergio Oller"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to condformat}
   %\VignetteEngine{knitr::rmarkdown}

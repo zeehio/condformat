@@ -22,7 +22,9 @@ Imports:
     dplyr,
     assertthat,
     lazyeval,
-    knitr
+    knitr,
+    rmarkdown,
+    gplots
 Suggests:
     testthat
 VignetteBuilder: knitr

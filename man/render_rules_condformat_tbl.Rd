@@ -4,7 +4,7 @@
 \alias{render_rules_condformat_tbl}
 \title{Renders the css matrix to format the xview table}
 \usage{
-render_rules_condformat_tbl(rules, xfiltered, xview)
+render_rules_condformat_tbl(rules, xfiltered, xview, format)
 }
 \arguments{
 \item{rules}{List of rules to be applied}
@@ -13,6 +13,8 @@ render_rules_condformat_tbl(rules, xfiltered, xview)
 will use columns that won't be printed)}
 
 \item{xview}{Data frame with the rows and columns that will be printed}
+
+\item{format}{Output format (either "html" or "latex")}
 }
 \value{
 List with the CSS information
