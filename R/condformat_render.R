@@ -78,7 +78,9 @@ knit_print.condformat_tbl <- function(x, ...) {
     rmd_output <- names(rmd_output)[1]
   }
   if (rmd_output == "pdf_document") {
-    return(knitr::asis_output(condformat2latex(x)))
+    return(knitr::asis_output(condformat2latex(x),
+                              meta = list(latex_package = list(name = "xcolor",
+                                                               options = "table"))))
   } else if (rmd_output %in% c("html_document", "html_vignette")) {
     return(knitr::asis_output(condformat2html(x)))
   } else if (rmd_output != "") {
@@ -89,7 +91,9 @@ knit_print.condformat_tbl <- function(x, ...) {
   if (format %in% c("html", "markdown")) {
     return(knitr::asis_output(condformat2html(x)))
   } else if (format %in% c("latex")) {
-    return(knitr::asis_output(condformat2latex(x, ...)))
+    return(knitr::asis_output(condformat2latex(x),
+                              meta = list(latex_package = list(name = "xcolor",
+                                                               options = "table"))))
   } else {
     stop("Format not supported!")
   }
