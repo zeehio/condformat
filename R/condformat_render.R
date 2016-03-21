@@ -62,13 +62,7 @@ condformat2latex <- function(x, ...) {
 }
 
 
-#' @importFrom knitr knit_print
-#' @importFrom rmarkdown metadata
-#' @importFrom  knitr asis_output
-#' @importFrom knitr opts_knit
-#'
-#' @export
-knit_print.condformat_tbl <- function(x, ...) {
+guess_output_format <- function() {
   rmd_output <- tryCatch({rmarkdown::metadata$output},
                          error = function(e) {NULL})
   if (is.null(rmd_output)) {
@@ -78,24 +72,41 @@ knit_print.condformat_tbl <- function(x, ...) {
     rmd_output <- names(rmd_output)[1]
   }
   if (rmd_output == "pdf_document") {
-    return(knitr::asis_output(condformat2latex(x),
-                              meta = list(latex_package = list(name = "xcolor",
-                                                               options = "table"))))
+    return("latex")
   } else if (rmd_output %in% c("html_document", "html_vignette")) {
-    return(knitr::asis_output(condformat2html(x)))
+    return("html")
   } else if (rmd_output != "") {
     stop("Unsupported rmarkdown output format:", rmd_output)
   }
   # No rmarkdown, let's try with knitr:
   format <- knitr::opts_knit$get("out.format")
   if (format %in% c("html", "markdown")) {
-    return(knitr::asis_output(condformat2html(x)))
+    return("html")
   } else if (format %in% c("latex")) {
-    return(knitr::asis_output(condformat2latex(x),
-                              meta = list(latex_package = list(name = "xcolor",
-                                                               options = "table"))))
+    return("latex")
   } else {
     stop("Format not supported!")
+  }
+}
+
+#' @importFrom knitr knit_print
+#' @importFrom rmarkdown metadata, latex_dependency
+#' @importFrom  knitr asis_output
+#' @importFrom knitr opts_knit
+#'
+#' @export
+knit_print.condformat_tbl <- function(x, ...) {
+  outfmt <- guess_output_format()
+  if (outfmt == "latex") {
+    my_latex_dep <- rmarkdown::latex_dependency(name = "xcolor",
+                                                options = "table")
+    return(knitr::asis_output(condformat2latex(x),
+                              meta = list(my_latex_dep)))
+  } else if (outfmt == "html") {
+    return(knitr::asis_output(condformat2html(x)))
+  } else {
+    warning("Format not supported by condformat")
+    return(knitr::kable(x))
   }
 }
 
