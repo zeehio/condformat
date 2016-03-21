@@ -62,6 +62,8 @@ condformat2latex <- function(x, ...) {
 }
 
 
+#' @importFrom rmarkdown metadata
+#' @importFrom knitr opts_knit
 guess_output_format <- function() {
   rmd_output <- tryCatch({rmarkdown::metadata$output},
                          error = function(e) {NULL})
@@ -89,10 +91,13 @@ guess_output_format <- function() {
   }
 }
 
+#' Print method for knitr, exporting to HTML or LaTeX as needed
+#' @param x Object to print
+#' @param ... arguments passed to knitr::kable
 #' @importFrom knitr knit_print
-#' @importFrom rmarkdown metadata, latex_dependency
+#' @importFrom rmarkdown latex_dependency
 #' @importFrom  knitr asis_output
-#' @importFrom knitr opts_knit
+#' @importFrom knitr kable
 #'
 #' @export
 knit_print.condformat_tbl <- function(x, ...) {
@@ -100,13 +105,13 @@ knit_print.condformat_tbl <- function(x, ...) {
   if (outfmt == "latex") {
     my_latex_dep <- rmarkdown::latex_dependency(name = "xcolor",
                                                 options = "table")
-    return(knitr::asis_output(condformat2latex(x),
+    return(knitr::asis_output(condformat2latex(x, ...),
                               meta = list(my_latex_dep)))
   } else if (outfmt == "html") {
     return(knitr::asis_output(condformat2html(x)))
   } else {
     warning("Format not supported by condformat")
-    return(knitr::kable(x))
+    return(knitr::kable(x, ...))
   }
 }
 
