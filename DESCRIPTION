@@ -23,7 +23,7 @@ Imports:
     assertthat,
     lazyeval,
     knitr,
-    rmarkdown,
+    rmarkdown (>= 0.9.5.2),
     gplots
 Suggests:
     testthat
