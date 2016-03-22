@@ -9,16 +9,13 @@
 #' @export
 print.condformat_tbl <- function(x, ...) {
   outfmt <- guess_output_format()
-  if (outfmt == "" || outfmt == "html") { 
+  if (outfmt != "") {
+    return(knitr::knit_print(x))
+  } else {
     thetable <- condformat2html(x)
     print(thetable)
-  } else if (outfmt == "latex") {
-    thetable <- condformat2latex(x)
-    print(thetable)
-  } else {
-    print(knitr::kable(x))
+    invisible(x)
   }
-  invisible(x)
 }
 
 
@@ -54,7 +51,7 @@ condformat2html <- function(x) {
 #' @return A character vector of the table source code
 #' @importFrom knitr kable
 #' @export
-condformat2latex <- function(x, ...) {
+condformat2latex <- function(x) {
   finalshow <- render_show_condformat_tbl(x)
   xfiltered <- finalshow$xfiltered
   xview <- xfiltered[, finalshow$cols, drop = FALSE]
@@ -66,13 +63,14 @@ condformat2latex <- function(x, ...) {
   # Theme is ignored in LaTeX
   # themes <- attr(x, "condformat")$themes
   # finaltheme <- render_theme_condformat_tbl(themes, xview)
-  return(knitr::kable(finalformat, format = "latex", escape = FALSE, ...))
+  return(knitr::kable(finalformat, format = "latex", escape = FALSE))
 }
 
 
 #' @importFrom rmarkdown metadata
 #' @importFrom knitr opts_knit
 guess_output_format <- function() {
+  #print(knitr::opts_knit$get("rmarkdown.pandoc.to"))
   rmd_output <- tryCatch({rmarkdown::metadata$output},
                          error = function(e) {NULL})
   if (is.null(rmd_output)) {
@@ -97,7 +95,7 @@ guess_output_format <- function() {
   }
   if (format %in% c("html", "markdown")) {
     return("html")
-  } 
+  }
   if (format %in% c("latex")) {
     return("latex")
   }
@@ -118,13 +116,13 @@ knit_print.condformat_tbl <- function(x, ...) {
   if (outfmt == "latex") {
     my_latex_dep <- rmarkdown::latex_dependency(name = "xcolor",
                                                 options = "table")
-    return(knitr::asis_output(condformat2latex(x, ...),
+    return(knitr::asis_output(condformat2latex(x),
                               meta = list(my_latex_dep)))
   } else if (outfmt == "html") {
     return(knitr::asis_output(condformat2html(x)))
   } else {
     warning("Format not supported by condformat")
-    return(knitr::kable(x, ...))
+    return(knitr::kable(x))
   }
 }
 
