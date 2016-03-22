@@ -8,8 +8,16 @@
 #' print(condformat(iris))
 #' @export
 print.condformat_tbl <- function(x, ...) {
-  thetable <- condformat2html(x)
-  print(thetable)
+  outfmt <- guess_output_format()
+  if (outfmt == "" || outfmt == "html") { 
+    thetable <- condformat2html(x)
+    print(thetable)
+  } else if (outfmt == "latex") {
+    thetable <- condformat2latex(x)
+    print(thetable)
+  } else {
+    print(knitr::kable(x))
+  }
   invisible(x)
 }
 
@@ -75,20 +83,25 @@ guess_output_format <- function() {
   }
   if (rmd_output == "pdf_document") {
     return("latex")
-  } else if (rmd_output %in% c("html_document", "html_vignette")) {
+  }
+  if (rmd_output %in% c("html_document", "html_vignette")) {
     return("html")
-  } else if (rmd_output != "") {
-    stop("Unsupported rmarkdown output format:", rmd_output)
+  }
+  if (rmd_output != "") {
+    return("unsupported")
   }
   # No rmarkdown, let's try with knitr:
   format <- knitr::opts_knit$get("out.format")
+  if (is.null(format)) {
+    return("")
+  }
   if (format %in% c("html", "markdown")) {
     return("html")
-  } else if (format %in% c("latex")) {
+  } 
+  if (format %in% c("latex")) {
     return("latex")
-  } else {
-    stop("Format not supported!")
   }
+  return("unsupported")
 }
 
 #' Print method for knitr, exporting to HTML or LaTeX as needed
