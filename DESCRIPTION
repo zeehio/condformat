@@ -8,11 +8,12 @@ Authors@R: person("Sergio", c("Oller", "Moreno"),
 URL: http://github.com/zeehio/condformat
 BugReports: http://github.com/zeehio/condformat/issues
 Description: Apply and visualize conditional formatting to data frames in R.
-    It presents a data frame as an HTML table with cells CSS formatted according to
-    criteria defined by rules, using a syntax similar to 'ggplot2'. The table is printed
-    either opening a web browser or within the 'RStudio' viewer if available. The
-    conditional formatting rules allow to highlight cells matching a condition or
-    add a gradient background to a given column based on a column values.
+    It renders a data frame with cells formatted according to
+    criteria defined by rules, using a syntax similar to 'ggplot2'. The table is
+    printed either opening a web browser or within the 'RStudio' viewer if
+    available. The conditional formatting rules allow to highlight cells
+    matching a condition or add a gradient background to a given column. This
+    package supports both HTML and LaTeX outputs in knitr reports.
 License: BSD_3_clause + file LICENSE
 LazyData: TRUE
 NeedsCompilation: no

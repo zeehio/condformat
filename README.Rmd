@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output: rmarkdown::md_document
 ---
 
-condformat provides an HTML representation of a data frame in which
+condformat renders a data frame in which
 cells in columns are formatted according to several rules or criteria.
 
 [![Downloads](http://cranlogs.r-pkg.org/badges/condformat)](http://cran.rstudio.com/web/packages/condformat/index.html)

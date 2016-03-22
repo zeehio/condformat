@@ -1,5 +1,5 @@
-condformat provides an HTML representation of a data frame in which
-cells in columns are formatted according to several rules or criteria.
+condformat renders a data frame in which cells in columns are formatted
+according to several rules or criteria.
 
 [![Downloads](http://cranlogs.r-pkg.org/badges/condformat)](http://cran.rstudio.com/web/packages/condformat/index.html)
 [![Build
@@ -10,7 +10,7 @@ Browse source code
 ------------------
 
 Checkout the code and browse it at
-[<http://github.com/zeehio/condformat>](http://github.com/zeehio/condformat).
+<http://github.com/zeehio/condformat>.
 
 How to install condformat:
 --------------------------
@@ -27,7 +27,7 @@ Example
 -------
 
 The example is properly formatted at
-[<http://zeehio.github.io/condformat>](http://zeehio.github.io/condformat).
+<http://zeehio.github.io/condformat>.
 
     data(iris)
     library(condformat)
@@ -38,7 +38,7 @@ The example is properly formatted at
                          colours = c("TRUE" = "#7D00FF")) + 
       rule_fill_gradient2(Petal.Length)
 
-<table class="gmisc_table" style="border-collapse: collapse;">
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
 <thead>
 <tr>
 <th style="border-bottom: 1px solid grey; border-top: 2px solid grey;">
