@@ -70,36 +70,20 @@ condformat2latex <- function(x) {
 #' @importFrom rmarkdown metadata
 #' @importFrom knitr opts_knit
 guess_output_format <- function() {
-  #print(knitr::opts_knit$get("rmarkdown.pandoc.to"))
-  rmd_output <- tryCatch({rmarkdown::metadata$output},
-                         error = function(e) {NULL})
-  if (is.null(rmd_output)) {
-    rmd_output = ""
+  outfmt <- knitr::opts_knit$get("rmarkdown.pandoc.to")
+  if (is.null(outfmt)) {
+    outfmt <- knitr::opts_knit$get("out.format")
   }
-  if (is.list(rmd_output)) {
-    rmd_output <- names(rmd_output)[1]
-  }
-  if (rmd_output == "pdf_document") {
-    return("latex")
-  }
-  if (rmd_output %in% c("html_document", "html_vignette")) {
-    return("html")
-  }
-  if (rmd_output != "") {
-    return("unsupported")
-  }
-  # No rmarkdown, let's try with knitr:
-  format <- knitr::opts_knit$get("out.format")
-  if (is.null(format)) {
+  if (is.null(outfmt)) {
     return("")
   }
-  if (format %in% c("html", "markdown")) {
-    return("html")
-  }
-  if (format %in% c("latex")) {
+  if (outfmt == "latex" || outfmt == "beamer") {
     return("latex")
+  } else if (outfmt == "html" || substr(outfmt, 1, nchar("markdown")) == "markdown") {
+    return("html")
+  } else {
+    return("unsupported")
   }
-  return("unsupported")
 }
 
 #' Print method for knitr, exporting to HTML or LaTeX as needed
@@ -121,8 +105,8 @@ knit_print.condformat_tbl <- function(x, ...) {
   } else if (outfmt == "html") {
     return(knitr::asis_output(condformat2html(x)))
   } else {
-    warning("Format not supported by condformat")
-    return(knitr::kable(x))
+    warning("knitr format not supported by condformat")
+    return(knitr::knit_print(knitr::kable(x)))
   }
 }
 
