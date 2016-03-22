@@ -1,20 +1,10 @@
 language: r
-
-r_binary_packages:
-  - dplyr
-  - lazyeval
-  - scales
-  - assertthat
-  - knitr
-  - testthat
-  - htmlTable
-  - rmarkdown
+cache: packages
+sudo: required
 
 r_github_packages:
   - jimhester/covr
 
 after_success:
-  - Rscript -e 'library(covr);codecov()'
-
-sudo: required
+  - Rscript -e 'covr::codecov()'
 
