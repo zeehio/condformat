@@ -21,6 +21,7 @@ How to install condformat:
 
 -   To install the latest development version:
 
+        devtools::install_github("rstudio/rmarkdown")
         devtools::install_github("zeehio/condformat")
 
 Example
