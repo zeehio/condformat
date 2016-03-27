@@ -15,6 +15,14 @@ Checkout the code and browse it at
 How to install condformat:
 --------------------------
 
+### Dependencies
+
+If you want to use the PDF output you will need the `xcolor` LaTeX
+package. Either use the full texlive distribution, or install
+`latex-xcolor` on Debian and derivatives.
+
+### Package installation
+
 -   From CRAN:
 
         install.packages("condformat")
