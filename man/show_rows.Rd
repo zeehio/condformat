@@ -32,7 +32,7 @@ condformat(x) + show_rows(Sepal.Length > 4.5, Species == "setosa")
 library(condformat)
 data(iris)
 x <- head(iris)
-condformat(x) + show_rows_(.docts = c("Sepal.Length > 4.5", "Species == 'setosa'"))
+condformat(x) + show_rows_(.dots = c("Sepal.Length > 4.5", "Species == 'setosa'"))
 }
 \seealso{
 \code{\link[dplyr]{filter}}

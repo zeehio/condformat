@@ -32,7 +32,7 @@ show_rows <- function(...) {
 #' library(condformat)
 #' data(iris)
 #' x <- head(iris)
-#' condformat(x) + show_rows_(.docts = c("Sepal.Length > 4.5", "Species == 'setosa'"))
+#' condformat(x) + show_rows_(.dots = c("Sepal.Length > 4.5", "Species == 'setosa'"))
 show_rows_ <- function(..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
 #   if (missing(row_names)) {
