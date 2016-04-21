@@ -28,6 +28,6 @@ Imports:
     gplots
 Remotes: rstudio/rmarkdown
 Suggests:
-    testthat
+    testthat (>= 1.0)
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1

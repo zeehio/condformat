@@ -1,19 +1,16 @@
 # Tests:
-library(condformat)
-library(dplyr)
-library(testthat)
 context("show")
 
 test_that("show_column works", {
   data(iris)
   x <- condformat(head(iris)) + show_columns(-Sepal.Length)
   expect_true("Sepal.Length" %in% colnames(x))
-  out <- condformat2html(x)
-  expect_that(out[1], not(matches("Sepal.Length")))
-  expect_that(out[1], matches("Sepal.Width"))
-  expect_that(out[1], matches("Petal.Length"))
-  expect_that(out[1], matches("Petal.Width"))
-  expect_that(out[1], matches("Species"))
+  out <- as.character(condformat2html(x))
+  expect_failure(expect_match(out, "Sepal.Length"))
+  expect_match(out, "Sepal.Width")
+  expect_match(out, "Petal.Length")
+  expect_match(out, "Petal.Width")
+  expect_match(out, "Species")
 })
 
 test_that("show_column_ works", {
@@ -21,8 +18,8 @@ test_that("show_column_ works", {
   x <- condformat(head(iris)) + show_columns_(.dots = c("Sepal.Length", "Petal.Length"))
   expect_true("Sepal.Width" %in% colnames(x))
   out <- condformat2html(x)
-  expect_that(out[1], not(matches("Sepal.Width")))
-  expect_that(out[1], matches("Petal.Length"))
+  expect_failure(expect_match(out, "Sepal.Width"))
+  expect_match(out, "Petal.Length")
 })
 
 
@@ -33,14 +30,12 @@ test_that("show_column works with custom names", {
   expect_true("Sepal.Length" %in% colnames(x))
   expect_true("Petal.Length" %in% colnames(x))
   out <- condformat2html(x)
-  expect_that(out[1], not(matches("Sepal.Length")))
-  expect_that(out[1], not(matches("Sepal.Width")))
-  expect_that(out[1], not(matches("Petal.Length")))
-  expect_that(out[1], not(matches("Petal.Width")))
-  expect_that(out[1], not(matches("Species")))
-  expect_that(out[1], matches("MySepLen"))
-  expect_that(out[1], matches("MyPetWi"))
-  expect_that(out[1], matches("MySpe"))
+  for (col in c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width", "Species")) {
+    expect_failure(expect_match(out, col))
+  }
+  expect_match(out, "MySepLen")
+  expect_match(out, "MyPetWi")
+  expect_match(out, "MySpe")
 })
 
 
@@ -50,10 +45,10 @@ test_that("show_row works", {
     show_rows(Sepal.Length == 5.1, Sepal.Width == 3.5,
               Petal.Length == 1.4, Petal.Width == 0.2)
   # in the data frame nothing is filtered
-  expect_that(nrow(x), equals(10))
+  expect_equal(nrow(x), 10)
   out <- condformat2html(x)
   # the html code only shows one row (that does not have any 8 digit)
-  expect_that(out[1], not(matches("8")))
+  expect_failure(expect_match(out, "8"))
 })
 
 
@@ -65,10 +60,10 @@ test_that("show_row works after modifying data frame", {
   x <- x + show_rows(Sepal.Length == 6.1, Sepal.Width == 3.5,
                      Petal.Length == 1.4, Petal.Width == 0.2)
   # in the data frame nothing is filtered
-  expect_that(nrow(x), equals(10))
+  expect_equal(nrow(x), 10)
   out <- condformat2html(x)
   # the html code only shows one row (that does not have any 8 digit)
-  expect_that(out[1], not(matches("8")))
+  expect_failure(expect_match(out, "8"))
 })
 
 test_that("custom show_ passes doing nothing", {
@@ -79,6 +74,6 @@ test_that("custom show_ passes doing nothing", {
     y <- x + custom_showobj
     out_x <- condformat2html(x)
     out_y <- condformat2html(y)
-    expect_that(out_x, is_identical_to(out_y))
+    expect_identical(out_x, out_y)
 })
 
