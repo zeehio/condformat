@@ -27,6 +27,7 @@ columns from the data frame, so formatting rules can still depend
 on them.
 }
 \examples{
+library(dplyr) # for starts_with()
 data(iris)
 x <- head(iris)
 condformat(x) + show_columns(Sepal.Length, Sepal.Width, Species)

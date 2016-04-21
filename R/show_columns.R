@@ -9,6 +9,7 @@
 #'
 #' @return A condformat_show_columns object, usually to be added to a condformat_tbl object
 #' @examples
+#' library(dplyr) # for starts_with()
 #' data(iris)
 #' x <- head(iris)
 #' condformat(x) + show_columns(Sepal.Length, Sepal.Width, Species)
