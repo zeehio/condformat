@@ -26,7 +26,7 @@ Imports:
     knitr,
     rmarkdown (>= 0.9.5.2),
     gplots
-Remotes: rstudio/rmarkdown
+Remotes: github::rstudio/rmarkdown
 Suggests:
     testthat (>= 1.0)
 VignetteBuilder: knitr
