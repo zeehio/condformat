@@ -4,7 +4,7 @@
 \alias{condformat2latex}
 \title{Converts the table to LaTeX code}
 \usage{
-condformat2latex(x)
+condformat2latex(x, ...)
 }
 \arguments{
 \item{x}{A condformat_tbl object}

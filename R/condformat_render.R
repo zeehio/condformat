@@ -51,7 +51,7 @@ condformat2html <- function(x) {
 #' @return A character vector of the table source code
 #' @importFrom knitr kable
 #' @export
-condformat2latex <- function(x) {
+condformat2latex <- function(x, ...) {
   finalshow <- render_show_condformat_tbl(x)
   xfiltered <- finalshow$xfiltered
   xview <- xfiltered[, finalshow$cols, drop = FALSE]
@@ -63,7 +63,8 @@ condformat2latex <- function(x) {
   # Theme is ignored in LaTeX
   # themes <- attr(x, "condformat")$themes
   # finaltheme <- render_theme_condformat_tbl(themes, xview)
-  return(knitr::kable(finalformat, format = "latex", escape = FALSE))
+  return(knitr::kable(finalformat, format = "latex",
+                      escape = FALSE, ...))
 }
 
 
