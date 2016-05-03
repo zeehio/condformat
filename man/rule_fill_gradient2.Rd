@@ -55,8 +55,7 @@ the values by an expression
 \examples{
 data(iris)
 condformat(iris[c(1:5, 70:75, 120:125), ]) +
- rule_fill_gradient2(Sepal.Length)
-condformat(iris[c(1:5, 70:75, 120:125), ]) +
+ rule_fill_gradient2(Sepal.Length) +
  rule_fill_gradient2(Species, expression=Sepal.Length - Sepal.Width)
 data(iris)
 condformat(iris) + rule_fill_gradient2_(columns=c("Sepal.Length"))

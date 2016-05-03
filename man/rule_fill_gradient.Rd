@@ -48,8 +48,8 @@ the values given by an expression
 }
 \examples{
 data(iris)
-condformat(iris[c(1:5, 70:75, 120:125), ]) + rule_fill_gradient(Sepal.Length)
 condformat(iris[c(1:5, 70:75, 120:125), ]) +
+  rule_fill_gradient(Sepal.Length) +
   rule_fill_gradient(Species, expression=Sepal.Length - Sepal.Width)
 data(iris)
 condformat(iris) + rule_fill_gradient_(columns=c("Sepal.Length"))

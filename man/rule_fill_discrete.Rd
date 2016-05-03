@@ -58,9 +58,8 @@ data(iris)
 condformat(iris[c(1:5, 70:75, 120:125), ]) +
  rule_fill_discrete(Species, colours = c("setosa" = "red",
                                          "versicolor" = "blue",
-                                         "virginica" = "green"))
-condformat(iris[c(1:5, 70:75, 120:125), ]) +
- rule_fill_discrete(Species, expression=Sepal.Length > 4.6,
+                                         "virginica" = "green")) +
+ rule_fill_discrete(Sepal.Length, expression=Sepal.Length > 4.6,
                     colours=c("TRUE"="red"))
 data(iris)
 condformat(iris) + rule_fill_discrete_(columns=c("Species"))
