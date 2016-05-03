@@ -13,7 +13,7 @@ Description: Apply and visualize conditional formatting to data frames in R.
     printed either opening a web browser or within the 'RStudio' viewer if
     available. The conditional formatting rules allow to highlight cells
     matching a condition or add a gradient background to a given column. This
-    package supports both HTML and LaTeX outputs in knitr reports.
+    package supports both 'HTML' and 'LaTeX' outputs in 'knitr' reports.
 License: BSD_3_clause + file LICENSE
 LazyData: TRUE
 NeedsCompilation: no
