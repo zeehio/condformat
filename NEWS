@@ -2,6 +2,7 @@ condformat 0.2.0.9000
 ----------------------------------------------------------------
 
 * PDF support: Export table to LaTeX using knitr.
+* Fix examples for compatibility with dplyr 0.4.3.9000
 
 condformat 0.2.0
 ----------------------------------------------------------------

@@ -2,16 +2,28 @@
 title: "Introduction to condformat"
 author: "Sergio Oller"
 date: "`r Sys.Date()`"
-output: html_vignette
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to condformat}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-condformat provides an HTML representation of a data frame in which
-cells in columns are formatted according to several rules or criteria.
+# Quickstart
 
+`condformat` prints a data frame with cells formatted according to several
+rules or criteria. It is integrated with the RStudio Viewer or a web browser,
+and it supports `knitr` and `rmarkdown` outputs using both HTML and PDF
+($\LaTeX$) output formats. Other formats are not supported,
+although patches to enable them are welcome.
+
+## Basic syntax
+
+Its syntax should be familiar to `ggplot` users.
+
+    condformat(a_data_frame) +          # A data frame to print
+      rule_fill_discrete(ColumnA) +     # Add formatting rules to the data frame
+      rule_fill_gradient(ColumnB)
 
 ## Example:
 

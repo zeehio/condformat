@@ -27,17 +27,27 @@ columns from the data frame, so formatting rules can still depend
 on them.
 }
 \examples{
+
 library(dplyr) # for starts_with()
 data(iris)
 x <- head(iris)
+
+# Include some columns:
 condformat(x) + show_columns(Sepal.Length, Sepal.Width, Species)
+
+# Rename columns:
+condformat(x) + show_columns(Sepal.Length, Species, col_names = c("Length", "Spec."))
+
+# Exclude some columns:
 condformat(x) + show_columns(-Petal.Length, -Petal.Width)
+
+# Select columns using dplyr syntax:
 condformat(x) + show_columns(starts_with("Petal"), Species)
-data(iris)
-x <- head(iris)
-condformat(x) + show_columns_(.dots = c("Sepal.Length", "Species"))
-condformat(x) + show_columns_(.dots = c("Sepal.Length", "Species"),
-                              col_names = c("Sepal Length", "Species"))
+
+
+# Use standard evaluation (columns as strings):
+condformat(x) +
+  show_columns_(.dots = c("Sepal.Length", "Species"), col_names = c("Sepal Length", "Species"))
 }
 \seealso{
 \code{\link[dplyr]{select}}

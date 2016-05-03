@@ -9,12 +9,23 @@
 #'
 #' @return A condformat_show_columns object, usually to be added to a condformat_tbl object
 #' @examples
+#'
 #' library(dplyr) # for starts_with()
 #' data(iris)
 #' x <- head(iris)
+#'
+#' # Include some columns:
 #' condformat(x) + show_columns(Sepal.Length, Sepal.Width, Species)
+#'
+#' # Rename columns:
+#' condformat(x) + show_columns(Sepal.Length, Species, col_names = c("Length", "Spec."))
+#'
+#' # Exclude some columns:
 #' condformat(x) + show_columns(-Petal.Length, -Petal.Width)
+#'
+#' # Select columns using dplyr syntax:
 #' condformat(x) + show_columns(starts_with("Petal"), Species)
+#'
 #' @importFrom lazyeval lazy_dots
 #' @export
 #' @seealso \code{\link[dplyr]{select}}
@@ -30,11 +41,10 @@ show_columns <- function(..., col_names) {
 #' @importFrom lazyeval all_dots
 #' @export
 #' @examples
-#' data(iris)
-#' x <- head(iris)
-#' condformat(x) + show_columns_(.dots = c("Sepal.Length", "Species"))
-#' condformat(x) + show_columns_(.dots = c("Sepal.Length", "Species"),
-#'                               col_names = c("Sepal Length", "Species"))
+#'
+#' # Use standard evaluation (columns as strings):
+#' condformat(x) +
+#'   show_columns_(.dots = c("Sepal.Length", "Species"), col_names = c("Sepal Length", "Species"))
 show_columns_ <- function(..., .dots, col_names) {
   dots <- lazyeval::all_dots(.dots, ...)
   if (missing(col_names)) {

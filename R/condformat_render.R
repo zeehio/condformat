@@ -88,7 +88,7 @@ guess_output_format <- function() {
 
 #' Print method for knitr, exporting to HTML or LaTeX as needed
 #' @param x Object to print
-#' @param ... arguments passed to knitr::kable
+#' @param ... Provided for knitr_print compatibility
 #' @importFrom knitr knit_print
 #' @importFrom rmarkdown latex_dependency
 #' @importFrom  knitr asis_output
@@ -98,15 +98,22 @@ guess_output_format <- function() {
 knit_print.condformat_tbl <- function(x, ...) {
   outfmt <- guess_output_format()
   if (outfmt == "latex") {
-    my_latex_dep <- rmarkdown::latex_dependency(name = "xcolor",
-                                                options = "table")
-    return(knitr::asis_output(condformat2latex(x),
-                              meta = list(my_latex_dep)))
+    latex_dependencies <- list(rmarkdown::latex_dependency(name = "xcolor",
+                                                           options = "table"))
+    use_longtable <- knitr::opts_current$get("longtable")
+    print(use_longtable)
+    if (is.null(use_longtable) || use_longtable == TRUE) {
+      latex_dependencies <- c(latex_dependencies,
+                              list(rmarkdown::latex_dependency(name = "longtable")))
+      use_longtable <- TRUE
+    }
+    return(knitr::asis_output(condformat2latex(x, longtable = use_longtable),
+                              meta = latex_dependencies))
   } else if (outfmt == "html") {
     return(knitr::asis_output(condformat2html(x)))
   } else {
     warning("knitr format not supported by condformat")
-    return(knitr::knit_print(knitr::kable(x)))
+    return(knitr::knit_print(knitr::kable(x), ...))
   }
 }
 

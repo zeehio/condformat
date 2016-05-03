@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{Object to print}
 
-\item{...}{arguments passed to knitr::kable}
+\item{...}{Provided for knitr_print compatibility}
 }
 \description{
 Print method for knitr, exporting to HTML or LaTeX as needed
