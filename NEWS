@@ -1,4 +1,4 @@
-condformat 0.2.0.9000
+condformat 0.3.0
 ----------------------------------------------------------------
 
 * PDF support: Export table to LaTeX using knitr.
