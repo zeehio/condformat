@@ -5,7 +5,7 @@ Sergio Oller
 
 condformat renders a data frame in which cells in columns are formatted according to several rules or criteria.
 
-[![Downloads](http://cranlogs.r-pkg.org/badges/condformat)](https://cran.r-project.org/web/packages/condformat/index.html) [![Build Status](https://travis-ci.org/zeehio/condformat.svg?branch=master)](https://travis-ci.org/zeehio/condformat) [![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=master)](https://codecov.io/github/zeehio/condformat)
+[![Downloads](http://cranlogs.r-pkg.org/badges/condformat)](https://cran.r-project.org/package=condformat) [![Build Status](https://travis-ci.org/zeehio/condformat.svg?branch=master)](https://travis-ci.org/zeehio/condformat) [![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=master)](https://codecov.io/github/zeehio/condformat)
 
 Browse source code
 ------------------
