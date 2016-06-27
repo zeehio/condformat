@@ -1,11 +1,11 @@
 Introduction to condformat
 ================
 Sergio Oller
-2016-05-03
+2016-06-27
 
 condformat renders a data frame in which cells in columns are formatted according to several rules or criteria.
 
-[![Downloads](http://cranlogs.r-pkg.org/badges/condformat)](https://cran.rstudio.com/web/packages/condformat/index.html) [![Build Status](https://travis-ci.org/zeehio/condformat.svg?branch=master)](https://travis-ci.org/zeehio/condformat) [![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=master)](https://codecov.io/github/zeehio/condformat)
+[![Downloads](http://cranlogs.r-pkg.org/badges/condformat)](https://cran.r-project.org/web/packages/condformat/index.html) [![Build Status](https://travis-ci.org/zeehio/condformat.svg?branch=master)](https://travis-ci.org/zeehio/condformat) [![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=master)](https://codecov.io/github/zeehio/condformat)
 
 Browse source code
 ------------------
@@ -45,7 +45,7 @@ condformat(iris[c(1:5,70:75, 120:125),]) +
   rule_fill_gradient2(Petal.Length)
 ```
 
-<table class="gmisc_table" style="border-collapse: collapse;">
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
 <thead>
 <tr>
 <th style="border-bottom: 1px solid grey; border-top: 2px solid grey;">
