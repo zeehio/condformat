@@ -45,6 +45,44 @@ condformat2html <- function(x) {
   return(thetable)
 }
 
+#' Writes the table to an Excel sheet
+#'
+#' @param x A condformat_tbl object
+#' @param filename The xlsx file name
+#' @export
+#' @importFrom xlsx createWorkbook createSheet addDataFrame saveWorkbook
+#'
+condformat2excel <- function(x, filename) {
+  if (!endsWith(filename, ".xlsx")) {
+    filename <- paste0(filename, ".xlsx")
+  }
+  finalshow <- render_show_condformat_tbl(x)
+  xfiltered <- finalshow$xfiltered
+  xview <- xfiltered[, finalshow$cols, drop = FALSE]
+  rules <- attr(x, "condformat")$rules
+  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview,
+                                             format = "excel")
+  wb <- xlsx::createWorkbook(type = "xlsx")
+  sheet <- xlsx::createSheet(wb, sheetName = "Sheet1")
+
+  xlsx::addDataFrame(x = as.data.frame(xview),
+                     sheet = sheet, row.names = F, col.names = T)
+  for (i in 1:nrow(xview)) {
+    for (j in 1:ncol(xview)) {
+      cb <- xlsx::CellBlock(sheet, startRow = i+1, startColumn = j,
+                            noRows = 1, noColumns = 1, create = FALSE)
+      background_color <- ifelse(finalformat$css_fields$`background-color`[i,j] == "", "white", finalformat$css_fields$`background-color`[i,j])
+      fill <- xlsx::Fill(backgroundColor = background_color, foregroundColor = background_color)
+      xlsx::CB.setFill(cellBlock = cb,
+                       fill = fill,
+                       rowIndex = 1, colIndex = 1)
+      break
+    }
+  }
+  xlsx::saveWorkbook(wb, file = filename)
+  return(x)
+}
+
 #' Converts the table to LaTeX code
 #' @param x A condformat_tbl object
 #' @param ... arguments passed to knitr::kable
@@ -225,6 +263,8 @@ render_rules_condformat_tbl <- function(rules, xfiltered, xview, format) {
     # Need to wrap raw_text with formatting rules
     formatted_text <- merge_css_conditions_to_latex(css_fields = finalformat$css_fields, raw_text = raw_text)
     return(formatted_text)
+  } else if (format == "excel") {
+    return(finalformat)
   } else {
     stop("Unsupported format:", format)
   }

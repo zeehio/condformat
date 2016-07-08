@@ -22,6 +22,7 @@ Imports:
     scales,
     dplyr,
     assertthat,
+    xlsx,
     lazyeval,
     knitr,
     rmarkdown (>= 0.9.6),
