@@ -4,7 +4,7 @@
 \alias{condformat2excel}
 \title{Writes the table to an Excel sheet}
 \usage{
-condformat2excel(x, filename, ...)
+condformat2excel(x, filename)
 }
 \arguments{
 \item{x}{A condformat_tbl object}

@@ -17,12 +17,13 @@ Description: Apply and visualize conditional formatting to data frames in R.
 License: BSD_3_clause + file LICENSE
 LazyData: TRUE
 NeedsCompilation: no
+Depends:
+    xlsx
 Imports:
     htmlTable,
     scales,
     dplyr,
     assertthat,
-    xlsx,
     lazyeval,
     knitr,
     rmarkdown (>= 0.9.6),
