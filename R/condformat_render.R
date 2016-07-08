@@ -53,7 +53,7 @@ condformat2html <- function(x) {
 #' @importFrom xlsx createWorkbook createSheet addDataFrame saveWorkbook
 #'
 condformat2excel <- function(x, filename) {
-  if (!endsWith(filename, ".xlsx")) {
+  if (!grepl(pattern = '\\.xlsx$', filename)) { # endsWith(filename, ".xlsx")
     filename <- paste0(filename, ".xlsx")
   }
   finalshow <- render_show_condformat_tbl(x)
