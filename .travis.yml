@@ -10,4 +10,5 @@ after_success:
 
 addons:
   apt:
+    packages:
     - libicu-dev
