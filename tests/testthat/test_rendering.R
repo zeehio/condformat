@@ -15,6 +15,14 @@ test_that("knitr returns an HTML table", {
   expect_match(out, "^<table.*</table>$")
 })
 
+test_that("condformat2excel works", {
+  data(iris)
+  filename <- tempfile()
+  out <- condformat2excel(condformat(head(iris)), file = filename)
+  expect_true(file.exists(filename))
+  unlink(filename)
+})
+
 
 test_that("merge_css_conditions returns the expected", {
   css_fields <- list("background-color" = matrix(c("red", "red",

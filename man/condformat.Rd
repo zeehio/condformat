@@ -28,5 +28,10 @@ They also have all properties from conventional data frames.
 \examples{
 data(iris)
 condformat(iris[1:5,])
+
+condformat(iris[1:5,]) + rule_fill_gradient(Sepal.Length)
+
+condformat(iris[1:5,]) +
+ rule_fill_discrete(Sepal.Length, expression=Sepal.Width > 2)
 }
 
