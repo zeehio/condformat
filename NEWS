@@ -1,13 +1,13 @@
-condformat 0.3.0.9000
+condformat 0.4.0
 ----------------------------------------------------------------
 
-* Excel export support (experimental)
+* Excel export support with condformat2excel
 
 condformat 0.3.0
 ----------------------------------------------------------------
 
 * PDF support: Export table to LaTeX using knitr.
-* Fix examples for compatibility with dplyr 0.4.3.9000
+* Fix examples for full compatibility with dplyr 0.5.0
 
 condformat 0.2.0
 ----------------------------------------------------------------
