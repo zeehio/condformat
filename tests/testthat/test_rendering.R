@@ -17,8 +17,8 @@ test_that("knitr returns an HTML table", {
 
 test_that("condformat2excel works", {
   data(iris)
-  filename <- tempfile()
-  out <- condformat2excel(condformat(head(iris)), file = filename)
+  filename <- tempfile(fileext = ".xlsx")
+  out <- condformat2excel(condformat(head(iris)), filename = filename)
   expect_true(file.exists(filename))
   unlink(filename)
 })
