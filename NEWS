@@ -1,3 +1,8 @@
+condformat 0.4.0.9000
+----------------------------------------------------------------
+
+* Shiny support: Add condformatOutput and renderCondformat. Closes #3.
+
 condformat 0.4.0
 ----------------------------------------------------------------
 
