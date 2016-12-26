@@ -37,12 +37,24 @@ condformat2html <- function(x) {
                                              format = "html")
   # Rename the columns according to show options:
   colnames(xview) <- names(finalshow$cols)
-  themes <- attr(x, "condformat")$themes
-  finaltheme <- render_theme_condformat_tbl(themes, xview)
-  thetable <- do.call(htmlTable::htmlTable, c(list(format(xview),
-                                                   css.cell = finalformat$css_cell),
-                                              finaltheme))
+  thetable <- dataframe_to_table(format(xview), css_cell = finalformat$css_cell)
+  thetable <- htmltools::browsable(thetable)
   return(thetable)
+}
+
+dataframe_to_table <- function(table, css_cell) {
+  htmltools::tags$table(
+    htmltools::tags$thead(
+      htmltools::tags$tr(lapply(colnames(table), htmltools::tags$th))
+    ),
+    htmltools::tags$tbody(lapply(seq_len(nrow(table)), function(row_idx) {
+      htmltools::tags$tr(
+        lapply(seq_len(ncol(table)), function(col_idx) {
+          htmltools::tags$td(table[row_idx, col_idx], style = css_cell[row_idx, col_idx])
+        })
+      )
+    }))
+  )
 }
 
 #' Writes the table to an Excel sheet
@@ -100,9 +112,6 @@ condformat2latex <- function(x, ...) {
                                              format = "latex")
   # Rename the columns according to show options:
   colnames(finalformat) <- names(finalshow$cols)
-  # Theme is ignored in LaTeX
-  # themes <- attr(x, "condformat")$themes
-  # finaltheme <- render_theme_condformat_tbl(themes, xview)
   return(knitr::kable(finalformat, format = "latex",
                       escape = FALSE, ...))
 }
@@ -157,15 +166,6 @@ knit_print.condformat_tbl <- function(x, ...) {
     return(knitr::knit_print(knitr::kable(x), ...))
   }
 }
-
-render_theme_condformat_tbl <- function(themes, xview) {
-  finaltheme <- list()
-  for (themeobj in themes) {
-    finaltheme <- render_theme(themeobj, finaltheme, xview)
-  }
-  return(finaltheme)
-}
-
 
 render_show_condformat_tbl <- function(x) {
   condformatopts <- attr(x, "condformat")
@@ -285,9 +285,35 @@ applyrule.default <- function(rule, finalformat, xfiltered, xview, ...) {
    finalformat
 }
 
-render_theme <- function(themeobj, finaltheme, xview, ...) UseMethod("render_theme")
 
+#' Shiny bindings for condformat
+#'
+#' Output and render functions for using condformat within Shiny
+#' applications and interactive Rmd documents.
+#'
+#' @param outputId output variable to read from
+#' @param expr An expression that generates a condformat object
+#' @param env The environment in which to evaluate \code{expr}.
+#' @param quoted Is \code{expr} a quoted expression (with \code{quote()})? This
+#'   is useful if you want to save an expression in a variable.
+#'
+#' @param ... arguments passed to htmlOutput
+#'
+#' @name condformat-shiny
+#'
+#' @export
+condformatOutput <- function(outputId, ...) {
+  shiny::htmlOutput(outputId = outputId, ...)
+}
 
-render_theme.default <- function(themeobj, finaltheme, xview, ...) {
-  finaltheme
+#' @rdname condformat-shiny
+#' @export
+renderCondformat <- function(expr, env = parent.frame(), quoted = FALSE) {
+  func <- NULL
+  shiny::installExprFunction(expr, "func", env, quoted)
+  renderFunc <- function() {
+    condformatobj <- func()
+    htmltools::HTML(as.character(condformat2html(condformatobj)))
+  }
+  shiny::markRenderFunction(condformatOutput, renderFunc)
 }

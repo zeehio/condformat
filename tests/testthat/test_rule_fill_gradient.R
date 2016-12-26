@@ -25,3 +25,6 @@ test_that("rule_fill_gradient2 works", {
   expect_match(out, "^<table.*</table>$")
 })
 
+test_that("rule_fill_gradient is created", {
+  expect_warning(rule_fill_gradient(ColA, ColB))
+})

@@ -28,8 +28,7 @@ condformat <- function(x) {
   x <- dplyr::tbl_df(x)
   attr(x, "condformat") <- list(show = list(rows = list(),
                                             cols = list()),
-                                rules = list(),
-                                themes = list())
+                                rules = list())
 
   class(x) <- c("condformat_tbl", class(x))
   return(x)
@@ -61,11 +60,6 @@ condformat <- function(x) {
   } else if (inherits(obj, "condformat_rule")) {
     condformatopts <- attr(x, "condformat")
     condformatopts$rules <- c(condformatopts$rules, list(obj))
-    attr(x, "condformat") <- condformatopts
-    return(x)
-  } else if (inherits(obj, "condformat_theme")) {
-    condformatopts <- attr(x, "condformat")
-    condformatopts$themes <- c(condformatopts$themes, list(obj))
     attr(x, "condformat") <- condformatopts
     return(x)
   } else {
