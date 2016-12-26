@@ -31,7 +31,6 @@ Imports:
     gplots
 Suggests:
     shiny,
-    htmltools,
     testthat (>= 1.0)
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1

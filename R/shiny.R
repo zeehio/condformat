@@ -16,7 +16,7 @@
 #' @export
 condformatOutput <- function(outputId, ...) {
   if (!requireNamespace("shiny")) {
-    stop("shiny package required")
+    stop("shiny package required. Please install it.")
   }
   shiny::htmlOutput(outputId = outputId, ...)
 }
@@ -24,22 +24,14 @@ condformatOutput <- function(outputId, ...) {
 #' @rdname condformat-shiny
 #' @export
 renderCondformat <- function(expr, env = parent.frame(), quoted = FALSE) {
-  have_shiny <- requireNamespace("shiny")
-  have_htmltools <- requireNamespace("htmltools")
-  if (!have_shiny && !have_htmltools) {
-    stop("shiny and htmltools packages required")
-  }
-  if (!have_shiny) {
-    stop("shiny package required")
-  }
-  if (!have_htmltools) {
-    stop("htmltools package required")
+  if (!requireNamespace("shiny")) {
+    stop("shiny package required. Please install it")
   }
   func <- NULL
   shiny::installExprFunction(expr, "func", env, quoted)
   renderFunc <- function() {
     condformatobj <- func()
-    htmltools::HTML(as.character(condformat2html(condformatobj)))
+    shiny::HTML(as.character(condformat2html(condformatobj)))
   }
   shiny::markRenderFunction(condformatOutput, renderFunc)
 }
