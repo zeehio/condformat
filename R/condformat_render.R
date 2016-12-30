@@ -142,7 +142,6 @@ knit_print.condformat_tbl <- function(x, ...) {
     latex_dependencies <- list(rmarkdown::latex_dependency(name = "xcolor",
                                                            options = "table"))
     use_longtable <- knitr::opts_current$get("longtable")
-    print(use_longtable)
     if (is.null(use_longtable) || use_longtable == TRUE) {
       latex_dependencies <- c(latex_dependencies,
                               list(rmarkdown::latex_dependency(name = "longtable")))
@@ -291,3 +290,4 @@ render_theme <- function(themeobj, finaltheme, xview, ...) UseMethod("render_the
 render_theme.default <- function(themeobj, finaltheme, xview, ...) {
   finaltheme
 }
+
