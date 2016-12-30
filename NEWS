@@ -1,7 +1,8 @@
-condformat 0.4.0.9000
+condformat 0.4.0.9001
 ----------------------------------------------------------------
 
 * Shiny support: Add condformatOutput and renderCondformat. Closes #3.
+* PDF support: Fix extra NULL when printing. Closes #4.
 
 condformat 0.4.0
 ----------------------------------------------------------------
