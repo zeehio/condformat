@@ -102,7 +102,6 @@ applyrule.rule_fill_gradient2_ <- function(rule, finalformat, xfiltered, xview, 
 }
 
 #' @importFrom scales div_gradient_pal rescale
-#' @importFrom assertthat are_equal
 rule_fill_gradient2_common <- function(rule, finalformat, xview,
                                       columns, values_determining_color) {
   if (identical(rule$limits, NA)) {
@@ -123,7 +122,7 @@ rule_fill_gradient2_common <- function(rule, finalformat, xview,
                                          from = limits, mid = midpoint)
 
   colours_for_values <- col_scale(values_rescaled)
-  assertthat::are_equal(length(colours_for_values), nrow(xview))
+  stopifnot(identical(length(colours_for_values), nrow(xview)))
   colours_for_values <- matrix(colours_for_values,
                                nrow = nrow(xview), ncol = ncol(xview), byrow = FALSE)
 

@@ -109,7 +109,6 @@ applyrule.rule_fill_discrete_ <- function(rule, finalformat, xfiltered, xview, .
 }
 
 #' @importFrom scales hue_pal
-#' @importFrom assertthat are_equal
 rule_fill_discrete_common <- function(rule, finalformat, xfiltered, xview,
                                       columns, values_determining_color) {
   colours_for_values <- NA
@@ -119,11 +118,11 @@ rule_fill_discrete_common <- function(rule, finalformat, xfiltered, xview,
                                  h.start = rule$h.start,
                                  direction = rule$direction)(number_colours)
     colours_for_values <- col_scale[as.integer(values_determining_color)]
-    assertthat::are_equal(length(colours_for_values), nrow(xview))
   } else {
     colours_for_values <- rule$colours[match(values_determining_color, names(rule$colours))]
   }
   colours_for_values[is.na(colours_for_values)] <- rule$na.value
+  stopifnot(identical(length(colours_for_values), nrow(xview)))
   colours_for_values <- matrix(colours_for_values,
                                nrow = nrow(xview), ncol = ncol(xview), byrow = FALSE)
 

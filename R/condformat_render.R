@@ -45,14 +45,37 @@ condformat2html <- function(x) {
   return(thetable)
 }
 
+# We need this until https://github.com/dragua/xlsx/pull/76 is merged
+CellBlock.default <- function(sheet, startRow, startColumn, noRows, noColumns, create = TRUE) {
+  if (!requireNamespace("xlsx", quietly = TRUE)) {
+    stop("Please install the xlsx package in order to export to excel")
+  }
+  if (!requireNamespace("rJava", quietly = TRUE)) {
+    stop("Please install the rJava package in order to export to excel")
+  }
+  rJava::.jpackage("xlsx")
+  xlsx::CellBlock.default(sheet, startRow, startColumn, noRows, noColumns, create = TRUE)
+}
+
+
 #' Writes the table to an Excel sheet
 #'
 #' @param x A condformat_tbl object
 #' @param filename The xlsx file name
 #' @export
-#' @importFrom xlsx createWorkbook createSheet addDataFrame saveWorkbook
 #'
 condformat2excel <- function(x, filename) {
+  if (!requireNamespace("xlsx", quietly = TRUE)) {
+    stop("Please install the xlsx package in order to export to excel")
+  }
+  # We need this until https://github.com/dragua/xlsx/pull/76 is merged
+  # We can drop rJava from suggests once this is fixed
+  if (!requireNamespace("rJava", quietly = TRUE)) {
+    stop("Please install the rJava package in order to export to excel")
+  }
+  rJava::.jpackage("xlsx")
+  # Until here
+
   if (!grepl(pattern = '\\.xlsx$', filename)) { # endsWith(filename, ".xlsx")
     filename <- paste0(filename, ".xlsx")
   }
