@@ -17,6 +17,6 @@ Converts the table to a htmlTable object
 }
 \examples{
 data(iris)
-print(condformat(iris))
+condformat2html(condformat(iris[1:5,]))
 }
 

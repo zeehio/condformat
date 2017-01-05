@@ -19,6 +19,6 @@ Prints the data frame in an html page and shows it.
 }
 \examples{
 data(iris)
-print(condformat(iris))
+print(condformat(iris[1:5,]))
 }
 

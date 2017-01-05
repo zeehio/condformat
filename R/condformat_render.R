@@ -5,7 +5,7 @@
 #' @return the value returned by htmlTable
 #' @examples
 #' data(iris)
-#' print(condformat(iris))
+#' print(condformat(iris[1:5,]))
 #' @export
 print.condformat_tbl <- function(x, ...) {
   outfmt <- guess_output_format()
@@ -25,7 +25,7 @@ print.condformat_tbl <- function(x, ...) {
 #' @return the htmlTable object
 #' @examples
 #' data(iris)
-#' print(condformat(iris))
+#' condformat2html(condformat(iris[1:5,]))
 #' @export
 condformat2html <- function(x) {
   finalshow <- render_show_condformat_tbl(x)

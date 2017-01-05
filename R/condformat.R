@@ -43,7 +43,7 @@ condformat <- function(x) {
 #' @return x, with extended condformat_tbl attributes
 #' @examples
 #' data(iris)
-#' condformat(iris) + show_columns(Species)
+#' condformat(iris[1:5,]) + show_columns(Species)
 #' @method + condformat_tbl
 #' @export
 "+.condformat_tbl" <- function(x, obj) {

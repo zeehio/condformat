@@ -20,6 +20,6 @@ Combines the data with the formatting rules and graphical options.
 }
 \examples{
 data(iris)
-condformat(iris) + show_columns(Species)
+condformat(iris[1:5,]) + show_columns(Species)
 }
 
