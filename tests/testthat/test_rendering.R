@@ -4,7 +4,7 @@ context("rendering")
 test_that("print.condformat_tbl returns its input", {
   data(iris)
   x <- condformat(head(iris, n = 1))
-  out <- print(x)
+  utils::capture.output(out <- print(x))
   expect_identical(out, x)
 })
 
