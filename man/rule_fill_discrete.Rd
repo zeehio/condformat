@@ -10,7 +10,7 @@ rule_fill_discrete(..., expression, colours = NA, na.value = "#FFFFFF",
 }
 \arguments{
 \item{...}{Comma separated list of unquoted column names.
-If expression is also given, then this list can use any of the
+If \code{expression} is also given, then this list can use any of the
 \code{\link[dplyr]{select}} syntax possibilities.}
 
 \item{expression}{an expression to be evaluated with the data.
@@ -54,7 +54,9 @@ condformat(iris[c(1:5, 70:75, 120:125), ]) +
 }
 \seealso{
 Other rule: \code{\link{rule_fill_discrete_}},
+  \code{\link{rule_fill_gradient2_}},
   \code{\link{rule_fill_gradient2}},
+  \code{\link{rule_fill_gradient_}},
   \code{\link{rule_fill_gradient}}
 }
 

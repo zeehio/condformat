@@ -60,7 +60,9 @@ condformat(iris[c(1,51,101),]) +
 }
 \seealso{
 Other rule: \code{\link{rule_fill_discrete}},
+  \code{\link{rule_fill_gradient2_}},
   \code{\link{rule_fill_gradient2}},
+  \code{\link{rule_fill_gradient_}},
   \code{\link{rule_fill_gradient}}
 }
 

@@ -2,25 +2,19 @@
 % Please edit documentation in R/rule_fill_gradient.R
 \name{rule_fill_gradient}
 \alias{rule_fill_gradient}
-\alias{rule_fill_gradient_}
 \title{Fill column with sequential colour gradient}
 \usage{
 rule_fill_gradient(..., expression, low = "#132B43", high = "#56B1F7",
   space = "Lab", na.value = "#7F7F7F", limits = NA, lockcells = FALSE)
-
-rule_fill_gradient_(columns, expression, low = "#132B43", high = "#56B1F7",
-  space = "Lab", na.value = "#7F7F7F", limits = NA, lockcells = FALSE,
-  env = parent.frame())
 }
 \arguments{
 \item{...}{Comma separated list of unquoted column names.
-If expression is also given, then this list can use any of the
+If \code{expression} is also given, then this list can use any of the
 \code{\link[dplyr]{select}} syntax possibilities.}
 
-\item{expression}{An expression to be evaluated with the data frame this rule applies to.
-It should evaluate to a numeric vector, that will be used
-to compute the color gradient values.
-In rule_fill_gradient_, a character string.}
+\item{expression}{an expression to be evaluated with the data.
+It should evaluate to a numeric vector,
+that will be used to determine the colour gradient level.}
 
 \item{low}{colour for low end of gradient.}
 
@@ -34,10 +28,6 @@ other values are deprecated.}
 \item{limits}{range of limits that the gradient should cover}
 
 \item{lockcells}{logical value determining if no further rules should be applied to the affected cells.}
-
-\item{columns}{[SE] a character vector with the column names (Only in rule_fill_gradient_)}
-
-\item{env}{[SE] the environment where `expression` is to be evaluated (Only in rule_fill_gradient_)}
 }
 \value{
 The condformat_tbl object, with the added formatting information
@@ -51,15 +41,12 @@ data(iris)
 condformat(iris[c(1:5, 70:75, 120:125), ]) +
   rule_fill_gradient(Sepal.Length) +
   rule_fill_gradient(Species, expression=Sepal.Length - Sepal.Width)
-data(iris)
-condformat(iris) + rule_fill_gradient_(columns=c("Sepal.Length"))
-condformat(iris) + rule_fill_gradient_("Species", expression="Sepal.Length-Sepal.Width")
 }
 \seealso{
-Other rule: \code{\link{rule_fill_discrete}},
-  \code{\link{rule_fill_gradient2}}
-
-Other rule: \code{\link{rule_fill_discrete}},
-  \code{\link{rule_fill_gradient2}}
+Other rule: \code{\link{rule_fill_discrete_}},
+  \code{\link{rule_fill_discrete}},
+  \code{\link{rule_fill_gradient2_}},
+  \code{\link{rule_fill_gradient2}},
+  \code{\link{rule_fill_gradient_}}
 }
 

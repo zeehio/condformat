@@ -15,11 +15,13 @@ test_that("knitr returns an HTML table", {
   expect_match(out, "^<table.*</table>$")
 })
 
-test_that("condformat2excel works", {
+test_that("condformat2excel generates a file", {
   data(iris)
   filename <- tempfile(fileext = ".xlsx")
-  out <- condformat2excel(condformat(head(iris)), filename = filename)
+  rows_to_write <- 6
+  out <- condformat2excel(condformat(head(iris, n = rows_to_write)), filename = filename)
   expect_true(file.exists(filename))
+  expect_equal(nrow(xlsx::read.xlsx(filename, 1)), rows_to_write)
   unlink(filename)
 })
 

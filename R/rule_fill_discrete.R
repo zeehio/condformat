@@ -5,7 +5,7 @@
 #'
 #' @family rule
 #' @param ... Comma separated list of unquoted column names.
-#'            If expression is also given, then this list can use any of the
+#'            If \code{expression} is also given, then this list can use any of the
 #'            \code{\link[dplyr]{select}} syntax possibilities.
 #' @param expression an expression to be evaluated with the data.
 #'                   It should evaluate to a logical or an integer vector,
