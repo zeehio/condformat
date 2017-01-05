@@ -86,6 +86,17 @@ rule_fill_discrete <- function(...,
 #'  rule_fill_discrete_(columns = list(~dplyr::starts_with("Petal"), "Species"),
 #'                      expression=~Species)
 #'
+#' # Custom discrete color values can be specified with a function. The function takes
+#' # the whole column and returns a vector with the colours.
+#' color_pick <- function(col) {
+#'   ifelse(col < 4.7,
+#'          "red",
+#'          ifelse(col < 4.9,
+#'                 "green",
+#'                 "blue"))
+#' }
+#' condformat(head(iris)) + rule_fill_discrete_("Sepal.Length", ~ color_pick(Sepal.Length))
+#'
 rule_fill_discrete_ <- function(columns,
                                 expression = ~.,
                                 colours = NA,
