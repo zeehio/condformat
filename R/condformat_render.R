@@ -70,14 +70,15 @@ condformat2excel <- function(x, filename) {
   if ("background-color" %in% names(finalformat$css_fields)) {
     for (i in 1:nrow(xview)) {
       for (j in 1:ncol(xview)) {
-        cb <- xlsx::CellBlock(sheet, startRow = i+1, startColumn = j,
-                              noRows = 1, noColumns = 1, create = FALSE)
-        background_color <- ifelse(finalformat$css_fields$`background-color`[i,j] == "", "white", finalformat$css_fields$`background-color`[i,j])
-        fill <- xlsx::Fill(backgroundColor = background_color, foregroundColor = background_color)
-        xlsx::CB.setFill(cellBlock = cb,
-                         fill = fill,
-                         rowIndex = 1, colIndex = 1)
-        break
+        background_color <- ifelse(finalformat$css_fields$`background-color`[i,j] == "", NA, finalformat$css_fields$`background-color`[i,j])
+        if (!is.na(background_color)) {
+          cb <- xlsx::CellBlock(sheet, startRow = i+1, startColumn = j,
+                                noRows = 1, noColumns = 1, create = FALSE)
+          fill <- xlsx::Fill(backgroundColor = background_color, foregroundColor = background_color)
+          xlsx::CB.setFill(cellBlock = cb,
+                           fill = fill,
+                           rowIndex = 1, colIndex = 1)
+        }
       }
     }
   }
