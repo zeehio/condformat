@@ -25,8 +25,6 @@
 #'  rule_fill_gradient2(Sepal.Length) +
 #'  rule_fill_gradient2(Species, expression=Sepal.Length - Sepal.Width)
 #' @export
-#' @importFrom lazyeval lazy_dots lazy
-#' @importFrom scales muted
 rule_fill_gradient2 <- function(...,
                                 expression,
                                 low = scales::muted("red"), mid="white", high = scales::muted("blue"),
@@ -87,8 +85,6 @@ rule_fill_gradient2_ <- function(columns,
   return(rule)
 }
 
-#' @importFrom dplyr select_vars_
-#' @importFrom lazyeval lazy_eval
 applyrule.rule_fill_gradient2 <- function(rule, finalformat, xfiltered, xview, ...) {
   columns <- dplyr::select_vars_(colnames(xview), rule$columns)
   values_determining_color <- lazyeval::lazy_eval(rule$expression, xfiltered)
@@ -101,7 +97,6 @@ applyrule.rule_fill_gradient2_ <- function(rule, finalformat, xfiltered, xview, 
   rule_fill_gradient2_common(rule, finalformat, xview, columns, values_determining_color)
 }
 
-#' @importFrom scales div_gradient_pal rescale
 rule_fill_gradient2_common <- function(rule, finalformat, xview,
                                       columns, values_determining_color) {
   if (identical(rule$limits, NA)) {

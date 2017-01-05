@@ -26,7 +26,6 @@
 #' # Select columns using dplyr syntax:
 #' condformat(x) + show_columns(starts_with("Petal"), Species)
 #'
-#' @importFrom lazyeval lazy_dots
 #' @export
 #' @seealso \code{\link[dplyr]{select}}
 show_columns <- function(..., col_names) {
@@ -38,7 +37,6 @@ show_columns <- function(..., col_names) {
 
 #' @rdname show_columns
 #' @inheritParams dplyr::select
-#' @importFrom lazyeval all_dots
 #' @export
 #' @examples
 #'
@@ -56,7 +54,6 @@ show_columns_ <- function(..., .dots, col_names) {
   return(showobj)
 }
 
-#' @importFrom dplyr select_vars_
 render_show.condformat_show_columns_select <- function(showobj, finalshow, x, ...) {
 
   # col_to_show: The columns that this show_columns would keep:

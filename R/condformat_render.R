@@ -23,7 +23,6 @@ print.condformat_tbl <- function(x, ...) {
 #'
 #' @param x A condformat_tbl object
 #' @return the htmlTable object
-#' @importFrom htmlTable htmlTable
 #' @examples
 #' data(iris)
 #' print(condformat(iris))
@@ -113,7 +112,6 @@ condformat2excel <- function(x, filename) {
 #' @param x A condformat_tbl object
 #' @param ... arguments passed to knitr::kable
 #' @return A character vector of the table source code
-#' @importFrom knitr kable
 #' @export
 condformat2latex <- function(x, ...) {
   finalshow <- render_show_condformat_tbl(x)
@@ -132,8 +130,6 @@ condformat2latex <- function(x, ...) {
 }
 
 
-#' @importFrom rmarkdown metadata
-#' @importFrom knitr opts_knit
 guess_output_format <- function() {
   outfmt <- knitr::opts_knit$get("rmarkdown.pandoc.to")
   if (is.null(outfmt)) {
@@ -154,11 +150,8 @@ guess_output_format <- function() {
 #' Print method for knitr, exporting to HTML or LaTeX as needed
 #' @param x Object to print
 #' @param ... Provided for knitr_print compatibility
-#' @importFrom knitr knit_print
-#' @importFrom rmarkdown latex_dependency
-#' @importFrom  knitr asis_output
-#' @importFrom knitr kable
 #'
+#' @importFrom knitr knit_print
 #' @export
 knit_print.condformat_tbl <- function(x, ...) {
   outfmt <- guess_output_format()
@@ -218,7 +211,6 @@ merge_css_conditions <- function(initial_value, css_fields) {
   return(output)
 }
 
-#' @importFrom gplots col2hex
 merge_css_conditions_to_latex <- function(css_fields, raw_text) {
   css_keys <- names(css_fields)
   output <- ""

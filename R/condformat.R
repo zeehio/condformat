@@ -14,7 +14,6 @@
 #'
 #'         The condformat_tbl print method generates an htmlTable, to be
 #'         viewed using RStudio Viewer or an HTML browser, as available.
-#' @importFrom dplyr tbl_df
 #' @examples
 #' data(iris)
 #' condformat(iris[1:5,])

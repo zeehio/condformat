@@ -13,7 +13,6 @@
 #' data(iris)
 #' x <- head(iris)
 #' condformat(x) + show_rows(Sepal.Length > 4.5, Species == "setosa")
-#' @importFrom lazyeval lazy_dots
 #' @export
 #' @seealso \code{\link[dplyr]{filter}}
 show_rows <- function(...) {
@@ -25,7 +24,6 @@ show_rows <- function(...) {
 
 #' @rdname show_rows
 #' @inheritParams dplyr::filter
-#' @importFrom lazyeval all_dots
 #' @aliases show_rows
 #' @export
 #' @examples
@@ -43,7 +41,6 @@ show_rows_ <- function(..., .dots) {
   return(showobj)
 }
 
-#' @importFrom dplyr filter_
 render_show.condformat_show_rows_filter <- function(showobj, finalshow, x, ...) {
 
   # col_to_show: The columns that this show_columns would keep:
