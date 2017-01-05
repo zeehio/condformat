@@ -2,16 +2,11 @@
 % Please edit documentation in R/rule_fill_discrete.R
 \name{rule_fill_discrete}
 \alias{rule_fill_discrete}
-\alias{rule_fill_discrete_}
 \title{Fill column with discrete colors}
 \usage{
-rule_fill_discrete(..., expression, colours, na.value = "#FFFFFF", h = c(0,
-  360) + 15, c = 100, l = 65, h.start = 0, direction = 1,
+rule_fill_discrete(..., expression, colours = NA, na.value = "#FFFFFF",
+  h = c(0, 360) + 15, c = 100, l = 65, h.start = 0, direction = 1,
   lockcells = FALSE)
-
-rule_fill_discrete_(columns, expression, colours, h = c(0, 360) + 15,
-  c = 100, l = 65, h.start = 0, direction = 1, na.value = "#FFFFFF",
-  lockcells = FALSE, env = parent.frame())
 }
 \arguments{
 \item{...}{Comma separated list of unquoted column names.
@@ -20,8 +15,7 @@ If expression is also given, then this list can use any of the
 
 \item{expression}{an expression to be evaluated with the data.
 It should evaluate to a logical or an integer vector,
-that will be used to determine which cells are to be coloured
-In rule_fill_discrete_, a character string with the expression.}
+that will be used to determine which cells are to be coloured.}
 
 \item{colours}{a character vector with colours as values and the expression
 possible results as names.}
@@ -41,10 +35,6 @@ combination of hue and luminance.}
 1 = clockwise, -1 = counter-clockwise}
 
 \item{lockcells}{logical value determining if no further rules should be applied to the affected cells.}
-
-\item{columns}{[SE] a character vector with the column names (Only in rule_fill_discrete_)}
-
-\item{env}{[SE] the environment where `expression` is to be evaluated (Only in rule_fill_discrete_)}
 }
 \value{
 The condformat_tbl object, with the added formatting information
@@ -61,15 +51,10 @@ condformat(iris[c(1:5, 70:75, 120:125), ]) +
                                          "virginica" = "green")) +
  rule_fill_discrete(Sepal.Length, expression=Sepal.Length > 4.6,
                     colours=c("TRUE"="red"))
-data(iris)
-condformat(iris) + rule_fill_discrete_(columns=c("Species"))
-condformat(iris) + rule_fill_discrete_("Species", expression="Sepal.Length > 4.6")
 }
 \seealso{
-Other rule: \code{\link{rule_fill_gradient2}},
-  \code{\link{rule_fill_gradient}}
-
-Other rule: \code{\link{rule_fill_gradient2}},
+Other rule: \code{\link{rule_fill_discrete_}},
+  \code{\link{rule_fill_gradient2}},
   \code{\link{rule_fill_gradient}}
 }
 

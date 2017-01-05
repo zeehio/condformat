@@ -1,4 +1,5 @@
 # Tests:
+library(testthat)
 context("rule_fill_discrete")
 
 test_that("rule_fill_discrete works", {
@@ -57,12 +58,26 @@ test_that("rule_fill_discrete(_) syntax with multiple variables and no expressio
 
 test_that("rule_fill_discrete_ works", {
   data(iris)
-  x <- condformat(head(iris))
-  y <- x + rule_fill_discrete_("Species")
+  x <- condformat(iris[c(1,51,101), ])
+  y <- x + rule_fill_discrete_("Species", colours = c("virginica" = "#FF0000",
+                                                      "versicolor" = "#00FF00",
+                                                      "setosa" = "#0000FF"))
   out <- condformat2html(y)
-  expect_match(out, "^<table.*</table>$")
-  y <- x + rule_fill_discrete_("Species", expression = "Sepal.Length > 4.6",
-                               colours = c("TRUE" = "red"))
+  expect_equal(
+    sapply(strsplit(as.character(out), "\n", fixed = TRUE),
+         function(line) grep("(#0000FF.*setosa)", line)),
+    19)
+  expect_equal(
+    sapply(strsplit(as.character(out), "\n", fixed = TRUE),
+         function(line) grep("(#00FF00.*versicolor)", line)),
+    27)
+  expect_equal(
+    sapply(strsplit(as.character(out), "\n", fixed = TRUE),
+         function(line) grep("(#FF0000.*virginica)", line)),
+    35)
+
+  y <- x + rule_fill_discrete_("Species", expression = ~Sepal.Length > 4.6,
+                               colours = c("TRUE" = "#FF0000"))
   out <- condformat2html(y)
   expect_match(out, "^<table.*</table>$")
 })

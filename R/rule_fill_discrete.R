@@ -9,8 +9,7 @@
 #'            \code{\link[dplyr]{select}} syntax possibilities.
 #' @param expression an expression to be evaluated with the data.
 #'                   It should evaluate to a logical or an integer vector,
-#'                   that will be used to determine which cells are to be coloured
-#'                   In rule_fill_discrete_, a character string with the expression.
+#'                   that will be used to determine which cells are to be coloured.
 #' @param colours a character vector with colours as values and the expression
 #'                possible results as names.
 #' @inheritParams scales::hue_pal
@@ -27,10 +26,9 @@
 #'  rule_fill_discrete(Sepal.Length, expression=Sepal.Length > 4.6,
 #'                     colours=c("TRUE"="red"))
 #' @export
-#' @importFrom lazyeval lazy_dots lazy
 rule_fill_discrete <- function(...,
                                expression,
-                               colours,
+                               colours = NA,
                                na.value = "#FFFFFF",
                                h = c(0, 360) + 15, c = 100, l = 65,
                                h.start = 0, direction = 1,
@@ -45,70 +43,99 @@ rule_fill_discrete <- function(...,
     expression <- lazyeval::lazy(expression)
   }
 
-  if (missing(colours)) {
-    colours = NA
-  }
-  rule <- structure(list(columns = columns, expression = expression,
-                         colours = colours,
-                         h = h, c = c, l = l, h.start = h.start, direction = direction,
-                         na.value = na.value, lockcells = lockcells),
+  rule <- structure(list(columns = columns,
+                         expression = expression,
+                         colours = force(colours),
+                         h = force(h),
+                         c = force(c), l = force(l),
+                         h.start = force(h.start),
+                         direction = force(direction),
+                         na.value = force(na.value),
+                         lockcells = force(lockcells)),
                     class = c("condformat_rule", "rule_fill_discrete"))
   return(rule)
 }
 
-#' @rdname rule_fill_discrete
+#' Fill column with discrete colors (standard evaluation)
 #'
 #' @family rule
-#' @param columns [SE] a character vector with the column names (Only in rule_fill_discrete_)
-#' @param env [SE] the environment where `expression` is to be evaluated (Only in rule_fill_discrete_)
+#' @param columns a character vector with the column names or a list with
+#'                dplyr select helpers given as formulas or a combination of both
+#' @param expression a formula to be evaluated with the data that will be used
+#'                   to determine which cells are to be coloured. See the examples
+#'                   to use it programmatically
+#' @inheritParams rule_fill_discrete
+#'
 #' @export
 #' @examples
 #' data(iris)
-#' condformat(iris) + rule_fill_discrete_(columns=c("Species"))
-#' condformat(iris) + rule_fill_discrete_("Species", expression="Sepal.Length > 4.6")
+#' condformat(iris[c(1,51,101), ]) +
+#'  rule_fill_discrete_(columns=c("Species"))
+#' condformat(iris[c(1,51,101), ]) +
+#'  rule_fill_discrete_("Species", expression=~Sepal.Length > 6)
+#'
+#' # Use it programmatically:
+#' color_column_larger_than_threshold <- function(x, column, threshold) {
+#'   condformat(x) +
+#'     rule_fill_discrete_(column,
+#'      expression=~ lazyeval::uq(column) > lazyeval::uq(threshold))
+#' }
+#' color_column_larger_than_threshold(iris[c(1,51,101),], "Sepal.Length", 6.3)
+#'
+#' condformat(iris[c(1,51,101),]) +
+#'  rule_fill_discrete_(columns = list(~dplyr::starts_with("Petal"), "Species"),
+#'                      expression=~Species)
+#'
 rule_fill_discrete_ <- function(columns,
-                                expression,
-                                colours,
+                                expression = ~.,
+                                colours = NA,
                                 h = c(0, 360) + 15, c = 100, l = 65,
                                 h.start = 0, direction = 1, na.value = "#FFFFFF",
-                                lockcells=FALSE,
-                                env=parent.frame()) {
-  if (missing(expression)) {
+                                lockcells = FALSE) {
+  if (is.character(expression)) {
+    suggested_formula <- paste0("~ ", expression)
+    warning(
+      paste0("Deprecation: Using a character as expression is deprecated. ",
+             "It will not be supported in the future. Please use a formula instead. ",
+            "If you need help to build formulas programmatically, see the example ",
+            "in the ?rule_fill_discrete_ help page. Suggestion: expression=", suggested_formula)) # FIXME
+    expression <- stats::as.formula(suggested_formula)
+  }
+  if (lazyeval::f_rhs(expression) == as.name(".")) {
     if (length(columns) > 1) {
       warning("rule_fill_discrete_ applied to multiple variables, using the first given variable as expression")
     }
-    expression <- columns[1]
-  }
-
-  if (missing(colours)) {
-    colours <- NA
+    lazyeval::f_rhs(expression) <- as.name(columns[1])
   }
   rule <- structure(list(columns = columns,
-                         expression = expression, env = env,
-                         colours = colours,
-                         h = h, c = c, l = l, h.start = h.start, direction = direction,
-                         na.value = na.value, lockcells = lockcells),
+                         expression = expression,
+                         colours = force(colours),
+                         h = force(h),
+                         c = force(c), l = force(l),
+                         h.start = force(h.start),
+                         direction = force(direction),
+                         na.value = force(na.value),
+                         lockcells = force(lockcells)),
                     class = c("condformat_rule", "rule_fill_discrete_"))
   return(rule)
 }
 
-#' @importFrom lazyeval lazy_eval
-#' @importFrom dplyr select_vars_
 applyrule.rule_fill_discrete <- function(rule, finalformat, xfiltered, xview, ...) {
   columns <- dplyr::select_vars_(colnames(xview), rule$columns)
-  values_determining_color <- as.factor(lazyeval::lazy_eval(rule$expression, xfiltered))
+  values_determining_color <- as.factor(lazyeval::lazy_eval(rule$expression, data = xfiltered))
+  values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
   rule_fill_discrete_common(rule, finalformat, xfiltered, xview, columns,
                             values_determining_color)
 }
 
 applyrule.rule_fill_discrete_ <- function(rule, finalformat, xfiltered, xview, ...) {
-  columns <- rule$columns
-  values_determining_color <- as.factor(eval(rule$expression, envir = xfiltered, enclos = rule$env))
+  columns <- dplyr::select_vars_(colnames(xview), rule$columns)
+  values_determining_color <- as.factor(lazyeval::f_eval(f = rule$expression, data = xfiltered))
+  values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
   rule_fill_discrete_common(rule, finalformat, xfiltered, xview, columns,
                             values_determining_color)
 }
 
-#' @importFrom scales hue_pal
 rule_fill_discrete_common <- function(rule, finalformat, xfiltered, xview,
                                       columns, values_determining_color) {
   colours_for_values <- NA
