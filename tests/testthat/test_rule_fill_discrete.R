@@ -91,6 +91,16 @@ test_that("rule_fill_discrete_ works with formula", {
                2)
 })
 
+test_that("rule_fill_discrete_ works programmatically", {
+  data(iris)
+  color_data_column_by_column <- function(data, color_column, by_column) {
+    condformat(data) + rule_fill_gradient_(color_column, ~ uq(as.name(by_column)))
+  }
+
+  expect_equal(color_data_column_by_column(iris[c(1,51,101),], "Species", "Petal.Length"),
+               condformat(iris[c(1,51,101),]) + rule_fill_gradient_("Species", ~ Petal.Length))
+})
+
 test_that("custom rule_ passes doing nothing", {
   custom_ruleobj <- structure(list(),
                               class = c("condformat_rule"))

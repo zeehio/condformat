@@ -69,7 +69,17 @@ rule_fill_gradient2 <- function(...,
 #' @examples
 #' data(iris)
 #' condformat(iris[1:10,]) + rule_fill_gradient2_(columns=c("Sepal.Length"))
-#' condformat(iris[1:10,]) + rule_fill_gradient2_("Species", expression= ~Sepal.Length-Sepal.Width)
+#' condformat(iris[1:10,]) + rule_fill_gradient2_("Species",
+#'    expression= ~Sepal.Length-Sepal.Width)
+#'
+#' # Use it programmatically
+#' color_column <- function(x, column) {
+#'   condformat(x) +
+#'     rule_fill_gradient2_(column, expression=~ uq(as.name(column)))
+#' }
+#' color_column(iris[c(1,51,101),], "Sepal.Length")
+#'
+
 rule_fill_gradient2_ <- function(columns,
                                  expression=~.,
                                  low = scales::muted("red"),
@@ -80,23 +90,9 @@ rule_fill_gradient2_ <- function(columns,
                                  na.value = "#7F7F7F",
                                  limits = NA,
                                  lockcells = FALSE) {
-  if (is.character(expression)) {
-    suggested_formula <- paste0("~ ", expression)
-    warning(
-      paste0("Deprecation: Using a character as expression is deprecated. ",
-             "It will not be supported in the future. Please use a formula instead. ",
-             "If you need help to build formulas programmatically, see the example ",
-             "in the ?rule_fill_discrete_ help page. Suggestion: expression=", suggested_formula)) # FIXME
-    expression <- stats::as.formula(suggested_formula)
-  }
-  if (lazyeval::f_rhs(expression) == as.name(".")) {
-    if (length(columns) > 1) {
-      warning("rule_fill_discrete_ applied to multiple variables, using the first given variable as expression")
-    }
-    lazyeval::f_rhs(expression) <- as.name(columns[1])
-  }
-  rule <- structure(list(columns = columns,
-                         expression = expression,
+  col_expr <- parse_columns_and_expression_(columns, expression)
+  rule <- structure(list(columns = col_expr[["columns"]],
+                         expression = col_expr[["expression"]],
                          low = force(low),
                          mid = force(mid), high = force(high),
                          midpoint = force(midpoint), space = force(space),

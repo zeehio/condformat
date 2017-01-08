@@ -72,10 +72,10 @@ rule_fill_gradient <- function(...,
 #' ex1 <- condformat(iris[1:5,]) +
 #'   rule_fill_gradient_("Species", expression=~Sepal.Length-Sepal.Width)
 #' # Use it programmatically:
-#' gradient_color_column1_minus_column2 <- function(x, columncol, column1, column2) {
+#' gradient_color_column1_minus_column2 <- function(x, column_to_paint, column1, column2) {
 #'   condformat(x) +
-#'     rule_fill_discrete_(columncol,
-#'      expression=~ uq(column1) - uq(column2))
+#'     rule_fill_discrete_(column_to_paint,
+#'      expression=~ uq(as.name(column1)) - uq(as.name(column2)))
 #' }
 #' ex2 <- gradient_color_column1_minus_column2(iris[1:5,], "Species", "Sepal.Length", "Sepal.Width")
 #' stopifnot(ex1 == ex2)
@@ -86,23 +86,9 @@ rule_fill_gradient_ <- function(columns,
                                 na.value = "#7F7F7F",
                                 limits = NA,
                                 lockcells = FALSE) {
-  if (is.character(expression)) {
-    suggested_formula <- paste0("~ ", expression)
-    warning(
-      paste0("Deprecation: Using a character as expression is deprecated. ",
-             "It will not be supported in the future. Please use a formula instead. ",
-             "If you need help to build formulas programmatically, see the example ",
-             "in the ?rule_fill_discrete_ help page. Suggestion: expression=", suggested_formula)) # FIXME
-    expression <- stats::as.formula(suggested_formula)
-  }
-  if (lazyeval::f_rhs(expression) == as.name(".")) {
-    if (length(columns) > 1) {
-      warning("rule_fill_discrete_ applied to multiple variables, using the first given variable as expression")
-    }
-    lazyeval::f_rhs(expression) <- as.name(columns[1])
-  }
-  rule <- structure(list(columns = columns,
-                         expression = expression,
+  col_expr <- parse_columns_and_expression_(columns, expression)
+  rule <- structure(list(columns = col_expr[["columns"]],
+                         expression = col_expr[["expression"]],
                          low = force(low), high = force(high),
                          space = force(space), na.value = force(na.value),
                          limits = force(limits), lockcells = force(lockcells)),

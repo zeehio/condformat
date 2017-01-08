@@ -49,3 +49,31 @@ fill_css_field_by_cols <- function(finalformat, field, values, columns, xview, l
   return(finalformat)
 }
 
+parse_columns_and_expression_ <- function(columns, expression) {
+  if (is.factor(columns)) {
+    columns <- as.character(columns)
+  }
+  if (is.character(expression)) {
+    suggested_formula <- paste0("~ ", expression)
+    warning(
+      paste0("Deprecation: Using a character as expression is deprecated. ",
+             "It will not be supported in the future. Please use a formula instead. ",
+             "If you need help to build formulas programmatically, see the example ",
+             "in the help page. Suggestion: expression=", suggested_formula))
+    expression <- stats::as.formula(suggested_formula)
+  }
+
+  if (!lazyeval::is_formula(expression)) {
+    expression <- as.factor(expression)
+  }
+
+  if (lazyeval::is_formula(expression) &&
+      identical(lazyeval::f_rhs(expression), as.name("."))) {
+    if (length(columns) > 1) {
+      warning("rule_fill_discrete_ applied to multiple variables, using the first given variable as expression")
+    }
+    lazyeval::f_rhs(expression) <- as.name(columns[1])
+  }
+  return(list(columns = columns, expression = expression))
+}
+

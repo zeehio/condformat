@@ -103,23 +103,10 @@ rule_fill_discrete_ <- function(columns,
                                 h = c(0, 360) + 15, c = 100, l = 65,
                                 h.start = 0, direction = 1, na.value = "#FFFFFF",
                                 lockcells = FALSE) {
-  if (is.character(expression)) {
-    suggested_formula <- paste0("~ ", expression)
-    warning(
-      paste0("Deprecation: Using a character as expression is deprecated. ",
-             "It will not be supported in the future. Please use a formula instead. ",
-            "If you need help to build formulas programmatically, see the example ",
-            "in the ?rule_fill_discrete_ help page. Suggestion: expression=", suggested_formula)) # FIXME
-    expression <- stats::as.formula(suggested_formula)
-  }
-  if (lazyeval::f_rhs(expression) == as.name(".")) {
-    if (length(columns) > 1) {
-      warning("rule_fill_discrete_ applied to multiple variables, using the first given variable as expression")
-    }
-    lazyeval::f_rhs(expression) <- as.name(columns[1])
-  }
-  rule <- structure(list(columns = columns,
-                         expression = expression,
+
+  col_expr <- parse_columns_and_expression_(columns, expression)
+  rule <- structure(list(columns = col_expr[["columns"]],
+                         expression = col_expr[["expression"]],
                          colours = force(colours),
                          h = force(h),
                          c = force(c), l = force(l),
@@ -141,8 +128,12 @@ applyrule.rule_fill_discrete <- function(rule, finalformat, xfiltered, xview, ..
 
 applyrule.rule_fill_discrete_ <- function(rule, finalformat, xfiltered, xview, ...) {
   columns <- dplyr::select_vars_(colnames(xview), rule$columns)
-  values_determining_color <- as.factor(lazyeval::f_eval(f = rule$expression, data = xfiltered))
-  values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
+  if (!lazyeval::is_formula(rule$expression)) {
+    values_determining_color <- as.factor(rule$expression)
+  } else {
+    values_determining_color <- as.factor(lazyeval::f_eval(f = rule$expression, data = xfiltered))
+    values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
+  }
   rule_fill_discrete_common(rule, finalformat, xfiltered, xview, columns,
                             values_determining_color)
 }
@@ -151,7 +142,7 @@ rule_fill_discrete_common <- function(rule, finalformat, xfiltered, xview,
                                       columns, values_determining_color) {
   colours_for_values <- NA
   if (identical(rule$colours, NA)) {
-    number_colours <- length(levels(values_determining_color))
+    number_colours <- length(unique(values_determining_color))
     col_scale <- scales::hue_pal(h = rule$h, c = rule$c, l = rule$l,
                                  h.start = rule$h.start,
                                  direction = rule$direction)(number_colours)
