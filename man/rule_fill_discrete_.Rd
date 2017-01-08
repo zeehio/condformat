@@ -59,14 +59,19 @@ condformat(iris[c(1,51,101),]) +
 
 # Custom discrete color values can be specified with a function. The function takes
 # the whole column and returns a vector with the colours.
-color_pick <- function(col) {
-  ifelse(col < 4.7,
-         "red",
-         ifelse(col < 4.9,
-                "green",
-                "blue"))
+color_pick <- function(column) {
+  sapply(column,
+    FUN = function(value) {
+      if (value < 4.7) {
+        return("red")
+      } else if (value < 5.0) {
+        return("yellow")
+      } else {
+        return("green")
+      }
+    })
 }
-condformat(head(iris)) + rule_fill_discrete_("Sepal.Length", ~ color_pick(Sepal.Length))
+condformat(head(iris)) + rule_fill_discrete_("Sepal.Length", ~ color_pick(Sepal.Length), colours = identity)
 
 }
 \seealso{

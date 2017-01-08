@@ -88,14 +88,19 @@ rule_fill_discrete <- function(...,
 #'
 #' # Custom discrete color values can be specified with a function. The function takes
 #' # the whole column and returns a vector with the colours.
-#' color_pick <- function(col) {
-#'   ifelse(col < 4.7,
-#'          "red",
-#'          ifelse(col < 4.9,
-#'                 "green",
-#'                 "blue"))
+#' color_pick <- function(column) {
+#'   sapply(column,
+#'     FUN = function(value) {
+#'       if (value < 4.7) {
+#'         return("red")
+#'       } else if (value < 5.0) {
+#'         return("yellow")
+#'       } else {
+#'         return("green")
+#'       }
+#'     })
 #' }
-#' condformat(head(iris)) + rule_fill_discrete_("Sepal.Length", ~ color_pick(Sepal.Length))
+#' condformat(head(iris)) + rule_fill_discrete_("Sepal.Length", ~ color_pick(Sepal.Length), colours = identity)
 #'
 rule_fill_discrete_ <- function(columns,
                                 expression = ~.,
@@ -117,6 +122,8 @@ rule_fill_discrete_ <- function(columns,
                     class = c("condformat_rule", "rule_fill_discrete_"))
   return(rule)
 }
+
+
 
 applyrule.rule_fill_discrete <- function(rule, finalformat, xfiltered, xview, ...) {
   columns <- dplyr::select_vars_(colnames(xview), rule$columns)
@@ -142,13 +149,16 @@ rule_fill_discrete_common <- function(rule, finalformat, xfiltered, xview,
                                       columns, values_determining_color) {
   colours_for_values <- NA
   if (identical(rule$colours, NA)) {
+    # colours not given: Create a palette
     number_colours <- length(unique(values_determining_color))
     col_scale <- scales::hue_pal(h = rule$h, c = rule$c, l = rule$l,
                                  h.start = rule$h.start,
                                  direction = rule$direction)(number_colours)
     colours_for_values <- col_scale[as.integer(values_determining_color)]
-  } else {
+  } else if (is.character(rule$colours)) {
     colours_for_values <- rule$colours[match(values_determining_color, names(rule$colours))]
+  } else if (is.function(rule$colours)) {
+    colours_for_values <- rule$colours(values_determining_color)
   }
   colours_for_values[is.na(colours_for_values)] <- rule$na.value
   stopifnot(identical(length(colours_for_values), nrow(xview)))
