@@ -78,7 +78,7 @@ rule_fill_discrete <- function(...,
 #' color_column_larger_than_threshold <- function(x, column, threshold) {
 #'   condformat(x) +
 #'     rule_fill_discrete_(column,
-#'      expression=~ lazyeval::uq(column) > lazyeval::uq(threshold))
+#'      expression=~ uq(column) > uq(threshold))
 #' }
 #' color_column_larger_than_threshold(iris[c(1,51,101),], "Sepal.Length", 6.3)
 #'
