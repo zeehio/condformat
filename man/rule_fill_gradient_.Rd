@@ -42,7 +42,7 @@ ex1 <- condformat(iris[1:5,]) +
 gradient_color_column1_minus_column2 <- function(x, columncol, column1, column2) {
   condformat(x) +
     rule_fill_discrete_(columncol,
-     expression=~ lazyeval::uq(column1) - lazyeval::uq(column2))
+     expression=~ uq(column1) - uq(column2))
 }
 ex2 <- gradient_color_column1_minus_column2(iris[1:5,], "Species", "Sepal.Length", "Sepal.Width")
 stopifnot(ex1 == ex2)

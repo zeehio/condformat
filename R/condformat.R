@@ -71,3 +71,7 @@ condformat <- function(x) {
     NextMethod()
   }
 }
+
+#' @importFrom lazyeval uq
+#' @export
+lazyeval::uq
