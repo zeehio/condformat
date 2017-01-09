@@ -159,6 +159,9 @@ rule_fill_discrete_common <- function(rule, finalformat, xfiltered, xview,
     colours_for_values <- rule$colours[match(values_determining_color, names(rule$colours))]
   } else if (is.function(rule$colours)) {
     colours_for_values <- rule$colours(values_determining_color)
+    if (is.factor(colours_for_values)) {
+      colours_for_values <- as.character(colours_for_values)
+    }
   }
   colours_for_values[is.na(colours_for_values)] <- rule$na.value
   stopifnot(identical(length(colours_for_values), nrow(xview)))
