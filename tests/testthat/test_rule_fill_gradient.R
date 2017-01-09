@@ -32,6 +32,8 @@ test_that("rule_fill_gradient_ works in the limits", {
     1)
 })
 
+context("rule_fill_gradient2")
+
 test_that("rule_fill_gradient2 works", {
   data(iris)
   x <- condformat(iris[c(1, 51, 101),])
