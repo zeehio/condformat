@@ -49,7 +49,7 @@ condformat(iris[c(1,51,101), ]) +
 color_column_larger_than_threshold <- function(x, column, threshold) {
   condformat(x) +
     rule_fill_discrete_(column,
-     expression=~ uq(column) > uq(threshold))
+     expression=~ uq(as.name(column))> uq(threshold))
 }
 color_column_larger_than_threshold(iris[c(1,51,101),], "Sepal.Length", 6.3)
 
