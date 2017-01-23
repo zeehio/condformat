@@ -1,8 +1,8 @@
 Package: condformat
 Type: Package
 Title: Conditional Formatting in Data Frames
-Version: 0.4.0.9001
-Date: 2016-06-27
+Version: 0.5.0
+Date: 2017-01-23
 Authors@R: person("Sergio", c("Oller", "Moreno"),
                   email = "sergioller@gmail.com", role = c("aut", "cph", "cre"))
 URL: http://github.com/zeehio/condformat
