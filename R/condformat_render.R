@@ -55,8 +55,8 @@ condformat2html <- function(x) {
 #' }
 #' @export
 condformat2widget <- function(x) {
-  if (!(utils::packageVersion("htmlTable") > "1.8")) {
-    stop("htmlTable >1.8 is required for widget support")
+  if (utils::packageVersion("htmlTable") <= "1.8") {
+    stop("htmlTable>1.8 is required for widget support")
   }
   finalshow <- render_show_condformat_tbl(x)
   xfiltered <- finalshow$xfiltered

@@ -1,3 +1,8 @@
+# This function can be inlined when htmlTable > 1.8 is out
+condformatOutputNew <- function(outputId, ...) {
+  htmlTable::htmlTableWidgetOutput(outputId = outputId, ...)
+}
+
 #' Shiny bindings for condformat
 #'
 #' Output and render functions for using condformat within Shiny
@@ -21,10 +26,20 @@ condformatOutput <- function(outputId, ...) {
     stop("shiny package required. Please install it.")
   }
   if (utils::packageVersion("htmlTable") > "1.8") {
-    htmlTable::htmlTableWidgetOutput(outputId = outputId, ...)
+    condformatOutputNew(outputId = outputId, ...)
   } else {
     shiny::htmlOutput(outputId = outputId, ...)
   }
+}
+
+renderCondformatnew <- function(expr, env = parent.frame(), quoted = FALSE) {
+  func <- NULL
+  shiny::installExprFunction(expr, "func", env, quoted)
+  renderFunc <- function() {
+    condformatobj <- func()
+    condformat2widget(condformatobj)
+  }
+  htmlTable::renderHtmlTableWidget(expr = renderFunc())
 }
 
 #' @rdname condformat-shiny
@@ -34,13 +49,7 @@ renderCondformat <- function(expr, env = parent.frame(), quoted = FALSE) {
     stop("shiny package required. Please install it")
   }
   if (utils::packageVersion("htmlTable") > "1.8") {
-    func <- NULL
-    shiny::installExprFunction(expr, "func", env, quoted)
-    renderFunc <- function() {
-      condformatobj <- func()
-      condformat2widget(condformatobj)
-    }
-    htmlTable::renderHtmlTableWidget(expr = renderFunc())
+    renderCondformatnew(expr = expr, env = env, quoted = quoted)
   } else {
     func <- NULL
     shiny::installExprFunction(expr, "func", env, quoted)
