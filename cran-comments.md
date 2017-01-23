@@ -5,15 +5,29 @@
 * win-builder (devel and release)
 
 ## R CMD check results
-There is one NOTE:
+There are two NOTEs:
+
+* checking CRAN incoming feasibility ... NOTE
+Maintainer: ‘Sergio Oller Moreno <sergioller@gmail.com>’
+
+License components with restrictions and base license permitting such:
+  BSD_3_clause + file LICENSE
+File 'LICENSE':
+  YEAR: 2015
+  COPYRIGHT HOLDER: Sergio Oller Moreno
+  ORGANIZATION: copyright holders
+
+This NOTE is expected.
+
+* checking dependencies in R code ... NOTE
 Missing or unexported objects:
   ‘htmlTable::htmlTableWidget’ ‘htmlTable::htmlTableWidgetOutput’
   ‘htmlTable::renderHtmlTableWidget’
 
-These objects are found in functions that are only called after checking that 
+These missing objects are used in functions that are only called after checking that 
 the htmlTable version is new enough (using "utils::packageVersion"). The symbols
-exist in the development version of the htmlTable package that will be available
-in the next CRAN release. To make sure the package is functional even in
+currently only exist in the development version of the htmlTable package that
+will be available in the next CRAN release. To make sure the package is functional even in
 previous htmlTable package versions a fallback is implemented and used if needed.
 
 
