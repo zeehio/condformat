@@ -71,7 +71,8 @@ color_pick <- function(column) {
       }
     })
 }
-condformat(head(iris)) + rule_fill_discrete_("Sepal.Length", ~ color_pick(Sepal.Length), colours = identity)
+condformat(head(iris)) +
+   rule_fill_discrete_("Sepal.Length", ~ color_pick(Sepal.Length), colours = identity)
 
 }
 \seealso{

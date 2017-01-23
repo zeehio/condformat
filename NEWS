@@ -2,9 +2,11 @@ condformat 0.4.0.9001
 ----------------------------------------------------------------
 
 * Shiny support: Add condformatOutput and renderCondformat. Closes #3.
+  - Use pagination in shiny if recent enough htmlTable package is installed.
 * PDF support: Fix extra NULL when printing. Closes #4.
-* Demote xlsx to Suggests
-* Fix standard evaluation functions, use formulas.
+* Demote xlsx (and rJava) to Suggests.
+* Fix standard evaluation functions, they now use formulas. See the examples (Reported in #5).
+* Fix Excel export (fixed in 80440ecfd16fb74e3e0aa4c6ebc623ad2ae74b15, reported in #7)
 
 condformat 0.4.0
 ----------------------------------------------------------------

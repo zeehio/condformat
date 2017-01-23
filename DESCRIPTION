@@ -25,7 +25,8 @@ Imports:
     lazyeval (>= 0.2.0),
     knitr,
     rmarkdown (>= 0.9.6),
-    gplots
+    gplots,
+    utils
 Suggests:
     shiny,
     testthat (>= 1.0),

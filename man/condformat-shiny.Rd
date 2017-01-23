@@ -26,4 +26,7 @@ is useful if you want to save an expression in a variable.}
 Output and render functions for using condformat within Shiny
 applications and interactive Rmd documents.
 }
+\details{
+Pagination will be used if a recent enough htmlTable package is available.
+}
 
