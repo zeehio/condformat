@@ -44,18 +44,6 @@ condformat2html <- function(x) {
   return(thetable)
 }
 
-# We need this until https://github.com/dragua/xlsx/pull/76 is merged
-CellBlock.default <- function(sheet, startRow, startColumn, noRows, noColumns, create = TRUE) {
-  if (!requireNamespace("xlsx", quietly = TRUE)) {
-    stop("Please install the xlsx package in order to export to excel")
-  }
-  if (!requireNamespace("rJava", quietly = TRUE)) {
-    stop("Please install the rJava package in order to export to excel")
-  }
-  rJava::.jpackage("xlsx")
-  xlsx::CellBlock.default(sheet, startRow, startColumn, noRows, noColumns, create = TRUE)
-}
-
 
 #' Writes the table to an Excel sheet
 #'
@@ -94,8 +82,8 @@ condformat2excel <- function(x, filename) {
       for (j in 1:ncol(xview)) {
         background_color <- ifelse(finalformat$css_fields$`background-color`[i,j] == "", NA, finalformat$css_fields$`background-color`[i,j])
         if (!is.na(background_color)) {
-          cb <- xlsx::CellBlock(sheet, startRow = i+1, startColumn = j,
-                                noRows = 1, noColumns = 1, create = FALSE)
+          cb <- xlsx::CellBlock.default(sheet, startRow = i + 1, startColumn = j,
+                                        noRows = 1, noColumns = 1, create = FALSE)
           fill <- xlsx::Fill(backgroundColor = background_color, foregroundColor = background_color)
           xlsx::CB.setFill(cellBlock = cb,
                            fill = fill,
