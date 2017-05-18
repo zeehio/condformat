@@ -19,4 +19,3 @@ condformat(head(iris)) + theme_htmlTable(caption="Table 1: My iris table", rname
 \seealso{
 \code{\link[htmlTable]{htmlTable}}
 }
-

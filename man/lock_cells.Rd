@@ -21,4 +21,3 @@ finalformat, the list with format options
 If rule_locks is TRUE, locks the cells specified by mask
 so no further rules modify them
 }
-

@@ -22,4 +22,3 @@ List with the CSS information
 \description{
 Renders the css matrix to format the xview table
 }
-

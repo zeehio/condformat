@@ -14,4 +14,3 @@
 \description{
 Print method for knitr, exporting to HTML or LaTeX as needed
 }
-

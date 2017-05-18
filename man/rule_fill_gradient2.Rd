@@ -54,4 +54,3 @@ Other rule: \code{\link{rule_fill_discrete_}},
   \code{\link{rule_fill_gradient_}},
   \code{\link{rule_fill_gradient}}
 }
-

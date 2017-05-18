@@ -3,6 +3,7 @@
 \name{show_rows}
 \alias{show_rows}
 \alias{show_rows_}
+\alias{show_rows}
 \title{Selects the rows to be printed}
 \usage{
 show_rows(...)
@@ -37,4 +38,3 @@ condformat(x) + show_rows_(.dots = c("Sepal.Length > 4.5", "Species == 'setosa'"
 \seealso{
 \code{\link[dplyr]{filter}}
 }
-

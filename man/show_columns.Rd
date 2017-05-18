@@ -52,4 +52,3 @@ condformat(x) +
 \seealso{
 \code{\link[dplyr]{select}}
 }
-

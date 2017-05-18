@@ -19,4 +19,3 @@ a matrix of size xview with the CSS field information
 Returns a matrix with the value of the CSS field for each element
 of our data frame.
 }
-

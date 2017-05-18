@@ -10,6 +10,8 @@
 \item{x}{A condformat_tbl object}
 
 \item{...}{optional arguments to print}
+
+\item{paginate}{A logical value. If TRUE the printing will be paginated}
 }
 \value{
 the value returned by htmlTable

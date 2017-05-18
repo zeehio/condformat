@@ -19,4 +19,3 @@ Converts the table to a htmlTable object
 data(iris)
 condformat2html(condformat(iris[1:5,]))
 }
-

@@ -17,4 +17,3 @@ A character vector of the table source code
 \description{
 Converts the table to LaTeX code
 }
-

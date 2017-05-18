@@ -14,4 +14,3 @@ condformat2excel(x, filename)
 \description{
 Writes the table to an Excel sheet
 }
-

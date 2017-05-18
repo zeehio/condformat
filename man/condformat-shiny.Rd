@@ -4,11 +4,14 @@
 \alias{condformat-shiny}
 \alias{condformatOutput}
 \alias{renderCondformat}
+\alias{condformat_example}
 \title{Shiny bindings for condformat}
 \usage{
 condformatOutput(outputId, ...)
 
 renderCondformat(expr, env = parent.frame(), quoted = FALSE)
+
+condformat_example()
 }
 \arguments{
 \item{outputId}{output variable to read from}
@@ -26,7 +29,3 @@ is useful if you want to save an expression in a variable.}
 Output and render functions for using condformat within Shiny
 applications and interactive Rmd documents.
 }
-\details{
-Pagination will be used if a recent enough htmlTable package is available.
-}
-
