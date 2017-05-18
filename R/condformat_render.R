@@ -2,32 +2,25 @@
 #'
 #' @param x A condformat_tbl object
 #' @param ... optional arguments to print
+#' @param paginate A logical value. If TRUE the printing will be paginated
 #' @return the value returned by htmlTable
 #' @examples
 #' data(iris)
 #' print(condformat(iris[1:5,]))
 #' @export
-print.condformat_tbl <- function(x, ...) {
-  outfmt <- guess_output_format()
-  if (outfmt != "") {
-    return(knitr::knit_print(x))
+print.condformat_tbl <- function(x, ..., paginate = TRUE) {
+  if (paginate) {
+    htmltools::html_print(htmltools::as.tags(condformat2widget(x),
+                                             standalone = TRUE))
+
   } else {
-    thetable <- condformat2html(x)
-    print(thetable)
-    invisible(x)
+    htmltools::html_print(htmltools::HTML(condformat2html(x)))
   }
+  invisible(x)
 }
 
 
-#' Converts the table to a htmlTable object
-#'
-#' @param x A condformat_tbl object
-#' @return the htmlTable object
-#' @examples
-#' data(iris)
-#' condformat2html(condformat(iris[1:5,]))
-#' @export
-condformat2html <- function(x) {
+condformat2htmlcommon <- function(x) {
   finalshow <- render_show_condformat_tbl(x)
   xfiltered <- finalshow$xfiltered
   xview <- xfiltered[, finalshow$cols, drop = FALSE]
@@ -46,15 +39,32 @@ condformat2html <- function(x) {
   } else {
     css_cell <- finalformat$css_cell
   }
-  thetable <- do.call(htmlTable::htmlTable, c(list(x = format.data.frame(xview),
-                                                   css.cell = css_cell),
-                                              finaltheme))
+  return(list(xview = format.data.frame(xview),
+              css_cell = css_cell,
+              htmlTableArgs = finaltheme))
+}
+
+#' Converts the table to a htmlTable object
+#'
+#' @param x A condformat_tbl object
+#' @return the htmlTable object
+#' @examples
+#' data(iris)
+#' condformat2html(condformat(iris[1:5,]))
+#' @export
+condformat2html <- function(x) {
+  htmltable_ready <- condformat2htmlcommon(x)
+  thetable <- do.call(htmlTable::htmlTable,
+                      c(list(x = htmltable_ready$xview,
+                             css.cell = htmltable_ready$css_cell),
+                        htmltable_ready$htmlTableArgs))
   return(thetable)
 }
 
 #' Converts the table to a htmlTableWidget
 #'
 #' @param x A condformat_tbl object
+#' @param ... Arguments passed to htmlTable::htmlTableWidget
 #' @return the htmlTable widget
 #' @examples
 #' \dontrun{
@@ -62,24 +72,13 @@ condformat2html <- function(x) {
 #' condformat2widget(condformat(iris[1:5,]))
 #' }
 #' @export
-condformat2widget <- function(x) {
-  if (utils::packageVersion("htmlTable") <= "1.8") {
-    stop("htmlTable>1.8 is required for widget support")
-  }
-  finalshow <- render_show_condformat_tbl(x)
-  xfiltered <- finalshow$xfiltered
-  xview <- xfiltered[, finalshow$cols, drop = FALSE]
-  rules <- attr(x, "condformat")$rules
-  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview,
-                                             format = "html")
-  # Rename the columns according to show options:
-  colnames(xview) <- names(finalshow$cols)
-  themes <- attr(x, "condformat")$themes
-  finaltheme <- render_theme_condformat_tbl(themes, xview)
+condformat2widget <- function(x, ...) {
+  htmltable_ready <- condformat2htmlcommon(x)
   thewidget <- do.call(what = htmlTable::htmlTableWidget,
-                       args = c(list(x = format.data.frame(xview),
-                                     css.cell = finalformat$css_cell),
-                                finaltheme))
+                       args = c(list(x = htmltable_ready$xview,
+                                     css.cell = htmltable_ready$css_cell),
+                                htmltable_ready$htmlTableArgs,
+                                list(...)))
   return(thewidget)
 }
 
@@ -132,7 +131,7 @@ condformat2excel <- function(x, filename) {
     }
   }
   xlsx::saveWorkbook(wb, file = filename)
-  return(x)
+  return(invisible(x))
 }
 
 #' Converts the table to LaTeX code
@@ -194,6 +193,7 @@ knit_print.condformat_tbl <- function(x, ...) {
     return(knitr::asis_output(condformat2latex(x, longtable = use_longtable),
                               meta = latex_dependencies))
   } else if (outfmt == "html") {
+
     return(knitr::asis_output(condformat2html(x)))
   } else {
     warning("knitr format not supported by condformat")

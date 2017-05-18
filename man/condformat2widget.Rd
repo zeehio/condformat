@@ -4,10 +4,12 @@
 \alias{condformat2widget}
 \title{Converts the table to a htmlTableWidget}
 \usage{
-condformat2widget(x)
+condformat2widget(x, ...)
 }
 \arguments{
 \item{x}{A condformat_tbl object}
+
+\item{...}{Arguments passed to htmlTable::htmlTableWidget}
 }
 \value{
 the htmlTable widget
@@ -21,4 +23,3 @@ data(iris)
 condformat2widget(condformat(iris[1:5,]))
 }
 }
-

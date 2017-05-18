@@ -19,7 +19,8 @@ License: BSD_3_clause + file LICENSE
 LazyData: TRUE
 NeedsCompilation: no
 Imports:
-    htmlTable,
+    htmlTable (>= 1.9),
+    htmltools,
     tibble,
     scales,
     dplyr,
@@ -34,4 +35,4 @@ Suggests:
     xlsx (>= 0.5.7),
     rJava
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

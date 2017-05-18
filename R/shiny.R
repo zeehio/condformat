@@ -1,14 +1,8 @@
-# This function can be inlined when htmlTable > 1.8 is out
-condformatOutputNew <- function(outputId, ...) {
-  htmlTable::htmlTableWidgetOutput(outputId = outputId, ...)
-}
-
 #' Shiny bindings for condformat
 #'
 #' Output and render functions for using condformat within Shiny
 #' applications and interactive Rmd documents.
 #'
-#' Pagination will be used if a recent enough htmlTable package is available.
 #'
 #' @param outputId output variable to read from
 #' @param expr An expression that generates a condformat object
@@ -25,14 +19,15 @@ condformatOutput <- function(outputId, ...) {
   if (!requireNamespace("shiny")) {
     stop("shiny package required. Please install it.")
   }
-  if (utils::packageVersion("htmlTable") > "1.8") {
-    condformatOutputNew(outputId = outputId, ...)
-  } else {
-    shiny::htmlOutput(outputId = outputId, ...)
-  }
+  htmlTable::htmlTableWidgetOutput(outputId = outputId, ...)
 }
 
-renderCondformatnew <- function(expr, env = parent.frame(), quoted = FALSE) {
+#' @rdname condformat-shiny
+#' @export
+renderCondformat <- function(expr, env = parent.frame(), quoted = FALSE) {
+  if (!requireNamespace("shiny")) {
+    stop("shiny package required. Please install it")
+  }
   func <- NULL
   shiny::installExprFunction(expr, "func", env, quoted)
   renderFunc <- function() {
@@ -44,19 +39,13 @@ renderCondformatnew <- function(expr, env = parent.frame(), quoted = FALSE) {
 
 #' @rdname condformat-shiny
 #' @export
-renderCondformat <- function(expr, env = parent.frame(), quoted = FALSE) {
+condformat_example <- function() {
   if (!requireNamespace("shiny")) {
     stop("shiny package required. Please install it")
   }
-  if (utils::packageVersion("htmlTable") > "1.8") {
-    renderCondformatnew(expr = expr, env = env, quoted = quoted)
-  } else {
-    func <- NULL
-    shiny::installExprFunction(expr, "func", env, quoted)
-    renderFunc <- function() {
-      condformatobj <- func()
-      shiny::HTML(as.character(condformat2html(condformatobj)))
-    }
-    shiny::markRenderFunction(condformatOutput, renderFunc)
+  appDir <- system.file("shinyexample", package = "condformat")
+  if (appDir == "") {
+    stop("Could not find example directory. Try re-installing `condformat`.", call. = FALSE)
   }
+  shiny::runApp(appDir, display.mode = "normal")
 }
