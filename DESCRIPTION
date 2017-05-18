@@ -20,6 +20,7 @@ LazyData: TRUE
 NeedsCompilation: no
 Imports:
     htmlTable,
+    tibble,
     scales,
     dplyr,
     lazyeval (>= 0.2.0),

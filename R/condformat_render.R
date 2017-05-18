@@ -38,8 +38,16 @@ condformat2html <- function(x) {
   colnames(xview) <- names(finalshow$cols)
   themes <- attr(x, "condformat")$themes
   finaltheme <- render_theme_condformat_tbl(themes, xview)
-  thetable <- do.call(htmlTable::htmlTable, c(list(x = format(xview),
-                                                   css.cell = finalformat$css_cell),
+  if ("css.cell" %in% names(finaltheme)) {
+    css_cell_dims <- dim(finalformat$css_cell)
+    css_cell <- paste0(finaltheme$css.cell, finalformat$css_cell)
+    dim(css_cell) <- css_cell_dims
+    finaltheme$css.cell <- NULL
+  } else {
+    css_cell <- finalformat$css_cell
+  }
+  thetable <- do.call(htmlTable::htmlTable, c(list(x = format.data.frame(xview),
+                                                   css.cell = css_cell),
                                               finaltheme))
   return(thetable)
 }
@@ -69,7 +77,7 @@ condformat2widget <- function(x) {
   themes <- attr(x, "condformat")$themes
   finaltheme <- render_theme_condformat_tbl(themes, xview)
   thewidget <- do.call(what = htmlTable::htmlTableWidget,
-                       args = c(list(x = format(xview),
+                       args = c(list(x = format.data.frame(xview),
                                      css.cell = finalformat$css_cell),
                                 finaltheme))
   return(thewidget)

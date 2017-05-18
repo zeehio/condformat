@@ -24,7 +24,7 @@
 #'  rule_fill_discrete(Sepal.Length, expression=Sepal.Width > 2)
 #' @export
 condformat <- function(x) {
-  x <- dplyr::tbl_df(x)
+  x <- tibble::as_tibble(x)
   attr(x, "condformat") <- list(show = list(rows = list(),
                                             cols = list()),
                                 rules = list(),
