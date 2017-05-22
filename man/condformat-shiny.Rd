@@ -11,7 +11,7 @@ condformatOutput(outputId, ...)
 
 renderCondformat(expr, env = parent.frame(), quoted = FALSE)
 
-condformat_example()
+condformat_example(display.mode = "normal")
 }
 \arguments{
 \item{outputId}{output variable to read from}
@@ -24,6 +24,13 @@ condformat_example()
 
 \item{quoted}{Is \code{expr} a quoted expression (with \code{quote()})? This
 is useful if you want to save an expression in a variable.}
+
+\item{display.mode}{The mode in which to display the application. If set to
+the value \code{"showcase"}, shows application code and metadata from a
+\code{DESCRIPTION} file in the application directory alongside the
+application. If set to \code{"normal"}, displays the application normally.
+Defaults to \code{"auto"}, which displays the application in the mode given
+in its \code{DESCRIPTION} file, if any.}
 }
 \description{
 Output and render functions for using condformat within Shiny

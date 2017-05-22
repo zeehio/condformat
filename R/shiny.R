@@ -37,9 +37,10 @@ renderCondformat <- function(expr, env = parent.frame(), quoted = FALSE) {
   htmlTable::renderHtmlTableWidget(expr = renderFunc())
 }
 
+#' @inheritParams shiny::runApp
 #' @rdname condformat-shiny
 #' @export
-condformat_example <- function() {
+condformat_example <- function(display.mode = "normal") {
   if (!requireNamespace("shiny")) {
     stop("shiny package required. Please install it")
   }
@@ -47,5 +48,5 @@ condformat_example <- function() {
   if (appDir == "") {
     stop("Could not find example directory. Try re-installing `condformat`.", call. = FALSE)
   }
-  shiny::runApp(appDir, display.mode = "normal")
+  shiny::runApp(appDir, display.mode = display.mode)
 }
