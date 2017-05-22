@@ -35,7 +35,7 @@ shinyServer(function(input, output) {
     if (input$num_entries_per_page == 0) {
       num_entries <- c(10, 20, 50)
     } else {
-      num_entries <- c(input$num_entries_per_page, 10, 20, 50)
+      num_entries <- input$num_entries_per_page
     }
     x + theme_htmlTable(number_of_entries = num_entries)
     })
