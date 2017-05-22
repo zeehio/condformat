@@ -303,7 +303,7 @@ render_rules_condformat_tbl <- function(rules, xfiltered, xview, format) {
     }
     return(finalformat)
   } else if (format == "latex") {
-    raw_text <- escape_latex(as.matrix(format(xview)))
+    raw_text <- escape_latex(as.matrix(format.data.frame(xview)))
     # Need to wrap raw_text with formatting rules
     formatted_text <- merge_css_conditions_to_latex(css_fields = finalformat$css_fields, raw_text = raw_text)
     return(formatted_text)

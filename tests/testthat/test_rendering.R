@@ -45,4 +45,10 @@ test_that("merge_css_conditions returns the expected", {
   expect_equal(output, expected_output)
 })
 
+test_that("condformat2latex works", {
+  data(iris)
+  x <- condformat(head(iris, n = 2))
+  out <- condformat2latex(x)
+  expect_match(out, "Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & Species")
+})
 
