@@ -196,7 +196,7 @@ knit_print.condformat_tbl <- function(x, ...) {
 
     return(knitr::asis_output(condformat2html(x)))
   } else {
-    warning("knitr format not supported by condformat")
+    warning("knitr format '", outfmt, "' not supported by condformat")
     return(knitr::knit_print(knitr::kable(x), ...))
   }
 }
