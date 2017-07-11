@@ -2,6 +2,7 @@ condformat 0.6.0.9000
 ----------------------------------------------------------------
 
 * Fix condformat2latex and add regression test (#9)
+* Improve condformat2excel to export to a specific Excel sheet (#11)
 
 condformat 0.6.0
 ----------------------------------------------------------------

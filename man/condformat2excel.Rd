@@ -2,15 +2,22 @@
 % Please edit documentation in R/condformat_render.R
 \name{condformat2excel}
 \alias{condformat2excel}
-\title{Writes the table to an Excel sheet}
+\title{Writes the table to an Excel workbook}
 \usage{
-condformat2excel(x, filename)
+condformat2excel(x, filename, sheet_name = "Sheet1", overwrite_wb = FALSE,
+  overwrite_sheet = TRUE)
 }
 \arguments{
 \item{x}{A condformat_tbl object}
 
-\item{filename}{The xlsx file name}
+\item{filename}{The xlsx file name.}
+
+\item{sheet_name}{The name of the sheet where the table will be written}
+
+\item{overwrite_wb}{logical to overwrite the workbook file}
+
+\item{overwrite_sheet}{logical to overwrite the sheet}
 }
 \description{
-Writes the table to an Excel sheet
+Writes the table to an Excel workbook
 }
