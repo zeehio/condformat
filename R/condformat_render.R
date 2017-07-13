@@ -170,8 +170,8 @@ condformat2excelsheet <- function(x, sheet) {
   xlsx::addDataFrame(x = as.data.frame(xview),
                      sheet = sheet, row.names = F, col.names = T)
   if ("background-color" %in% names(finalformat$css_fields)) {
-    for (i in 1:nrow(xview)) {
-      for (j in 1:ncol(xview)) {
+    for (i in seq_len(nrow(xview))) {
+      for (j in seq_len(ncol(xview))) {
         background_color <- ifelse(finalformat$css_fields$`background-color`[i,j] == "", NA, finalformat$css_fields$`background-color`[i,j])
         if (!is.na(background_color)) {
           cb <- xlsx::CellBlock.default(sheet, startRow = i + 1, startColumn = j,
