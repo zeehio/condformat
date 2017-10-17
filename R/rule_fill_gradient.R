@@ -110,6 +110,7 @@ applyrule.rule_fill_gradient_ <- function(rule, finalformat, xfiltered, xview, .
   rule_fill_gradient_common(rule, finalformat, xview, columns, values_determining_color)
 }
 
+#' @importFrom scales rescale
 rule_fill_gradient_common <- function(rule, finalformat, xview,
                                       columns, values_determining_color) {
   if (identical(rule$limits, NA)) {
