@@ -70,7 +70,7 @@ parse_columns_and_expression_ <- function(columns, expression) {
   if (lazyeval::is_formula(expression) &&
       identical(lazyeval::f_rhs(expression), as.name("."))) {
     if (length(columns) > 1) {
-      warning("rule_fill_discrete_ applied to multiple variables, using the first given variable as expression")
+      warning("rule applied to multiple columns, using the first given variable as expression")
     }
     lazyeval::f_rhs(expression) <- as.name(columns[1])
   }
