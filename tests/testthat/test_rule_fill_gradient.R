@@ -55,14 +55,26 @@ test_that("rule_fill_gradient_ works in the limits (0.6 syntax)", {
 
 context("rule_fill_gradient2")
 
-test_that("rule_fill_gradient2 works", {
+test_that("rule_fill_gradient2 works (0.6 syntax)", {
   data(iris)
   x <- condformat(iris[c(1, 51, 101),])
-  y <- x + rule_fill_gradient2(Sepal.Length)
+  expect_warning(r1 <- rule_fill_gradient2(Sepal.Length))
+  y <- x + r1
   out <- condformat2html(y)
-  y2 <- x + rule_fill_gradient2_("Sepal.Length")
+  expect_warning(r2 <- rule_fill_gradient2_("Sepal.Length"))
+  y2 <- x + r2
   out2 <- condformat2html(y2)
   expect_match(out, "^<table.*</table>$")
   expect_equal(out, out2)
 })
 
+test_that("rule_fill_gradient2 works (0.7 syntax)", {
+  data(iris)
+  x <- condformat(iris[c(1, 51, 101),])
+  y <- x %>% rule_fill_gradient2(Sepal.Length)
+  out <- condformat2html(y)
+  y2 <- x %>% rule_fill_gradient2("Sepal.Length")
+  out2 <- condformat2html(y2)
+  expect_match(out, "^<table.*</table>$")
+  expect_equal(out, out2)
+})
