@@ -139,7 +139,6 @@ rule_fill_gradient2_old <- function(...,
 #' Fills the background color of a column using a three colors gradient based on
 #' the values of an expression
 #'
-#' @family rule
 #' @param columns a character vector with the column names or a list with
 #'                dplyr select helpers given as formulas or a combination of both
 #' @param expression a formula to be evaluated with the data that will be used
