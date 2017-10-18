@@ -5,6 +5,9 @@ condformat 0.6.0.9000
 * Improve condformat2excel to export to a specific Excel sheet (#11)
 * Fix rescale and rescale_mid calls (recent scales use a S3 generic, so we need
   to import it)
+* Add a new condformat API, that is based on tidy evaluation principles and
+  leverages on rlang and tidyselect. The old API is still fully functional but
+  deprecated.
 
 condformat 0.6.0
 ----------------------------------------------------------------
