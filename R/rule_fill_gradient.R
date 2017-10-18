@@ -3,7 +3,61 @@
 #' Fills the background color of a column using a gradient based on
 #' the values given by an expression
 #'
+#' The syntax in condformat rules has changed since v0.7. See \code{\link{rule_fill_gradient_old}}
+#'
 #' @family rule
+#'
+#' @param x A condformat object, typically created with `condformat(x)`
+#' @param columns A character vector with column names to be coloured. Optionally
+#'                `tidyselect::select_helpers` can be used.
+#' @param expression an expression to be evaluated with the data.
+#'                   It should evaluate to a logical or an integer vector,
+#'                   that will be used to determine which cells are to be coloured.
+#' @inheritParams scales::seq_gradient_pal
+#' @param limits range of limits that the gradient should cover
+#' @param na.value fill color for missing values
+#' @param lockcells logical value determining if no further rules should be applied to the affected cells.
+#'
+#' @param ... Dots are used to transition from the old syntax \code{\link{rule_fill_discrete_old}} to the new one
+#'
+#' @return The condformat_tbl object, with the added formatting information
+#' @examples
+#' data(iris)
+#' condformat(iris[c(1:5, 70:75, 120:125), ]) %>%
+#'   rule_fill_gradient(Sepal.Length) %>%
+#'   rule_fill_gradient(Species, expression=Sepal.Length - Sepal.Width)
+#'
+#' condformat(iris[c(1:5, 70:75, 120:125), ]) %>%
+#'   rule_fill_gradient("Petal.Length") %>%
+#'   rule_fill_gradient(starts_with("Sepal"), expression=Sepal.Length - Sepal.Width)
+#'
+#' @export
+rule_fill_gradient <- function(...) {
+  quoted_args <- rlang::quos(...)
+  condformat_api <- "0.6"
+  tryCatch({
+    possible_condformat <- quoted_args[[1]]
+    x <- rlang::eval_tidy(possible_condformat)
+    stopifnot(inherits(x, "condformat_tbl"))
+    condformat_api <- "0.7"
+  }, error = function(err) {
+    condformat_api <- "0.6"
+  })
+  if (condformat_api == "0.7") {
+    return(rule_fill_gradient_new(...))
+  } else if (condformat_api == "0.6") {
+    warning("This condformat syntax is deprecated. See ?rule_fill_gradient for more information")
+    return(rule_fill_gradient_old(...))
+  } else {
+    stop("Unknown condformat API")
+  }
+}
+
+
+#' Fill column with sequential colour gradient
+#'
+#' Fills the background color of a column using a gradient based on
+#' the values given by an expression
 #'
 #' @param ... Comma separated list of unquoted column names.
 #'            If \code{expression} is also given, then this list can use any of the
@@ -23,13 +77,13 @@
 #'   rule_fill_gradient(Sepal.Length) +
 #'   rule_fill_gradient(Species, expression=Sepal.Length - Sepal.Width)
 #' @export
-rule_fill_gradient <- function(...,
-                               expression,
-                               low = "#132B43", high = "#56B1F7",
-                               space = "Lab",
-                               na.value = "#7F7F7F",
-                               limits=NA,
-                               lockcells=FALSE) {
+rule_fill_gradient_old <- function(...,
+                                   expression,
+                                   low = "#132B43", high = "#56B1F7",
+                                   space = "Lab",
+                                   na.value = "#7F7F7F",
+                                   limits = NA,
+                                   lockcells = FALSE) {
   columns <- lazyeval::lazy_dots(...)
   if (missing(expression)) {
     if (length(columns) > 1) {
@@ -49,6 +103,31 @@ rule_fill_gradient <- function(...,
                          lockcells = force(lockcells)),
                     class = c("condformat_rule", "rule_fill_gradient"))
   return(rule)
+}
+
+#' @rdname rule_fill_gradient
+rule_fill_gradient_new <- function(x, columns, expression,
+                                   low = "#132B43", high = "#56B1F7",
+                                   space = "Lab",
+                                   na.value = "#7F7F7F",
+                                   limits = NA,
+                                   lockcells = FALSE) {
+  columnsquo <- rlang::enquo(columns)
+  helpers <- tidyselect::vars_select_helpers
+  columnsquo_bur <- rlang::env_bury(columnsquo, !!! helpers)
+
+  expr <- rlang::enquo(expression)
+  rule <- structure(list(columns = columnsquo_bur,
+                         expression = expr,
+                         low = force(low),
+                         high = force(high),
+                         space = force(space),
+                         na.value = force(na.value),
+                         limits = force(limits),
+                         lockcells = force(lockcells)),
+                    class = c("condformat_rule", "rule_fill_gradient"))
+  x <- add_rule_to_condformat(x, rule)
+  return(x)
 }
 
 
@@ -86,6 +165,7 @@ rule_fill_gradient_ <- function(columns,
                                 na.value = "#7F7F7F",
                                 limits = NA,
                                 lockcells = FALSE) {
+  warning("This condformat syntax is deprecated. See ?rule_fill_gradient for more information")
   col_expr <- parse_columns_and_expression_(columns, expression)
   rule <- structure(list(columns = col_expr[["columns"]],
                          expression = col_expr[["expression"]],
@@ -97,10 +177,29 @@ rule_fill_gradient_ <- function(columns,
 }
 
 applyrule.rule_fill_gradient <- function(rule, finalformat, xfiltered, xview, ...) {
-  columns <- dplyr::select_vars_(colnames(xview), rule$columns)
-  values_determining_color <- lazyeval::lazy_eval(rule$expression, xfiltered)
-  values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
-  rule_fill_gradient_common(rule, finalformat, xview, columns, values_determining_color)
+  if (inherits(rule$expression, "lazy")) {
+    columns <- dplyr::select_vars_(colnames(xview), rule$columns)
+    values_determining_color <- lazyeval::lazy_eval(rule$expression, xfiltered)
+    values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
+    rule_fill_gradient_common(rule, finalformat, xview, columns, values_determining_color)
+  } else {
+    columns <- tidyselect::vars_select(colnames(xview), !!! rule$columns)
+    if (length(columns) == 0) {
+      return(finalformat)
+    }
+    if (rlang::quo_is_missing(rule$expression)) {
+      if (length(columns) > 1) {
+        warning("rule_fill_gradient applied to multiple columns, using column ",
+                columns[1], " values as expression. In the future this behaviour will change,",
+                " please use a explicit expression instead.",
+                call. = FALSE)
+      }
+      rule$expression <- as.symbol(as.name(columns[1]))
+    }
+    values_determining_color <- rlang::eval_tidy(rule$expression, data = xfiltered)
+    values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
+    rule_fill_gradient_common(rule, finalformat, xview, columns, values_determining_color)
+  }
 }
 
 applyrule.rule_fill_gradient_ <- function(rule, finalformat, xfiltered, xview, ...) {

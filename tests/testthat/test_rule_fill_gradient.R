@@ -1,10 +1,12 @@
 # Tests:
 context("rule_fill_gradient")
 
-test_that("rule_fill_gradient works in the limits", {
+test_that("rule_fill_gradient works in the limits (0.6 syntax)", {
+  # Deprecated
   data(iris)
   x <- condformat(iris[c(1,51,101),])
-  y <- x + rule_fill_gradient(Sepal.Length, low = "#FF0000", high = "#00FF00")
+  expect_warning(r1 <- rule_fill_gradient(Sepal.Length, low = "#FF0000", high = "#00FF00"))
+  y <- x + r1
   out <- condformat2html(y)
   expect_match(out, "^<table.*</table>$")
   expect_equal(
@@ -17,10 +19,29 @@ test_that("rule_fill_gradient works in the limits", {
     1)
 })
 
-test_that("rule_fill_gradient_ works in the limits", {
+test_that("rule_fill_gradient works in the limits (0.7 syntax)", {
   data(iris)
   x <- condformat(iris[c(1,51,101),])
-  y <- x + rule_fill_gradient_("Sepal.Length", low = "#FF0000", high = "#00FF00")
+  y <- x %>% rule_fill_gradient(Sepal.Length, low = "#FF0000", high = "#00FF00")
+  out <- condformat2html(y)
+  expect_match(out, "^<table.*</table>$")
+  expect_equal(
+    length(sapply(strsplit(as.character(out), "\n", fixed = TRUE),
+                  function(line) grep("(#FF0000.*5.1)", line))),
+    1)
+  expect_equal(
+    length(sapply(strsplit(as.character(out), "\n", fixed = TRUE),
+                  function(line) grep("(#00FF00.*7.0)", line))),
+    1)
+})
+
+
+test_that("rule_fill_gradient_ works in the limits (0.6 syntax)", {
+  # Deprecated
+  data(iris)
+  x <- condformat(iris[c(1,51,101),])
+  expect_warning(r1 <- rule_fill_gradient_("Sepal.Length", low = "#FF0000", high = "#00FF00"))
+  y <- x + r1
   out <- condformat2html(y)
   expect_equal(
     length(sapply(strsplit(as.character(out), "\n", fixed = TRUE),

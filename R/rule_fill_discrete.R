@@ -192,7 +192,7 @@ rule_fill_discrete_ <- function(columns,
                                 h = c(0, 360) + 15, c = 100, l = 65,
                                 h.start = 0, direction = 1, na.value = "#FFFFFF",
                                 lockcells = FALSE) {
-
+  warning("This condformat syntax is deprecated. See ?rule_fill_discrete for more information")
   col_expr <- parse_columns_and_expression_(columns, expression)
   rule <- structure(list(columns = col_expr[["columns"]],
                          expression = col_expr[["expression"]],
@@ -215,7 +215,7 @@ applyrule.rule_fill_discrete <- function(rule, finalformat, xfiltered, xview, ..
     columns <- dplyr::select_vars_(colnames(xview), rule$columns)
     values_determining_color <- as.factor(lazyeval::lazy_eval(rule$expression, data = xfiltered))
     values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
-    rule_fill_discrete_common(rule, finalformat, xfiltered, xview, columns,
+    rule_fill_discrete_common(rule, finalformat, xview, columns,
                               values_determining_color)
   } else {
     columns <- tidyselect::vars_select(colnames(xview), !!! rule$columns)
@@ -225,14 +225,15 @@ applyrule.rule_fill_discrete <- function(rule, finalformat, xfiltered, xview, ..
     if (rlang::quo_is_missing(rule$expression)) {
       if (length(columns) > 1) {
         warning("rule_fill_discrete applied to multiple columns, using column ",
-                columns[1], " values as expression",
+                columns[1], " values as expression. In the future this behaviour will change,",
+                "please use a explicit expression instead.",
                 call. = FALSE)
       }
       rule$expression <- as.symbol(as.name(columns[1]))
     }
     values_determining_color <- as.factor(rlang::eval_tidy(rule$expression, data = xfiltered))
     values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
-    rule_fill_discrete_common(rule, finalformat, xfiltered, xview, columns,
+    rule_fill_discrete_common(rule, finalformat, xview, columns,
                               values_determining_color)
   }
 }
@@ -246,11 +247,11 @@ applyrule.rule_fill_discrete_ <- function(rule, finalformat, xfiltered, xview, .
     values_determining_color <- as.factor(lazyeval::f_eval(f = rule$expression, data = xfiltered))
     values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
   }
-  rule_fill_discrete_common(rule, finalformat, xfiltered, xview, columns,
+  rule_fill_discrete_common(rule, finalformat, xview, columns,
                             values_determining_color)
 }
 
-rule_fill_discrete_common <- function(rule, finalformat, xfiltered, xview,
+rule_fill_discrete_common <- function(rule, finalformat, xview,
                                       columns, values_determining_color) {
   colours_for_values <- NA
   if (identical(rule$colours, NA)) {

@@ -138,9 +138,10 @@ test_that("rule_fill_discrete_ works (0.6 syntax)", {
   # Deprecated
   data(iris)
   x <- condformat(iris[c(1, 2, 51, 101, 102), ])
-  y <- x + rule_fill_discrete_("Species", colours = c("virginica" = "#FF0000",
-                                                      "versicolor" = "#00FF00",
-                                                      "setosa" = "#0000FF"))
+  expect_warning(r1 <- rule_fill_discrete_("Species", colours = c("virginica" = "#FF0000",
+                                                                  "versicolor" = "#00FF00",
+                                                                  "setosa" = "#0000FF")))
+  y <- x + r1
   out <- condformat2html(y)
   expect_equal(
     length(sapply(strsplit(as.character(out), "\n", fixed = TRUE),
@@ -161,9 +162,10 @@ test_that("rule_fill_discrete_ works with formula (0.6 syntax)", {
   # Deprecated
   data(iris)
   x <- condformat(iris[c(1, 2, 51, 101, 102), ])
-  y <- x + rule_fill_discrete_("Species", expression = ~Sepal.Length > 5.5,
-                               colours = c("TRUE" = "#FF0000",
-                                           "FALSE" = "#00FF00"))
+  expect_warning(r1 <- rule_fill_discrete_("Species", expression = ~Sepal.Length > 5.5,
+                                           colours = c("TRUE" = "#FF0000",
+                                                       "FALSE" = "#00FF00")))
+  y <- x + r1
   out <- condformat2html(y)
   expect_match(out, "^<table.*</table>$")
   expect_equal(length(gregexpr("#FF0000", out, fixed = TRUE)[[1]]),
@@ -176,11 +178,13 @@ test_that("rule_fill_discrete_ works programmatically (0.6 syntax)", {
   # Deprecated
   data(iris)
   color_data_column_by_column <- function(data, color_column, by_column) {
-    condformat(data) + rule_fill_gradient_(color_column, ~ uq(as.name(by_column)))
+    expect_warning(r1 <- rule_fill_gradient_(color_column, ~ uq(as.name(by_column))))
+    condformat(data) + r1
   }
 
+  expect_warning(r2 <- rule_fill_gradient_("Species", ~ Petal.Length))
   expect_equal(color_data_column_by_column(iris[c(1,51,101),], "Species", "Petal.Length"),
-               condformat(iris[c(1,51,101),]) + rule_fill_gradient_("Species", ~ Petal.Length))
+               condformat(iris[c(1,51,101),]) + r2)
 })
 
 test_that("custom rule_ passes doing nothing (0.6 syntax)", {
