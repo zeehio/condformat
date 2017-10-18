@@ -19,10 +19,10 @@ although patches to enable them are welcome.
 
 ## Basic syntax
 
-Its syntax should be familiar to `ggplot` users.
+Its syntax should be familiar to `ggplot` users, with tidy evaluation.
 
-    condformat(a_data_frame) +          # A data frame to print
-      rule_fill_discrete(ColumnA) +     # Add formatting rules to the data frame
+    condformat(a_data_frame) %>%          # A data frame to print
+      rule_fill_discrete(ColumnA) %>%     # Add formatting rules to the data frame
       rule_fill_gradient(ColumnB)
 
 ## Example:
@@ -30,11 +30,11 @@ Its syntax should be familiar to `ggplot` users.
 ```{r}
 data(iris)
 library(condformat)
-condformat(iris[c(1:5,70:75, 120:125),]) +
-  rule_fill_discrete(Species) + 
-  rule_fill_discrete(Sepal.Width, Sepal.Length,
+condformat(iris[c(1:5,70:75, 120:125),]) %>%
+  rule_fill_discrete(Species) %>%
+  rule_fill_discrete(c(Sepal.Width, Sepal.Length),
                      expression = Sepal.Width > Sepal.Length - 2.25,
-                     colours = c("TRUE" = "#7D00FF")) + 
+                     colours = c("TRUE" = "#7D00FF")) %>%
   rule_fill_gradient2(Petal.Length)
 ```
 
