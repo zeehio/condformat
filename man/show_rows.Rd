@@ -11,10 +11,9 @@ show_rows(...)
 show_rows_(..., .dots)
 }
 \arguments{
-\item{...}{Comma separated list of unquoted extensions.}
+\item{...}{Expressions used for filtering}
 
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
+\item{.dots}{A list of lazy objects. See examples}
 }
 \value{
 A condformat_show_rows object, usually to be added to a condformat_tbl object

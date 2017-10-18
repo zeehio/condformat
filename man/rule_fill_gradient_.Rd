@@ -48,8 +48,7 @@ ex2 <- gradient_color_column1_minus_column2(iris[1:5,], "Species", "Sepal.Length
 stopifnot(ex1 == ex2)
 }
 \seealso{
-Other rule: \code{\link{rule_fill_discrete_}},
-  \code{\link{rule_fill_discrete}},
+Other rule: \code{\link{rule_fill_discrete}},
   \code{\link{rule_fill_gradient2_}},
   \code{\link{rule_fill_gradient2}},
   \code{\link{rule_fill_gradient}}

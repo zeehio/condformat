@@ -4,7 +4,7 @@
 #' Compared to \code{\link[dplyr]{filter}}, show_rows does not remove the
 #' rows from the actual data frame, they are removed only for printing.
 #'
-#' @param ... Comma separated list of unquoted extensions.
+#' @param ... Expressions used for filtering
 #'
 #' @return A condformat_show_rows object, usually to be added to a condformat_tbl object
 #'         as shown in the examples
@@ -23,7 +23,7 @@ show_rows <- function(...) {
 }
 
 #' @rdname show_rows
-#' @inheritParams dplyr::filter
+#' @param .dots A list of lazy objects. See examples
 #' @aliases show_rows
 #' @export
 #' @examples

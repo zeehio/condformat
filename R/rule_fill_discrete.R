@@ -3,7 +3,64 @@
 #' Fills a column or columns of a data frame using a discrete
 #' colour palette, based on an expression.
 #'
+#' The syntax in condformat rules has changed since v0.7. See \code{\link{rule_fill_discrete_old}}
+#'
 #' @family rule
+#' @param x A condformat object, typically created with `condformat(x)`
+#' @param columns A character vector with column names to be coloured. Optionally
+#'                `tidyselect::select_helpers` can be used.
+#' @param expression an expression to be evaluated with the data.
+#'                   It should evaluate to a logical or an integer vector,
+#'                   that will be used to determine which cells are to be coloured.
+#' @param colours a character vector with colours as values and the expression
+#'                possible results as names.
+#' @inheritParams scales::hue_pal
+#' @param na.value a character string with the CSS color to be used in missing values
+#' @param lockcells logical value determining if no further rules should be applied to the affected cells.
+#' @param ... Dots are used to transition from the old syntax \code{\link{rule_fill_discrete_old}} to the new one
+#'
+#' @return The condformat_tbl object, with the added formatting information
+#' @examples
+#' data(iris)
+#' condformat(iris[c(1:5, 70:75, 120:125), ]) %>%
+#'  rule_fill_discrete("Species", colours = c("setosa" = "red",
+#'                                          "versicolor" = "blue",
+#'                                          "virginica" = "green")) %>%
+#'  rule_fill_discrete("Sepal.Length", expression = Sepal.Length > 4.6,
+#'                     colours=c("TRUE"="red"))
+#'
+#' condformat(iris[c(1:5, 70:75, 120:125), ]) %>%
+#'  rule_fill_discrete(c(starts_with("Sepal"), starts_with("Petal")),
+#'                     expression = Sepal.Length > 4.6,
+#'                     colours=c("TRUE"="red"))
+#' @export
+rule_fill_discrete <- function(...) {
+  quoted_args <- rlang::quos(...)
+  condformat_api <- "0.6"
+  tryCatch({
+    possible_condformat <- quoted_args[[1]]
+    x <- rlang::eval_tidy(possible_condformat)
+    stopifnot(inherits(x, "condformat_tbl"))
+    condformat_api <- "0.7"
+  }, error = function(err) {
+    condformat_api <- "0.6"
+  })
+  if (condformat_api == "0.7") {
+    return(rule_fill_discrete_new(...))
+  } else if (condformat_api == "0.6") {
+    warning("This condformat syntax is deprecated. See ?rule_fill_discrete for more information")
+    return(rule_fill_discrete_old(...))
+  } else {
+    stop("Unknown condformat API")
+  }
+}
+
+
+#' Fill column with discrete colors
+#'
+#' Fills a column or columns of a data frame using a discrete
+#' colour palette, based on an expression.
+#'
 #' @param ... Comma separated list of unquoted column names.
 #'            If \code{expression} is also given, then this list can use any of the
 #'            \code{\link[dplyr]{select}} syntax possibilities.
@@ -25,14 +82,13 @@
 #'                                          "virginica" = "green")) +
 #'  rule_fill_discrete(Sepal.Length, expression=Sepal.Length > 4.6,
 #'                     colours=c("TRUE"="red"))
-#' @export
-rule_fill_discrete <- function(...,
-                               expression,
-                               colours = NA,
-                               na.value = "#FFFFFF",
-                               h = c(0, 360) + 15, c = 100, l = 65,
-                               h.start = 0, direction = 1,
-                               lockcells=FALSE) {
+rule_fill_discrete_old <- function(...,
+                                   expression,
+                                   colours = NA,
+                                   na.value = "#FFFFFF",
+                                   h = c(0, 360) + 15, c = 100, l = 65,
+                                   h.start = 0, direction = 1,
+                                   lockcells=FALSE) {
   columns <- lazyeval::lazy_dots(...)
   if (missing(expression)) {
     if (length(columns) > 1) {
@@ -56,15 +112,42 @@ rule_fill_discrete <- function(...,
   return(rule)
 }
 
+#' @rdname rule_fill_discrete
+rule_fill_discrete_new <- function(x, columns, expression, colours = NA,
+                                   na.value = "#FFFFFF",
+                                   h = c(0, 360) + 15, c = 100, l = 65,
+                                   h.start = 0, direction = 1,
+                                   lockcells=FALSE) {
+  columnsquo <- rlang::enquo(columns)
+  helpers <- tidyselect::vars_select_helpers
+  columnsquo_bur <- rlang::env_bury(columnsquo, !!! helpers)
+
+  expr <- rlang::enquo(expression)
+  rule <- structure(list(columns = columnsquo_bur,
+                         expression = expr,
+                         colours = force(colours),
+                         h = force(h),
+                         c = force(c), l = force(l),
+                         h.start = force(h.start),
+                         direction = force(direction),
+                         na.value = force(na.value),
+                         lockcells = force(lockcells)),
+                    class = c("condformat_rule", "rule_fill_discrete"))
+  x <- add_rule_to_condformat(x, rule)
+  return(x)
+}
+
+
 #' Fill column with discrete colors (standard evaluation)
 #'
-#' @family rule
+#' This is a deprecated function
+#'
 #' @param columns a character vector with the column names or a list with
 #'                dplyr select helpers given as formulas or a combination of both
 #' @param expression a formula to be evaluated with the data that will be used
 #'                   to determine which cells are to be coloured. See the examples
 #'                   to use it programmatically
-#' @inheritParams rule_fill_discrete
+#' @inheritParams rule_fill_discrete_old
 #'
 #' @export
 #' @examples
@@ -127,14 +210,35 @@ rule_fill_discrete_ <- function(columns,
 
 
 applyrule.rule_fill_discrete <- function(rule, finalformat, xfiltered, xview, ...) {
-  columns <- dplyr::select_vars_(colnames(xview), rule$columns)
-  values_determining_color <- as.factor(lazyeval::lazy_eval(rule$expression, data = xfiltered))
-  values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
-  rule_fill_discrete_common(rule, finalformat, xfiltered, xview, columns,
-                            values_determining_color)
+  if (inherits(rule$expression, "lazy")) {
+    # Deprecated: Remove in future version
+    columns <- dplyr::select_vars_(colnames(xview), rule$columns)
+    values_determining_color <- as.factor(lazyeval::lazy_eval(rule$expression, data = xfiltered))
+    values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
+    rule_fill_discrete_common(rule, finalformat, xfiltered, xview, columns,
+                              values_determining_color)
+  } else {
+    columns <- tidyselect::vars_select(colnames(xview), !!! rule$columns)
+    if (length(columns) == 0) {
+      return(finalformat)
+    }
+    if (rlang::quo_is_missing(rule$expression)) {
+      if (length(columns) > 1) {
+        warning("rule_fill_discrete applied to multiple columns, using column ",
+                columns[1], " values as expression",
+                call. = FALSE)
+      }
+      rule$expression <- as.symbol(as.name(columns[1]))
+    }
+    values_determining_color <- as.factor(rlang::eval_tidy(rule$expression, data = xfiltered))
+    values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
+    rule_fill_discrete_common(rule, finalformat, xfiltered, xview, columns,
+                              values_determining_color)
+  }
 }
 
 applyrule.rule_fill_discrete_ <- function(rule, finalformat, xfiltered, xview, ...) {
+  # Deprecated: Remove in future version
   columns <- dplyr::select_vars_(colnames(xview), rule$columns)
   if (!lazyeval::is_formula(rule$expression)) {
     values_determining_color <- as.factor(rule$expression)

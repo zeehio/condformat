@@ -28,7 +28,10 @@ Imports:
     knitr,
     rmarkdown (>= 0.9.6),
     gplots,
-    utils
+    utils,
+    magrittr,
+    rlang,
+    tidyselect
 Suggests:
     shiny,
     testthat (>= 1.0),

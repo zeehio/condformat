@@ -1,46 +1,115 @@
 # Tests:
 context("rule_fill_discrete")
 
-test_that("rule_fill_discrete works", {
+test_that("rule_fill_discrete works (0.6 syntax)", {
+  # Deprecated
   data(iris)
   x <- condformat(iris[c(1:10, 51:60, 101:110),])
-  y <- x + rule_fill_discrete(Species,
-                              expression  = Sepal.Length > max(Sepal.Length),
-                              colours = c("TRUE" = "red", "FALSE" = "blue"))
+  expect_warning(
+    r <- rule_fill_discrete(Species,
+                            expression  = Sepal.Length > max(Sepal.Length),
+                            colours = c("TRUE" = "red", "FALSE" = "blue")),
+    regexp = ".*deprecated.*")
+  y <- x + r
   out <- condformat2html(y)
   expect_failure(expect_match(out, "red"))
 
-  y <- x + rule_fill_discrete(Species,
-                              expression  = Sepal.Length >= min(Sepal.Length),
-                              colours = c("TRUE" = "red", "FALSE" = "blue"))
+  expect_warning(
+    r <- rule_fill_discrete(Species,
+                            expression  = Sepal.Length >= min(Sepal.Length),
+                            colours = c("TRUE" = "red", "FALSE" = "blue")))
+  y <- x + r
   out <- condformat2html(y)
   expect_failure(expect_match(out, "blue"))
 
-  y <- x + rule_fill_discrete(Species)
+  expect_warning(r <- rule_fill_discrete(Species))
+  y <- x + r
   out <- condformat2html(y)
   expect_match(out, "^<table.*</table>$")
 })
 
+test_that("rule_fill_discrete works", {
+  data(iris)
+  x <- condformat(iris[c(1:10, 51:60, 101:110),])
+  y <- x %>% rule_fill_discrete("Species",
+                                expression = Sepal.Length > max(Sepal.Length),
+                                colours = c("TRUE" = "red", "FALSE" = "blue"))
+  out <- condformat2html(y)
+  expect_failure(expect_match(out, "red"))
+
+  y <- x %>% rule_fill_discrete("Species",
+                                expression  = Sepal.Length >= min(Sepal.Length),
+                                colours = c("TRUE" = "red", "FALSE" = "blue"))
+
+  out <- condformat2html(y)
+  expect_failure(expect_match(out, "blue"))
+
+  y <- x %>% rule_fill_discrete("Species")
+  out <- condformat2html(y)
+  expect_match(out, "^<table.*</table>$")
+
+  y <- x %>% rule_fill_discrete(starts_with("Species"))
+  out <- condformat2html(y)
+  expect_match(out, "^<table.*</table>$")
+
+  y <- x %>% rule_fill_discrete(c(starts_with("Species"), starts_with("Sepal")),
+                                expression = Species)
+  out <- condformat2html(y)
+  expect_match(out, "^<table.*</table>$")
+
+})
+
+
+test_that("rule_fill_discrete lock cells (0.6 syntax)", {
+  # Deprecated 0.6 API
+  data(iris)
+  x <- condformat(head(iris))
+  expect_warning(
+    r1 <- rule_fill_discrete(Species,
+                             expression  = 1,
+                             colours = c("1" = "red")))
+  expect_warning(
+    r2 <- rule_fill_discrete(Species,
+                             expression  = 1,
+                             colours = c("1" = "blue"))
+  )
+  y <- x + r1 + r2
+  out <- condformat2html(y)
+  expect_failure(expect_match(out, "red"))
+
+  expect_warning(
+    r1 <- rule_fill_discrete(Species,
+                             expression  = 1,
+                             colours = c("1" = "red"),
+                             lockcells = TRUE)
+  )
+  expect_warning(
+    r2 <- rule_fill_discrete(Species,
+                             expression  = 1,
+                             colours = c("1" = "blue"))
+  )
+  y <- x + r1 + r2
+  out <- condformat2html(y)
+  expect_failure(expect_match(out, "blue"))
+})
 
 test_that("rule_fill_discrete lock cells", {
   data(iris)
   x <- condformat(head(iris))
-  y <- x +
-    rule_fill_discrete(Species,
-                       expression  = 1,
-                       colours = c("1" = "red")) +
-    rule_fill_discrete(Species,
+  y <- x %>% rule_fill_discrete("Species",
+                                expression  = 1,
+                                colours = c("1" = "red")) %>%
+    rule_fill_discrete("Species",
                        expression  = 1,
                        colours = c("1" = "blue"))
   out <- condformat2html(y)
   expect_failure(expect_match(out, "red"))
 
-  y <- x +
-    rule_fill_discrete(Species,
-                       expression  = 1,
-                       colours = c("1" = "red"),
-                       lockcells = TRUE) +
-    rule_fill_discrete(Species,
+  y <- x %>% rule_fill_discrete("Species",
+                                expression  = 1,
+                                colours = c("1" = "red"),
+                                lockcells = TRUE) %>%
+    rule_fill_discrete("Species",
                        expression  = 1,
                        colours = c("1" = "blue"))
   out <- condformat2html(y)
@@ -48,14 +117,25 @@ test_that("rule_fill_discrete lock cells", {
 })
 
 
-test_that("rule_fill_discrete(_) syntax with multiple variables and no expression gives warning", {
+test_that("rule_fill_discrete(_) syntax with multiple variables and no expression gives warning (0.6 syntax)", {
+  # Deprecated (test 0.6 API)
   expect_warning(rule_fill_discrete(Species, Sepal.Length),
                  "multiple variables")
   expect_warning(rule_fill_discrete_(columns = c("Species", "Sepal.Length")),
-                 "multiple variables")
+                 "multiple columns")
 })
 
-test_that("rule_fill_discrete_ works", {
+test_that("rule_fill_discrete syntax with multiple variables and no expression gives warning", {
+  expect_warning(
+    condformat2html(
+      rule_fill_discrete(condformat(head(iris)),
+                         c("Species", "Sepal.Length"))),
+    "multiple columns")
+})
+
+
+test_that("rule_fill_discrete_ works (0.6 syntax)", {
+  # Deprecated
   data(iris)
   x <- condformat(iris[c(1, 2, 51, 101, 102), ])
   y <- x + rule_fill_discrete_("Species", colours = c("virginica" = "#FF0000",
@@ -77,7 +157,8 @@ test_that("rule_fill_discrete_ works", {
 
 })
 
-test_that("rule_fill_discrete_ works with formula", {
+test_that("rule_fill_discrete_ works with formula (0.6 syntax)", {
+  # Deprecated
   data(iris)
   x <- condformat(iris[c(1, 2, 51, 101, 102), ])
   y <- x + rule_fill_discrete_("Species", expression = ~Sepal.Length > 5.5,
@@ -91,7 +172,8 @@ test_that("rule_fill_discrete_ works with formula", {
                2)
 })
 
-test_that("rule_fill_discrete_ works programmatically", {
+test_that("rule_fill_discrete_ works programmatically (0.6 syntax)", {
+  # Deprecated
   data(iris)
   color_data_column_by_column <- function(data, color_column, by_column) {
     condformat(data) + rule_fill_gradient_(color_column, ~ uq(as.name(by_column)))
@@ -101,7 +183,7 @@ test_that("rule_fill_discrete_ works programmatically", {
                condformat(iris[c(1,51,101),]) + rule_fill_gradient_("Species", ~ Petal.Length))
 })
 
-test_that("custom rule_ passes doing nothing", {
+test_that("custom rule_ passes doing nothing (0.6 syntax)", {
   custom_ruleobj <- structure(list(),
                               class = c("condformat_rule"))
   data(iris)
@@ -111,3 +193,5 @@ test_that("custom rule_ passes doing nothing", {
   out_y <- condformat2html(y)
   expect_identical(out_x, out_y)
 })
+
+

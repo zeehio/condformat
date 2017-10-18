@@ -43,8 +43,7 @@ condformat(iris[c(1:5, 70:75, 120:125), ]) +
   rule_fill_gradient(Species, expression=Sepal.Length - Sepal.Width)
 }
 \seealso{
-Other rule: \code{\link{rule_fill_discrete_}},
-  \code{\link{rule_fill_discrete}},
+Other rule: \code{\link{rule_fill_discrete}},
   \code{\link{rule_fill_gradient2_}},
   \code{\link{rule_fill_gradient2}},
   \code{\link{rule_fill_gradient_}}

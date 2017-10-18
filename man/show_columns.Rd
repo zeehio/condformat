@@ -2,20 +2,14 @@
 % Please edit documentation in R/show_columns.R
 \name{show_columns}
 \alias{show_columns}
-\alias{show_columns_}
 \title{Selects the variables to be printed}
 \usage{
 show_columns(..., col_names)
-
-show_columns_(..., .dots, col_names)
 }
 \arguments{
-\item{...}{Comma separated list of unquoted extensions.}
+\item{...}{Comma separated list of unquoted expressions}
 
 \item{col_names}{Character vector with the column names for the selected columns}
-
-\item{.dots}{Use \code{select_()} to do standard evaluation. See
-\code{vignette("nse")} for details}
 }
 \value{
 A condformat_show_columns object, usually to be added to a condformat_tbl object
@@ -44,10 +38,6 @@ condformat(x) + show_columns(-Petal.Length, -Petal.Width)
 # Select columns using dplyr syntax:
 condformat(x) + show_columns(starts_with("Petal"), Species)
 
-
-# Use standard evaluation (columns as strings):
-condformat(x) +
-  show_columns_(.dots = c("Sepal.Length", "Species"), col_names = c("Sepal Length", "Species"))
 }
 \seealso{
 \code{\link[dplyr]{select}}

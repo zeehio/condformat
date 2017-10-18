@@ -52,8 +52,7 @@ color_column(iris[c(1,51,101),], "Sepal.Length")
 
 }
 \seealso{
-Other rule: \code{\link{rule_fill_discrete_}},
-  \code{\link{rule_fill_discrete}},
+Other rule: \code{\link{rule_fill_discrete}},
   \code{\link{rule_fill_gradient2}},
   \code{\link{rule_fill_gradient_}},
   \code{\link{rule_fill_gradient}}

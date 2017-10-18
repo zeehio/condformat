@@ -75,3 +75,7 @@ condformat <- function(x) {
 #' @importFrom lazyeval uq
 #' @export
 lazyeval::uq
+
+#' @importFrom magrittr %>%
+#' @export
+magrittr::`%>%`

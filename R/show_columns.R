@@ -4,7 +4,7 @@
 #' Compared to \code{\link[dplyr]{select}}, show_columns does not remove the
 #' columns from the data frame, so formatting rules can still depend
 #' on them.
-#' @param ... Comma separated list of unquoted extensions.
+#' @param ... Comma separated list of unquoted expressions
 #' @param col_names Character vector with the column names for the selected columns
 #'
 #' @return A condformat_show_columns object, usually to be added to a condformat_tbl object
@@ -35,11 +35,15 @@ show_columns <- function(..., col_names) {
   show_columns_(.dots = lazyeval::lazy_dots(...), col_names = col_names)
 }
 
-#' @rdname show_columns
-#' @inheritParams dplyr::select
+#' Show columns (SE)
+#'
+#' @inheritParams show_columns
+#' @param .dots A character vector with columns to show
 #' @export
 #' @examples
 #'
+#' data(iris)
+#' x <- head(iris)
 #' # Use standard evaluation (columns as strings):
 #' condformat(x) +
 #'   show_columns_(.dots = c("Sepal.Length", "Species"), col_names = c("Sepal Length", "Species"))
