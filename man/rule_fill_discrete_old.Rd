@@ -2,7 +2,7 @@
 % Please edit documentation in R/rule_fill_discrete.R
 \name{rule_fill_discrete_old}
 \alias{rule_fill_discrete_old}
-\title{Fill column with discrete colors}
+\title{Fill column with discrete colors (deprecated)}
 \usage{
 rule_fill_discrete_old(..., expression, colours = NA, na.value = "#FFFFFF",
   h = c(0, 360) + 15, c = 100, l = 65, h.start = 0, direction = 1,

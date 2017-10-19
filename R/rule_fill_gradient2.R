@@ -81,7 +81,7 @@ rule_fill_gradient2_new <- function(x, columns, expression,
 }
 
 
-#' Fill column with divergent colour gradient
+#' Fill column with divergent colour gradient (deprecated)
 #'
 #' Fills the background color of a column using a three colors gradient based on
 #' the values of an expression
@@ -134,7 +134,7 @@ rule_fill_gradient2_old <- function(...,
   return(rule)
 }
 
-#' Fill column with divergent colour gradient (standard evaluation)
+#' Fill column with divergent colour gradient (deprecated)
 #'
 #' Fills the background color of a column using a three colors gradient based on
 #' the values of an expression

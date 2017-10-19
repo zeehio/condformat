@@ -2,7 +2,7 @@
 % Please edit documentation in R/show_columns.R
 \name{show_columns_old}
 \alias{show_columns_old}
-\title{Selects the variables to be printed}
+\title{Selects the variables to be printed (deprecated)}
 \usage{
 show_columns_old(..., col_names)
 }

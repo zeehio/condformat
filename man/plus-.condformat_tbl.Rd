@@ -2,7 +2,7 @@
 % Please edit documentation in R/condformat.R
 \name{+.condformat_tbl}
 \alias{+.condformat_tbl}
-\title{Combines the data with the formatting rules and graphical options.}
+\title{Combines data with formatting rules (deprecated)}
 \usage{
 \method{+}{condformat_tbl}(x, obj)
 }
@@ -16,7 +16,7 @@ Any other type of object will be added as expected to the data frame.}
 x, with extended condformat_tbl attributes
 }
 \description{
-Combines the data with the formatting rules and graphical options.
+This is deprecated
 }
 \examples{
 data(iris)

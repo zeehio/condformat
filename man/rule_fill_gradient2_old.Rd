@@ -2,7 +2,7 @@
 % Please edit documentation in R/rule_fill_gradient2.R
 \name{rule_fill_gradient2_old}
 \alias{rule_fill_gradient2_old}
-\title{Fill column with divergent colour gradient}
+\title{Fill column with divergent colour gradient (deprecated)}
 \usage{
 rule_fill_gradient2_old(..., expression, low = scales::muted("red"),
   mid = "white", high = scales::muted("blue"), midpoint = NA,

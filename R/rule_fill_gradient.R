@@ -54,7 +54,7 @@ rule_fill_gradient <- function(...) {
 }
 
 
-#' Fill column with sequential colour gradient
+#' Fill column with sequential colour gradient (deprecated)
 #'
 #' Fills the background color of a column using a gradient based on
 #' the values given by an expression
@@ -131,7 +131,7 @@ rule_fill_gradient_new <- function(x, columns, expression,
 }
 
 
-#' Fill column with sequential colour gradient (standard evaluation)
+#' Fill column with sequential colour gradient (deprecated)
 #'
 #' Fills the background color of a column using a gradient based on
 #' the values given by an expression

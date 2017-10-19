@@ -2,7 +2,7 @@
 % Please edit documentation in R/show_columns.R
 \name{show_columns_}
 \alias{show_columns_}
-\title{Show columns (SE)}
+\title{Show columns (deprecated)}
 \usage{
 show_columns_(..., .dots, col_names)
 }
@@ -14,7 +14,7 @@ show_columns_(..., .dots, col_names)
 \item{col_names}{Character vector with the column names for the selected columns}
 }
 \description{
-Show columns (SE)
+Show columns (deprecated)
 }
 \examples{
 

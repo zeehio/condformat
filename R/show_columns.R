@@ -77,7 +77,7 @@ show_columns_new <- function(x, columns, col_names) {
 }
 
 
-#' Selects the variables to be printed
+#' Selects the variables to be printed (deprecated)
 #'
 #' This syntax is deprecated and  \code{\link{show_columns}} should be used instead
 #'
@@ -115,7 +115,7 @@ show_columns_old <- function(..., col_names) {
   show_columns_(.dots = lazyeval::lazy_dots(...), col_names = col_names)
 }
 
-#' Show columns (SE)
+#' Show columns (deprecated)
 #'
 #' @inheritParams show_columns_old
 #' @param .dots A character vector with columns to show

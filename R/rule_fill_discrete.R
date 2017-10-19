@@ -56,7 +56,7 @@ rule_fill_discrete <- function(...) {
 }
 
 
-#' Fill column with discrete colors
+#' Fill column with discrete colors (deprecated)
 #'
 #' Fills a column or columns of a data frame using a discrete
 #' colour palette, based on an expression.
@@ -138,7 +138,7 @@ rule_fill_discrete_new <- function(x, columns, expression, colours = NA,
 }
 
 
-#' Fill column with discrete colors (standard evaluation)
+#' Fill column with discrete colors (deprecated)
 #'
 #' This is a deprecated function
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/condformat.R
 \name{condformat}
 \alias{condformat}
-\title{Converts a data frame or matrix to a condformat_tbl class.}
+\title{Conditional formatting for data frames}
 \usage{
 condformat(x)
 }
@@ -10,27 +10,24 @@ condformat(x)
 \item{x}{A matrix or data.frame}
 }
 \value{
-The condformat_tbl object. This object can be used
-        in a ggplot-like syntax to apply conditional formatting
-        rules. It can also be used as a conventional
+The condformat_tbl object. This object can be piped to apply
+        conditional formatting rules. It can also be used as a conventional
         data frame.
 
         The condformat_tbl print method generates an htmlTable, to be
         viewed using RStudio Viewer or an HTML browser, as available.
 }
 \description{
-condformat_tbl objects allow to add conditional formatting information,
-that can be viewed when the condformat_tbl object is printed.
-}
-\details{
-They also have all properties from conventional data frames.
+A \code{condformat_tbl} object is a data frame with attributes regarding
+the formatting of their cells, that can be viewed when the \code{condformat_tbl}
+object is printed.
 }
 \examples{
 data(iris)
 condformat(iris[1:5,])
 
-condformat(iris[1:5,]) + rule_fill_gradient(Sepal.Length)
+condformat(iris[1:5,]) \%>\% rule_fill_gradient(Sepal.Length)
 
-condformat(iris[1:5,]) +
+condformat(iris[1:5,]) \%>\%
  rule_fill_discrete(Sepal.Length, expression=Sepal.Width > 2)
 }
