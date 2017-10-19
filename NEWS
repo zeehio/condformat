@@ -1,15 +1,15 @@
-condformat 0.6.0.9000
+condformat 0.7.0
 ----------------------------------------------------------------
 
-* Fix condformat2latex and add regression test (#9)
-* Improve condformat2excel to export to a specific Excel sheet (#11)
-* Fix rescale and rescale_mid calls (recent scales use a S3 generic, so we need
-  to import it)
 * Add a new condformat API, that is based on tidy evaluation principles and
   leverages on rlang and tidyselect. The old API is still fully functional but
   deprecated.
 * Add a rule_css to let the user specify arbitrary CSS fields. For this rule
-  there is no support for PDF or Excel output (yet).
+  there is no support for PDF or Excel output.
+* Improve condformat2excel to export to a specific Excel sheet (#11)
+* Fix condformat2latex and add regression test (#9)
+* Fix rescale and rescale_mid calls (recent scales use a S3 generic, so we need
+  to import it)
 
 condformat 0.6.0
 ----------------------------------------------------------------
