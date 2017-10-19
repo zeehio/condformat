@@ -2,9 +2,12 @@
 % Please edit documentation in R/theme_htmlTable.R
 \name{theme_htmlTable}
 \alias{theme_htmlTable}
+\alias{theme_htmlTable_new}
 \title{Customizes appearance of condformat object}
 \usage{
 theme_htmlTable(...)
+
+theme_htmlTable_new(x, ...)
 }
 \arguments{
 \item{...}{Arguments to be passed to htmlTable}
@@ -14,7 +17,7 @@ Customizes appearance of condformat object
 }
 \examples{
 data(iris)
-condformat(head(iris)) + theme_htmlTable(caption="Table 1: My iris table", rnames=FALSE)
+condformat(head(iris)) \%>\% theme_htmlTable(caption="Table 1: My iris table", rnames=FALSE)
 }
 \seealso{
 \code{\link[htmlTable]{htmlTable}}
