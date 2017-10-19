@@ -212,8 +212,8 @@ rule_fill_discrete_ <- function(columns,
 applyrule.rule_fill_discrete <- function(rule, finalformat, xfiltered, xview, ...) {
   if (inherits(rule$expression, "lazy")) {
     # Deprecated: Remove in future version
-    columns <- dplyr::select_vars_(colnames(xview), rule$columns)
-    values_determining_color <- as.factor(lazyeval::lazy_eval(rule$expression, data = xfiltered))
+    columns <- dplyr::select_vars_(colnames(xview), rule$columns) # D
+    values_determining_color <- as.factor(lazyeval::lazy_eval(rule$expression, data = xfiltered)) # D
     values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
     rule_fill_discrete_common(rule, finalformat, xview, columns,
                               values_determining_color)
@@ -240,7 +240,7 @@ applyrule.rule_fill_discrete <- function(rule, finalformat, xfiltered, xview, ..
 
 applyrule.rule_fill_discrete_ <- function(rule, finalformat, xfiltered, xview, ...) {
   # Deprecated: Remove in future version
-  columns <- dplyr::select_vars_(colnames(xview), rule$columns)
+  columns <- dplyr::select_vars_(colnames(xview), rule$columns) # D
   if (!lazyeval::is_formula(rule$expression)) {
     values_determining_color <- as.factor(rule$expression)
   } else {

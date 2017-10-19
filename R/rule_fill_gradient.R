@@ -177,8 +177,9 @@ rule_fill_gradient_ <- function(columns,
 
 applyrule.rule_fill_gradient <- function(rule, finalformat, xfiltered, xview, ...) {
   if (inherits(rule$expression, "lazy")) {
-    columns <- dplyr::select_vars_(colnames(xview), rule$columns)
-    values_determining_color <- lazyeval::lazy_eval(rule$expression, xfiltered)
+    # Deprecated
+    columns <- dplyr::select_vars_(colnames(xview), rule$columns) # D
+    values_determining_color <- lazyeval::lazy_eval(rule$expression, xfiltered) # D
     values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
     rule_fill_gradient_common(rule, finalformat, xview, columns, values_determining_color)
   } else {
@@ -202,8 +203,9 @@ applyrule.rule_fill_gradient <- function(rule, finalformat, xfiltered, xview, ..
 }
 
 applyrule.rule_fill_gradient_ <- function(rule, finalformat, xfiltered, xview, ...) {
-  columns <- dplyr::select_vars_(colnames(xview), rule$columns)
-  values_determining_color <- lazyeval::f_eval(f = rule$expression, data = xfiltered)
+  # Deprecated
+  columns <- dplyr::select_vars_(colnames(xview), rule$columns) # D
+  values_determining_color <- lazyeval::f_eval(f = rule$expression, data = xfiltered) # D
   values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
   rule_fill_gradient_common(rule, finalformat, xview, columns, values_determining_color)
 }
