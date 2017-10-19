@@ -87,7 +87,7 @@ require_xlsx <- function() {
   if (!requireNamespace("xlsx", quietly = TRUE)) {
     stop("Please install the xlsx package in order to export to excel")
   }
-  # We need this until https://github.com/dragua/xlsx/pull/76 is merged
+  # We need this until https://github.com/dragua/xlsx/pull/76 is released
   # We can drop rJava from suggests once this is fixed
   if (!requireNamespace("rJava", quietly = TRUE)) {
     stop("Please install the rJava package in order to export to excel")

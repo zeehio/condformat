@@ -74,7 +74,7 @@ show_rows_new <- function(x, ...) {
 #' condformat(x) + show_rows(Sepal.Length > 4.5, Species == "setosa")
 #' @seealso \code{\link[dplyr]{filter}}
 show_rows_old <- function(...) {
-  show_rows_(.dots = lazyeval::lazy_dots(...))  #,row_names = row_names)
+  show_rows_(.dots = lazyeval::lazy_dots(...))  #,row_names = row_names) # D
 }
 
 #' @rdname show_rows_old
@@ -87,10 +87,7 @@ show_rows_old <- function(...) {
 #' condformat(x) + show_rows_(.dots = c("Sepal.Length > 4.5", "Species == 'setosa'"))
 show_rows_ <- function(..., .dots) {
   warning("This condformat syntax is deprecated. See ?show_rows for more information", call. = FALSE)
-  dots <- lazyeval::all_dots(.dots, ...)
-#   if (missing(row_names)) {
-#     row_names <- NA
-#   }
+  dots <- lazyeval::all_dots(.dots, ...) # D
   showobj <- structure(list(row_expr = dots),
                        class = c("condformat_show_rows", "condformat_show_rows_filter"))
   return(showobj)

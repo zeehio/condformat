@@ -109,10 +109,11 @@ show_columns_new <- function(x, columns, col_names) {
 #'
 #' @seealso \code{\link[dplyr]{select}}
 show_columns_old <- function(..., col_names) {
+  # Deprecated
   if (missing(col_names)) {
     col_names = NA
   }
-  show_columns_(.dots = lazyeval::lazy_dots(...), col_names = col_names)
+  show_columns_(.dots = lazyeval::lazy_dots(...), col_names = col_names) # D
 }
 
 #' Show columns (deprecated)
@@ -129,7 +130,7 @@ show_columns_old <- function(..., col_names) {
 #'   show_columns_(.dots = c("Sepal.Length", "Species"), col_names = c("Sepal Length", "Species"))
 show_columns_ <- function(..., .dots, col_names) {
   warning("This condformat syntax is deprecated. See ?show_columns for more information", call. = FALSE)
-  dots <- lazyeval::all_dots(.dots, ...)
+  dots <- lazyeval::all_dots(.dots, ...) # D
   if (missing(col_names)) {
     col_names <- NA
   }

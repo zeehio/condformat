@@ -84,14 +84,14 @@ rule_fill_gradient_old <- function(...,
                                    na.value = "#7F7F7F",
                                    limits = NA,
                                    lockcells = FALSE) {
-  columns <- lazyeval::lazy_dots(...)
+  columns <- lazyeval::lazy_dots(...) # D
   if (missing(expression)) {
     if (length(columns) > 1) {
       warning("rule_fill_gradient applied to multiple variables, using the first given variable as expression")
     }
     expression <- columns[[1]]
   } else {
-    expression <- lazyeval::lazy(expression)
+    expression <- lazyeval::lazy(expression) # D
   }
 
   rule <- structure(list(columns = columns, expression = expression,

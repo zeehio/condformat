@@ -89,14 +89,14 @@ rule_fill_discrete_old <- function(...,
                                    h = c(0, 360) + 15, c = 100, l = 65,
                                    h.start = 0, direction = 1,
                                    lockcells=FALSE) {
-  columns <- lazyeval::lazy_dots(...)
+  columns <- lazyeval::lazy_dots(...) # D
   if (missing(expression)) {
     if (length(columns) > 1) {
       warning("rule_fill_discrete applied to multiple variables, using the first given variable as expression")
     }
     expression <- columns[[1]]
   } else {
-    expression <- lazyeval::lazy(expression)
+    expression <- lazyeval::lazy(expression) # D
   }
 
   rule <- structure(list(columns = columns,
@@ -241,10 +241,10 @@ applyrule.rule_fill_discrete <- function(rule, finalformat, xfiltered, xview, ..
 applyrule.rule_fill_discrete_ <- function(rule, finalformat, xfiltered, xview, ...) {
   # Deprecated: Remove in future version
   columns <- dplyr::select_vars_(colnames(xview), rule$columns) # D
-  if (!lazyeval::is_formula(rule$expression)) {
+  if (!lazyeval::is_formula(rule$expression)) { # D
     values_determining_color <- as.factor(rule$expression)
   } else {
-    values_determining_color <- as.factor(lazyeval::f_eval(f = rule$expression, data = xfiltered))
+    values_determining_color <- as.factor(lazyeval::f_eval(f = rule$expression, data = xfiltered)) # D
     values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
   }
   rule_fill_discrete_common(rule, finalformat, xview, columns,

@@ -76,7 +76,7 @@ condformat <- function(x) {
 # Deprecated
 #' @importFrom lazyeval uq
 #' @export
-lazyeval::uq
+lazyeval::uq # D
 
 #' @importFrom magrittr %>%
 #' @export

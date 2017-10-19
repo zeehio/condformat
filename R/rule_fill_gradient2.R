@@ -114,14 +114,14 @@ rule_fill_gradient2_old <- function(...,
                                 limits = NA,
                                 lockcells = FALSE) {
   # Deprecated
-  columns <- lazyeval::lazy_dots(...)
+  columns <- lazyeval::lazy_dots(...) # D
   if (missing(expression)) {
     if (length(columns) > 1) {
       warning("rule_fill_gradient2 applied to multiple variables, using the first given variable as expression")
     }
     expression <- columns[[1]]
   } else {
-    expression <- lazyeval::lazy(expression)
+    expression <- lazyeval::lazy(expression) # D
   }
 
   rule <- structure(list(columns = columns, expression = expression,
@@ -187,7 +187,7 @@ applyrule.rule_fill_gradient2 <- function(rule, finalformat, xfiltered, xview, .
   if (inherits(rule$expression, "lazy")) {
     # Deprecated
     columns <- dplyr::select_vars_(colnames(xview), rule$columns) # D
-    values_determining_color <- lazyeval::lazy_eval(rule$expression, xfiltered)
+    values_determining_color <- lazyeval::lazy_eval(rule$expression, xfiltered) # D
     values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
     rule_fill_gradient2_common(rule, finalformat, xview, columns, values_determining_color)
   } else {
@@ -213,7 +213,7 @@ applyrule.rule_fill_gradient2 <- function(rule, finalformat, xfiltered, xview, .
 applyrule.rule_fill_gradient2_ <- function(rule, finalformat, xfiltered, xview, ...) {
   # Deprecated
   columns <- dplyr::select_vars_(colnames(xview), rule$columns) # D
-  values_determining_color <- lazyeval::f_eval(f = rule$expression, data = xfiltered)
+  values_determining_color <- lazyeval::f_eval(f = rule$expression, data = xfiltered) # D
   values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
   rule_fill_gradient2_common(rule, finalformat, xview, columns, values_determining_color)
 }
