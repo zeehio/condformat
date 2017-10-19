@@ -11,6 +11,8 @@ theme_htmlTable_new(x, ...)
 }
 \arguments{
 \item{...}{Arguments to be passed to htmlTable}
+
+\item{x}{The condformat object}
 }
 \description{
 Customizes appearance of condformat object

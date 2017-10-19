@@ -2,17 +2,22 @@
 % Please edit documentation in R/show_columns.R
 \name{show_columns}
 \alias{show_columns}
+\alias{show_columns_new}
 \title{Selects the variables to be printed}
 \usage{
 show_columns(...)
+
+show_columns_new(x, columns, col_names)
 }
 \arguments{
 \item{...}{Dots are used to transition from the old syntax \code{\link{show_columns_old}} to the new one}
 
 \item{x}{A condformat object, typically created with `condformat(x)`}
 
-\item{columns}{A character vector with column names to be coloured. An expression
-can be used that will be parsed like in `tidyselect::vars_select`}
+\item{columns}{A character vector with column names to be coloured. It can also be an expression
+can be used that will be parsed like in `tidyselect::vars_select`. See examples.}
+
+\item{col_names}{Character vector with the column names for the selected columns}
 }
 \value{
 The condformat object with the rule added
@@ -30,6 +35,7 @@ x <- head(iris)
 
 # Include some columns:
 condformat(x) \%>\% show_columns(c(Sepal.Length, Sepal.Width, Species))
+condformat(x) \%>\% show_columns(c("Sepal.Length", "Sepal.Width", "Species"))
 
 # Rename columns:
 condformat(x) \%>\%
@@ -40,6 +46,9 @@ condformat(x) \%>\%
 condformat(x) \%>\% show_columns(c(-Petal.Length, -Petal.Width))
 
 condformat(x) \%>\% show_columns(c(starts_with("Petal"), Species))
+
+petal_width <- "Petal.Width"
+condformat(x) \%>\% show_columns(!! petal_width)
 
 }
 \seealso{

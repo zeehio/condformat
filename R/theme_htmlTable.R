@@ -1,5 +1,6 @@
 #' Customizes appearance of condformat object
 #'
+#' @param x The condformat object
 #' @param ... Arguments to be passed to htmlTable
 #' @seealso \code{\link[htmlTable]{htmlTable}}
 #' @examples
@@ -13,7 +14,7 @@ theme_htmlTable <- function(...) {
       return (theme_htmlTable_new(...))
     }
   }
-  warning("The condformat syntax using '+' is deprecated. See ?condformat for more information")
+  warning("The condformat syntax using '+' is deprecated. See ?theme_htmlTable for more information")
   # Deprecated
   theme <- structure(list(htmlargs = htmlargs),
                      class = c("theme_htmlTable", "condformat_theme"))

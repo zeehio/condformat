@@ -5,8 +5,9 @@
 #' columns from the data frame, so formatting rules can still depend
 #' on them.
 #' @param x A condformat object, typically created with `condformat(x)`
-#' @param columns A character vector with column names to be coloured. An expression
-#'                can be used that will be parsed like in `tidyselect::vars_select`
+#' @param columns A character vector with column names to be coloured. It can also be an expression
+#'                can be used that will be parsed like in `tidyselect::vars_select`. See examples.
+#' @param col_names Character vector with the column names for the selected columns
 #' @param ... Dots are used to transition from the old syntax \code{\link{show_columns_old}} to the new one
 #'
 #' @return The condformat object with the rule added
@@ -17,6 +18,7 @@
 #'
 #' # Include some columns:
 #' condformat(x) %>% show_columns(c(Sepal.Length, Sepal.Width, Species))
+#' condformat(x) %>% show_columns(c("Sepal.Length", "Sepal.Width", "Species"))
 #'
 #' # Rename columns:
 #' condformat(x) %>%
@@ -27,6 +29,9 @@
 #' condformat(x) %>% show_columns(c(-Petal.Length, -Petal.Width))
 #'
 #' condformat(x) %>% show_columns(c(starts_with("Petal"), Species))
+#'
+#' petal_width <- "Petal.Width"
+#' condformat(x) %>% show_columns(!! petal_width)
 #'
 #' @export
 #' @seealso \code{\link[dplyr]{select}}
@@ -50,6 +55,7 @@ show_columns <- function(...) {
   }
 }
 
+#' @rdname show_columns
 show_columns_new <- function(x, columns, col_names) {
   columnsquo <- rlang::enquo(columns)
   helpers <- tidyselect::vars_select_helpers
@@ -99,7 +105,6 @@ show_columns_new <- function(x, columns, col_names) {
 #' # Select columns using dplyr syntax:
 #' condformat(x) + show_columns(starts_with("Petal"), Species)
 #'
-#' @export
 #' @seealso \code{\link[dplyr]{select}}
 show_columns_old <- function(..., col_names) {
   if (missing(col_names)) {
@@ -110,7 +115,7 @@ show_columns_old <- function(..., col_names) {
 
 #' Show columns (SE)
 #'
-#' @inheritParams show_columns
+#' @inheritParams show_columns_old
 #' @param .dots A character vector with columns to show
 #' @export
 #' @examples

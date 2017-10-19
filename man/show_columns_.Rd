@@ -7,9 +7,11 @@
 show_columns_(..., .dots, col_names)
 }
 \arguments{
-\item{...}{Dots are used to transition from the old syntax \code{\link{show_columns_old}} to the new one}
+\item{...}{Comma separated list of unquoted expressions}
 
 \item{.dots}{A character vector with columns to show}
+
+\item{col_names}{Character vector with the column names for the selected columns}
 }
 \description{
 Show columns (SE)
