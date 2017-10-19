@@ -4,15 +4,18 @@
 \alias{show_columns}
 \title{Selects the variables to be printed}
 \usage{
-show_columns(..., col_names)
+show_columns(...)
 }
 \arguments{
-\item{...}{Comma separated list of unquoted expressions}
+\item{...}{Dots are used to transition from the old syntax \code{\link{show_columns_old}} to the new one}
 
-\item{col_names}{Character vector with the column names for the selected columns}
+\item{x}{A condformat object, typically created with `condformat(x)`}
+
+\item{columns}{A character vector with column names to be coloured. An expression
+can be used that will be parsed like in `tidyselect::vars_select`}
 }
 \value{
-A condformat_show_columns object, usually to be added to a condformat_tbl object
+The condformat object with the rule added
 }
 \description{
 Keeps the variables you mention in the printed table.
@@ -22,21 +25,21 @@ on them.
 }
 \examples{
 
-library(dplyr) # for starts_with()
 data(iris)
 x <- head(iris)
 
 # Include some columns:
-condformat(x) + show_columns(Sepal.Length, Sepal.Width, Species)
+condformat(x) \%>\% show_columns(c(Sepal.Length, Sepal.Width, Species))
 
 # Rename columns:
-condformat(x) + show_columns(Sepal.Length, Species, col_names = c("Length", "Spec."))
+condformat(x) \%>\%
+  show_columns(c(Sepal.Length, Species),
+               col_names = c("Length", "Spec."))
 
 # Exclude some columns:
-condformat(x) + show_columns(-Petal.Length, -Petal.Width)
+condformat(x) \%>\% show_columns(c(-Petal.Length, -Petal.Width))
 
-# Select columns using dplyr syntax:
-condformat(x) + show_columns(starts_with("Petal"), Species)
+condformat(x) \%>\% show_columns(c(starts_with("Petal"), Species))
 
 }
 \seealso{
