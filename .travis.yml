@@ -8,10 +8,11 @@ r_github_packages:
 after_success:
   - Rscript -e 'covr::codecov()'
 
-include:
-- r: release
-- r: oldrel
-- r: devel
+r:
+- release
+- oldrel
+- devel
+
 
 addons:
   apt:
