@@ -8,6 +8,7 @@
 #
 
 library(shiny)
+library(condformat)
 data(iris)
 
 # Use
