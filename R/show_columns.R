@@ -79,6 +79,8 @@ show_columns_new <- function(x, columns, col_names) {
 
 #' Selects the variables to be printed
 #'
+#' This syntax is deprecated and  \code{\link{show_columns}} should be used instead
+#'
 #' Keeps the variables you mention in the printed table.
 #' Compared to \code{\link[dplyr]{select}}, show_columns does not remove the
 #' columns from the data frame, so formatting rules can still depend

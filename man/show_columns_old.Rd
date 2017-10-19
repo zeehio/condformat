@@ -15,6 +15,9 @@ show_columns_old(..., col_names)
 A condformat_show_columns object, usually to be added to a condformat_tbl object
 }
 \description{
+This syntax is deprecated and  \code{\link{show_columns}} should be used instead
+}
+\details{
 Keeps the variables you mention in the printed table.
 Compared to \code{\link[dplyr]{select}}, show_columns does not remove the
 columns from the data frame, so formatting rules can still depend
