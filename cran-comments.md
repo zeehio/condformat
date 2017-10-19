@@ -1,6 +1,6 @@
 ## Test environments
-* local Ubuntu 16.04 install, R 3.4.0, with latest htmlTable version in CRAN
-* ubuntu 12.04.5 (on travis-ci) R-devel, R-3.4.0 and R-3.3.3
+* local Ubuntu 16.04 install, R 3.4.2
+* ubuntu 14.04 (on travis-ci) R-devel, R-3.4.2 and R-3.3.3
 * win-builder (devel and release)
 
 ## R CMD check results
