@@ -27,7 +27,7 @@ Imports:
     lazyeval (>= 0.2.0),
     knitr,
     rmarkdown (>= 0.9.6),
-    gplots,
+    grDevices,
     magrittr,
     rlang (>= 0.1.2),
     tidyselect

@@ -291,6 +291,17 @@ merge_css_conditions <- function(initial_value, css_fields) {
   return(output)
 }
 
+# Convert colors  to hex strings:
+# c("green", "yellow", "#00FF00") to c("0000FF", "FFFF00", "00FF00")
+# leaving empty strings aside
+convert_color_names <- function(colors) {
+  colors[nchar(colors) > 0] <- apply(
+    grDevices::col2rgb(colors[nchar(colors) > 0]),
+    MARGIN = 2,
+    function(x) toupper(sprintf("%02x%02x%02x", x[1],x[2],x[3])))
+  colors
+}
+
 merge_css_conditions_to_latex <- function(css_fields, raw_text) {
   css_keys <- names(css_fields)
   output <- ""
@@ -298,12 +309,8 @@ merge_css_conditions_to_latex <- function(css_fields, raw_text) {
   after <- ""
   for (key in css_keys) {
     if (key == 'background-color') {
-      # Get the colors
-      colors <- css_fields[[key]]
-      # Convert to hex:
-      colors[nchar(colors) > 0] <- gplots::col2hex(colors[nchar(colors) > 0])
-      # remove initial hash "#......"
-      colors <- substr(colors, 2, nchar(colors))
+      # Convert colors to hex:
+      colors <- convert_color_names(css_fields[[key]])
       # if color, wrap latex code:
       colors[nchar(colors) > 0] <- paste0("\\cellcolor[HTML]{", colors[nchar(colors) > 0], "}")
       before <- colors
