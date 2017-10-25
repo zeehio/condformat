@@ -283,18 +283,32 @@ convert_color_names <- function(colors) {
   colors
 }
 
+paste0mat <- function(x,y) {
+  stopifnot(all(dim(x) == dim(y)))
+  dims <- dim(x)
+  out <- paste0(x, y)
+  dim(out) <- dims
+  return(out)
+}
+
 merge_css_conditions_to_latex <- function(css_fields, raw_text) {
   css_keys <- names(css_fields)
   output <- ""
-  before <- ""
-  after <- ""
+  before <- matrix("", nrow = nrow(raw_text), ncol = ncol(raw_text))
+  after <- matrix("", nrow = nrow(raw_text), ncol = ncol(raw_text))
   for (key in css_keys) {
+    stopifnot(all(dim(css_fields[[key]]) == dim(raw_text)))
     if (key == 'background-color') {
       # Convert colors to hex:
       colors <- convert_color_names(css_fields[[key]])
       # if color, wrap latex code:
       colors[nchar(colors) > 0] <- paste0("\\cellcolor[HTML]{", colors[nchar(colors) > 0], "}")
-      before <- colors
+      before <- paste0mat(before, colors)
+    } else if (key == "font-weight") {
+      before1 <- paste0(ifelse(css_fields[[key]] == "bold", "\\textbf{", ""))
+      after1 <- paste0(ifelse(css_fields[[key]] == "bold", "}", ""))
+      before <- paste0mat(before, before1)
+      after <- paste0mat(after1, after)
     }
     #thisfield <- paste(key, css_fields[[key]], sep = ": ")
     #output <- paste(output, thisfield, sep = "; ") # I don't care about a leading "; "
