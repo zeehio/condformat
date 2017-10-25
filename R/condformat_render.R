@@ -208,17 +208,6 @@ condformat2latex <- function(x, ...) {
                       escape = FALSE, ...))
 }
 
-
-guess_output_format <- function() {
-  if (knitr::is_html_output()) {
-    return("html")
-  } else if (knitr::is_latex_output()) {
-    return("latex")
-  } else {
-    return("unsupported")
-  }
-}
-
 #' Print method for knitr, exporting to HTML or LaTeX as needed
 #' @param x Object to print
 #' @param ... Provided for knitr_print compatibility
@@ -226,8 +215,7 @@ guess_output_format <- function() {
 #' @importFrom knitr knit_print
 #' @export
 knit_print.condformat_tbl <- function(x, ...) {
-  outfmt <- guess_output_format()
-  if (outfmt == "latex") {
+  if (knitr::is_latex_output()) {
     latex_dependencies <- list(rmarkdown::latex_dependency(name = "xcolor",
                                                            options = "table"))
     use_longtable <- knitr::opts_current$get("longtable")
@@ -238,11 +226,11 @@ knit_print.condformat_tbl <- function(x, ...) {
     }
     return(knitr::asis_output(condformat2latex(x, longtable = use_longtable),
                               meta = latex_dependencies))
-  } else if (outfmt == "html") {
+  } else if (knitr::is_html_output()) {
 
     return(knitr::asis_output(condformat2html(x)))
   } else {
-    warning("knitr format '", outfmt, "' not supported by condformat")
+    warning("Output format not supported by condformat. Printing regular table")
     return(knitr::knit_print(knitr::kable(x), ...))
   }
 }

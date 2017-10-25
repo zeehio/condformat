@@ -10,8 +10,12 @@ test_that("print.condformat_tbl returns its input", {
 
 test_that("knitr returns an HTML table", {
   data(iris)
-  knitr::opts_knit$set(out.format = "html")
-  out <- knitr::knit_print(condformat(head(iris)))
+  tryCatch({
+    knitr::opts_knit$set(rmarkdown.pandoc.to = "html")
+    out <- knitr::knit_print(condformat(head(iris)))
+  }, finally = {
+    knitr::opts_knit$set(rmarkdown.pandoc.to = NULL)
+  })
   expect_match(out, "^<table.*</table>$")
 })
 
