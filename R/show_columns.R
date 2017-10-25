@@ -41,7 +41,7 @@ show_columns <- function(...) {
   tryCatch({
     possible_condformat <- quoted_args[[1]]
     x <- rlang::eval_tidy(possible_condformat)
-    stopifnot(inherits(x, "condformat_tbl"))
+    stopifnot(inherits(x, "condformat_tbl") || inherits(x, "data.frame"))
     condformat_api <- "0.7"
   }, error = function(err) {
     condformat_api <- "0.6"
@@ -57,6 +57,10 @@ show_columns <- function(...) {
 
 #' @rdname show_columns
 show_columns_new <- function(x, columns, col_names) {
+  if (!inherits(x, "condformat_tbl")) {
+    x <- condformat(x)
+  }
+
   columnsquo <- rlang::enquo(columns)
   helpers <- tidyselect::vars_select_helpers
   columnsquo_bur <- rlang::env_bury(columnsquo, !!! helpers)

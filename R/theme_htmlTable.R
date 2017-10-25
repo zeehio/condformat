@@ -30,6 +30,10 @@ add_theme_to_condformat <- function(x, theme) {
 
 #' @rdname theme_htmlTable
 theme_htmlTable_new <- function(x, ...) {
+  if (!inherits(x, "condformat_tbl")) {
+    x <- condformat(x)
+  }
+
   htmlargs <- list(...)
   theme <- structure(list(htmlargs = htmlargs),
                      class = c("theme_htmlTable", "condformat_theme"))

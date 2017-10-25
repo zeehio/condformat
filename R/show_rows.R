@@ -29,7 +29,7 @@ show_rows <- function(...) {
   tryCatch({
     possible_condformat <- quoted_args[[1]]
     x <- rlang::eval_tidy(possible_condformat)
-    stopifnot(inherits(x, "condformat_tbl"))
+    stopifnot(inherits(x, "condformat_tbl") || inherits(x, "data.frame"))
     condformat_api <- "0.7"
   }, error = function(err) {
     condformat_api <- "0.6"
@@ -49,6 +49,9 @@ show_rows_new <- function(x, ...) {
   showobj <- structure(list(row_expr = expr),
                        class = c("condformat_show_rows", "condformat_show_rows_filter"))
   x2 <- x
+  if (!inherits(x2, "condformat_tbl")) {
+    x2 <- condformat(x2)
+  }
   condformatopts <- attr(x2, "condformat")
   condformatopts$show$rows <- c(condformatopts$show$rows, list(showobj))
   attr(x2, "condformat") <- condformatopts

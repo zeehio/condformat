@@ -38,7 +38,7 @@ rule_fill_gradient <- function(...) {
   tryCatch({
     possible_condformat <- quoted_args[[1]]
     x <- rlang::eval_tidy(possible_condformat)
-    stopifnot(inherits(x, "condformat_tbl"))
+    stopifnot(inherits(x, "condformat_tbl") || inherits(x, "data.frame"))
     condformat_api <- "0.7"
   }, error = function(err) {
     condformat_api <- "0.6"
@@ -112,6 +112,9 @@ rule_fill_gradient_new <- function(x, columns, expression,
                                    na.value = "#7F7F7F",
                                    limits = NA,
                                    lockcells = FALSE) {
+  if (!inherits(x, "condformat_tbl")) {
+    x <- condformat(x)
+  }
   columnsquo <- rlang::enquo(columns)
   helpers <- tidyselect::vars_select_helpers
   columnsquo_bur <- rlang::env_bury(columnsquo, !!! helpers)
