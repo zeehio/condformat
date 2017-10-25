@@ -281,12 +281,23 @@ merge_css_conditions <- function(initial_value, css_fields) {
 # Convert colors  to hex strings:
 # c("green", "yellow", "#00FF00") to c("0000FF", "FFFF00", "00FF00")
 # leaving empty strings aside
-convert_color_names <- function(colors) {
+convert_color_names_to_hex <- function(colors) {
   colors[nchar(colors) > 0] <- apply(
     grDevices::col2rgb(colors[nchar(colors) > 0]),
     MARGIN = 2,
     function(x) toupper(sprintf("%02x%02x%02x", x[1],x[2],x[3])))
   colors
+}
+
+latex_prepare_textcolor <- function(colors) {
+  before <- colors
+  before[nchar(colors) > 0] <- apply(
+    grDevices::col2rgb(before[nchar(colors) > 0]),
+    MARGIN = 2,
+    function(x) sprintf("\\textcolor[RGB]{%d,%d,%d}{", x[1],x[2],x[3]))
+  after <- colors
+  after[nchar(colors) > 0 ] <- "}"
+  list(before = before, after = after)
 }
 
 paste0mat <- function(x,y) {
@@ -305,8 +316,7 @@ merge_css_conditions_to_latex <- function(css_fields, raw_text) {
   for (key in css_keys) {
     stopifnot(all(dim(css_fields[[key]]) == dim(raw_text)))
     if (key == 'background-color') {
-      # Convert colors to hex:
-      colors <- convert_color_names(css_fields[[key]])
+      colors <- convert_color_names_to_hex(css_fields[[key]])
       # if color, wrap latex code:
       colors[nchar(colors) > 0] <- paste0("\\cellcolor[HTML]{", colors[nchar(colors) > 0], "}")
       before <- paste0mat(before, colors)
@@ -315,6 +325,11 @@ merge_css_conditions_to_latex <- function(css_fields, raw_text) {
       after1 <- paste0(ifelse(css_fields[[key]] == "bold", "}", ""))
       before <- paste0mat(before, before1)
       after <- paste0mat(after1, after)
+    } else if (key == "color") {
+      # \textcolor[RGB]{0,255,0}{This text will appear green-colored}
+      bef_after <- latex_prepare_textcolor(css_fields[[key]])
+      before <- paste0mat(before, bef_after$before)
+      after <- paste0mat(bef_after$after, after)
     }
     #thisfield <- paste(key, css_fields[[key]], sep = ": ")
     #output <- paste(output, thisfield, sep = "; ") # I don't care about a leading "; "
