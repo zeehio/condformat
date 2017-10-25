@@ -4,7 +4,7 @@
 \alias{rule_text_bold}
 \title{Use bold text if a condition is met}
 \usage{
-rule_text_bold(x, columns, expression, na.value = FALSE, lockcells = FALSE)
+rule_text_bold(x, columns, expression, na.bold = FALSE, lockcells = FALSE)
 }
 \arguments{
 \item{x}{A condformat object, typically created with `condformat(x)`}
@@ -14,11 +14,9 @@ rule_text_bold(x, columns, expression, na.value = FALSE, lockcells = FALSE)
 
 \item{expression}{Condition that evaluates to `TRUE` for the rows where bold text should be applied.}
 
-\item{na.value}{a character string with the CSS color to be used in missing values}
+\item{na.bold}{If `TRUE`, make missing values bold.}
 
 \item{lockcells}{logical value determining if no further rules should be applied to the affected cells.}
-
-\item{na.bold}{If `TRUE`, make missing values bold.}
 }
 \description{
 Use bold text if a condition is met

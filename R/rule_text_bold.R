@@ -10,7 +10,7 @@
 #'   rule_text_bold(Species, expression = Species == "setosa")
 #' @export
 rule_text_bold <- function(x, columns, expression,
-                           na.value = FALSE,
+                           na.bold = FALSE,
                            lockcells = FALSE) {
   columnsquo <- rlang::enquo(columns)
   helpers <- tidyselect::vars_select_helpers
@@ -20,7 +20,7 @@ rule_text_bold <- function(x, columns, expression,
 
   rule <- structure(list(columns = columnsquo_bur,
                          expression = expr,
-                         na.value = force(na.value),
+                         na.value = force(na.bold),
                          lockcells = force(lockcells)),
                     class = c("condformat_rule", "rule_text_bold"))
 
@@ -49,6 +49,8 @@ applyrule.rule_text_bold <- function(rule, finalformat, xfiltered, xview, ...) {
                               ncol = ncol(xview), byrow = FALSE)
   bold_or_not_mat <- matrix("normal", nrow = nrow(xview), ncol = ncol(xview))
   bold_or_not_mat[bold_or_not_mat_l] <- "bold"
+  bold_or_not_mat[is.na(bold_or_not_mat_l)] <- rule$na.value
+
   finalformat <- fill_css_field_by_cols(finalformat,
                                         "font-weight", bold_or_not_mat,
                                         columns, xview, rule$lockcells)
