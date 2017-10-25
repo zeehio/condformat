@@ -168,7 +168,7 @@ condformat2excelsheet <- function(x, sheet) {
                                              format = "excel")
 
   xlsx::addDataFrame(x = as.data.frame(xview),
-                     sheet = sheet, row.names = F, col.names = T)
+                     sheet = sheet, row.names = FALSE, col.names = TRUE)
   if ("background-color" %in% names(finalformat$css_fields)) {
     for (i in seq_len(nrow(xview))) {
       for (j in seq_len(ncol(xview))) {
