@@ -20,194 +20,6 @@ print.condformat_tbl <- function(x, ..., paginate = TRUE) {
 }
 
 
-condformat2htmlcommon <- function(x) {
-  finalshow <- render_show_condformat_tbl(x)
-  xfiltered <- finalshow$xfiltered
-  xview <- xfiltered[, finalshow$cols, drop = FALSE]
-  rules <- attr(x, "condformat")$rules
-  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview,
-                                             format = "html")
-  # Rename the columns according to show options:
-  colnames(xview) <- names(finalshow$cols)
-  themes <- attr(x, "condformat")$themes
-  finaltheme <- render_theme_condformat_tbl(themes, xview)
-  if ("css.cell" %in% names(finaltheme)) {
-    css_cell_dims <- dim(finalformat$css_cell)
-    css_cell <- paste0(finaltheme$css.cell, finalformat$css_cell)
-    dim(css_cell) <- css_cell_dims
-    finaltheme$css.cell <- NULL
-  } else {
-    css_cell <- finalformat$css_cell
-  }
-  return(list(xview = format.data.frame(xview),
-              css_cell = css_cell,
-              htmlTableArgs = finaltheme))
-}
-
-#' Converts the table to a htmlTable object
-#'
-#' @param x A condformat_tbl object
-#' @return the htmlTable object
-#' @examples
-#' data(iris)
-#' condformat2html(condformat(iris[1:5,]))
-#' @export
-condformat2html <- function(x) {
-  htmltable_ready <- condformat2htmlcommon(x)
-  thetable <- do.call(htmlTable::htmlTable,
-                      c(list(x = htmltable_ready$xview,
-                             css.cell = htmltable_ready$css_cell),
-                        htmltable_ready$htmlTableArgs))
-  return(thetable)
-}
-
-#' Converts the table to a htmlTableWidget
-#'
-#' @param x A condformat_tbl object
-#' @param ... Arguments passed to htmlTable::htmlTableWidget
-#' @return the htmlTable widget
-#' @examples
-#' \dontrun{
-#' data(iris)
-#' condformat2widget(condformat(iris[1:5,]))
-#' }
-#' @export
-condformat2widget <- function(x, ...) {
-  htmltable_ready <- condformat2htmlcommon(x)
-  thewidget <- do.call(what = htmlTable::htmlTableWidget,
-                       args = c(list(x = htmltable_ready$xview,
-                                     css.cell = htmltable_ready$css_cell),
-                                htmltable_ready$htmlTableArgs,
-                                list(...)))
-  return(thewidget)
-}
-
-
-require_xlsx <- function() {
-  if (!requireNamespace("xlsx", quietly = TRUE)) {
-    stop("Please install the xlsx package in order to export to excel")
-  }
-  # We need this until https://github.com/dragua/xlsx/pull/76 is released
-  # We can drop rJava from suggests once this is fixed
-  if (!requireNamespace("rJava", quietly = TRUE)) {
-    stop("Please install the rJava package in order to export to excel")
-  }
-  rJava::.jpackage("xlsx")
-  # Until here
-}
-
-#' Writes the table to an Excel workbook
-#'
-#' @param x A condformat_tbl object
-#' @param filename The xlsx file name.
-#' @param sheet_name The name of the sheet where the table will be written
-#' @param overwrite_wb logical to overwrite the workbook file
-#' @param overwrite_sheet logical to overwrite the sheet
-#' @export
-#'
-condformat2excel <- function(x, filename, sheet_name = "Sheet1",
-                             overwrite_wb = FALSE,
-                             overwrite_sheet = TRUE) {
-  require_xlsx()
-
-  if (!grepl(pattern = '\\.xlsx$', filename)) { # endsWith(filename, ".xlsx")
-    filename <- paste0(filename, ".xlsx")
-  }
-
-  if (file.exists(filename) && identical(overwrite_wb, FALSE)) {
-    wb <- xlsx::loadWorkbook(filename)
-  } else {
-    wb <- xlsx::createWorkbook(type = "xlsx")
-  }
-
-  # getSheets cat's a message I don't want nor care about.
-  noSheets <- wb$getNumberOfSheets()
-  if (noSheets > 0) {
-    sheet_list <- xlsx::getSheets(wb)
-  } else {
-    sheet_list <- list()
-  }
-  if (sheet_name %in% names(sheet_list)) {
-    if (overwrite_sheet) {
-      xlsx::removeSheet(wb = wb, sheetName = sheet_name)
-      sheet <- xlsx::createSheet(wb, sheetName = sheet_name)
-    } else {
-      sheet <- sheet_list[[sheet_name]]
-    }
-  } else {
-    sheet <- xlsx::createSheet(wb, sheetName = sheet_name)
-  }
-  condformat2excelsheet(x, sheet)
-  xlsx::saveWorkbook(wb, file = filename)
-  return(invisible(x))
-}
-
-# Writes the table to an Excel sheet
-#
-# @param x A condformat_tbl object
-# @param sheet The sheet object
-# @examples
-# \dontrun{
-# x <- condformat(iris[1:5,])
-# library(xlsx)
-# wb <- xlsx::createWorkbook(type = "xlsx")
-# sheet <- xlsx::createSheet(wb, sheetName = "Sheet1")
-# condformat2excelsheet(x, sheet)
-# xlsx::saveWorkbook(wb, file = "iris.xlsx")
-# }
-condformat2excelsheet <- function(x, sheet) {
-  require_xlsx()
-  if (!"jobjRef" %in% class(sheet)) {
-    stop("sheet must be an jobjRef object, as the one returned with xls::createSheet()")
-  }
-  finalshow <- render_show_condformat_tbl(x)
-  xfiltered <- finalshow$xfiltered
-  xview <- xfiltered[, finalshow$cols, drop = FALSE]
-  rules <- attr(x, "condformat")$rules
-  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview,
-                                             format = "excel")
-
-  xlsx::addDataFrame(x = as.data.frame(xview),
-                     sheet = sheet, row.names = FALSE, col.names = TRUE)
-  if ("background-color" %in% names(finalformat$css_fields)) {
-    for (i in seq_len(nrow(xview))) {
-      for (j in seq_len(ncol(xview))) {
-        background_color <- ifelse(finalformat$css_fields$`background-color`[i,j] == "", NA, finalformat$css_fields$`background-color`[i,j])
-        if (!is.na(background_color)) {
-          cb <- xlsx::CellBlock.default(sheet, startRow = i + 1, startColumn = j,
-                                        noRows = 1, noColumns = 1, create = FALSE)
-          fill <- xlsx::Fill(backgroundColor = background_color, foregroundColor = background_color)
-          xlsx::CB.setFill(cellBlock = cb,
-                           fill = fill,
-                           rowIndex = 1, colIndex = 1)
-        }
-      }
-    }
-  }
-  invisible(x)
-}
-
-#' Converts the table to LaTeX code
-#' @param x A condformat_tbl object
-#' @param ... arguments passed to knitr::kable
-#' @return A character vector of the table source code
-#' @export
-condformat2latex <- function(x, ...) {
-  finalshow <- render_show_condformat_tbl(x)
-  xfiltered <- finalshow$xfiltered
-  xview <- xfiltered[, finalshow$cols, drop = FALSE]
-  rules <- attr(x, "condformat")$rules
-  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview,
-                                             format = "latex")
-  # Rename the columns according to show options:
-  colnames(finalformat) <- names(finalshow$cols)
-  # Theme is ignored in LaTeX
-  # themes <- attr(x, "condformat")$themes
-  # finaltheme <- render_theme_condformat_tbl(themes, xview)
-  return(knitr::kable(finalformat, format = "latex",
-                      escape = FALSE, ...))
-}
-
 #' Print method for knitr, exporting to HTML or LaTeX as needed
 #' @param x Object to print
 #' @param ... Provided for knitr_print compatibility
@@ -278,90 +90,14 @@ merge_css_conditions <- function(initial_value, css_fields) {
   return(output)
 }
 
-# Convert colors  to hex strings:
-# c("green", "yellow", "#00FF00") to c("0000FF", "FFFF00", "00FF00")
-# leaving empty strings aside
-convert_color_names_to_hex <- function(colors) {
-  colors[nchar(colors) > 0] <- apply(
-    grDevices::col2rgb(colors[nchar(colors) > 0]),
-    MARGIN = 2,
-    function(x) toupper(sprintf("%02x%02x%02x", x[1],x[2],x[3])))
-  colors
-}
-
-latex_prepare_textcolor <- function(colors) {
-  before <- colors
-  before[nchar(colors) > 0] <- apply(
-    grDevices::col2rgb(before[nchar(colors) > 0]),
-    MARGIN = 2,
-    function(x) sprintf("\\textcolor[RGB]{%d,%d,%d}{", x[1],x[2],x[3]))
-  after <- colors
-  after[nchar(colors) > 0 ] <- "}"
-  list(before = before, after = after)
-}
-
-paste0mat <- function(x,y) {
-  stopifnot(all(dim(x) == dim(y)))
-  dims <- dim(x)
-  out <- paste0(x, y)
-  dim(out) <- dims
-  return(out)
-}
-
-merge_css_conditions_to_latex <- function(css_fields, raw_text) {
-  css_keys <- names(css_fields)
-  output <- ""
-  before <- matrix("", nrow = nrow(raw_text), ncol = ncol(raw_text))
-  after <- matrix("", nrow = nrow(raw_text), ncol = ncol(raw_text))
-  for (key in css_keys) {
-    stopifnot(all(dim(css_fields[[key]]) == dim(raw_text)))
-    if (key == 'background-color') {
-      colors <- convert_color_names_to_hex(css_fields[[key]])
-      # if color, wrap latex code:
-      colors[nchar(colors) > 0] <- paste0("\\cellcolor[HTML]{", colors[nchar(colors) > 0], "}")
-      before <- paste0mat(before, colors)
-    } else if (key == "font-weight") {
-      before1 <- paste0(ifelse(css_fields[[key]] == "bold", "\\textbf{", ""))
-      after1 <- paste0(ifelse(css_fields[[key]] == "bold", "}", ""))
-      before <- paste0mat(before, before1)
-      after <- paste0mat(after1, after)
-    } else if (key == "color") {
-      # \textcolor[RGB]{0,255,0}{This text will appear green-colored}
-      bef_after <- latex_prepare_textcolor(css_fields[[key]])
-      before <- paste0mat(before, bef_after$before)
-      after <- paste0mat(bef_after$after, after)
-    }
-    #thisfield <- paste(key, css_fields[[key]], sep = ": ")
-    #output <- paste(output, thisfield, sep = "; ") # I don't care about a leading "; "
-  }
-  output <- paste0(before, raw_text, after)
-  output <- matrix(output, nrow = nrow(raw_text), ncol = ncol(raw_text))
-  return(output)
-}
-
-
-# escape special LaTeX characters:
-# from https://github.com/yihui/knitr (R/utils.R)
-escape_latex = function(x, newlines = FALSE, spaces = FALSE) {
-  x = gsub('\\\\', '\\\\textbackslash', x)
-  x = gsub('([#$%&_{}])', '\\\\\\1', x)
-  x = gsub('\\\\textbackslash', '\\\\textbackslash{}', x)
-  x = gsub('~', '\\\\textasciitilde{}', x)
-  x = gsub('\\^', '\\\\textasciicircum{}', x)
-  if (newlines) x = gsub('(?<!\n)\n(?!\n)', '\\\\\\\\', x, perl = TRUE)
-  if (spaces) x = gsub('  ', '\\\\ \\\\ ', x)
-  x
-}
-
-
-#' Renders the css matrix to format the xview table
-#'
-#' @param rules List of rules to be applied
-#' @param xview Data frame with the rows and columns that will be printed
-#' @param xfiltered Like xview, but with all the columns (rules
-#'                  will use columns that won't be printed)
-#' @param format Output format (either "html" or "latex")
-#' @return List with the CSS information
+# Renders the css matrix to format the xview table
+#
+# @param rules List of rules to be applied
+# @param xview Data frame with the rows and columns that will be printed
+# @param xfiltered Like xview, but with all the columns (rules
+#                  will use columns that won't be printed)
+# @param format Output format (either "html" or "latex")
+# @return List with the CSS information
 render_rules_condformat_tbl <- function(rules, xfiltered, xview, format) {
 
   finalformat <- list(css_fields = list(),
@@ -384,6 +120,7 @@ render_rules_condformat_tbl <- function(rules, xfiltered, xview, format) {
     formatted_text <- merge_css_conditions_to_latex(css_fields = finalformat$css_fields, raw_text = raw_text)
     return(formatted_text)
   } else if (format == "excel") {
+    # Rules are rendered later on
     return(finalformat)
   } else {
     stop("Unsupported format:", format)
@@ -409,4 +146,3 @@ render_theme <- function(themeobj, finaltheme, xview, ...) UseMethod("render_the
 render_theme.default <- function(themeobj, finaltheme, xview, ...) {
   finaltheme
 }
-

@@ -53,3 +53,15 @@ applyrule.rule_text_color <- function(rule, finalformat, xfiltered, xview, ...) 
                                         columns, xview, rule$lockcells)
   return(finalformat)
 }
+
+condformat_css_tolatex.color <- function(css_values) {
+  # \textcolor[RGB]{0,255,0}{This text will appear green-colored}
+  before <- css_values
+  before[nchar(css_values) > 0] <- apply(
+    grDevices::col2rgb(before[nchar(css_values) > 0]),
+    MARGIN = 2,
+    function(x) sprintf("\\textcolor[RGB]{%d,%d,%d}{", x[1],x[2],x[3]))
+  after <- css_values
+  after[nchar(css_values) > 0 ] <- "}"
+  list(before = before, after = after)
+}

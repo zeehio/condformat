@@ -56,3 +56,10 @@ applyrule.rule_text_bold <- function(rule, finalformat, xfiltered, xview, ...) {
                                         columns, xview, rule$lockcells)
   return(finalformat)
 }
+
+`condformat_css_tolatex.font-weight` <- function(css_values) {
+  # \textbf{setosa}
+  before <- ifelse(css_values == "bold", "\\textbf{", "")
+  after <- ifelse(css_values == "bold", "}", "")
+  list(before=before, after=after)
+}

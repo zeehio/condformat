@@ -280,3 +280,16 @@ rule_fill_discrete_common <- function(rule, finalformat, xview,
   return(finalformat)
 }
 
+# Used by all rule_fill_* functions
+`condformat_css_tolatex.background-color` <- function(css_values) {
+  before <- css_values
+  # Convert colors  to hex strings:
+  # c("green", "yellow", "#00FF00") to c("0000FF", "FFFF00", "00FF00")
+  # leaving empty strings aside
+  before[nchar(before) > 0] <- apply(
+    grDevices::col2rgb(before[nchar(before) > 0]),
+    MARGIN = 2,
+    function(x) toupper(sprintf("\\cellcolor[HTML]{%02x%02x%02x}", x[1],x[2],x[3])))
+  after <- matrix("", nrow = nrow(css_values), ncol = ncol(css_values))
+  list(before=before, after=after)
+}
