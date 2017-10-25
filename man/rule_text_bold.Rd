@@ -7,14 +7,14 @@
 rule_text_bold(x, columns, expression, na.bold = FALSE, lockcells = FALSE)
 }
 \arguments{
-\item{x}{A condformat object, typically created with `condformat(x)`}
+\item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}
 
 \item{columns}{A character vector with column names to be coloured. Optionally
-`tidyselect::select_helpers` can be used.}
+\code{\link[tidyselect:select_helpers]{tidyselect::select_helpers()}} can be used.}
 
-\item{expression}{Condition that evaluates to `TRUE` for the rows where bold text should be applied.}
+\item{expression}{Condition that evaluates to \code{TRUE} for the rows where bold text should be applied.}
 
-\item{na.bold}{If `TRUE`, make missing values bold.}
+\item{na.bold}{If \code{TRUE}, make missing values bold.}
 
 \item{lockcells}{logical value determining if no further rules should be applied to the affected cells.}
 }

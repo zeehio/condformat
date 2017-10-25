@@ -2,7 +2,7 @@
 % Please edit documentation in R/rule_fill_gradient2.R
 \name{rule_fill_gradient2_old}
 \alias{rule_fill_gradient2_old}
-\title{Fill column with divergent colour gradient (deprecated)}
+\title{Fill column with divergent color gradient (deprecated)}
 \usage{
 rule_fill_gradient2_old(..., expression, low = scales::muted("red"),
   mid = "white", high = scales::muted("blue"), midpoint = NA,
@@ -15,7 +15,7 @@ If \code{expression} is also given, then this list can use any of the
 
 \item{expression}{an expression to be evaluated with the data.
 It should evaluate to a numeric vector,
-that will be used to determine the colour gradient level.}
+that will be used to determine the color gradient level.}
 
 \item{low}{colour for low end of gradient.}
 

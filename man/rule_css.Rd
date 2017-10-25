@@ -8,16 +8,16 @@ rule_css(x, columns, expression, css_field, na.value = "",
   lockcells = FALSE)
 }
 \arguments{
-\item{x}{A condformat object, typically created with `condformat(x)`}
+\item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}
 
 \item{columns}{A character vector with column names to be coloured. Optionally
-`tidyselect::select_helpers` can be used.}
+\code{\link[tidyselect:select_helpers]{tidyselect::select_helpers()}} can be used.}
 
 \item{expression}{This expression should evaluate to an array of the values}
 
-\item{css_field}{CSS style property name (e.g. `"color"`)}
+\item{css_field}{CSS style property name (e.g. \code{"color"})}
 
-\item{na.value}{CSS property value to be used in missing values (e.g. `"grey"`)}
+\item{na.value}{CSS property value to be used in missing values (e.g. \code{"grey"})}
 
 \item{lockcells}{logical value determining if no further rules should be applied to the affected cells.}
 }

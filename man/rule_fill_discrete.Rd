@@ -12,12 +12,12 @@ rule_fill_discrete_new(x, columns, expression, colours = NA,
   h.start = 0, direction = 1, lockcells = FALSE)
 }
 \arguments{
-\item{...}{Dots are used to transition from the old syntax \code{\link{rule_fill_discrete_old}} to the new one}
+\item{...}{Dots are used to transition from the old syntax \code{\link[=rule_fill_discrete_old]{rule_fill_discrete_old()}} to the new one}
 
-\item{x}{A condformat object, typically created with `condformat(x)`}
+\item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}
 
 \item{columns}{A character vector with column names to be coloured. Optionally
-`tidyselect::select_helpers` can be used.}
+\code{\link[tidyselect:select_helpers]{tidyselect::select_helpers()}} can be used.}
 
 \item{expression}{an expression to be evaluated with the data.
 It should evaluate to a logical or an integer vector,
@@ -50,7 +50,7 @@ Fills a column or columns of a data frame using a discrete
 colour palette, based on an expression.
 }
 \details{
-The syntax in condformat rules has changed since v0.7. See \code{\link{rule_fill_discrete_old}}
+The syntax in condformat rules has changed since v0.7. See \code{\link[=rule_fill_discrete_old]{rule_fill_discrete_old()}}
 }
 \examples{
 data(iris)

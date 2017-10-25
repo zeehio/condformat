@@ -3,22 +3,22 @@
 #' Fills the background color of a column using a gradient based on
 #' the values given by an expression
 #'
-#' The syntax in condformat rules has changed since v0.7. See \code{\link{rule_fill_gradient_old}}
+#' The syntax in condformat rules has changed since v0.7. See [rule_fill_gradient_old]
 #'
 #' @family rule
 #'
-#' @param x A condformat object, typically created with `condformat(x)`
+#' @param x A condformat object, typically created with [condformat()]
 #' @param columns A character vector with column names to be coloured. Optionally
-#'                `tidyselect::select_helpers` can be used.
+#'                [tidyselect::select_helpers()] can be used.
 #' @param expression an expression to be evaluated with the data.
-#'                   It should evaluate to a logical or an integer vector,
-#'                   that will be used to determine which cells are to be coloured.
+#'                   It should evaluate to a numeric vector,
+#'                   that will be used to determine the colour gradient level.
 #' @inheritParams scales::seq_gradient_pal
 #' @param limits range of limits that the gradient should cover
 #' @param na.value fill color for missing values
 #' @param lockcells logical value determining if no further rules should be applied to the affected cells.
 #'
-#' @param ... Dots are used to transition from the old syntax \code{\link{rule_fill_discrete_old}} to the new one
+#' @param ... Dots are used to transition from the old syntax [rule_fill_discrete_old] to the new one
 #'
 #' @return The condformat_tbl object, with the added formatting information
 #' @examples

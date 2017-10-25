@@ -16,7 +16,7 @@ show_rows_(..., .dots)
 }
 \value{
 A condformat_show_rows object, usually to be added to a condformat_tbl object
-        as shown in the examples
+as shown in the examples
 }
 \description{
 This function is deprecated. Use \code{\link{show_rows}} instead

@@ -11,8 +11,8 @@ condformat_css_tolatex(css_values)
 be converted to Latex}
 }
 \value{
-A list with two character matrices named `before` and `after`. Both
-        of these matrices must be of the same size as `css_values`.
+A list with two character matrices named \code{before} and \code{after}. Both
+of these matrices must be of the same size as \code{css_values}.
 }
 \description{
 How to export css values to latex

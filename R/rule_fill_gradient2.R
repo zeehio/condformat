@@ -1,25 +1,25 @@
-#' Fill column with sequential colour gradient
+#' Fill column with sequential color gradient
 #'
 #' Fills the background color of a column using a gradient based on
 #' the values given by an expression
 #'
-#' The syntax in condformat rules has changed since v0.7. See \code{\link{rule_fill_gradient_old}}
+#' The syntax in condformat rules has changed since v0.7. See [rule_fill_gradient_old()]
 #'
 #' @family rule
 #'
-#' @param x A condformat object, typically created with `condformat(x)`
-#' @param columns A character vector with column names to be coloured. Optionally
-#'                `tidyselect::select_helpers` can be used.
+#' @param x A condformat object, typically created with [condformat()]
+#' @param columns A character vector with column names to be colored. Optionally
+#'                [tidyselect::select_helpers()] can be used.
 #' @param expression an expression to be evaluated with the data.
 #'                   It should evaluate to a logical or an integer vector,
-#'                   that will be used to determine which cells are to be coloured.
+#'                   that will be used to determine which cells are to be colored.
 #' @inheritParams scales::div_gradient_pal
 #' @param midpoint the value used for the middle color (the median by default)
 #' @param limits range of limits that the gradient should cover
 #' @param na.value fill color for missing values
 #' @param lockcells logical value determining if no further rules should be applied to the affected cells.
 #'
-#' @param ... Dots are used to transition from the old syntax \code{\link{rule_fill_discrete_old}} to the new one
+#' @param ... Dots are used to transition from the old syntax [rule_fill_discrete_old()] to the new one
 #'
 #' @return The condformat_tbl object, with the added formatting information
 #' @examples
@@ -81,7 +81,7 @@ rule_fill_gradient2_new <- function(x, columns, expression,
 }
 
 
-#' Fill column with divergent colour gradient (deprecated)
+#' Fill column with divergent color gradient (deprecated)
 #'
 #' Fills the background color of a column using a three colors gradient based on
 #' the values of an expression
@@ -91,7 +91,7 @@ rule_fill_gradient2_new <- function(x, columns, expression,
 #'            \code{\link[dplyr]{select}} syntax possibilities.
 #' @param expression an expression to be evaluated with the data.
 #'                   It should evaluate to a numeric vector,
-#'                   that will be used to determine the colour gradient level.
+#'                   that will be used to determine the color gradient level.
 #' @inheritParams scales::div_gradient_pal
 #' @param midpoint the value used for the middle color (the median by default)
 #' @param limits range of limits that the gradient should cover
@@ -134,7 +134,7 @@ rule_fill_gradient2_old <- function(...,
   return(rule)
 }
 
-#' Fill column with divergent colour gradient (deprecated)
+#' Fill column with divergent color gradient (deprecated)
 #'
 #' Fills the background color of a column using a three colors gradient based on
 #' the values of an expression
@@ -142,7 +142,7 @@ rule_fill_gradient2_old <- function(...,
 #' @param columns a character vector with the column names or a list with
 #'                dplyr select helpers given as formulas or a combination of both
 #' @param expression a formula to be evaluated with the data that will be used
-#'                   to determine which cells are to be coloured. See the examples
+#'                   to determine which cells are to be colored. See the examples
 #'                   to use it programmatically
 #' @inheritParams scales::div_gradient_pal
 #' @inheritParams rule_fill_gradient2
@@ -238,13 +238,13 @@ rule_fill_gradient2_common <- function(rule, finalformat, xview,
   values_rescaled <- scales::rescale_mid(x = values_determining_color,
                                          from = limits, mid = midpoint)
 
-  colours_for_values <- col_scale(values_rescaled)
-  stopifnot(identical(length(colours_for_values), nrow(xview)))
-  colours_for_values <- matrix(colours_for_values,
-                               nrow = nrow(xview), ncol = ncol(xview), byrow = FALSE)
+  colors_for_values <- col_scale(values_rescaled)
+  stopifnot(identical(length(colors_for_values), nrow(xview)))
+  colors_for_values <- matrix(colors_for_values,
+                              nrow = nrow(xview), ncol = ncol(xview), byrow = FALSE)
 
   finalformat <- fill_css_field_by_cols(finalformat, "background-color",
-                                        colours_for_values, columns, xview,
+                                        colors_for_values, columns, xview,
                                         rule$lockcells)
   return(finalformat)
 }

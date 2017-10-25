@@ -16,7 +16,7 @@ show_rows_new(x, ...)
 }
 \value{
 A condformat_show_rows object, usually to be added to a condformat_tbl object
-        as shown in the examples
+as shown in the examples
 }
 \description{
 Keeps the rows you mention in the printed table.
