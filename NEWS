@@ -6,6 +6,11 @@ condformat 0.7.0.9000
 * Feature: rule_text_bold support both in HTML and PDF output
 * Feature: rule_text_color (both HTML and PDF outputs)
 
+* Minor: Generated style CSS rules do not have an initial ";" anymore
+* Minor: Documentation improvements (Now with markdown in roxygen comments!)
+* Minor: More modular code. CSS tags to LaTeX conversion is based on S3 methods
+  so new rules don't need to touch the code for LaTeX export.
+
 condformat 0.7.0
 ----------------------------------------------------------------
 
