@@ -25,7 +25,7 @@ Imports:
     scales,
     dplyr (>= 0.7.4),
     lazyeval (>= 0.2.0),
-    knitr,
+    knitr (>= 1.17.9),
     rmarkdown (>= 0.9.6),
     grDevices,
     magrittr,
@@ -38,3 +38,4 @@ Suggests:
     rJava
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
+Remotes: yihui/knitr

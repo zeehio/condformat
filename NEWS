@@ -2,6 +2,7 @@ condformat 0.7.0.9000
 ----------------------------------------------------------------
 
 * Replace dependency: Use grDevices instead of gplots
+* Depend on knitr 1.17.9: slidy and other rmarkdown formats are properly detected (#13)
 
 condformat 0.7.0
 ----------------------------------------------------------------

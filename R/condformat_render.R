@@ -210,17 +210,10 @@ condformat2latex <- function(x, ...) {
 
 
 guess_output_format <- function() {
-  outfmt <- knitr::opts_knit$get("rmarkdown.pandoc.to")
-  if (is.null(outfmt)) {
-    outfmt <- knitr::opts_knit$get("out.format")
-  }
-  if (is.null(outfmt)) {
-    return("")
-  }
-  if (outfmt == "latex" || outfmt == "beamer") {
-    return("latex")
-  } else if (outfmt == "html" || substr(outfmt, 1, nchar("markdown")) == "markdown") {
+  if (knitr::is_html_output()) {
     return("html")
+  } else if (knitr::is_latex_output()) {
+    return("latex")
   } else {
     return("unsupported")
   }
