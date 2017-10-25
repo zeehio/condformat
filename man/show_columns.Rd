@@ -14,7 +14,7 @@ show_columns_new(x, columns, col_names)
 
 \item{x}{A condformat object, typically created with `condformat(x)`}
 
-\item{columns}{A character vector with column names to be coloured. It can also be an expression
+\item{columns}{A character vector with column names to be to show. It can also be an expression
 can be used that will be parsed like in `tidyselect::vars_select`. See examples.}
 
 \item{col_names}{Character vector with the column names for the selected columns}

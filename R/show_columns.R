@@ -5,7 +5,7 @@
 #' columns from the data frame, so formatting rules can still depend
 #' on them.
 #' @param x A condformat object, typically created with `condformat(x)`
-#' @param columns A character vector with column names to be coloured. It can also be an expression
+#' @param columns A character vector with column names to be to show. It can also be an expression
 #'                can be used that will be parsed like in `tidyselect::vars_select`. See examples.
 #' @param col_names Character vector with the column names for the selected columns
 #' @param ... Dots are used to transition from the old syntax \code{\link{show_columns_old}} to the new one
