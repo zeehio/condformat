@@ -265,8 +265,14 @@ merge_css_conditions <- function(initial_value, css_fields) {
   css_keys <- names(css_fields)
   output <- initial_value
   for (key in css_keys) {
-    thisfield <- paste(key, css_fields[[key]], sep = ": ")
-    output <- paste(output, thisfield, sep = "; ") # I don't care about a leading "; "
+    key_value_pair <- css_fields[[key]]
+    have_values <- nchar(key_value_pair) > 0
+    # Prepend key:
+    key_value_pair[have_values] <- paste(key, key_value_pair[have_values],
+                                         sep = ": ")
+    had_other_values <- nchar(output) > 0
+    output[had_other_values & have_values] <- paste0(output[had_other_values & have_values], "; ")
+    output[have_values] <- paste0(output[have_values], key_value_pair[have_values])
   }
   output <- matrix(output, nrow = nrow(initial_value), ncol = ncol(initial_value))
   return(output)

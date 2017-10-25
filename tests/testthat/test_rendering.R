@@ -57,9 +57,9 @@ test_that("merge_css_conditions returns the expected", {
                                            nrow = 3, ncol = 2, byrow = TRUE))
 
   output <- merge_css_conditions(matrix("", nrow = 3, ncol = 2), css_fields)
-  expected_output <- matrix(c("; background-color: red; text-align: left", "; background-color: red; text-align: right",
-                              "; background-color: blue; text-align: left", "; background-color: green; text-align: center",
-                              "; background-color: yellow; text-align: right", "; background-color: orange; text-align: left"),
+  expected_output <- matrix(c("background-color: red; text-align: left", "background-color: red; text-align: right",
+                              "background-color: blue; text-align: left", "background-color: green; text-align: center",
+                              "background-color: yellow; text-align: right", "background-color: orange; text-align: left"),
                             nrow = 3, ncol = 2, byrow = TRUE)
   expect_equal(dim(output), c(3,2))
   expect_equal(output, expected_output)
