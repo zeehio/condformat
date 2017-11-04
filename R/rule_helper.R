@@ -91,7 +91,11 @@ api_dispatcher <- function(func_new, func_old) {
   condformat_api <- "0.6"
   tryCatch({
     # Check if the first argument is a condformat_tbl object:
-    x <- eval.parent(call[[2]], 2)
+    if ("x" %in% names(call)) {
+      x <- eval.parent(call[["x"]], 2)
+    } else {
+      x <- eval.parent(call[[2]], 2)
+    }
     stopifnot(inherits(x, "condformat_tbl") || inherits(x, "data.frame"))
     condformat_api <- "0.7"
   }, error = function(err) {
