@@ -6,7 +6,8 @@
 \usage{
 rule_fill_gradient2(x, columns, expression, low = scales::muted("red"),
   mid = "white", high = scales::muted("blue"), midpoint = NA,
-  space = "Lab", na.value = "#7F7F7F", limits = NA, lockcells = FALSE)
+  space = "Lab", na.value = "#7F7F7F", limits = NA, lockcells = FALSE,
+  ...)
 }
 \arguments{
 \item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}

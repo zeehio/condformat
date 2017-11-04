@@ -37,7 +37,7 @@ rule_fill_gradient <- function(x, columns, expression,
                                space = "Lab",
                                na.value = "#7F7F7F",
                                limits = NA,
-                               lockcells = FALSE) {
+                               lockcells = FALSE, ...) {
   return(api_dispatcher(rule_fill_gradient_new, rule_fill_gradient_old))
 }
 
