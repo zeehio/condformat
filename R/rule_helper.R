@@ -83,11 +83,13 @@ add_rule_to_condformat <- function(x, rule) {
 api_dispatcher <- function(func_new, func_old) {
   # Deprecated
   call <- sys.call(-1)
+  if (length(call) < 2) {
+    stop("Function ", as.character(call[[1]]),
+         " needs arguments. See ?", as.character(call[[1]]),
+         " for more information", call. = FALSE)
+  }
   condformat_api <- "0.6"
   tryCatch({
-    if (length(call) < 2) {
-      stop("Unexpected error")
-    }
     # Check if the first argument is a condformat_tbl object:
     x <- eval.parent(call[[2]], 2)
     stopifnot(inherits(x, "condformat_tbl") || inherits(x, "data.frame"))
