@@ -34,25 +34,28 @@
 #'                     expression = Sepal.Length > 4.6,
 #'                     colours=c("TRUE"="red"))
 #' @export
-rule_fill_discrete <- function(...) {
-  quoted_args <- rlang::quos(...)
+rule_fill_discrete <- function(x, columns, expression, colours = NA,
+                               na.value = "#FFFFFF",
+                               h = c(0, 360) + 15, c = 100, l = 65,
+                               h.start = 0, direction = 1,
+                               lockcells=FALSE, ...) {
   condformat_api <- "0.6"
   tryCatch({
-    possible_condformat <- quoted_args[[1]]
-    x <- rlang::eval_tidy(possible_condformat)
     stopifnot(inherits(x, "condformat_tbl") || inherits(x, "data.frame"))
     condformat_api <- "0.7"
   }, error = function(err) {
     condformat_api <- "0.6"
   })
+  call <- sys.call()
   if (condformat_api == "0.7") {
-    return(rule_fill_discrete_new(...))
+    call[[1]] <- rule_fill_discrete_new
   } else if (condformat_api == "0.6") {
     warning("This condformat syntax is deprecated. See ?rule_fill_discrete for more information")
-    return(rule_fill_discrete_old(...))
+    call[[1]] <- rule_fill_discrete_old
   } else {
     stop("Unknown condformat API")
   }
+  return(eval(call, envir = parent.frame()))
 }
 
 
@@ -112,7 +115,6 @@ rule_fill_discrete_old <- function(...,
   return(rule)
 }
 
-#' @rdname rule_fill_discrete
 rule_fill_discrete_new <- function(x, columns, expression, colours = NA,
                                    na.value = "#FFFFFF",
                                    h = c(0, 360) + 15, c = 100, l = 65,
