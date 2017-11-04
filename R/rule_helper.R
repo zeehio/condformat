@@ -89,7 +89,7 @@ api_dispatcher <- function(func_new, func_old) {
       stop("Unexpected error")
     }
     # Check if the first argument is a condformat_tbl object:
-    x <- eval(call[[2]], envir = parent.frame(n = 2))
+    x <- eval.parent(call[[2]], 2)
     stopifnot(inherits(x, "condformat_tbl") || inherits(x, "data.frame"))
     condformat_api <- "0.7"
   }, error = function(err) {
@@ -108,5 +108,5 @@ api_dispatcher <- function(func_new, func_old) {
     stop("Unknown condformat API")
   }
   # evaluate:
-  return(eval(call, envir = parent.frame(n = 2)))
+  return(eval.parent(call, 2))
 }
