@@ -32,25 +32,13 @@
 #'   rule_fill_gradient(starts_with("Sepal"), expression=Sepal.Length - Sepal.Width)
 #'
 #' @export
-rule_fill_gradient <- function(...) {
-  quoted_args <- rlang::quos(...)
-  condformat_api <- "0.6"
-  tryCatch({
-    possible_condformat <- quoted_args[[1]]
-    x <- rlang::eval_tidy(possible_condformat)
-    stopifnot(inherits(x, "condformat_tbl") || inherits(x, "data.frame"))
-    condformat_api <- "0.7"
-  }, error = function(err) {
-    condformat_api <- "0.6"
-  })
-  if (condformat_api == "0.7") {
-    return(rule_fill_gradient_new(...))
-  } else if (condformat_api == "0.6") {
-    warning("This condformat syntax is deprecated. See ?rule_fill_gradient for more information")
-    return(rule_fill_gradient_old(...))
-  } else {
-    stop("Unknown condformat API")
-  }
+rule_fill_gradient <- function(x, columns, expression,
+                               low = "#132B43", high = "#56B1F7",
+                               space = "Lab",
+                               na.value = "#7F7F7F",
+                               limits = NA,
+                               lockcells = FALSE) {
+  return(api_dispatcher(rule_fill_gradient_new, rule_fill_gradient_old))
 }
 
 
@@ -105,7 +93,6 @@ rule_fill_gradient_old <- function(...,
   return(rule)
 }
 
-#' @rdname rule_fill_gradient
 rule_fill_gradient_new <- function(x, columns, expression,
                                    low = "#132B43", high = "#56B1F7",
                                    space = "Lab",

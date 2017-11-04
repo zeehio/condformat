@@ -23,27 +23,10 @@
 #' condformat(x) %>% show_rows(!!! exprs)
 #' @export
 #' @seealso \code{\link[dplyr]{filter}}
-show_rows <- function(...) {
-  quoted_args <- rlang::quos(...)
-  condformat_api <- "0.6"
-  tryCatch({
-    possible_condformat <- quoted_args[[1]]
-    x <- rlang::eval_tidy(possible_condformat)
-    stopifnot(inherits(x, "condformat_tbl") || inherits(x, "data.frame"))
-    condformat_api <- "0.7"
-  }, error = function(err) {
-    condformat_api <- "0.6"
-  })
-  if (condformat_api == "0.7") {
-    return(show_rows_new(...))
-  } else if (condformat_api == "0.6") {
-    return(show_rows_old(...))
-  } else {
-    stop("Unknown condformat API")
-  }
+show_rows <- function(x, ...) {
+  api_dispatcher(show_rows_new, show_rows_old)
 }
 
-#' @rdname show_rows
 show_rows_new <- function(x, ...) {
   expr <- rlang::quos(...)
   showobj <- structure(list(row_expr = expr),

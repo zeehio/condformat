@@ -2,17 +2,14 @@
 % Please edit documentation in R/show_rows.R
 \name{show_rows}
 \alias{show_rows}
-\alias{show_rows_new}
 \title{Selects the rows to be printed}
 \usage{
-show_rows(...)
-
-show_rows_new(x, ...)
+show_rows(x, ...)
 }
 \arguments{
-\item{...}{Expressions used for filtering}
-
 \item{x}{condformat_tbl object}
+
+\item{...}{Expressions used for filtering}
 }
 \value{
 A condformat_show_rows object, usually to be added to a condformat_tbl object

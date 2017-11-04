@@ -78,3 +78,35 @@ add_rule_to_condformat <- function(x, rule) {
   attr(x, "condformat") <- condformatopts
   x
 }
+
+
+api_dispatcher <- function(func_new, func_old) {
+  # Deprecated
+  call <- sys.call(-1)
+  condformat_api <- "0.6"
+  tryCatch({
+    if (length(call) < 2) {
+      stop("Unexpected error")
+    }
+    # Check if the first argument is a condformat_tbl object:
+    x <- eval(call[[2]], envir = parent.frame(n = 2))
+    stopifnot(inherits(x, "condformat_tbl") || inherits(x, "data.frame"))
+    condformat_api <- "0.7"
+  }, error = function(err) {
+    condformat_api <- "0.6"
+  })
+
+  # Choose the right function for the given arguments
+  if (condformat_api == "0.7") {
+    call[[1]] <- func_new
+  } else if (condformat_api == "0.6") {
+    warning("This condformat syntax is deprecated. See ?",
+            as.character(call[[1]]),
+            " for more information", call. = FALSE)
+    call[[1]] <- func_old
+  } else {
+    stop("Unknown condformat API")
+  }
+  # evaluate:
+  return(eval(call, envir = parent.frame(n = 2)))
+}

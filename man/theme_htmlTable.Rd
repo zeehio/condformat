@@ -2,17 +2,14 @@
 % Please edit documentation in R/theme_htmlTable.R
 \name{theme_htmlTable}
 \alias{theme_htmlTable}
-\alias{theme_htmlTable_new}
 \title{Customizes appearance of condformat object}
 \usage{
-theme_htmlTable(...)
-
-theme_htmlTable_new(x, ...)
+theme_htmlTable(x, ...)
 }
 \arguments{
-\item{...}{Arguments to be passed to htmlTable}
-
 \item{x}{The condformat object}
+
+\item{...}{Arguments to be passed to htmlTable}
 }
 \description{
 Customizes appearance of condformat object

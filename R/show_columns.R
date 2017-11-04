@@ -35,27 +35,10 @@
 #'
 #' @export
 #' @seealso \code{\link[dplyr]{select}}
-show_columns <- function(...) {
-  quoted_args <- rlang::quos(...)
-  condformat_api <- "0.6"
-  tryCatch({
-    possible_condformat <- quoted_args[[1]]
-    x <- rlang::eval_tidy(possible_condformat)
-    stopifnot(inherits(x, "condformat_tbl") || inherits(x, "data.frame"))
-    condformat_api <- "0.7"
-  }, error = function(err) {
-    condformat_api <- "0.6"
-  })
-  if (condformat_api == "0.7") {
-    return(show_columns_new(...))
-  } else if (condformat_api == "0.6") {
-    return(show_columns_old(...))
-  } else {
-    stop("Unknown condformat API")
-  }
+show_columns <- function(x, columns, col_names, ...) {
+  return(api_dispatcher(show_columns_new, show_columns_old))
 }
 
-#' @rdname show_columns
 show_columns_new <- function(x, columns, col_names) {
   if (!inherits(x, "condformat_tbl")) {
     x <- condformat(x)

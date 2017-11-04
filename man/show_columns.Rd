@@ -2,22 +2,19 @@
 % Please edit documentation in R/show_columns.R
 \name{show_columns}
 \alias{show_columns}
-\alias{show_columns_new}
 \title{Selects the variables to be printed}
 \usage{
-show_columns(...)
-
-show_columns_new(x, columns, col_names)
+show_columns(x, columns, col_names, ...)
 }
 \arguments{
-\item{...}{Dots are used to transition from the old syntax \code{\link[=show_columns_old]{show_columns_old()}} to the new one}
-
 \item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}
 
 \item{columns}{A character vector with column names to be to show. It can also be an expression
 can be used that will be parsed like in \code{\link[tidyselect:vars_select]{tidyselect::vars_select()}}. See examples.}
 
 \item{col_names}{Character vector with the column names for the selected columns}
+
+\item{...}{Dots are used to transition from the old syntax \code{\link[=show_columns_old]{show_columns_old()}} to the new one}
 }
 \value{
 The condformat object with the rule added

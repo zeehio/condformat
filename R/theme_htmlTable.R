@@ -7,18 +7,8 @@
 #' data(iris)
 #' condformat(head(iris)) %>% theme_htmlTable(caption="Table 1: My iris table", rnames=FALSE)
 #' @export
-theme_htmlTable <- function(...) {
-  htmlargs <- list(...)
-  if (length(htmlargs) > 0) {
-    if (inherits(htmlargs[[1]], "condformat_tbl")) {
-      return (theme_htmlTable_new(...))
-    }
-  }
-  warning("The condformat syntax using '+' is deprecated. See ?theme_htmlTable for more information")
-  # Deprecated
-  theme <- structure(list(htmlargs = htmlargs),
-                     class = c("theme_htmlTable", "condformat_theme"))
-  return(theme)
+theme_htmlTable <- function(x, ...) {
+  api_dispatcher(theme_htmlTable_new, theme_htmlTable_old)
 }
 
 add_theme_to_condformat <- function(x, theme) {
@@ -28,7 +18,6 @@ add_theme_to_condformat <- function(x, theme) {
   x
 }
 
-#' @rdname theme_htmlTable
 theme_htmlTable_new <- function(x, ...) {
   if (!inherits(x, "condformat_tbl")) {
     x <- condformat(x)
@@ -39,6 +28,13 @@ theme_htmlTable_new <- function(x, ...) {
                      class = c("theme_htmlTable", "condformat_theme"))
   x <- add_theme_to_condformat(x, theme)
   return(x)
+}
+
+theme_htmlTable_old <- function(...) {
+  # Deprecated
+  theme <- structure(list(htmlargs = list(...)),
+                     class = c("theme_htmlTable", "condformat_theme"))
+  return(theme)
 }
 
 render_theme.theme_htmlTable <- function(themeobj, finaltheme, xview, ...) {

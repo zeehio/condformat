@@ -1,13 +1,17 @@
 condformat 0.7.0.9000
 ----------------------------------------------------------------
 
-* Replace dependency: Use grDevices instead of gplots
-* Depend on knitr 1.17.9: slidy and other rmarkdown formats are properly detected (#13)
 * Feature: rule_text_bold support both in HTML and PDF output
 * Feature: rule_text_color (both HTML and PDF outputs)
 
+* Replace dependency: Use grDevices instead of gplots
+* Depend on knitr 1.17.9: slidy and other rmarkdown formats are properly detected (#13)
+
+* Documentation: Update API dispatch function to show the new API by default in
+  the code completion and in the documentation
+* Documentation: Now with markdown in roxygen comments!
+
 * Minor: Generated style CSS rules do not have an initial ";" anymore
-* Minor: Documentation improvements (Now with markdown in roxygen comments!)
 * Minor: More modular code. CSS tags to LaTeX conversion is based on S3 methods
   so new rules don't need to touch the code for LaTeX export.
 

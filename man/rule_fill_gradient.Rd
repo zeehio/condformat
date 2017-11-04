@@ -2,18 +2,13 @@
 % Please edit documentation in R/rule_fill_gradient.R
 \name{rule_fill_gradient}
 \alias{rule_fill_gradient}
-\alias{rule_fill_gradient_new}
 \title{Fill column with sequential colour gradient}
 \usage{
-rule_fill_gradient(...)
-
-rule_fill_gradient_new(x, columns, expression, low = "#132B43",
+rule_fill_gradient(x, columns, expression, low = "#132B43",
   high = "#56B1F7", space = "Lab", na.value = "#7F7F7F", limits = NA,
   lockcells = FALSE)
 }
 \arguments{
-\item{...}{Dots are used to transition from the old syntax \link{rule_fill_discrete_old} to the new one}
-
 \item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}
 
 \item{columns}{A character vector with column names to be coloured. Optionally
@@ -35,6 +30,8 @@ other values are deprecated.}
 \item{limits}{range of limits that the gradient should cover}
 
 \item{lockcells}{logical value determining if no further rules should be applied to the affected cells.}
+
+\item{...}{Dots are used to transition from the old syntax \link{rule_fill_discrete_old} to the new one}
 }
 \value{
 The condformat_tbl object, with the added formatting information
