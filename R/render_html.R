@@ -41,8 +41,11 @@ condformat2htmlcommon <- function(x) {
   xfiltered <- finalshow$xfiltered
   xview <- xfiltered[, finalshow$cols, drop = FALSE]
   rules <- attr(x, "condformat")$rules
-  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview,
-                                             format = "html")
+  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview)
+  if (length(finalformat$css_fields) > 0) {
+    finalformat$css_cell <- merge_css_conditions(finalformat$css_cell,
+                                                 finalformat$css_fields)
+  }
   # Rename the columns according to show options:
   colnames(xview) <- names(finalshow$cols)
   themes <- attr(x, "condformat")$themes

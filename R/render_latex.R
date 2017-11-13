@@ -8,14 +8,18 @@ condformat2latex <- function(x, ...) {
   xfiltered <- finalshow$xfiltered
   xview <- xfiltered[, finalshow$cols, drop = FALSE]
   rules <- attr(x, "condformat")$rules
-  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview,
-                                             format = "latex")
+  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview)
+  raw_text <- escape_latex(as.matrix(format.data.frame(xview)))
+  # Need to wrap raw_text with formatting rules
+  formatted_text <- merge_css_conditions_to_latex(
+    css_fields = finalformat$css_fields, raw_text = raw_text)
+
   # Rename the columns according to show options:
-  colnames(finalformat) <- names(finalshow$cols)
+  colnames(formatted_text) <- names(finalshow$cols)
   # Theme is ignored in LaTeX
   # themes <- attr(x, "condformat")$themes
   # finaltheme <- render_theme_condformat_tbl(themes, xview)
-  return(knitr::kable(finalformat, format = "latex",
+  return(knitr::kable(formatted_text, format = "latex",
                       escape = FALSE, ...))
 }
 

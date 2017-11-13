@@ -79,8 +79,7 @@ condformat2excelsheet <- function(x, sheet) {
   xfiltered <- finalshow$xfiltered
   xview <- xfiltered[, finalshow$cols, drop = FALSE]
   rules <- attr(x, "condformat")$rules
-  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview,
-                                             format = "excel")
+  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview)
 
   xlsx::addDataFrame(x = as.data.frame(xview),
                      sheet = sheet, row.names = FALSE, col.names = TRUE)

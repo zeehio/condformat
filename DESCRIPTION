@@ -37,6 +37,6 @@ Suggests:
     xlsx (>= 0.5.7),
     rJava
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)
 Remotes: yihui/knitr

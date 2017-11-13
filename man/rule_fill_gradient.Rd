@@ -61,3 +61,4 @@ Other rule: \code{\link{rule_css}},
   \code{\link{rule_text_bold}},
   \code{\link{rule_text_color}}
 }
+\concept{rule}

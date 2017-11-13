@@ -96,10 +96,8 @@ merge_css_conditions <- function(initial_value, css_fields) {
 # @param xview Data frame with the rows and columns that will be printed
 # @param xfiltered Like xview, but with all the columns (rules
 #                  will use columns that won't be printed)
-# @param format Output format (either "html" or "latex")
 # @return List with the CSS information
-render_rules_condformat_tbl <- function(rules, xfiltered, xview, format) {
-
+render_rules_condformat_tbl <- function(rules, xfiltered, xview) {
   finalformat <- list(css_fields = list(),
                       css_cell = matrix(data = "", nrow = nrow(xview), ncol = ncol(xview)),
                       css_cell_unlocked = matrix(data = TRUE,
@@ -109,22 +107,7 @@ render_rules_condformat_tbl <- function(rules, xfiltered, xview, format) {
   for (rule in rules) {
     finalformat <- applyrule(rule, finalformat, xfiltered, xview)
   }
-  if (format == "html") {
-    if (length(finalformat$css_fields) > 0) {
-      finalformat$css_cell <- merge_css_conditions(finalformat$css_cell, finalformat$css_fields)
-    }
-    return(finalformat)
-  } else if (format == "latex") {
-    raw_text <- escape_latex(as.matrix(format.data.frame(xview)))
-    # Need to wrap raw_text with formatting rules
-    formatted_text <- merge_css_conditions_to_latex(css_fields = finalformat$css_fields, raw_text = raw_text)
-    return(formatted_text)
-  } else if (format == "excel") {
-    # Rules are rendered later on
-    return(finalformat)
-  } else {
-    stop("Unsupported format:", format)
-  }
+  return(finalformat)
 }
 
 render_show <- function(showobj, finalshow, x, ...) UseMethod("render_show")

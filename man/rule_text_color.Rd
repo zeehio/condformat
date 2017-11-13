@@ -33,3 +33,4 @@ Other rule: \code{\link{rule_css}},
   \code{\link{rule_fill_gradient}},
   \code{\link{rule_text_bold}}
 }
+\concept{rule}

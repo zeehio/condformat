@@ -37,3 +37,4 @@ Other rule: \code{\link{rule_fill_discrete}},
   \code{\link{rule_text_bold}},
   \code{\link{rule_text_color}}
 }
+\concept{rule}
