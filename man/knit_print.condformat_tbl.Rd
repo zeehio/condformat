@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{Object to print}
 
-\item{...}{Provided for knitr_print compatibility}
+\item{...}{Arguments passed on to the  \code{condformat2latex} or \code{knit_print} functions}
 }
 \description{
 Print method for knitr, exporting to HTML or LaTeX as needed

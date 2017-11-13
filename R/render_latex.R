@@ -1,15 +1,19 @@
 #' Converts the table to LaTeX code
 #' @param x A condformat_tbl object
-#' @param ... arguments passed to knitr::kable
+#' @param escape Whether or not special LaTeX characters should be escaped
+#' @inheritDotParams knitr::kable
 #' @return A character vector of the table source code
 #' @export
-condformat2latex <- function(x, ...) {
+condformat2latex <- function(x, escape = TRUE, ...) {
   finalshow <- render_show_condformat_tbl(x)
   xfiltered <- finalshow$xfiltered
   xview <- xfiltered[, finalshow$cols, drop = FALSE]
   rules <- attr(x, "condformat")$rules
   finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview)
-  raw_text <- escape_latex(as.matrix(format.data.frame(xview)))
+  raw_text <- as.matrix(format.data.frame(xview))
+  if (isTRUE(escape)) {
+    raw_text <- escape_latex(raw_text)
+  }
   # Need to wrap raw_text with formatting rules
   formatted_text <- merge_css_conditions_to_latex(
     css_fields = finalformat$css_fields, raw_text = raw_text)

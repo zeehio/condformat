@@ -3,6 +3,7 @@ condformat 0.7.0.9000
 
 * Feature: rule_text_bold support both in HTML and PDF output
 * Feature: rule_text_color (both HTML and PDF outputs)
+* Feature: condformat2latex can skip escaping LaTeX code
 
 * Replace dependency: Use grDevices instead of gplots
 * Depend on knitr 1.17.9: slidy and other rmarkdown formats are properly detected (#13)
