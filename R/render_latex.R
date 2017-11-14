@@ -20,6 +20,9 @@ condformat2latex <- function(x, escape = TRUE, ...) {
 
   # Rename the columns according to show options:
   colnames(formatted_text) <- names(finalshow$cols)
+  if (isTRUE(escape)) {
+    colnames(formatted_text) <- escape_latex(colnames(formatted_text))
+  }
   # Theme is ignored in LaTeX
   # themes <- attr(x, "condformat")$themes
   # finaltheme <- render_theme_condformat_tbl(themes, xview)
