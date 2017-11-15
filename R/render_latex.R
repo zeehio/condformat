@@ -20,14 +20,19 @@ condformat2latex <- function(x, escape = TRUE, ...) {
 
   # Rename the columns according to show options:
   colnames(formatted_text) <- names(finalshow$cols)
+  themes <- attr(x, "condformat")$themes
+  finaltheme <- render_theme_condformat_tbl(themes, xview)
   if (isTRUE(escape)) {
     colnames(formatted_text) <- escape_latex(colnames(formatted_text))
+    if ("caption" %in% names(finaltheme[["kable_args"]])) {
+      finaltheme[["kable_args"]][["caption"]] <- escape_latex(finaltheme[["kable_args"]][["caption"]])
+    }
   }
-  # Theme is ignored in LaTeX
-  # themes <- attr(x, "condformat")$themes
-  # finaltheme <- render_theme_condformat_tbl(themes, xview)
-  return(knitr::kable(formatted_text, format = "latex",
-                      escape = FALSE, ...))
+  do.call(knitr::kable,
+          c(list(x = formatted_text,
+                 format = "latex",
+                 escape = FALSE),
+            finaltheme[["kable_args"]]))
 }
 
 paste0mat <- function(x,y) {
