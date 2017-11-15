@@ -22,7 +22,7 @@ print.condformat_tbl <- function(x, ..., paginate = TRUE) {
 
 #' Print method for knitr, exporting to HTML or LaTeX as needed
 #' @param x Object to print
-#' @param ... Arguments passed on to the  `condformat2latex` or `knit_print` functions
+#' @param ... Arguments passed for compatibility with knit_print
 #'
 #' @importFrom knitr knit_print
 #' @export
@@ -37,7 +37,7 @@ knit_print.condformat_tbl <- function(x, ...) {
       use_longtable <- TRUE
     }
     return(knitr::asis_output(
-      condformat2latex(x, longtable = use_longtable, ...),
+      condformat2latex(x %>% theme_kable(longtable = use_longtable)),
       meta = latex_dependencies))
   } else if (knitr::is_html_output()) {
     return(knitr::asis_output(condformat2html(x)))

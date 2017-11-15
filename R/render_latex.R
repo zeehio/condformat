@@ -1,13 +1,21 @@
 #' Converts the table to LaTeX code
 #' @param x A condformat_tbl object
-#' @param escape Whether or not special LaTeX characters should be escaped
-#' @inheritDotParams knitr::kable
 #' @return A character vector of the table source code
 #' @export
-condformat2latex <- function(x, escape = TRUE, ...) {
+condformat2latex <- function(x) {
   finalshow <- render_show_condformat_tbl(x)
   xfiltered <- finalshow$xfiltered
   xview <- xfiltered[, finalshow$cols, drop = FALSE]
+  themes <- attr(x, "condformat")$themes
+  finaltheme <- render_theme_condformat_tbl(themes, xview)
+  kable_args <- finaltheme[["kable_args"]]
+  if ("escape" %in% names(kable_args)) {
+    escape <- kable_args[["escape"]]
+    # We do the escape here, because we add LaTeX code to the cells
+    kable_args[["escape"]] <- NULL
+  } else {
+    escape <- TRUE
+  }
   rules <- attr(x, "condformat")$rules
   finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview)
   raw_text <- as.matrix(format.data.frame(xview))
@@ -20,14 +28,13 @@ condformat2latex <- function(x, escape = TRUE, ...) {
 
   # Rename the columns according to show options:
   colnames(formatted_text) <- names(finalshow$cols)
-  themes <- attr(x, "condformat")$themes
-  finaltheme <- render_theme_condformat_tbl(themes, xview)
   if (isTRUE(escape)) {
     colnames(formatted_text) <- escape_latex(colnames(formatted_text))
     if ("caption" %in% names(finaltheme[["kable_args"]])) {
       finaltheme[["kable_args"]][["caption"]] <- escape_latex(finaltheme[["kable_args"]][["caption"]])
     }
   }
+
   do.call(knitr::kable,
           c(list(x = formatted_text,
                  format = "latex",

@@ -4,40 +4,10 @@
 \alias{condformat2latex}
 \title{Converts the table to LaTeX code}
 \usage{
-condformat2latex(x, escape = TRUE, ...)
+condformat2latex(x)
 }
 \arguments{
 \item{x}{A condformat_tbl object}
-
-\item{escape}{Whether or not special LaTeX characters should be escaped}
-
-\item{...}{Arguments passed on to \code{knitr::kable}
-\describe{
-  \item{x}{an R object (typically a matrix or data frame)}
-  \item{format}{a character string; possible values are \code{latex},
-\code{html}, \code{markdown}, \code{pandoc}, and \code{rst}; this will be
-automatically determined if the function is called within \pkg{knitr}; it
-can also be set in the global option \code{knitr.table.format}; if
-\code{format} is a function, it must return a character string}
-  \item{digits}{the maximum number of digits for numeric columns (passed to
-\code{round()}); it can also be a vector of length \code{ncol(x)} to set
-the number of digits for individual columns}
-  \item{row.names}{a logical value indicating whether to include row names; by
-default, row names are included if \code{rownames(x)} is neither
-\code{NULL} nor identical to \code{1:nrow(x)}}
-  \item{col.names}{a character vector of column names to be used in the table}
-  \item{align}{the alignment of columns: a character vector consisting of
-\code{'l'} (left), \code{'c'} (center) and/or \code{'r'} (right); by
-default, numeric columns are right-aligned, and other columns are
-left-aligned; if \code{align = NULL}, the default alignment is used;
-alternatively, if \code{length(align) == 1L}, the string will be expanded
-to a vector of individual letters unless the output format is LaTeX; for
-example, \code{'clc'} will be converted to \code{c('c', 'l', 'c')}}
-  \item{caption}{the table caption}
-  \item{format.args}{a list of arguments to be passed to \code{\link{format}()}
-to format table values, e.g. \code{list(big.mark = ',')}}
-  \item{escape}{escape special characters when producing HTML or LaTeX tables}
-}}
 }
 \value{
 A character vector of the table source code
