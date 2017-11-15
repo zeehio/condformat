@@ -28,18 +28,27 @@ condformat2latex <- function(x) {
 
   # Rename the columns according to show options:
   colnames(formatted_text) <- names(finalshow$cols)
+
+  caption <- kable_args[["caption"]]
+  if (is.null(caption)) {
+    caption <- finaltheme[["caption"]]
+  }
+
   if (isTRUE(escape)) {
     colnames(formatted_text) <- escape_latex(colnames(formatted_text))
-    if ("caption" %in% names(finaltheme[["kable_args"]])) {
-      finaltheme[["kable_args"]][["caption"]] <- escape_latex(finaltheme[["kable_args"]][["caption"]])
+    if (!is.null(caption)) {
+      caption <- escape_latex(caption)
     }
   }
 
+  if (!is.null(caption)) {
+    kable_args[["caption"]] <- caption
+  }
   do.call(knitr::kable,
           c(list(x = formatted_text,
                  format = "latex",
                  escape = FALSE),
-            finaltheme[["kable_args"]]))
+            kable_args))
 }
 
 paste0mat <- function(x,y) {

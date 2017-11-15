@@ -66,6 +66,10 @@ condformat2htmlcommon <- function(x) {
   } else {
     css_cell <- finalformat[["css_cell"]]
   }
+
+  if (is.null(htmlTableArgs[["caption"]]) && !is.null(finaltheme[["caption"]])) {
+    htmlTableArgs[["caption"]] <- finaltheme[["caption"]]
+  }
   return(list(xview = format.data.frame(xview),
               css_cell = css_cell,
               htmlTableArgs = htmlTableArgs,

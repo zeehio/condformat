@@ -5,6 +5,8 @@ condformat 0.7.0.9000
 * Feature: rule_text_color (both HTML and PDF outputs)
 * Feature: condformat2latex can skip escaping LaTeX code
 * Feature: theme_htmlWidget: Allows to customize the number of entries and the widget size.
+* Feature: theme_caption: Set a caption (works on both html and latex outputs). It can be
+  overriden with theme_html(caption=) and theme_kable(caption=) respectively
 
 * Deprecate: theme_htmlTable used to accept `number_of_entries`, `width`, `height`... to
   customize the widget appearence, this is now deprecated as there is `theme_htmlWidget`
