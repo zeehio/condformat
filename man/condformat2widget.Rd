@@ -9,7 +9,7 @@ condformat2widget(x, ...)
 \arguments{
 \item{x}{A condformat_tbl object}
 
-\item{...}{Arguments passed to htmlTable::htmlTableWidget}
+\item{...}{Deprecated: Arguments passed to htmlTable::htmlTableWidget}
 }
 \value{
 the htmlTable widget

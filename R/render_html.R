@@ -18,7 +18,7 @@ condformat2html <- function(x) {
 #' Converts the table to a htmlTableWidget
 #'
 #' @param x A condformat_tbl object
-#' @param ... Arguments passed to htmlTable::htmlTableWidget
+#' @param ... Deprecated: Arguments passed to htmlTable::htmlTableWidget
 #' @return the htmlTable widget
 #' @examples
 #' \dontrun{
@@ -27,13 +27,19 @@ condformat2html <- function(x) {
 #' }
 #' @export
 condformat2widget <- function(x, ...) {
+  # Deprecation path starts here:
+  condformatwidget_args <- list(...)
+  if (length(condformatwidget_args) > 0) {
+    warning("Passing arguments to condformat2widget is deprecated. Use theme_htmlWidget(...) instead")
+    x <- theme_htmlWidget(x, ...)
+  }
+  # Deprecation path ends here
   htmltable_ready <- condformat2htmlcommon(x)
   thewidget <- do.call(what = htmlTable::htmlTableWidget,
                        args = c(list(x = htmltable_ready[["xview"]],
                                      css.cell = htmltable_ready[["css_cell"]]),
                                 htmltable_ready[["htmlTableArgs"]],
-                                htmltable_ready[["htmlWidget"]],
-                                list(...)))
+                                htmltable_ready[["htmlWidget"]]))
   return(thewidget)
 }
 
