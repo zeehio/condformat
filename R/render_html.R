@@ -9,9 +9,9 @@
 condformat2html <- function(x) {
   htmltable_ready <- condformat2htmlcommon(x)
   thetable <- do.call(htmlTable::htmlTable,
-                      c(list(x = htmltable_ready$xview,
-                             css.cell = htmltable_ready$css_cell),
-                        htmltable_ready$htmlTableArgs))
+                      c(list(x = htmltable_ready[["xview"]],
+                             css.cell = htmltable_ready[["css_cell"]]),
+                        htmltable_ready[["htmlTableArgs"]]))
   return(thetable)
 }
 
@@ -29,36 +29,39 @@ condformat2html <- function(x) {
 condformat2widget <- function(x, ...) {
   htmltable_ready <- condformat2htmlcommon(x)
   thewidget <- do.call(what = htmlTable::htmlTableWidget,
-                       args = c(list(x = htmltable_ready$xview,
-                                     css.cell = htmltable_ready$css_cell),
-                                htmltable_ready$htmlTableArgs,
+                       args = c(list(x = htmltable_ready[["xview"]],
+                                     css.cell = htmltable_ready[["css_cell"]]),
+                                htmltable_ready[["htmlTableArgs"]],
+                                htmltable_ready[["htmlWidget"]],
                                 list(...)))
   return(thewidget)
 }
 
 condformat2htmlcommon <- function(x) {
   finalshow <- render_show_condformat_tbl(x)
-  xfiltered <- finalshow$xfiltered
-  xview <- xfiltered[, finalshow$cols, drop = FALSE]
-  rules <- attr(x, "condformat")$rules
+  xfiltered <- finalshow[["xfiltered"]]
+  xview <- xfiltered[, finalshow[["cols"]], drop = FALSE]
+  rules <- attr(x, "condformat")[["rules"]]
   finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview)
   if (length(finalformat$css_fields) > 0) {
-    finalformat$css_cell <- merge_css_conditions(finalformat$css_cell,
-                                                 finalformat$css_fields)
+    finalformat$css_cell <- merge_css_conditions(finalformat[["css_cell"]],
+                                                 finalformat[["css_fields"]])
   }
   # Rename the columns according to show options:
-  colnames(xview) <- names(finalshow$cols)
-  themes <- attr(x, "condformat")$themes
+  colnames(xview) <- names(finalshow[["cols"]])
+  themes <- attr(x, "condformat")[["themes"]]
   finaltheme <- render_theme_condformat_tbl(themes, xview)
-  if ("css.cell" %in% names(finaltheme)) {
-    css_cell_dims <- dim(finalformat$css_cell)
-    css_cell <- paste0(finaltheme$css.cell, finalformat$css_cell)
+  htmlTableArgs <- finaltheme[["html"]]
+  if ("css.cell" %in% names(htmlTableArgs)) {
+    css_cell_dims <- dim(finalformat[["css_cell"]])
+    css_cell <- paste0(htmlTableArgs[["css.cell"]], finalformat[["css_cell"]])
     dim(css_cell) <- css_cell_dims
-    finaltheme$css.cell <- NULL
+    htmlTableArgs[["css.cell"]] <- NULL
   } else {
-    css_cell <- finalformat$css_cell
+    css_cell <- finalformat[["css_cell"]]
   }
   return(list(xview = format.data.frame(xview),
               css_cell = css_cell,
-              htmlTableArgs = finaltheme))
+              htmlTableArgs = htmlTableArgs,
+              htmlWidget = finaltheme[["htmlWidget"]]))
 }

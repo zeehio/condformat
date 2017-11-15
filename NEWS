@@ -4,6 +4,11 @@ condformat 0.7.0.9000
 * Feature: rule_text_bold support both in HTML and PDF output
 * Feature: rule_text_color (both HTML and PDF outputs)
 * Feature: condformat2latex can skip escaping LaTeX code
+* Feature: theme_htmlWidget: Allows to customize the number of entries and the widget size.
+
+* Deprecate: theme_htmlTable used to accept as well number_of_entries to customize the
+  widget size, but it is now deprecated. With this change we can better validate
+  theme_htmlTable arguments.
 
 * Replace dependency: Use grDevices instead of gplots
 * Depend on knitr 1.17.9: slidy and other rmarkdown formats are properly detected (#13)
