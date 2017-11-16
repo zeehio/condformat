@@ -8,13 +8,16 @@
 * `theme_kable` (PDF) pass options to kable
 * `theme_caption` (HTML, PDF) Set a caption.
 
-## Deprecation:
+## Deprecations:
 
 * Deprecate: `theme_htmlTable` used to accept `number_of_entries`, `width`, `height`... to
   customize the widget appearence, this is now deprecated as there is `theme_htmlWidget`
   With this change we can better validate `theme_htmlTable` arguments.
 * Deprecate: `condformat2widget` will not accept arguments to customize the appearance
   of the widget. Use `theme_htmlWidget` instead.
+
+
+## Other
 
 * Replace dependency: Use grDevices instead of gplots
 * Depend on knitr 1.17.9: slidy and other rmarkdown formats are properly detected (#13)
