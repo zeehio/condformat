@@ -278,7 +278,7 @@ rule_fill_discrete_common <- function(rule, finalformat, xview,
   before[nchar(before) > 0] <- apply(
     grDevices::col2rgb(before[nchar(before) > 0]),
     MARGIN = 2,
-    function(x) toupper(sprintf("\\cellcolor[HTML]{%02x%02x%02x}", x[1],x[2],x[3])))
+    function(x) sprintf("\\cellcolor[HTML]{%02X%02X%02X}", x[1],x[2],x[3]))
   after <- matrix("", nrow = nrow(css_values), ncol = ncol(css_values))
-  list(before=before, after=after)
+  list(before = before, after = after)
 }
