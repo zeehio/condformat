@@ -414,3 +414,17 @@ virginica
 </tr>
 </tbody>
 </table>
+Rules and engine support
+------------------------
+
+All rules should be supported in all engines.
+
+| Rule                  | HTML | LaTeX |
+|-----------------------|:----:|:-----:|
+| `rule_fill_discrete`  |   X  |   X   |
+| `rule_fill_gradient`  |   X  |   X   |
+| `rule_fill_gradient2` |   X  |   X   |
+| `rule_text_color`     |   X  |   X   |
+| `rule_text_bold`      |   X  |   X   |
+| `rule_css`            |   X  |       |
+| `rule_fill_bar`       |   X  |       |
