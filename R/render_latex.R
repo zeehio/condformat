@@ -115,7 +115,7 @@ condformat_css_tolatex <- function(css_values) UseMethod("condformat_css_tolatex
 
 condformat_css_tolatex.default <- function(css_values) {
   css_key <- class(css_values)[1]
-  warning("css key ", css_key, "not supported by condformat in LaTeX output")
+  warning("css key ", css_key, " is not supported by condformat in LaTeX output")
   before <- matrix("", nrow = nrow(css_values), ncol = ncol(css_values))
   after <- matrix("", nrow = nrow(css_values), ncol = ncol(css_values))
   list(before = before, after = after)
