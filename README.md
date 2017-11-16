@@ -414,6 +414,8 @@ virginica
 </tr>
 </tbody>
 </table>
+This example covers most of the condformat rules.
+
 Rules and engine support
 ------------------------
 

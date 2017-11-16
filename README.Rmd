@@ -59,6 +59,8 @@ condformat(iris[c(1:5,70:75, 120:125),]) %>%
   rule_fill_bar(Petal.Width, limits = c(0, NA))
 ```
 
+This example covers most of the condformat rules.
+
 ## Rules and engine support
 
 All rules should be supported in all engines.
