@@ -13,3 +13,11 @@ test_that("rule_text_bold works", {
   expect_failure(
     expect_match(out, "\\\\textbf\\{versicolor\\}"))
 })
+
+test_that("rule_text_bold works for LaTeX output", {
+  x <- condformat(data.frame(a = "potato")) %>%
+    rule_text_bold("a", expression = a == "potato") %>%
+    condformat2latex() %>%
+    strsplit(split = "\n", fixed = TRUE)
+  expect_true(any(grepl(pattern = "\\textbf{potato}", x[[1]], fixed = TRUE)))
+})

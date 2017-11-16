@@ -199,3 +199,29 @@ test_that("custom rule_ passes doing nothing (0.6 syntax)", {
 })
 
 
+test_that("rule_fill_discrete has expected LaTeX output", {
+  latex <- condformat(data.frame(a = c("Dog", "Cat", "Mouse"))) %>%
+    rule_fill_discrete("a", colours = c("Dog" = "#A52A2A")) %>%
+    condformat2latex()
+  expect_true("\\cellcolor[HTML]{A52A2A}Dog\\\\" %in% strsplit(latex, "\n", fixed = TRUE)[[1]])
+})
+
+test_that("rule_fill_discrete accepts a function as colours=", {
+  num_to_colour <- function(x) {
+    ifelse(x == "potato", "#FF0000", "#00FF00")
+  }
+
+  x <- data.frame(a = c("potato", "apple")) %>%
+    condformat() %>%
+    rule_fill_discrete("a", colours = num_to_colour) %>%
+    condformat2html() %>%
+    strsplit("\n", fixed = TRUE)
+  expect_true(
+    any(
+      grepl(pattern = "background-color: #FF0000", x[[1]]) &
+        grepl(pattern = "potato", x[[1]])))
+  expect_true(
+    any(
+      grepl(pattern = "background-color: #00FF00", x[[1]]) &
+        grepl(pattern = "apple", x[[1]])))
+})
