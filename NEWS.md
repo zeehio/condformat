@@ -10,12 +10,12 @@
 
 ## Deprecations:
 
-* Deprecate: `theme_htmlTable` used to accept `number_of_entries`, `width`, `height`... to
-  customize the widget appearence, this is now deprecated as there is `theme_htmlWidget`
-  With this change we can better validate `theme_htmlTable` arguments.
-* Deprecate: `condformat2widget` will not accept arguments to customize the appearance
-  of the widget. Use `theme_htmlWidget` instead.
-
+* Deprecate: `theme_htmlTable` now only accepts arguments to be passed to
+  `htmlTable::htmlTable`. Before, it could also be used to accept 
+  `number_of_entries`, `width`, `height`... to customize the widget appearence.
+  For that use case, please use `theme_htmlWidget` instead.
+* Deprecate: `condformat2widget` will not accept arguments to customize the
+  appearance of the widget. Use `theme_htmlWidget` instead.
 
 ## Other
 
