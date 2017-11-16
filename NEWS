@@ -8,6 +8,8 @@ condformat 0.7.0.9000
 * Feature: theme_caption: Set a caption (works on both html and latex outputs). It can be
   overriden with theme_html(caption=) and theme_kable(caption=) respectively
 
+* Bugfix: rule_fill_* functions were converting \cellcolor to upper case
+
 * Deprecate: theme_htmlTable used to accept `number_of_entries`, `width`, `height`... to
   customize the widget appearence, this is now deprecated as there is `theme_htmlWidget`
   With this change we can better validate theme_htmlTable arguments.
