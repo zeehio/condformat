@@ -40,8 +40,11 @@ fill_css_field_by_cols <- function(finalformat, field, values, columns, xview, l
   # We can't change columns not affected:
   mask[,-index.j] <- FALSE
 
+  # if the css value is NA, ignore it as well
+  mask2 <- mask & !is.na(values)
+
   backgr <- get_css_field(finalformat, field)
-  backgr[mask] <- values[mask]
+  backgr[mask2] <- values[mask2]
 
   finalformat$css_fields[[field]] <- backgr
   finalformat <- lock_cells(lockcells, mask, finalformat)

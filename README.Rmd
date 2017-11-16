@@ -55,6 +55,7 @@ condformat(iris[c(1:5,70:75, 120:125),]) %>%
   rule_fill_gradient2(Petal.Length) %>%
   rule_text_bold(c(Sepal.Length, Species), Species == "setosa") %>%
   rule_text_color(Sepal.Length,
-                  expression = ifelse(Species == "setosa", "yellow", ""))
+                  expression = ifelse(Species == "setosa", "yellow", "")) %>%
+  rule_fill_bar(Petal.Width, limits = c(0, NA))
 ```
 

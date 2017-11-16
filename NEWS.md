@@ -2,6 +2,7 @@
 
 ## New features:
 
+* `rule_fill_bar` (HTML, for now)
 * `rule_text_bold` (HTML, PDF)
 * `rule_text_color` (HTML, PDF)
 * `theme_htmlWidget` (HTML) Customize the number of entries and the widget size.

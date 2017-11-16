@@ -1,7 +1,7 @@
 Introduction to condformat
 ================
 Sergio Oller
-2017-10-25
+2017-11-16
 
 condformat renders a data frame in which cells in columns are formatted according to several rules or criteria.
 
@@ -45,7 +45,8 @@ condformat(iris[c(1:5,70:75, 120:125),]) %>%
   rule_fill_gradient2(Petal.Length) %>%
   rule_text_bold(c(Sepal.Length, Species), Species == "setosa") %>%
   rule_text_color(Sepal.Length,
-                  expression = ifelse(Species == "setosa", "yellow", ""))
+                  expression = ifelse(Species == "setosa", "yellow", "")) %>%
+  rule_fill_bar(Petal.Width, limits = c(0, NA))
 ```
 
 <table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
@@ -84,7 +85,7 @@ Species
 <td style="background-color: #872B29; text-align: center;">
 1.4
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 9% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 0.2
 </td>
 <td style="background-color: #F8766D; font-weight: bold; text-align: center;">
@@ -104,7 +105,7 @@ setosa
 <td style="background-color: #872B29; text-align: center;">
 1.4
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 9% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 0.2
 </td>
 <td style="background-color: #F8766D; font-weight: bold; text-align: center;">
@@ -124,7 +125,7 @@ setosa
 <td style="background-color: #832424; text-align: center;">
 1.3
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 9% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 0.2
 </td>
 <td style="background-color: #F8766D; font-weight: bold; text-align: center;">
@@ -144,7 +145,7 @@ setosa
 <td style="background-color: #8C322F; text-align: center;">
 1.5
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 9% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 0.2
 </td>
 <td style="background-color: #F8766D; font-weight: bold; text-align: center;">
@@ -164,7 +165,7 @@ setosa
 <td style="background-color: #872B29; text-align: center;">
 1.4
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 9% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 0.2
 </td>
 <td style="background-color: #F8766D; font-weight: bold; text-align: center;">
@@ -184,7 +185,7 @@ setosa
 <td style="background-color: #E7CAC6; text-align: center;">
 3.9
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 48% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 1.1
 </td>
 <td style="background-color: #00BA38; font-weight: normal; text-align: center;">
@@ -204,7 +205,7 @@ versicolor
 <td style="background-color: #F9F9FC; text-align: center;">
 4.8
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 78% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 1.8
 </td>
 <td style="background-color: #00BA38; font-weight: normal; text-align: center;">
@@ -224,7 +225,7 @@ versicolor
 <td style="background-color: #EAD0CD; text-align: center;">
 4.0
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 57% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 1.3
 </td>
 <td style="background-color: #00BA38; font-weight: normal; text-align: center;">
@@ -244,7 +245,7 @@ versicolor
 <td style="background-color: #F4F2F9; text-align: center;">
 4.9
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 65% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 1.5
 </td>
 <td style="background-color: #00BA38; font-weight: normal; text-align: center;">
@@ -264,7 +265,7 @@ versicolor
 <td style="background-color: #FFFFFF; text-align: center;">
 4.7
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 52% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 1.2
 </td>
 <td style="background-color: #00BA38; font-weight: normal; text-align: center;">
@@ -284,7 +285,7 @@ versicolor
 <td style="background-color: #F3E4E2; text-align: center;">
 4.3
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 57% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 1.3
 </td>
 <td style="background-color: #00BA38; font-weight: normal; text-align: center;">
@@ -304,7 +305,7 @@ versicolor
 <td style="background-color: #EEECF6; text-align: center;">
 5.0
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 65% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 1.5
 </td>
 <td style="background-color: #619CFF; font-weight: normal; text-align: center;">
@@ -324,7 +325,7 @@ virginica
 <td style="background-color: #C8C1E1; text-align: center;">
 5.7
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 100% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 2.3
 </td>
 <td style="background-color: #619CFF; font-weight: normal; text-align: center;">
@@ -344,7 +345,7 @@ virginica
 <td style="background-color: #F4F2F9; text-align: center;">
 4.9
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 87% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 2.0
 </td>
 <td style="background-color: #619CFF; font-weight: normal; text-align: center;">
@@ -364,7 +365,7 @@ virginica
 <td style="background-color: #9085C3; text-align: center;">
 6.7
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 87% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 2.0
 </td>
 <td style="background-color: #619CFF; font-weight: normal; text-align: center;">
@@ -384,7 +385,7 @@ virginica
 <td style="background-color: #F4F2F9; text-align: center;">
 4.9
 </td>
-<td style="text-align: center;">
+<td style="background-color: white; background-size: 78% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; text-align: center;">
 1.8
 </td>
 <td style="background-color: #619CFF; font-weight: normal; text-align: center;">
@@ -404,7 +405,7 @@ virginica
 <td style="background-color: #C8C1E1; border-bottom: 2px solid grey; text-align: center;">
 5.7
 </td>
-<td style="border-bottom: 2px solid grey; text-align: center;">
+<td style="background-color: white; background-size: 91% 100%; background-image: linear-gradient(to right, rgba(0, 100, 0, 1) 0%, rgba(255, 255, 255, 1) 100%); border: 1px solid black; background-repeat: no-repeat; border-bottom: 2px solid grey; text-align: center;">
 2.1
 </td>
 <td style="background-color: #619CFF; font-weight: normal; border-bottom: 2px solid grey; text-align: center;">

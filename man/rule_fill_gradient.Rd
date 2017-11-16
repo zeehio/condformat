@@ -56,6 +56,7 @@ condformat(iris[c(1:5, 70:75, 120:125), ]) \%>\%
 }
 \seealso{
 Other rule: \code{\link{rule_css}},
+  \code{\link{rule_fill_bar}},
   \code{\link{rule_fill_discrete}},
   \code{\link{rule_fill_gradient2}},
   \code{\link{rule_text_bold}},
