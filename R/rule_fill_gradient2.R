@@ -177,27 +177,27 @@ rule_fill_gradient2_ <- function(columns,
 }
 
 applyrule.rule_fill_gradient2 <- function(rule, finalformat, xfiltered, xview, ...) {
-  if (inherits(rule$expression, "lazy")) {
+  if (inherits(rule[["expression"]], "lazy")) {
     # Deprecated
-    columns <- dplyr::select_vars_(colnames(xview), rule$columns) # D
-    values_determining_color <- lazyeval::lazy_eval(rule$expression, xfiltered) # D
+    columns <- dplyr::select_vars_(colnames(xview), rule[["columns"]]) # D
+    values_determining_color <- lazyeval::lazy_eval(rule[["expression"]], xfiltered) # D
     values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
     rule_fill_gradient2_common(rule, finalformat, xview, columns, values_determining_color)
   } else {
-    columns <- tidyselect::vars_select(colnames(xview), !!! rule$columns)
+    columns <- tidyselect::vars_select(colnames(xview), !!! rule[["columns"]])
     if (length(columns) == 0) {
       return(finalformat)
     }
-    if (rlang::quo_is_missing(rule$expression)) {
+    if (rlang::quo_is_missing(rule[["expression"]])) {
       if (length(columns) > 1) {
         warning("rule_fill_gradient2 applied to multiple columns, using column ",
                 columns[1], " values as expression. In the future this behaviour will change,",
                 " please use a explicit expression instead.",
                 call. = FALSE)
       }
-      rule$expression <- as.symbol(as.name(columns[1]))
+      rule[["expression"]] <- as.symbol(as.name(columns[1]))
     }
-    values_determining_color <- rlang::eval_tidy(rule$expression, data = xfiltered)
+    values_determining_color <- rlang::eval_tidy(rule[["expression"]], data = xfiltered)
     values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
     rule_fill_gradient2_common(rule, finalformat, xview, columns, values_determining_color)
   }
@@ -205,8 +205,8 @@ applyrule.rule_fill_gradient2 <- function(rule, finalformat, xfiltered, xview, .
 
 applyrule.rule_fill_gradient2_ <- function(rule, finalformat, xfiltered, xview, ...) {
   # Deprecated
-  columns <- dplyr::select_vars_(colnames(xview), rule$columns) # D
-  values_determining_color <- lazyeval::f_eval(f = rule$expression, data = xfiltered) # D
+  columns <- dplyr::select_vars_(colnames(xview), rule[["columns"]]) # D
+  values_determining_color <- lazyeval::f_eval(f = rule[["expression"]], data = xfiltered) # D
   values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
   rule_fill_gradient2_common(rule, finalformat, xview, columns, values_determining_color)
 }
@@ -214,19 +214,20 @@ applyrule.rule_fill_gradient2_ <- function(rule, finalformat, xfiltered, xview, 
 #' @importFrom scales rescale_mid
 rule_fill_gradient2_common <- function(rule, finalformat, xview,
                                       columns, values_determining_color) {
-  if (identical(rule$limits, NA)) {
+  if (identical(rule[["limits"]], NA)) {
     limits <- range(values_determining_color, na.rm = TRUE)
   } else {
-    limits <- rule$limits
+    limits <- rule[["limits"]]
   }
 
-  if (is.na(rule$midpoint)) {
+  if (is.na(rule[["midpoint"]])) {
     midpoint <- stats::median(values_determining_color, na.rm = TRUE)
   } else {
-    midpoint <- rule$midpoint
+    midpoint <- rule[["midpoint"]]
   }
 
-  col_scale <- scales::div_gradient_pal(low = rule$low, mid = rule$mid, high = rule$high, space = rule$space)
+  col_scale <- scales::div_gradient_pal(low = rule[["low"]], mid = rule[["mid"]],
+                                        high = rule[["high"]], space = rule[["space"]])
 
   values_rescaled <- scales::rescale_mid(x = values_determining_color,
                                          from = limits, mid = midpoint)
@@ -238,6 +239,6 @@ rule_fill_gradient2_common <- function(rule, finalformat, xview,
 
   finalformat <- fill_css_field_by_cols(finalformat, "background-color",
                                         colors_for_values, columns, xview,
-                                        rule$lockcells)
+                                        rule[["lockcells"]])
   return(finalformat)
 }

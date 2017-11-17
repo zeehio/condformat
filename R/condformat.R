@@ -50,22 +50,22 @@ condformat <- function(x) {
   #Deprecated
   if (inherits(obj, "condformat_show_columns")) {
     condformatopts <- attr(x, "condformat")
-    condformatopts$show$cols <- c(condformatopts$show$cols, list(obj))
+    condformatopts[[c("show", "cols")]] <- c(condformatopts[[c("show", "cols")]], list(obj))
     attr(x, "condformat") <- condformatopts
     return(x)
   } else if (inherits(obj, "condformat_show_rows")) {
     condformatopts <- attr(x, "condformat")
-    condformatopts$show$rows <- c(condformatopts$show$rows, list(obj))
+    condformatopts[[c("show", "rows")]] <- c(condformatopts[[c("show", "rows")]], list(obj))
     attr(x, "condformat") <- condformatopts
     return(x)
   } else if (inherits(obj, "condformat_rule")) {
     condformatopts <- attr(x, "condformat")
-    condformatopts$rules <- c(condformatopts$rules, list(obj))
+    condformatopts[["rules"]] <- c(condformatopts[["rules"]], list(obj))
     attr(x, "condformat") <- condformatopts
     return(x)
   } else if (inherits(obj, "condformat_theme")) {
     condformatopts <- attr(x, "condformat")
-    condformatopts$themes <- c(condformatopts$themes, list(obj))
+    condformatopts[["themes"]] <- c(condformatopts[["themes"]], list(obj))
     attr(x, "condformat") <- condformatopts
     return(x)
   } else {

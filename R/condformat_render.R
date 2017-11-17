@@ -61,14 +61,14 @@ render_show_condformat_tbl <- function(x) {
 
   finalshow <- list(xfiltered = x,
                     cols = colnames(x))
-  names(finalshow$cols) <- colnames(x)
+  names(finalshow[["cols"]]) <- colnames(x)
 
   # First we filter, then we select so we can
   # filter by variables not selected
-  showobjs <- c(condformatopts$show$rows,
-                condformatopts$show$cols)
+  showobjs <- c(condformatopts[[c("show", "rows")]],
+                condformatopts[[c("show", "cols")]])
   for (showobj in showobjs) {
-    finalshow <- render_show(showobj, finalshow, finalshow$xfiltered)
+    finalshow <- render_show(showobj, finalshow, finalshow[["xfiltered"]])
   }
   return(finalshow)
 }

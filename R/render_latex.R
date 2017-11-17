@@ -4,9 +4,9 @@
 #' @export
 condformat2latex <- function(x) {
   finalshow <- render_show_condformat_tbl(x)
-  xfiltered <- finalshow$xfiltered
-  xview <- xfiltered[, finalshow$cols, drop = FALSE]
-  themes <- attr(x, "condformat")$themes
+  xfiltered <- finalshow[["xfiltered"]]
+  xview <- xfiltered[, finalshow[["cols"]], drop = FALSE]
+  themes <- attr(x, "condformat")[["themes"]]
   finaltheme <- render_theme_condformat_tbl(themes, xview)
   kable_args <- finaltheme[["kable_args"]]
   if ("escape" %in% names(kable_args)) {
@@ -16,7 +16,7 @@ condformat2latex <- function(x) {
   } else {
     escape <- TRUE
   }
-  rules <- attr(x, "condformat")$rules
+  rules <- attr(x, "condformat")[["rules"]]
   finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview)
   raw_text <- as.matrix(format.data.frame(xview))
   if (isTRUE(escape)) {
@@ -24,10 +24,10 @@ condformat2latex <- function(x) {
   }
   # Need to wrap raw_text with formatting rules
   formatted_text <- merge_css_conditions_to_latex(
-    css_fields = finalformat$css_fields, raw_text = raw_text)
+    css_fields = finalformat[["css_fields"]], raw_text = raw_text)
 
   # Rename the columns according to show options:
-  colnames(formatted_text) <- names(finalshow$cols)
+  colnames(formatted_text) <- names(finalshow[["cols"]])
 
   caption <- kable_args[["caption"]]
   if (is.null(caption)) {
@@ -68,8 +68,8 @@ merge_css_conditions_to_latex <- function(css_fields, raw_text) {
     class(css_fields[[key]]) <- c(key, "matrix")
     stopifnot(all(dim(css_fields[[key]]) == dim(raw_text)))
     bef_after <- condformat_css_tolatex(css_fields[[key]])
-    before <- paste0mat(before, bef_after$before)
-    after <- paste0mat(bef_after$after, after)
+    before <- paste0mat(before, bef_after[["before"]])
+    after <- paste0mat(bef_after[["after"]], after)
   }
   output <- paste0(before, raw_text, after)
   output <- matrix(output, nrow = nrow(raw_text), ncol = ncol(raw_text))

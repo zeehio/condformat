@@ -33,26 +33,26 @@ rule_css <- function(x, columns, expression,
 }
 
 applyrule.rule_css <- function(rule, finalformat, xfiltered, xview, ...) {
-  columns <- tidyselect::vars_select(colnames(xview), !!! rule$columns)
+  columns <- tidyselect::vars_select(colnames(xview), !!! rule[["columns"]])
   if (length(columns) == 0) {
     return(finalformat)
   }
-  if (rlang::quo_is_missing(rule$expression)) {
+  if (rlang::quo_is_missing(rule[["expression"]])) {
     if (length(columns) > 1) {
       warning("rule_css applied to multiple columns, using column ",
               columns[1], " values as expression. In the future this behaviour will change,",
               "please use a explicit expression instead.",
               call. = FALSE)
     }
-    rule$expression <- as.symbol(as.name(columns[1]))
+    rule[["expression"]] <- as.symbol(as.name(columns[1]))
   }
-  css_values <- rlang::eval_tidy(rule$expression, data = xfiltered)
+  css_values <- rlang::eval_tidy(rule[["expression"]], data = xfiltered)
   stopifnot(identical(length(css_values), nrow(xview)))
   # Recycle css values to fit all the columns:
   colours_for_values <- matrix(css_values,
                                nrow = nrow(xview), ncol = ncol(xview), byrow = FALSE)
   finalformat <- fill_css_field_by_cols(finalformat,
-                                        rule$css_field, colours_for_values,
-                                        columns, xview, rule$lockcells)
+                                        rule[["css_field"]], colours_for_values,
+                                        columns, xview, rule[["lockcells"]])
   return(finalformat)
 }

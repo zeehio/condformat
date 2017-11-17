@@ -199,28 +199,28 @@ rule_fill_discrete_ <- function(columns,
 
 
 applyrule.rule_fill_discrete <- function(rule, finalformat, xfiltered, xview, ...) {
-  if (inherits(rule$expression, "lazy")) {
+  if (inherits(rule[["expression"]], "lazy")) {
     # Deprecated: Remove in future version
-    columns <- dplyr::select_vars_(colnames(xview), rule$columns) # D
-    values_determining_color <- as.factor(lazyeval::lazy_eval(rule$expression, data = xfiltered)) # D
+    columns <- dplyr::select_vars_(colnames(xview), rule[["columns"]]) # D
+    values_determining_color <- as.factor(lazyeval::lazy_eval(rule[["expression"]], data = xfiltered)) # D
     values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
     rule_fill_discrete_common(rule, finalformat, xview, columns,
                               values_determining_color)
   } else {
-    columns <- tidyselect::vars_select(colnames(xview), !!! rule$columns)
+    columns <- tidyselect::vars_select(colnames(xview), !!! rule[["columns"]])
     if (length(columns) == 0) {
       return(finalformat)
     }
-    if (rlang::quo_is_missing(rule$expression)) {
+    if (rlang::quo_is_missing(rule[["expression"]])) {
       if (length(columns) > 1) {
         warning("rule_fill_discrete applied to multiple columns, using column ",
                 columns[1], " values as expression. In the future this behaviour will change,",
                 "please use a explicit expression instead.",
                 call. = FALSE)
       }
-      rule$expression <- as.symbol(as.name(columns[1]))
+      rule[["expression"]] <- as.symbol(as.name(columns[1]))
     }
-    values_determining_color <- as.factor(rlang::eval_tidy(rule$expression, data = xfiltered))
+    values_determining_color <- as.factor(rlang::eval_tidy(rule[["expression"]], data = xfiltered))
     values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
     rule_fill_discrete_common(rule, finalformat, xview, columns,
                               values_determining_color)
@@ -229,11 +229,11 @@ applyrule.rule_fill_discrete <- function(rule, finalformat, xfiltered, xview, ..
 
 applyrule.rule_fill_discrete_ <- function(rule, finalformat, xfiltered, xview, ...) {
   # Deprecated: Remove in future version
-  columns <- dplyr::select_vars_(colnames(xview), rule$columns) # D
-  if (!lazyeval::is_formula(rule$expression)) { # D
-    values_determining_color <- as.factor(rule$expression)
+  columns <- dplyr::select_vars_(colnames(xview), rule[["columns"]]) # D
+  if (!lazyeval::is_formula(rule[["expression"]])) { # D
+    values_determining_color <- as.factor(rule[["expression"]])
   } else {
-    values_determining_color <- as.factor(lazyeval::f_eval(f = rule$expression, data = xfiltered)) # D
+    values_determining_color <- as.factor(lazyeval::f_eval(f = rule[["expression"]], data = xfiltered)) # D
     values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
   }
   rule_fill_discrete_common(rule, finalformat, xview, columns,
@@ -243,29 +243,29 @@ applyrule.rule_fill_discrete_ <- function(rule, finalformat, xfiltered, xview, .
 rule_fill_discrete_common <- function(rule, finalformat, xview,
                                       columns, values_determining_color) {
   colours_for_values <- NA
-  if (identical(rule$colours, NA)) {
+  if (identical(rule[["colours"]], NA)) {
     # colours not given: Create a palette
     number_colours <- length(unique(values_determining_color))
-    col_scale <- scales::hue_pal(h = rule$h, c = rule$c, l = rule$l,
-                                 h.start = rule$h.start,
-                                 direction = rule$direction)(number_colours)
+    col_scale <- scales::hue_pal(h = rule[["h"]], c = rule[["c"]], l = rule[["l"]],
+                                 h.start = rule[["h.start"]],
+                                 direction = rule[["direction"]])(number_colours)
     colours_for_values <- col_scale[as.integer(values_determining_color)]
-  } else if (is.character(rule$colours)) {
-    colours_for_values <- rule$colours[match(values_determining_color, names(rule$colours))]
-  } else if (is.function(rule$colours)) {
-    colours_for_values <- rule$colours(values_determining_color)
+  } else if (is.character(rule[["colours"]])) {
+    colours_for_values <- rule[["colours"]][match(values_determining_color, names(rule[["colours"]]))]
+  } else if (is.function(rule[["colours"]])) {
+    colours_for_values <- rule[["colours"]](values_determining_color)
     if (is.factor(colours_for_values)) {
       colours_for_values <- as.character(colours_for_values)
     }
   }
-  colours_for_values[is.na(colours_for_values)] <- rule$na.value
+  colours_for_values[is.na(colours_for_values)] <- rule[["na.value"]]
   stopifnot(identical(length(colours_for_values), nrow(xview)))
   colours_for_values <- matrix(colours_for_values,
                                nrow = nrow(xview), ncol = ncol(xview), byrow = FALSE)
 
   finalformat <- fill_css_field_by_cols(finalformat,
                                         "background-color", colours_for_values,
-                                        columns, xview, rule$lockcells)
+                                        columns, xview, rule[["lockcells"]])
   return(finalformat)
 }
 

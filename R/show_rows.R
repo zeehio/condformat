@@ -36,7 +36,7 @@ show_rows_new <- function(x, ...) {
     x2 <- condformat(x2)
   }
   condformatopts <- attr(x2, "condformat")
-  condformatopts$show$rows <- c(condformatopts$show$rows, list(showobj))
+  condformatopts[[c("show", "rows")]] <- c(condformatopts[[c("show", "rows")]], list(showobj))
   attr(x2, "condformat") <- condformatopts
   return(x2)
 }
@@ -80,14 +80,14 @@ show_rows_ <- function(..., .dots) {
 }
 
 render_show.condformat_show_rows_filter <- function(showobj, finalshow, x, ...) {
-  if (inherits(showobj$row_expr, "lazy_dots")) {
+  if (inherits(showobj[["row_expr"]], "lazy_dots")) {
     # Deprecated
-    xfiltered <- dplyr::filter_(x, .dots = showobj$row_expr) # D
-    finalshow$xfiltered <- xfiltered
+    xfiltered <- dplyr::filter_(x, .dots = showobj[["row_expr"]]) # D
+    finalshow[["xfiltered"]] <- xfiltered
     return(finalshow)
   } else {
-    xfiltered <- dplyr::filter(x, !!! showobj$row_expr)
-    finalshow$xfiltered <- xfiltered
+    xfiltered <- dplyr::filter(x, !!! showobj[["row_expr"]])
+    finalshow[["xfiltered"]] <- xfiltered
     return(finalshow)
   }
 }

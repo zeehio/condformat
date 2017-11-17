@@ -76,17 +76,17 @@ condformat2excelsheet <- function(x, sheet) {
     stop("sheet must be an jobjRef object, as the one returned with xls::createSheet()")
   }
   finalshow <- render_show_condformat_tbl(x)
-  xfiltered <- finalshow$xfiltered
-  xview <- xfiltered[, finalshow$cols, drop = FALSE]
-  rules <- attr(x, "condformat")$rules
+  xfiltered <- finalshow[["xfiltered"]]
+  xview <- xfiltered[, finalshow[["cols"]], drop = FALSE]
+  rules <- attr(x, "condformat")[["rules"]]
   finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview)
 
   xlsx::addDataFrame(x = as.data.frame(xview),
                      sheet = sheet, row.names = FALSE, col.names = TRUE)
-  if ("background-color" %in% names(finalformat$css_fields)) {
+  if ("background-color" %in% names(finalformat[["css_fields"]])) {
     for (i in seq_len(nrow(xview))) {
       for (j in seq_len(ncol(xview))) {
-        background_color <- ifelse(finalformat$css_fields$`background-color`[i,j] == "", NA, finalformat$css_fields$`background-color`[i,j])
+        background_color <- ifelse(finalformat[[c("css_fields", "background-color")]][i,j] == "", NA, finalformat[[c("css_fields", "background-color")]][i,j])
         if (!is.na(background_color)) {
           cb <- xlsx::CellBlock.default(sheet, startRow = i + 1, startColumn = j,
                                         noRows = 1, noColumns = 1, create = FALSE)

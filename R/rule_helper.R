@@ -5,12 +5,12 @@
 # @param field the name of the CSS field to be returned
 # @return a matrix of size xview with the CSS field information
 get_css_field <- function(finalformat, field) {
-  if (!(field %in% names(finalformat$css_fields))) {
+  if (!(field %in% names(finalformat[["css_fields"]]))) {
     field_matrix <- matrix(data = "",
-                           nrow = nrow(finalformat$css_cell),
-                           ncol = ncol(finalformat$css_cell))
+                           nrow = nrow(finalformat[["css_cell"]]),
+                           ncol = ncol(finalformat[["css_cell"]]))
   } else {
-    field_matrix <- finalformat$css_fields[[field]]
+    field_matrix <- finalformat[["css_fields"]][[field]]
   }
   return(field_matrix)
 }
@@ -26,7 +26,7 @@ get_css_field <- function(finalformat, field) {
 #
 lock_cells <- function(rule_locks, mask, finalformat) {
   if (identical(rule_locks, TRUE)) {
-    finalformat$css_cell_unlocked[mask] <- FALSE
+    finalformat[["css_cell_unlocked"]][mask] <- FALSE
   }
   return(finalformat)
 }
@@ -35,7 +35,7 @@ fill_css_field_by_cols <- function(finalformat, field, values, columns, xview, l
   index.j <- match(columns, colnames(xview))
   index.j <- index.j[!is.na(index.j)]
 
-  mask <- finalformat$css_cell_unlocked
+  mask <- finalformat[["css_cell_unlocked"]]
   # mask == TRUE if cell can be changed, false otherwise
   # We can't change columns not affected:
   mask[,-index.j] <- FALSE
@@ -46,7 +46,7 @@ fill_css_field_by_cols <- function(finalformat, field, values, columns, xview, l
   backgr <- get_css_field(finalformat, field)
   backgr[mask2] <- values[mask2]
 
-  finalformat$css_fields[[field]] <- backgr
+  finalformat[["css_fields"]][[field]] <- backgr
   finalformat <- lock_cells(lockcells, mask, finalformat)
   return(finalformat)
 }
@@ -77,7 +77,7 @@ parse_columns_and_expression_ <- function(columns, expression) {
 
 add_rule_to_condformat <- function(x, rule) {
   condformatopts <- attr(x, "condformat")
-  condformatopts$rules <- c(condformatopts$rules, list(rule))
+  condformatopts[["rules"]] <- c(condformatopts[["rules"]], list(rule))
   attr(x, "condformat") <- condformatopts
   x
 }

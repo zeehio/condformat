@@ -52,20 +52,20 @@ rule_fill_bar <- function(x, columns, expression,
 }
 
 applyrule.rule_fill_bar <- function(rule, finalformat, xfiltered, xview, ...) {
-  columns <- tidyselect::vars_select(colnames(xview), !!! rule$columns)
+  columns <- tidyselect::vars_select(colnames(xview), !!! rule[["columns"]])
   if (length(columns) == 0) {
     return(finalformat)
   }
-  if (rlang::quo_is_missing(rule$expression)) {
+  if (rlang::quo_is_missing(rule[["expression"]])) {
     if (length(columns) > 1) {
       warning("rule_fill_bar applied to multiple columns, using column ",
               columns[1], " values as expression. In the future this behaviour will change,",
               " please use a explicit expression instead.",
               call. = FALSE)
     }
-    rule$expression <- as.symbol(as.name(columns[1]))
+    rule[["expression"]] <- as.symbol(as.name(columns[1]))
   }
-  values_determining_color <- rlang::eval_tidy(rule$expression, data = xfiltered)
+  values_determining_color <- rlang::eval_tidy(rule[["expression"]], data = xfiltered)
   values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
   rule_bar_gradient_common(rule, finalformat, xview, columns, values_determining_color)
 }
@@ -73,10 +73,10 @@ applyrule.rule_fill_bar <- function(rule, finalformat, xfiltered, xview, ...) {
 #' @importFrom scales rescale
 rule_bar_gradient_common <- function(rule, finalformat, xview,
                                      columns, values_determining_color) {
-  if (identical(rule$limits, NA)) {
+  if (identical(rule[["limits"]], NA)) {
     limits <- range(values_determining_color, na.rm = TRUE)
   } else {
-    limits <- rule$limits
+    limits <- rule[["limits"]]
     if (is.na(limits[1])) {
       limits[1] <- min(values_determining_color, na.rm = TRUE)
     }
@@ -94,8 +94,8 @@ rule_bar_gradient_common <- function(rule, finalformat, xview,
                         "1px solid black",
                         "1px solid black")
 
-  col_low <- grDevices::col2rgb(rule$low)
-  col_high <- grDevices::col2rgb(rule$high)
+  col_low <- grDevices::col2rgb(rule[["low"]])
+  col_high <- grDevices::col2rgb(rule[["high"]])
 
   # FIXME: The representation of a nice gradient in CSS requires of changing
   # many CSS attributes. This is the first time in condformat where the CSS rule
@@ -114,8 +114,8 @@ rule_bar_gradient_common <- function(rule, finalformat, xview,
                               NA, "no-repeat")
 
   background_color <- ifelse(is.na(values_rescaled),
-                             rule$na.value,
-                             rule$background)
+                             rule[["na.value"]],
+                             rule[["background"]])
 
   # Repeat the vector as many times as columns we are applying this to:
   background_sizes_mat <- matrix(background_sizes, nrow = nrow(xview),
@@ -146,7 +146,7 @@ rule_bar_gradient_common <- function(rule, finalformat, xview,
                                         xview, FALSE)
   finalformat <- fill_css_field_by_cols(finalformat, "background-repeat",
                                         background_repeat_mat, columns,
-                                        xview, rule$lockcells)
+                                        xview, rule[["lockcells"]])
   return(finalformat)
 }
 
