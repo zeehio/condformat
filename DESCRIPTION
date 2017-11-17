@@ -4,7 +4,8 @@ Title: Conditional Formatting in Data Frames
 Version: 0.7.0.9000
 Date: 2017-10-19
 Authors@R: person("Sergio", c("Oller", "Moreno"),
-                  email = "sergioller@gmail.com", role = c("aut", "cph", "cre"))
+                  email = "sergioller@gmail.com", role = c("aut", "cph", "cre"),
+                  comment = c(ORCID = "0000-0002-8994-1549"))
 URL: http://github.com/zeehio/condformat
 BugReports: http://github.com/zeehio/condformat/issues
 Description: Apply and visualize conditional formatting to data frames in R.
