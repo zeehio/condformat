@@ -28,14 +28,14 @@ rule_text_bold <- function(x, columns, expression,
   return(x)
 }
 
-applyrule.rule_text_bold <- function(rule, finalformat, xfiltered, xview, ...) {
+rule_to_cf_field.rule_text_bold <- function(rule, xfiltered, xview, ...) {
   columns <- tidyselect::vars_select(colnames(xview), !!! rule[["columns"]])
   if (length(columns) == 0) {
-    return(finalformat)
+    return(NULL)
   }
   if (rlang::quo_is_missing(rule[["expression"]])) {
     if (length(columns) > 1) {
-      warning("rule_css applied to multiple columns, using column ",
+      warning("rule_text_bold applied to multiple columns, using column ",
               columns[1], " values as expression. In the future this behaviour will change,",
               "please use a explicit expression instead.",
               call. = FALSE)
@@ -47,19 +47,30 @@ applyrule.rule_text_bold <- function(rule, finalformat, xfiltered, xview, ...) {
   # Recycle css values to fit all the columns:
   bold_or_not_mat_l <- matrix(bold_or_not, nrow = nrow(xview),
                               ncol = ncol(xview), byrow = FALSE)
-  bold_or_not_mat <- matrix("normal", nrow = nrow(xview), ncol = ncol(xview))
-  bold_or_not_mat[bold_or_not_mat_l] <- "bold"
-  bold_or_not_mat[is.na(bold_or_not_mat_l)] <- rule[["na.value"]]
 
-  finalformat <- fill_css_field_by_cols(finalformat,
-                                        "font-weight", bold_or_not_mat,
-                                        columns, xview, rule[["lockcells"]])
-  return(finalformat)
+  bold_or_not_mat <- matrix(NA, nrow = nrow(xview), ncol = ncol(xview))
+  colnames(bold_or_not_mat) <- colnames(xview)
+  bold_or_not_mat[bold_or_not, columns] <- "bold"
+  bold_or_not_mat[!bold_or_not, columns] <- "normal"
+  bold_or_not_mat[is.na(bold_or_not), columns] <- rule[["na.value"]]
+
+  cf_field <- structure(list(css_key = "font-weight",
+                             css_values = bold_or_not_mat,
+                             lock_cells = rule[["lockcells"]]),
+                        class = c("cf_field_rule_text_bold",
+                                  "cf_field_css", "cf_field"))
+  return(cf_field)
 }
 
-`condformat_css_tolatex.font-weight` <- function(css_values) {
-  # \textbf{setosa}
+cf_field_to_latex.cf_field_rule_text_bold <- function(cf_field, xview, unlocked) {
+  css_values <- cf_field[["css_values"]]
+  to_lock <- !is.na(css_values)
+  css_values[is.na(css_values) | !unlocked] <- ""
   before <- ifelse(css_values == "bold", "\\textbf{", "")
   after <- ifelse(css_values == "bold", "}", "")
-  list(before=before, after=after)
+
+  if (cf_field[["lock_cells"]]) {
+    unlocked <- unlocked | to_lock
+  }
+  list(before = before, after = after, unlocked = unlocked)
 }

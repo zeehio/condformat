@@ -28,14 +28,14 @@ rule_text_color <- function(x, columns, expression,
   return(x)
 }
 
-applyrule.rule_text_color <- function(rule, finalformat, xfiltered, xview, ...) {
+rule_to_cf_field.rule_text_color <- function(rule, xfiltered, xview, ...) {
   columns <- tidyselect::vars_select(colnames(xview), !!! rule[["columns"]])
   if (length(columns) == 0) {
-    return(finalformat)
+    return(NULL)
   }
   if (rlang::quo_is_missing(rule[["expression"]])) {
     if (length(columns) > 1) {
-      warning("rule_css applied to multiple columns, using column ",
+      warning("rule_text_color applied to multiple columns, using column ",
               columns[1], " values as expression. In the future this behaviour will change,",
               "please use a explicit expression instead.",
               call. = FALSE)
@@ -43,19 +43,27 @@ applyrule.rule_text_color <- function(rule, finalformat, xfiltered, xview, ...) 
     rule[["expression"]] <- as.symbol(as.name(columns[1]))
   }
   colors <- rlang::eval_tidy(rule[["expression"]], data = xfiltered)
+  colors[is.na(colors)] <- rule[["na.value"]]
   stopifnot(identical(length(colors), nrow(xview)))
   # Recycle css values to fit all the columns:
-  colors_mat <- matrix(colors, nrow = nrow(xview),
-                       ncol = ncol(xview), byrow = FALSE)
-  colors_mat[is.na(colors_mat)] <- rule[["na.value"]]
-  finalformat <- fill_css_field_by_cols(finalformat,
-                                        "color", colors_mat,
-                                        columns, xview, rule[["lockcells"]])
-  return(finalformat)
+  colors_mat <- matrix(NA, nrow = nrow(xview),
+                       ncol = ncol(xview))
+  colnames(colors_mat) <- colnames(xview)
+  colors_mat[, columns] <- colors
+  cf_field <- structure(list(css_key = "color",
+                             css_values = colors_mat,
+                             lock_cells = rule[["lockcells"]]),
+                        class = c("cf_field_rule_text_color",
+                                  "cf_field_css", "cf_field"))
+  return(cf_field)
 }
 
-condformat_css_tolatex.color <- function(css_values) {
+
+cf_field_to_latex.cf_field_rule_text_color <- function(cf_field, xview, unlocked) {
   # \textcolor[RGB]{0,255,0}{This text will appear green-colored}
+  css_values <- cf_field[["css_values"]]
+  to_lock <- !is.na(css_values)
+  css_values[is.na(css_values) | !unlocked] <- ""
   before <- css_values
   before[nchar(css_values) > 0] <- apply(
     grDevices::col2rgb(before[nchar(css_values) > 0]),
@@ -63,5 +71,9 @@ condformat_css_tolatex.color <- function(css_values) {
     function(x) sprintf("\\textcolor[RGB]{%d,%d,%d}{", x[1],x[2],x[3]))
   after <- css_values
   after[nchar(css_values) > 0 ] <- "}"
-  list(before = before, after = after)
+
+  if (cf_field[["lock_cells"]]) {
+    unlocked <- unlocked | to_lock
+  }
+  list(before = before, after = after, unlocked = unlocked)
 }

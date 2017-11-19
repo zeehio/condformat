@@ -17,14 +17,14 @@ condformat2latex <- function(x) {
     escape <- TRUE
   }
   rules <- attr(x, "condformat")[["rules"]]
-  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview)
+  cf_fields <- rules_to_cf_fields(rules, xfiltered, xview)
   raw_text <- as.matrix(format.data.frame(xview))
   if (isTRUE(escape)) {
     raw_text <- escape_latex(raw_text)
   }
   # Need to wrap raw_text with formatting rules
-  formatted_text <- merge_css_conditions_to_latex(
-    css_fields = finalformat[["css_fields"]], raw_text = raw_text)
+  formatted_text <- merge_cf_conditions_to_latex(
+    cf_fields = cf_fields, xview = xview, raw_text = raw_text)
 
   # Rename the columns according to show options:
   colnames(formatted_text) <- names(finalshow[["cols"]])
@@ -59,17 +59,16 @@ paste0mat <- function(x,y) {
   return(out)
 }
 
-merge_css_conditions_to_latex <- function(css_fields, raw_text) {
-  css_keys <- names(css_fields)
+merge_cf_conditions_to_latex <- function(cf_fields, xview, raw_text) {
   output <- ""
   before <- matrix("", nrow = nrow(raw_text), ncol = ncol(raw_text))
   after <- matrix("", nrow = nrow(raw_text), ncol = ncol(raw_text))
-  for (key in css_keys) {
-    class(css_fields[[key]]) <- c(key, "matrix")
-    stopifnot(all(dim(css_fields[[key]]) == dim(raw_text)))
-    bef_after <- condformat_css_tolatex(css_fields[[key]])
+  unlocked <- matrix(TRUE, nrow = nrow(raw_text), ncol = ncol(raw_text))
+  for (cf_field in cf_fields) {
+    bef_after <- cf_field_to_latex(cf_field, xview, unlocked)
     before <- paste0mat(before, bef_after[["before"]])
     after <- paste0mat(bef_after[["after"]], after)
+    unlocked <- bef_after[["unlocked"]]
   }
   output <- paste0(before, raw_text, after)
   output <- matrix(output, nrow = nrow(raw_text), ncol = ncol(raw_text))
@@ -90,33 +89,18 @@ escape_latex = function(x, newlines = FALSE, spaces = FALSE) {
   x
 }
 
-#' How to export css values to latex
+#' How to export cf values to latex
 #'
-#' @param css_values A character matrix with the CSS values that need to
-#'                   be converted to Latex
+#' @inheritParams cf_field_to_css
 #' @return A list with two character matrices named `before` and `after`. Both
-#'         of these matrices must be of the same size as `css_values`.
+#'         of these matrices must be of the same size as `xview`.
 #'
-#' @examples
-#' \dontrun{
-#' # This code implements the piece needed for converting the font-weight CSS
-#' # property. The before matrix contains `"\textbf leftbrace"` in the positions where a bold
-#' # text is expected. In those cases the "after" matrix contains `"rightbrace"`.
-#' # Therefore the final value will be paste0("\\textbf leftbrace", value, "rightbrace")
-#' `condformat_css_tolatex.font-weight` <- function(css_values) {
-#'   # \textbf{setosa}
-#'   before <- ifelse(css_values == "bold", "\textbf{", "")
-#'   after <- ifelse(css_values == "bold", "}", "")
-#'   list(before=before, after=after)
-#' }
-#' }
 #' @export
-condformat_css_tolatex <- function(css_values) UseMethod("condformat_css_tolatex")
+cf_field_to_latex <- function(cf_field, xview, unlocked) UseMethod("cf_field_to_latex")
 
-condformat_css_tolatex.default <- function(css_values) {
-  css_key <- class(css_values)[1]
-  warning("css key ", css_key, " is not supported by condformat in LaTeX output")
-  before <- matrix("", nrow = nrow(css_values), ncol = ncol(css_values))
-  after <- matrix("", nrow = nrow(css_values), ncol = ncol(css_values))
-  list(before = before, after = after)
+cf_field_to_latex.default <- function(cf_field, xview, unlocked) {
+  warning("cf key ", class(cf_field)[1], " is not supported by condformat in LaTeX output")
+  before <- matrix("", nrow = nrow(xview), ncol = ncol(xview))
+  after <- matrix("", nrow = nrow(xview), ncol = ncol(xview))
+  list(before = before, after = after, unlocked = unlocked)
 }

@@ -32,10 +32,10 @@ rule_css <- function(x, columns, expression,
   return(x)
 }
 
-applyrule.rule_css <- function(rule, finalformat, xfiltered, xview, ...) {
+rule_to_cf_field.rule_css <- function(rule, xfiltered, xview, ...) {
   columns <- tidyselect::vars_select(colnames(xview), !!! rule[["columns"]])
   if (length(columns) == 0) {
-    return(finalformat)
+    return(NULL)
   }
   if (rlang::quo_is_missing(rule[["expression"]])) {
     if (length(columns) > 1) {
@@ -49,10 +49,40 @@ applyrule.rule_css <- function(rule, finalformat, xfiltered, xview, ...) {
   css_values <- rlang::eval_tidy(rule[["expression"]], data = xfiltered)
   stopifnot(identical(length(css_values), nrow(xview)))
   # Recycle css values to fit all the columns:
-  colours_for_values <- matrix(css_values,
-                               nrow = nrow(xview), ncol = ncol(xview), byrow = FALSE)
-  finalformat <- fill_css_field_by_cols(finalformat,
-                                        rule[["css_field"]], colours_for_values,
-                                        columns, xview, rule[["lockcells"]])
-  return(finalformat)
+  css_values_mat <- matrix(NA,
+                           nrow = nrow(xview), ncol = ncol(xview),
+                           byrow = FALSE)
+  colnames(css_values_mat) <- colnames(xview)
+  css_values_mat[, columns] <- css_values
+  cf_field <- structure(list(css_key = rule[["css_field"]],
+                             css_values = css_values_mat,
+                             lock_cells = rule[["lockcells"]]),
+                        class = c("cf_field_css", "cf_field"))
+  return(cf_field)
+}
+
+# This is used by all CSS based rules
+cf_field_to_css.cf_field_css <- function(cf_field, xview, css_fields, unlocked) {
+  css_key <- cf_field[["css_key"]]
+  css_values <- cf_field[["css_values"]]
+
+  mask <- unlocked
+  # mask == TRUE if cell can be changed, false otherwise
+
+  # if the css value is NA, ignore it as well
+  # (so we don't override previous values)
+  mask <- mask & !is.na(css_values)
+
+  if (css_key %in% names(css_fields)) {
+    prev_values <- css_fields[[css_key]]
+  } else {
+    prev_values <- matrix(NA, nrow = nrow(xview), ncol = ncol(xview))
+  }
+  prev_values[mask] <- css_values[mask]
+
+  css_fields[[css_key]] <- prev_values
+  if (identical(cf_field[["lock_cells"]], TRUE)) {
+    unlocked[mask] <- FALSE
+  }
+  return(list(css_fields = css_fields, unlocked = unlocked))
 }

@@ -198,18 +198,18 @@ rule_fill_discrete_ <- function(columns,
 
 
 
-applyrule.rule_fill_discrete <- function(rule, finalformat, xfiltered, xview, ...) {
+rule_to_cf_field.rule_fill_discrete <- function(rule, xfiltered, xview, ...) {
   if (inherits(rule[["expression"]], "lazy")) {
     # Deprecated: Remove in future version
     columns <- dplyr::select_vars_(colnames(xview), rule[["columns"]]) # D
     values_determining_color <- as.factor(lazyeval::lazy_eval(rule[["expression"]], data = xfiltered)) # D
     values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
-    rule_fill_discrete_common(rule, finalformat, xview, columns,
-                              values_determining_color)
+    r_f_d_to_cf_field_common(rule, xview, columns,
+                             values_determining_color)
   } else {
     columns <- tidyselect::vars_select(colnames(xview), !!! rule[["columns"]])
     if (length(columns) == 0) {
-      return(finalformat)
+      return(NULL)
     }
     if (rlang::quo_is_missing(rule[["expression"]])) {
       if (length(columns) > 1) {
@@ -222,12 +222,12 @@ applyrule.rule_fill_discrete <- function(rule, finalformat, xfiltered, xview, ..
     }
     values_determining_color <- as.factor(rlang::eval_tidy(rule[["expression"]], data = xfiltered))
     values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
-    rule_fill_discrete_common(rule, finalformat, xview, columns,
-                              values_determining_color)
+    r_f_d_to_cf_field_common(rule, xview, columns,
+                             values_determining_color)
   }
 }
 
-applyrule.rule_fill_discrete_ <- function(rule, finalformat, xfiltered, xview, ...) {
+rule_to_cf_field.rule_fill_discrete_ <- function(rule, xfiltered, xview, ...) {
   # Deprecated: Remove in future version
   columns <- dplyr::select_vars_(colnames(xview), rule[["columns"]]) # D
   if (!lazyeval::is_formula(rule[["expression"]])) { # D
@@ -236,12 +236,11 @@ applyrule.rule_fill_discrete_ <- function(rule, finalformat, xfiltered, xview, .
     values_determining_color <- as.factor(lazyeval::f_eval(f = rule[["expression"]], data = xfiltered)) # D
     values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
   }
-  rule_fill_discrete_common(rule, finalformat, xview, columns,
-                            values_determining_color)
+  r_f_d_to_cf_field_common(rule, xview, columns, values_determining_color)
 }
 
-rule_fill_discrete_common <- function(rule, finalformat, xview,
-                                      columns, values_determining_color) {
+r_f_d_to_cf_field_common <- function(rule, xview,
+                                     columns, values_determining_color) {
   colours_for_values <- NA
   if (identical(rule[["colours"]], NA)) {
     # colours not given: Create a palette
@@ -260,18 +259,25 @@ rule_fill_discrete_common <- function(rule, finalformat, xview,
   }
   colours_for_values[is.na(colours_for_values)] <- rule[["na.value"]]
   stopifnot(identical(length(colours_for_values), nrow(xview)))
-  colours_for_values <- matrix(colours_for_values,
-                               nrow = nrow(xview), ncol = ncol(xview), byrow = FALSE)
-
-  finalformat <- fill_css_field_by_cols(finalformat,
-                                        "background-color", colours_for_values,
-                                        columns, xview, rule[["lockcells"]])
-  return(finalformat)
+  colours_for_values_mat <- matrix(NA,
+                                   nrow = nrow(xview), ncol = ncol(xview),
+                                   byrow = FALSE)
+  colnames(colours_for_values_mat) <- colnames(xview)
+  colours_for_values_mat[, columns] <- colours_for_values
+  cf_field <- structure(list(css_key = "background-color",
+                             css_values = colours_for_values_mat,
+                             lock_cells = rule[["lockcells"]]),
+                        class = c("cf_field_rule_fill_solid",
+                                  "cf_field_css", "cf_field"))
+  return(cf_field)
 }
 
-# Used by all rule_fill_* functions
-`condformat_css_tolatex.background-color` <- function(css_values) {
-  before <- css_values
+# Used by rule_fill_discrete, rule_fill_gradient and rule_fill_gradient2 functions
+cf_field_to_latex.cf_field_rule_fill_solid <- function(cf_field, xview, unlocked) {
+  colours <- cf_field[["css_values"]]
+  to_lock <- !is.na(colours)
+  colours[is.na(colours) | !unlocked] <- ""
+  before <- colours
   # Convert colors  to hex strings:
   # c("green", "yellow", "#00FF00") to c("0000FF", "FFFF00", "00FF00")
   # leaving empty strings aside
@@ -279,6 +285,9 @@ rule_fill_discrete_common <- function(rule, finalformat, xview,
     grDevices::col2rgb(before[nchar(before) > 0]),
     MARGIN = 2,
     function(x) sprintf("\\cellcolor[HTML]{%02X%02X%02X}", x[1],x[2],x[3]))
-  after <- matrix("", nrow = nrow(css_values), ncol = ncol(css_values))
-  list(before = before, after = after)
+  after <- matrix("", nrow = nrow(colours), ncol = ncol(colours))
+  if (cf_field[["lock_cells"]]) {
+    unlocked <- unlocked | to_lock
+  }
+  list(before = before, after = after, unlocked = unlocked)
 }

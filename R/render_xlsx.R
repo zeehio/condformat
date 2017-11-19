@@ -79,14 +79,17 @@ condformat2excelsheet <- function(x, sheet) {
   xfiltered <- finalshow[["xfiltered"]]
   xview <- xfiltered[, finalshow[["cols"]], drop = FALSE]
   rules <- attr(x, "condformat")[["rules"]]
-  finalformat <- render_rules_condformat_tbl(rules, xfiltered, xview)
+  cf_fields <- rules_to_cf_fields(rules, xfiltered, xview)
+  css_fields <- render_cf_fields_to_css_fields(cf_fields, xview)
 
   xlsx::addDataFrame(x = as.data.frame(xview),
                      sheet = sheet, row.names = FALSE, col.names = TRUE)
-  if ("background-color" %in% names(finalformat[["css_fields"]])) {
+  if ("background-color" %in% names(css_fields)) {
     for (i in seq_len(nrow(xview))) {
       for (j in seq_len(ncol(xview))) {
-        background_color <- ifelse(finalformat[[c("css_fields", "background-color")]][i,j] == "", NA, finalformat[[c("css_fields", "background-color")]][i,j])
+        background_color <- ifelse(css_fields[["background-color"]][i,j] == "",
+                                   NA,
+                                   css_fields[["background-color"]][i,j])
         if (!is.na(background_color)) {
           cb <- xlsx::CellBlock.default(sheet, startRow = i + 1, startColumn = j,
                                         noRows = 1, noColumns = 1, create = FALSE)
@@ -100,3 +103,4 @@ condformat2excelsheet <- function(x, sheet) {
   }
   invisible(x)
 }
+

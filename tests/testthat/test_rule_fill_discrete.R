@@ -187,18 +187,6 @@ test_that("rule_fill_discrete_ works programmatically (0.6 syntax)", {
                condformat(iris[c(1,51,101),]) + r2)
 })
 
-test_that("custom rule_ passes doing nothing (0.6 syntax)", {
-  custom_ruleobj <- structure(list(),
-                              class = c("condformat_rule"))
-  data(iris)
-  x <- condformat(head(iris))
-  y <- x + custom_ruleobj
-  out_x <- condformat2html(x)
-  out_y <- condformat2html(y)
-  expect_identical(out_x, out_y)
-})
-
-
 test_that("rule_fill_discrete has expected LaTeX output", {
   latex <- condformat(data.frame(a = c("Dog", "Cat", "Mouse"))) %>%
     rule_fill_discrete("a", colours = c("Dog" = "#A52A2A")) %>%

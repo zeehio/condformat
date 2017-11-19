@@ -80,17 +80,10 @@ render_show_condformat_tbl <- function(x) {
 # @param xfiltered Like xview, but with all the columns (rules
 #                  will use columns that won't be printed)
 # @return List with the CSS information
-render_rules_condformat_tbl <- function(rules, xfiltered, xview) {
-  finalformat <- list(css_fields = list(),
-                      css_cell = matrix(data = "", nrow = nrow(xview), ncol = ncol(xview)),
-                      css_cell_unlocked = matrix(data = TRUE,
-                                                 nrow = nrow(xview),
-                                                 ncol = ncol(xview)))
-
-  for (rule in rules) {
-    finalformat <- applyrule(rule, finalformat, xfiltered, xview)
-  }
-  return(finalformat)
+rules_to_cf_fields <- function(rules, xfiltered, xview) {
+  cf_fields <- lapply(rules,
+                      function(rule) rule_to_cf_field(rule, xfiltered, xview))
+  return(cf_fields)
 }
 
 render_show <- function(showobj, finalshow, x, ...) UseMethod("render_show")
@@ -99,12 +92,7 @@ render_show.default <- function(showobj, finalshow, x , ...) {
   finalshow
 }
 
-applyrule <- function(rule, finalformat, xfiltered, xview, ...) UseMethod("applyrule")
-
-
-applyrule.default <- function(rule, finalformat, xfiltered, xview, ...) {
-   finalformat
-}
+rule_to_cf_field <- function(rule, xfiltered, xview, ...) UseMethod("rule_to_cf_field")
 
 render_theme <- function(themeobj, finaltheme, xview, ...) UseMethod("render_theme")
 

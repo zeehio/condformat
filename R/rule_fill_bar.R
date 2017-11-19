@@ -51,10 +51,11 @@ rule_fill_bar <- function(x, columns, expression,
   return(x)
 }
 
-applyrule.rule_fill_bar <- function(rule, finalformat, xfiltered, xview, ...) {
+#' @importFrom scales rescale
+rule_to_cf_field.rule_fill_bar <- function(rule, xfiltered, xview, ...) {
   columns <- tidyselect::vars_select(colnames(xview), !!! rule[["columns"]])
   if (length(columns) == 0) {
-    return(finalformat)
+    return(NULL)
   }
   if (rlang::quo_is_missing(rule[["expression"]])) {
     if (length(columns) > 1) {
@@ -67,12 +68,7 @@ applyrule.rule_fill_bar <- function(rule, finalformat, xfiltered, xview, ...) {
   }
   values_determining_color <- rlang::eval_tidy(rule[["expression"]], data = xfiltered)
   values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
-  rule_bar_gradient_common(rule, finalformat, xview, columns, values_determining_color)
-}
 
-#' @importFrom scales rescale
-rule_bar_gradient_common <- function(rule, finalformat, xview,
-                                     columns, values_determining_color) {
   if (identical(rule[["limits"]], NA)) {
     limits <- range(values_determining_color, na.rm = TRUE)
   } else {
@@ -86,68 +82,91 @@ rule_bar_gradient_common <- function(rule, finalformat, xview,
   }
 
   values_rescaled <- scales::rescale(x = values_determining_color, from = limits)
+  stopifnot(identical(length(values_rescaled), nrow(xview)))
 
-  background_sizes <- ifelse(is.na(values_rescaled),
-                             NA,
-                             sprintf("%d%% 100%%", round(100*values_rescaled)))
-  cell_border <- ifelse(is.na(values_rescaled),
-                        "1px solid black",
-                        "1px solid black")
+  bar_width_percent <- matrix(NA,
+                              nrow = nrow(xview), ncol = ncol(xview),
+                              byrow = FALSE)
+  colnames(bar_width_percent) <- colnames(xview)
+  bar_width_percent[, columns] <- values_rescaled
+  pbar_is_na <- matrix(NA,
+                       nrow = nrow(xview), ncol = ncol(xview),
+                       byrow = FALSE)
+  colnames(pbar_is_na) <- colnames(xview)
+
+  pbar_is_na[, columns] <- is.na(values_rescaled)
 
   col_low <- grDevices::col2rgb(rule[["low"]])
   col_high <- grDevices::col2rgb(rule[["high"]])
+  col_background <- grDevices::col2rgb(rule[["background"]])
+  col_na_value <- grDevices::col2rgb(rule[["na.value"]])
 
-  # FIXME: The representation of a nice gradient in CSS requires of changing
-  # many CSS attributes. This is the first time in condformat where the CSS rule
-  # is not trivial to export to LaTeX code.
-  # For now we are using CSS as the internal representation because it has always
-  # been practical for HTML, and easy write a LaTeX conversion function.
-  # If we want LaTeX support for rule_fill_bar, we probably need a better
-  # representation than CSS.
-  linear_gradient <- ifelse(
-    is.na(values_rescaled),
-    NA,
-    sprintf("linear-gradient(to right, rgba(%d, %d, %d, 1) 0%%, rgba(%d, %d, %d, 1) 100%%)",
-            col_low[1], col_low[2], col_low[3], col_high[1], col_high[2], col_high[3]))
-
-  background_repeat <- ifelse(is.na(values_rescaled),
-                              NA, "no-repeat")
-
-  background_color <- ifelse(is.na(values_rescaled),
-                             rule[["na.value"]],
-                             rule[["background"]])
-
-  # Repeat the vector as many times as columns we are applying this to:
-  background_sizes_mat <- matrix(background_sizes, nrow = nrow(xview),
-                                 ncol = ncol(xview), byrow = FALSE)
-  cell_border_mat <- matrix(cell_border, nrow = nrow(xview), ncol = ncol(xview), byrow = FALSE)
-
-
-  background_grad_mat <- matrix(linear_gradient, nrow = nrow(xview),
-                                ncol = ncol(xview), byrow = FALSE)
-
-  background_repeat_mat <- matrix(background_repeat, nrow = nrow(xview),
-                                  ncol = ncol(xview), byrow = FALSE)
-
-  background_color_mat <- matrix(background_color, nrow = nrow(xview),
-                                 ncol = ncol(xview), byrow = FALSE)
-
-  finalformat <- fill_css_field_by_cols(finalformat, "background-size",
-                                        background_sizes_mat, columns,
-                                        xview, FALSE)
-  finalformat <- fill_css_field_by_cols(finalformat, "background-image",
-                                        background_grad_mat, columns,
-                                        xview, FALSE)
-  finalformat <- fill_css_field_by_cols(finalformat, "border",
-                                        cell_border_mat, columns,
-                                        xview, FALSE)
-  finalformat <- fill_css_field_by_cols(finalformat, "background-color",
-                                        background_color_mat, columns,
-                                        xview, FALSE)
-  finalformat <- fill_css_field_by_cols(finalformat, "background-repeat",
-                                        background_repeat_mat, columns,
-                                        xview, rule[["lockcells"]])
-  return(finalformat)
+  cf_field <- structure(list(col_low = col_low,
+                             col_high = col_high,
+                             col_background = col_background,
+                             col_na_value = col_na_value,
+                             border = TRUE,
+                             bar_width_percent = bar_width_percent,
+                             pbar_is_na = pbar_is_na,
+                             lock_cells = rule[["lockcells"]]),
+                        class = c("cf_field_rule_bar_gradient",
+                                  "cf_field"))
+  return(cf_field)
 }
 
+# This is used by all CSS based rules
+cf_field_to_css.cf_field_rule_bar_gradient <- function(cf_field, xview, css_fields, unlocked) {
+  bar_width_percent <- cf_field[["bar_width_percent"]]
 
+  mask <- unlocked
+  # mask == TRUE if cell can be changed, false otherwise
+
+  # if the css value is NA, ignore it as well
+  # (so we don't override previous values)
+  mask <- mask & !is.na(bar_width_percent)
+
+  get_css_key <- function(css_fields, css_key, dims) {
+    if (css_key %in% names(css_fields)) {
+      prev_values <- css_fields[[css_key]]
+    } else {
+      prev_values <- matrix(NA, nrow = dims[1], ncol = dims[2])
+    }
+    return(prev_values)
+  }
+
+  border <- get_css_key(css_fields, "border", dim(xview))
+  border[mask] <- "1px solid black"
+  css_fields[["border"]] <- border
+
+
+  pbar_is_na <- cf_field[["pbar_is_na"]]
+  background_repeat <- get_css_key(css_fields, "background-repeat", dim(xview))
+  background_repeat[mask & !pbar_is_na] <- "no-repeat"
+  css_fields[["background-repeat"]] <- background_repeat
+
+  col_low <- cf_field[["col_low"]]
+  col_high <- cf_field[["col_high"]]
+  col_na <- cf_field[["col_na_value"]]
+  col_bg <- cf_field[["col_background"]]
+
+  background_color <- get_css_key(css_fields, "background-color", dim(xview))
+  background_color[mask & pbar_is_na] <- sprintf("#%02X%02X%02X", col_na[1], col_na[2], col_na[3])
+  background_color[mask & !pbar_is_na] <- sprintf("#%02X%02X%02X", col_bg[1], col_bg[2], col_bg[3])
+  css_fields[["background-color"]] <- background_color
+
+  background_image <- get_css_key(css_fields, "background-image", dim(xview))
+  background_image[mask & !pbar_is_na] <- sprintf(
+    "linear-gradient(to right, rgba(%d, %d, %d, 1) 0%%, rgba(%d, %d, %d, 1) 100%%)",
+    col_low[1], col_low[2], col_low[3], col_high[1], col_high[2], col_high[3])
+  css_fields[["background-image"]] <- background_image
+
+  background_size <- get_css_key(css_fields, "background-size", dim(xview))
+  bg_size_val <- sprintf("%d%% 100%%", as.integer(round(100*cf_field[["bar_width_percent"]])))
+  background_size[mask & !pbar_is_na] <- bg_size_val[mask & !pbar_is_na]
+  css_fields[["background-size"]] <- background_size
+
+  if (identical(cf_field[["lock_cells"]], TRUE)) {
+    unlocked[mask] <- FALSE
+  }
+  return(list(css_fields = css_fields, unlocked = unlocked))
+}
