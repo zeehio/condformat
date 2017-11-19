@@ -6,7 +6,7 @@ test_that("rule_fill_bar works", {
     condformat() %>%
     rule_fill_bar(a)
   xv_cf <- get_xview_and_cf_fields(x)
-  expect_equal(xv_cf$xview, x)
+  expect_equal(as.data.frame(xv_cf$xview), x)
   css_fields <- render_cf_fields_to_css_fields(xv_cf$cf_fields, xv_cf$xview)
   expect_cf_fields <- list(structure(
     list(col_low = structure(c(0L, 100L, 0L), .Dim = c(3L, 1L),
