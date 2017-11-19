@@ -55,6 +55,16 @@ render_theme_condformat_tbl <- function(themes, xview) {
   return(finaltheme)
 }
 
+get_xview_and_cf_fields <- function(x) {
+  finalshow <- render_show_condformat_tbl(x)
+  xfiltered <- finalshow[["xfiltered"]]
+  xview <- xfiltered[, finalshow[["cols"]], drop = FALSE]
+  rules <- attr(x, "condformat")[["rules"]]
+  cf_fields <- rules_to_cf_fields(rules, xfiltered, xview)
+
+  list(cf_fields = cf_fields, xview = xview,
+       final_colnames = names(finalshow[["cols"]]))
+}
 
 render_show_condformat_tbl <- function(x) {
   condformatopts <- attr(x, "condformat")

@@ -75,15 +75,15 @@ render_cf_fields_to_css_fields <- function(cf_fields, xview) {
 }
 
 condformat2htmlcommon <- function(x) {
-  finalshow <- render_show_condformat_tbl(x)
-  xfiltered <- finalshow[["xfiltered"]]
-  xview <- xfiltered[, finalshow[["cols"]], drop = FALSE]
-  rules <- attr(x, "condformat")[["rules"]]
-  cf_fields <- rules_to_cf_fields(rules, xfiltered, xview)
+  xv_cf <- get_xview_and_cf_fields(x)
+  xview <- xv_cf[["xview"]]
+  cf_fields <- xv_cf[["cf_fields"]]
+  final_colnames <- xv_cf[["final_colnames"]]
+
   css_fields <- render_cf_fields_to_css_fields(cf_fields, xview)
   css_values <- merge_css(css_fields, dim(xview))
   # Rename the columns according to show options:
-  colnames(xview) <- names(finalshow[["cols"]])
+  colnames(xview) <- final_colnames
   themes <- attr(x, "condformat")[["themes"]]
   finaltheme <- render_theme_condformat_tbl(themes, xview)
   htmlTableArgs <- finaltheme[["html"]]

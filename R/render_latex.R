@@ -3,9 +3,12 @@
 #' @return A character vector of the table source code
 #' @export
 condformat2latex <- function(x) {
-  finalshow <- render_show_condformat_tbl(x)
-  xfiltered <- finalshow[["xfiltered"]]
-  xview <- xfiltered[, finalshow[["cols"]], drop = FALSE]
+  xv_cf <- get_xview_and_cf_fields(x)
+  xview <- xv_cf[["xview"]]
+  cf_fields <- xv_cf[["cf_fields"]]
+  final_colnames <- xv_cf[["final_colnames"]]
+
+  raw_text <- as.matrix(format.data.frame(xview))
   themes <- attr(x, "condformat")[["themes"]]
   finaltheme <- render_theme_condformat_tbl(themes, xview)
   kable_args <- finaltheme[["kable_args"]]
@@ -16,9 +19,6 @@ condformat2latex <- function(x) {
   } else {
     escape <- TRUE
   }
-  rules <- attr(x, "condformat")[["rules"]]
-  cf_fields <- rules_to_cf_fields(rules, xfiltered, xview)
-  raw_text <- as.matrix(format.data.frame(xview))
   if (isTRUE(escape)) {
     raw_text <- escape_latex(raw_text)
   }
@@ -27,7 +27,7 @@ condformat2latex <- function(x) {
     cf_fields = cf_fields, xview = xview, raw_text = raw_text)
 
   # Rename the columns according to show options:
-  colnames(formatted_text) <- names(finalshow[["cols"]])
+  colnames(formatted_text) <- final_colnames
 
   caption <- kable_args[["caption"]]
   if (is.null(caption)) {

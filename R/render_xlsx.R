@@ -75,13 +75,11 @@ condformat2excelsheet <- function(x, sheet) {
   if (!"jobjRef" %in% class(sheet)) {
     stop("sheet must be an jobjRef object, as the one returned with xls::createSheet()")
   }
-  finalshow <- render_show_condformat_tbl(x)
-  xfiltered <- finalshow[["xfiltered"]]
-  xview <- xfiltered[, finalshow[["cols"]], drop = FALSE]
-  rules <- attr(x, "condformat")[["rules"]]
-  cf_fields <- rules_to_cf_fields(rules, xfiltered, xview)
-  css_fields <- render_cf_fields_to_css_fields(cf_fields, xview)
+  xv_cf <- get_xview_and_cf_fields(x)
+  xview <- xv_cf[["xview"]]
+  cf_fields <- xv_cf[["cf_fields"]]
 
+  css_fields <- render_cf_fields_to_css_fields(cf_fields, xview)
   xlsx::addDataFrame(x = as.data.frame(xview),
                      sheet = sheet, row.names = FALSE, col.names = TRUE)
   for (css_key in names(css_fields)) {
