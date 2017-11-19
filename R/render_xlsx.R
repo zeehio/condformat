@@ -84,21 +84,25 @@ condformat2excelsheet <- function(x, sheet) {
 
   xlsx::addDataFrame(x = as.data.frame(xview),
                      sheet = sheet, row.names = FALSE, col.names = TRUE)
-  if ("background-color" %in% names(css_fields)) {
-    for (i in seq_len(nrow(xview))) {
-      for (j in seq_len(ncol(xview))) {
-        background_color <- ifelse(css_fields[["background-color"]][i,j] == "",
-                                   NA,
-                                   css_fields[["background-color"]][i,j])
-        if (!is.na(background_color)) {
-          cb <- xlsx::CellBlock.default(sheet, startRow = i + 1, startColumn = j,
-                                        noRows = 1, noColumns = 1, create = FALSE)
-          fill <- xlsx::Fill(backgroundColor = background_color, foregroundColor = background_color)
-          xlsx::CB.setFill(cellBlock = cb,
-                           fill = fill,
-                           rowIndex = 1, colIndex = 1)
+  for (css_key in names(css_fields)) {
+    if (css_key == "background-color") {
+      for (i in seq_len(nrow(xview))) {
+        for (j in seq_len(ncol(xview))) {
+          background_color <- ifelse(css_fields[["background-color"]][i,j] == "",
+                                     NA,
+                                     css_fields[["background-color"]][i,j])
+          if (!is.na(background_color)) {
+            cb <- xlsx::CellBlock.default(sheet, startRow = i + 1, startColumn = j,
+                                          noRows = 1, noColumns = 1, create = FALSE)
+            fill <- xlsx::Fill(backgroundColor = background_color, foregroundColor = background_color)
+            xlsx::CB.setFill(cellBlock = cb,
+                             fill = fill,
+                             rowIndex = 1, colIndex = 1)
+          }
         }
       }
+    } else {
+      warning("The CSS attribute ", css_key, " is not supported in xlsx format")
     }
   }
   invisible(x)

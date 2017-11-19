@@ -122,3 +122,8 @@ condformat2htmlcommon <- function(x) {
 #' @export
 cf_field_to_css <- function(cf_field, xview, css_fields, unlocked) UseMethod("cf_field_to_css")
 
+cf_field_to_css.default <- function(cf_field, xview, css_fields, unlocked) {
+  warning("cf key ", class(cf_field)[1], " is not supported by condformat in this output format")
+  list(css_fields = css_fields, unlocked = unlocked)
+}
+
