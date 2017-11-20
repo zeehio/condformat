@@ -8,6 +8,7 @@
 * `theme_htmlWidget` (HTML) Customize the number of entries and the widget size.
 * `theme_kable` (PDF) pass options to kable
 * `theme_caption` (HTML, PDF) Set a caption.
+* `condformat2grob`: Engine to render tables as graphics
 
 ## Deprecations:
 

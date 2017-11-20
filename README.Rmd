@@ -5,6 +5,16 @@ date: "`r Sys.Date()`"
 output: rmarkdown::github_document
 ---
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
+)
+```
+
 condformat renders a data frame in which
 cells in columns are formatted according to several rules or criteria.
 
@@ -41,10 +51,7 @@ and derivatives.
 
 ## Example
 
-The example is properly formatted at
-[http://zeehio.github.io/condformat](http://zeehio.github.io/condformat).
-
-```{r}
+```{r fig-example}
 data(iris)
 library(condformat)
 condformat(iris[c(1:5,70:75, 120:125),]) %>%
@@ -53,25 +60,26 @@ condformat(iris[c(1:5,70:75, 120:125),]) %>%
                      expression = Sepal.Width > Sepal.Length - 2.25,
                      colours = c("TRUE" = "#7D00FF")) %>%
   rule_fill_gradient2(Petal.Length) %>%
-  rule_text_bold(c(Sepal.Length, Species), Species == "setosa") %>%
+  rule_text_bold(c(Sepal.Length, Species), Species == "versicolor") %>%
   rule_text_color(Sepal.Length,
                   expression = ifelse(Species == "setosa", "yellow", "")) %>%
-  rule_fill_bar(Petal.Width, limits = c(0, NA))
+  rule_fill_bar(Petal.Width, limits = c(0, NA)) %>%
+  theme_grob(rows = NULL) %>%
+  condformat2grob()
 ```
 
 This example covers most of the condformat rules.
 
 ## Rules and engine support
 
-All rules should be supported in all engines.
 
-| Rule | HTML | LaTeX |
-| ---- |:----:|:-----:|
-| `rule_fill_discrete` | X | X |
-| `rule_fill_gradient` | X | X |
-| `rule_fill_gradient2` | X | X |
-| `rule_text_color` | X | X |
-| `rule_text_bold` | X | X |
-| `rule_css` | X |  |
-| `rule_fill_bar` | X |  |
+| Rule                      | HTML | LaTeX | gtable |
+| ------------------------ |:-----:|:-----:|:------:|
+| `rule_fill_discrete`     |   X   |   X   |   X    |
+| `rule_fill_gradient`     |   X   |   X   |   X    |
+| `rule_fill_gradient2`    |   X   |   X   |   X    |
+| `rule_text_color`        |   X   |   X   |   X    |
+| `rule_text_bold`         |   X   |   X   |   X    |
+| `rule_fill_bar`          |   X   |       |   X    |
+| `rule_css`               |   X   |       |        |
 

@@ -77,3 +77,23 @@ cf_field_to_latex.cf_field_rule_text_color <- function(cf_field, xview, unlocked
   }
   list(before = before, after = after, unlocked = unlocked)
 }
+
+cf_field_to_gtable.cf_field_rule_text_color <- function(cf_field, xview, gridobj, unlocked, has_rownames, has_colnames) {
+  css_values <- cf_field[["css_values"]]
+  to_lock <- !is.na(css_values)
+  css_values[is.na(css_values) | !unlocked] <- ""
+
+  row_col <- which(nchar(css_values) > 0, arr.ind = TRUE)
+  for (tocolor in seq_len(nrow(row_col))) {
+    ind <- find_cell(gridobj,
+                     as.integer(has_colnames) + row_col[tocolor, 1],
+                     as.integer(has_rownames) + row_col[tocolor, 2],
+                     name = "core-fg")
+    gridobj$grobs[ind][[1]][["gp"]][["col"]] <- css_values[row_col[tocolor, 1], row_col[tocolor, 2]]
+  }
+
+  if (cf_field[["lock_cells"]]) {
+    unlocked <- unlocked | to_lock
+  }
+  list(gridobj = gridobj, unlocked = unlocked)
+}

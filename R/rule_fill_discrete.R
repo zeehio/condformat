@@ -291,3 +291,22 @@ cf_field_to_latex.cf_field_rule_fill_solid <- function(cf_field, xview, unlocked
   }
   list(before = before, after = after, unlocked = unlocked)
 }
+
+# Used by rule_fill_discrete, rule_fill_gradient and rule_fill_gradient2 functions
+cf_field_to_gtable.cf_field_rule_fill_solid <- function(cf_field, xview, gridobj, unlocked, has_rownames, has_colnames) {
+  colours <- cf_field[["css_values"]]
+  to_lock <- !is.na(colours)
+  colours[is.na(colours) | !unlocked] <- ""
+
+  row_col <- which(nchar(colours) > 0, arr.ind = TRUE)
+  for (tocolor in seq_len(nrow(row_col))) {
+    ind <- find_cell(gridobj,
+                     as.integer(has_colnames) + row_col[tocolor, 1],
+                     as.integer(has_rownames) + row_col[tocolor, 2],
+                     name = "core-bg")
+    fill <- grDevices::col2rgb(colours[row_col[tocolor, 1], row_col[tocolor, 2]])
+    fill <- sprintf("#%02X%02X%02X", fill[1], fill[2], fill[3])
+    gridobj$grobs[ind][[1]][["gp"]] <- grid::gpar(fill = fill)
+  }
+  list(gridobj = gridobj, unlocked = unlocked)
+}

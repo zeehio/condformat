@@ -170,3 +170,66 @@ cf_field_to_css.cf_field_rule_bar_gradient <- function(cf_field, xview, css_fiel
   }
   return(list(css_fields = css_fields, unlocked = unlocked))
 }
+
+cf_field_to_gtable.cf_field_rule_bar_gradient <- function(
+  cf_field, xview, gridobj, unlocked, has_rownames, has_colnames) {
+
+  bar_width_percent <- cf_field[["bar_width_percent"]]
+
+  mask <- unlocked
+  # mask == TRUE if cell can be changed, false otherwise
+
+  # if the css value is NA, ignore it as well
+  # (so we don't override previous values)
+  mask <- mask & !is.na(bar_width_percent)
+
+  pbar_is_na <- cf_field[["pbar_is_na"]]
+  col_low <- cf_field[["col_low"]]
+  col_low <- sprintf("#%02X%02X%02X", col_low[1], col_low[2], col_low[3])
+  col_high <- cf_field[["col_high"]]
+  col_high <- sprintf("#%02X%02X%02X", col_high[1], col_high[2], col_high[3])
+  col_na <- cf_field[["col_na_value"]]
+  col_na <- sprintf("#%02X%02X%02X", col_na[1], col_na[2], col_na[3])
+  col_bg <- cf_field[["col_background"]]
+  col_bg <- sprintf("#%02X%02X%02X", col_bg[1], col_bg[2], col_bg[3])
+
+  row_col <- which(!is.na(pbar_is_na), arr.ind = TRUE)
+  for (tocolor in seq_len(nrow(row_col))) {
+    ind <- find_cell(gridobj,
+                     as.integer(has_colnames) + row_col[tocolor, 1],
+                     as.integer(has_rownames) + row_col[tocolor, 2],
+                     name = "core-bg")
+    if (pbar_is_na[row_col[tocolor, 1], row_col[tocolor, 2]]) {
+      gridobj$grobs[ind][[1]][["gp"]] <- grid::gpar(fill = col_na)
+    } else {
+      rect <- gridobj$grobs[ind][[1]]
+      #grid::removeGrob(gridobj, rect$name)
+      grad_levels <- 100
+      fill_to <- round(100*bar_width_percent[row_col[tocolor, 1], row_col[tocolor, 2]])
+      gp <- grid::gpar(col = NA,
+                       fill = c(
+                         grDevices::colorRampPalette(c(col_low, col_high), space = "Lab")(fill_to),
+                         rep(col_bg, grad_levels - fill_to)))
+      gridobj <- gtable::gtable_add_grob(gridobj,
+                                         grobs = grid::rectGrob(
+                                           x = grid::unit(seq(from = 0, by = 1/grad_levels, length.out = grad_levels), "npc"),
+                                           y = grid::unit(0.5, "npc"),
+                                           width = rep(grid::unit(1/grad_levels, "npc") -
+                                                         grid::unit(2/grad_levels, "scaledpts"), grad_levels),
+                                           height = grid::unit(1, "npc") - grid::unit(2, "scaledpts"),
+                                           hjust = 0,
+                                           vjust = 0.5,
+                                           gp = gp),
+                                         t = row_col[tocolor, 1] + has_colnames,
+                                         b = row_col[tocolor, 1] + has_colnames,
+                                         l = row_col[tocolor, 2] + has_rownames,
+                                         r = row_col[tocolor, 2] + has_rownames,
+                                         z = 0)
+    }
+  }
+
+  if (identical(cf_field[["lock_cells"]], TRUE)) {
+    unlocked[mask] <- FALSE
+  }
+  return(list(gridobj = gridobj, unlocked = unlocked))
+}

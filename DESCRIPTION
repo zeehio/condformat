@@ -21,6 +21,9 @@ LazyData: TRUE
 NeedsCompilation: no
 Imports:
     grDevices,
+    graphics,
+    gridExtra (>= 2.3),
+    gtable (>= 0.2.0),
     htmlTable (>= 1.9),
     htmltools (>= 0.3.6),
     tibble (>= 1.3.4),
