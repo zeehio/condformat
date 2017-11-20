@@ -4,7 +4,7 @@
 #'
 #' @param x The condformat object
 #' @param ... Arguments to be passed to knitr::kable (see examples)
-#' @seealso \code{\link[htmlTable]{htmlTable}}
+#' @seealso \code{\link[knitr]{kable}}
 #' @examples
 #' data(iris)
 #' condformat(head(iris)) %>%
@@ -26,7 +26,11 @@ render_theme.theme_kable <- function(themeobj, finaltheme, xview, ...) {
     finaltheme[["kable_args"]] <- list()
   }
   for (paramname in names(themeobj[["kable_args"]])) {
-    finaltheme[["kable_args"]][[paramname]] <- themeobj[["kable_args"]][[paramname]]
+    if (is.null(themeobj[["kable_args"]][[paramname]])) {
+      finaltheme[["kable_args"]][paramname] <- list(NULL)
+    } else {
+      finaltheme[["kable_args"]][[paramname]] <- themeobj[["kable_args"]][[paramname]]
+    }
   }
   finaltheme
 }

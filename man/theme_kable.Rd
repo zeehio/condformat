@@ -20,5 +20,5 @@ condformat(head(iris)) \%>\%
   theme_kable(booktabs = TRUE, caption = "My Caption")
 }
 \seealso{
-\code{\link[htmlTable]{htmlTable}}
+\code{\link[knitr]{kable}}
 }
