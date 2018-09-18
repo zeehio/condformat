@@ -15,11 +15,11 @@
 #' condformat(x) %>% show_rows(Sepal.Length > 4.5, Species == "setosa")
 #' # Use it programatically
 #' expr_as_text <- 'Sepal.Length > 4.5'
-#' expr <- rlang::parse_quosure(expr_as_text)
+#' expr <- rlang::parse_quo(expr_as_text)
 #' condformat(x) %>% show_rows(!! expr)
 #' # With multiple arguments:
 #' expr_as_text <- c('Sepal.Length > 4.5', 'Species == "setosa"')
-#' exprs <- lapply(expr_as_text, rlang::parse_quosure)
+#' exprs <- lapply(expr_as_text, rlang::parse_quo)
 #' condformat(x) %>% show_rows(!!! exprs)
 #' @export
 #' @seealso \code{\link[dplyr]{filter}}

@@ -33,7 +33,7 @@ Imports:
     knitr (>= 1.20),
     rmarkdown (>= 0.9.6),
     magrittr (>= 1.5),
-    rlang (>= 0.1.2),
+    rlang (>= 0.2.2),
     tidyselect (>= 0.2.2)
 Suggests:
     shiny (>= 1.0.5),
