@@ -30,7 +30,7 @@ Imports:
     scales (>= 0.5.0),
     dplyr (>= 0.7.4),
     lazyeval (>= 0.2.0),
-    knitr (>= 1.17.9),
+    knitr (>= 1.20),
     rmarkdown (>= 0.9.6),
     magrittr (>= 1.5),
     rlang (>= 0.1.2),
@@ -44,4 +44,3 @@ VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)
-Remotes: yihui/knitr
