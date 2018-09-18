@@ -4,8 +4,8 @@
 \alias{rule_fill_discrete_}
 \title{Fill column with discrete colors (deprecated)}
 \usage{
-rule_fill_discrete_(columns, expression = ~., colours = NA, h = c(0, 360)
-  + 15, c = 100, l = 65, h.start = 0, direction = 1,
+rule_fill_discrete_(columns, expression = ~., colours = NA, h = c(0,
+  360) + 15, c = 100, l = 65, h.start = 0, direction = 1,
   na.value = "#FFFFFF", lockcells = FALSE)
 }
 \arguments{

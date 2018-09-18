@@ -4,7 +4,8 @@
 \alias{rule_text_color}
 \title{Give a color to the text according to some expression}
 \usage{
-rule_text_color(x, columns, expression, na.color = "", lockcells = FALSE)
+rule_text_color(x, columns, expression, na.color = "",
+  lockcells = FALSE)
 }
 \arguments{
 \item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}

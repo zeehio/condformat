@@ -4,9 +4,9 @@
 \alias{rule_fill_bar}
 \title{Fill column with a bar of a length proportional to a value}
 \usage{
-rule_fill_bar(x, columns, expression, low = "darkgreen", high = "white",
-  background = "white", na.value = "gray", limits = NA,
-  lockcells = FALSE)
+rule_fill_bar(x, columns, expression, low = "darkgreen",
+  high = "white", background = "white", na.value = "gray",
+  limits = NA, lockcells = FALSE)
 }
 \arguments{
 \item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}

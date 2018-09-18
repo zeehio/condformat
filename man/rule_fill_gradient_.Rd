@@ -5,8 +5,8 @@
 \title{Fill column with sequential colour gradient (deprecated)}
 \usage{
 rule_fill_gradient_(columns, expression = ~., low = "#132B43",
-  high = "#56B1F7", space = "Lab", na.value = "#7F7F7F", limits = NA,
-  lockcells = FALSE)
+  high = "#56B1F7", space = "Lab", na.value = "#7F7F7F",
+  limits = NA, lockcells = FALSE)
 }
 \arguments{
 \item{columns}{a character vector with the column names or a list with

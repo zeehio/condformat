@@ -6,7 +6,8 @@
 \usage{
 rule_fill_gradient2_old(..., expression, low = scales::muted("red"),
   mid = "white", high = scales::muted("blue"), midpoint = NA,
-  space = "Lab", na.value = "#7F7F7F", limits = NA, lockcells = FALSE)
+  space = "Lab", na.value = "#7F7F7F", limits = NA,
+  lockcells = FALSE)
 }
 \arguments{
 \item{...}{Comma separated list of unquoted column names.

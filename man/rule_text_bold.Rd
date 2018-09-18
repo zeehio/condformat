@@ -4,7 +4,8 @@
 \alias{rule_text_bold}
 \title{Use bold text if a condition is met}
 \usage{
-rule_text_bold(x, columns, expression, na.bold = FALSE, lockcells = FALSE)
+rule_text_bold(x, columns, expression, na.bold = FALSE,
+  lockcells = FALSE)
 }
 \arguments{
 \item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}

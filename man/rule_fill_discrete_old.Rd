@@ -4,9 +4,9 @@
 \alias{rule_fill_discrete_old}
 \title{Fill column with discrete colors (deprecated)}
 \usage{
-rule_fill_discrete_old(..., expression, colours = NA, na.value = "#FFFFFF",
-  h = c(0, 360) + 15, c = 100, l = 65, h.start = 0, direction = 1,
-  lockcells = FALSE)
+rule_fill_discrete_old(..., expression, colours = NA,
+  na.value = "#FFFFFF", h = c(0, 360) + 15, c = 100, l = 65,
+  h.start = 0, direction = 1, lockcells = FALSE)
 }
 \arguments{
 \item{...}{Comma separated list of unquoted column names.
