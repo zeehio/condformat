@@ -24,7 +24,8 @@
 * Replace dependency: Use grDevices instead of gplots
 * Depend on knitr 1.18: slidy and other rmarkdown formats are properly detected (#13)
 * Drop rJava from suggests (xlsx fix released)
-* Bump rlang dependency (parse_quosure -> parse_quo) (#18)
+* Bump rlang dependency (parse_quosure -> parse_expr) (#18, Thanks to @lionel-
+  for the advice and code review!)
 * Internal: More modular code. CSS tags to LaTeX conversion is based on
   S3 methods so new rules don't need to touch the code for LaTeX export.
 

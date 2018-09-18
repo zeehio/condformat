@@ -99,10 +99,10 @@ test_that("show_row works", {
 test_that("show_row works with strings, thanks to rlang", {
   data(iris)
   x <- condformat(head(iris, n = 10)) %>%
-    show_rows(!! rlang::parse_quo("Sepal.Length == 5.1"),
-              !! rlang::parse_quo("Sepal.Width == 3.5"),
-              !! rlang::parse_quo("Petal.Length == 1.4"),
-              !! rlang::parse_quo("Petal.Width == 0.2"))
+    show_rows(!! rlang::parse_expr("Sepal.Length == 5.1"),
+              !! rlang::parse_expr("Sepal.Width == 3.5"),
+              !! rlang::parse_expr("Petal.Length == 1.4"),
+              !! rlang::parse_expr("Petal.Width == 0.2"))
   # in the data frame nothing is filtered
   expect_equal(nrow(x), 10)
   out <- condformat2html(x)
