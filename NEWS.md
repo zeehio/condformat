@@ -9,6 +9,7 @@
 * `theme_kable` (PDF) pass options to kable
 * `theme_caption` (HTML, PDF) Set a caption.
 * `condformat2grob`: Engine to render tables as graphics
+* Shiny: renderCondformat works with async promises (if htmlwidgets 1.3 is available)
 
 ## Deprecations:
 

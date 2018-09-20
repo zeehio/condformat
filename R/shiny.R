@@ -22,17 +22,29 @@ condformatOutput <- function(outputId, ...) {
   htmlTable::htmlTableWidgetOutput(outputId = outputId, ...)
 }
 
+require_promises <- function() {
+  if (!requireNamespace("promises", quietly = TRUE)) {
+    stop("Please install the promises package in order to use promises with shiny")
+  }
+}
+
+
 #' @rdname condformat-shiny
 #' @export
 renderCondformat <- function(expr, env = parent.frame(), quoted = FALSE) {
   if (!requireNamespace("shiny")) {
     stop("shiny package required. Please install it")
   }
-  func <- NULL
-  shiny::installExprFunction(expr, "func", env, quoted)
+  func <- shiny::exprToFunction(expr, env, quoted)
   renderFunc <- function() {
     condformatobj <- func()
-    condformat2widget(condformatobj)
+    if (inherits(condformatobj, "condformat_tbl")) {
+      y <- condformat2widget(condformatobj)
+    } else if (inherits(condformatobj, "promise")) {
+      require_promises()
+      y <- promises::then(condformatobj, condformat2widget)
+    }
+    y
   }
   htmlTable::renderHtmlTableWidget(expr = renderFunc())
 }

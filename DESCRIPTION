@@ -36,6 +36,7 @@ Imports:
     rlang (>= 0.2.2),
     tidyselect (>= 0.2.2)
 Suggests:
+    promises,
     shiny (>= 1.0.5),
     testthat (>= 1.0),
     xlsx (>= 0.6.1)
