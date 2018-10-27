@@ -9,7 +9,12 @@
 \arguments{
 \item{x}{A condformat_tbl object}
 
-\item{...}{optional arguments to print}
+\item{...}{Arguments passed on to \code{htmltools::html_print}
+\describe{
+  \item{background}{Background color for web page}
+  \item{viewer}{A function to be called with the URL or path to the generated
+HTML page. Can be \code{NULL}, in which case no viewer will be invoked.}
+}}
 
 \item{paginate}{A logical value. If TRUE the printing will be paginated}
 }

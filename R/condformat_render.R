@@ -1,7 +1,7 @@
 #' Prints the data frame in an html page and shows it.
 #'
 #' @param x A condformat_tbl object
-#' @param ... optional arguments to print
+#' @inheritDotParams htmltools::html_print -html
 #' @param paginate A logical value. If TRUE the printing will be paginated
 #' @return the value returned by htmlTable
 #' @examples
@@ -9,21 +9,25 @@
 #' print(condformat(iris[1:5,]))
 #' @export
 print.condformat_tbl <- function(x, ..., paginate = TRUE) {
-  if (paginate) {
-    htmltools::html_print(htmltools::as.tags(condformat2widget(x),
-                                             standalone = TRUE))
-
+  if (!is.null(getOption("knitr.in.progress"))) {
+    return(knit_print(x, paginate = paginate))
   } else {
-    htmltools::html_print(htmltools::HTML(condformat2html(x)))
+    htmltools::html_print(condformat2html_or_widget(x, paginate = paginate), ...)
   }
   invisible(x)
 }
 
+condformat2html_or_widget <- function(x, paginate = TRUE) {
+  if (paginate) {
+    htmltools::as.tags(condformat2widget(x), standalone = TRUE)
+  } else {
+    htmltools::HTML(condformat2html(x))
+  }
+}
 
 #' Print method for knitr, exporting to HTML or LaTeX as needed
 #' @param x Object to print
-#' @param ... Arguments passed for compatibility with knit_print
-#'
+#' @param ... On a LaTeX output these are unused. On an HTML output can have "paginate=TRUE" or "paginate = FALSE"
 #' @importFrom knitr knit_print
 #' @export
 knit_print.condformat_tbl <- function(x, ...) {
@@ -40,7 +44,13 @@ knit_print.condformat_tbl <- function(x, ...) {
       condformat2latex(x %>% theme_kable(longtable = use_longtable)),
       meta = latex_dependencies))
   } else if (knitr::is_html_output()) {
-    return(knitr::asis_output(condformat2html(x)))
+    dots <- list(...)
+    paginate <- ifelse(isTRUE(dots$paginate), TRUE, FALSE)
+    if (paginate) {
+      return(condformat2widget(x))
+    } else {
+      return(knitr::asis_output(condformat2html(x)))
+    }
   } else {
     warning("Output format not supported by condformat. Printing regular table")
     return(knitr::knit_print(knitr::kable(x), ...))
