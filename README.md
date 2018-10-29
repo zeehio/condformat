@@ -1,7 +1,7 @@
 Introduction to condformat
 ================
 Sergio Oller
-2017-11-20
+2018-10-27
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 condformat renders a data frame in which cells in columns are formatted according to several rules or criteria.
