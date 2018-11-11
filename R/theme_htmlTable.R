@@ -8,18 +8,6 @@
 #' condformat(head(iris)) %>% theme_htmlTable(caption="Table 1: My iris table", rnames=FALSE)
 #' @export
 theme_htmlTable <- function(x, ...) {
-  api_dispatcher(theme_htmlTable_new, theme_htmlTable_old)
-}
-
-add_theme_to_condformat <- function(x, theme) {
-  condformatopts <- attr(x, "condformat")
-  condformatopts[["themes"]] <- c(condformatopts[["themes"]], list(theme))
-  attr(x, "condformat") <- condformatopts
-  x
-}
-
-#' @importFrom htmlTable htmlTable
-theme_htmlTable_new <- function(x, ...) {
   if (!inherits(x, "condformat_tbl")) {
     x <- condformat(x)
   }
@@ -48,7 +36,7 @@ theme_htmlTable_new <- function(x, ...) {
     # Deprecation code path ends here
     if (length(wrong_args) > 0 ) {
       stop("The following arguments are unknown by htmlTable: ",
-              paste(wrong_args, collapse = ", "))
+           paste(wrong_args, collapse = ", "))
     }
     htmlargs[is.na(full_arg_names)] <- NULL
   }
@@ -58,13 +46,14 @@ theme_htmlTable_new <- function(x, ...) {
   return(x)
 }
 
-theme_htmlTable_old <- function(...) {
-  # Deprecated
-  theme <- structure(list(htmlargs = list(...)),
-                     class = c("theme_htmlTable", "condformat_theme"))
-  return(theme)
+add_theme_to_condformat <- function(x, theme) {
+  condformatopts <- attr(x, "condformat")
+  condformatopts[["themes"]] <- c(condformatopts[["themes"]], list(theme))
+  attr(x, "condformat") <- condformatopts
+  x
 }
 
+#' @importFrom htmlTable htmlTable
 render_theme.theme_htmlTable <- function(themeobj, finaltheme, xview, ...) {
   if (!"html" %in% finaltheme) {
     finaltheme[["html"]] <- list()

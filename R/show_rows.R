@@ -24,10 +24,6 @@
 #' @export
 #' @seealso \code{\link[dplyr]{filter}}
 show_rows <- function(x, ...) {
-  api_dispatcher(show_rows_new, show_rows_old)
-}
-
-show_rows_new <- function(x, ...) {
   expr <- rlang::quos(...)
   showobj <- structure(list(row_expr = expr),
                        class = c("condformat_show_rows", "condformat_show_rows_filter"))
@@ -41,53 +37,8 @@ show_rows_new <- function(x, ...) {
   return(x2)
 }
 
-#' Selects the rows to be printed (deprecated)
-#'
-#' This function is deprecated. Use \code{\link{show_rows}} instead
-#'
-#' Keeps the rows you mention in the printed table.
-#' Compared to \code{\link[dplyr]{filter}}, show_rows does not remove the
-#' rows from the actual data frame, they are removed only for printing.
-#'
-#' @param ... Expressions used for filtering
-#'
-#' @return A condformat_show_rows object, usually to be added to a condformat_tbl object
-#'         as shown in the examples
-#' @examples
-#' library(condformat)
-#' data(iris)
-#' x <- head(iris)
-#' condformat(x) + show_rows(Sepal.Length > 4.5, Species == "setosa")
-#' @seealso \code{\link[dplyr]{filter}}
-show_rows_old <- function(...) {
-  show_rows_(.dots = lazyeval::lazy_dots(...))  #,row_names = row_names) # D
-}
-
-#' @rdname show_rows_old
-#' @param .dots A list of lazy objects. See examples
-#' @export
-#' @examples
-#' library(condformat)
-#' data(iris)
-#' x <- head(iris)
-#' condformat(x) + show_rows_(.dots = c("Sepal.Length > 4.5", "Species == 'setosa'"))
-show_rows_ <- function(..., .dots) {
-  warning("This condformat syntax is deprecated. See ?show_rows for more information", call. = FALSE)
-  dots <- lazyeval::all_dots(.dots, ...) # D
-  showobj <- structure(list(row_expr = dots),
-                       class = c("condformat_show_rows", "condformat_show_rows_filter"))
-  return(showobj)
-}
-
-render_show.condformat_show_rows_filter <- function(showobj, finalshow, x, ...) {
-  if (inherits(showobj[["row_expr"]], "lazy_dots")) {
-    # Deprecated
-    xfiltered <- dplyr::filter_(x, .dots = showobj[["row_expr"]]) # D
-    finalshow[["xfiltered"]] <- xfiltered
-    return(finalshow)
-  } else {
-    xfiltered <- dplyr::filter(x, !!! showobj[["row_expr"]])
-    finalshow[["xfiltered"]] <- xfiltered
-    return(finalshow)
-  }
+render_show.condformat_show_rows_filter <- function(showobj, finalshow, x) {
+  xfiltered <- dplyr::filter(x, !!! showobj[["row_expr"]])
+  finalshow[["xfiltered"]] <- xfiltered
+  return(finalshow)
 }

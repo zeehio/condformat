@@ -6,7 +6,7 @@
 \usage{
 rule_fill_discrete(x, columns, expression, colours = NA,
   na.value = "#FFFFFF", h = c(0, 360) + 15, c = 100, l = 65,
-  h.start = 0, direction = 1, lockcells = FALSE, ...)
+  h.start = 0, direction = 1, lockcells = FALSE)
 }
 \arguments{
 \item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}
@@ -36,8 +36,6 @@ combination of hue and luminance.}
 1 = clockwise, -1 = counter-clockwise}
 
 \item{lockcells}{logical value determining if no further rules should be applied to the affected cells.}
-
-\item{...}{Dots are used to transition from the old syntax \code{\link[=rule_fill_discrete_old]{rule_fill_discrete_old()}} to the new one}
 }
 \value{
 The condformat_tbl object, with the added formatting information
@@ -45,9 +43,6 @@ The condformat_tbl object, with the added formatting information
 \description{
 Fills a column or columns of a data frame using a discrete
 colour palette, based on an expression.
-}
-\details{
-The syntax in condformat rules has changed since v0.7. See \code{\link[=rule_fill_discrete_old]{rule_fill_discrete_old()}}
 }
 \examples{
 data(iris)

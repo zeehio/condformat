@@ -1,5 +1,10 @@
 # condformat 0.8.0.9000
 
+## Breaking changes
+
+* The lazyeval API deprecated on condformat 0.6 has been dropped, only the tidy evaluation
+  API remains.
+
 # condformat 0.8.0
 
 ## New features:
