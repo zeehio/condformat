@@ -5,6 +5,10 @@
 * The lazyeval API deprecated on condformat 0.6 has been dropped, only the tidy evaluation
   API remains.
 
+## Other
+
+* Tests requiring xlsx are skipped if xlsx is not available (#20)
+
 # condformat 0.8.0
 
 ## New features:

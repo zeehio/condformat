@@ -36,6 +36,7 @@ test_that("condformat2latex does not use longtable if disabled", {
 
 
 test_that("condformat2excel generates a file", {
+  skip_if_not_installed("xlsx")
   data(iris)
   filename <- tempfile(fileext = ".xlsx")
   rows_to_write <- 6
