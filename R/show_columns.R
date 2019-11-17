@@ -59,7 +59,7 @@ show_columns <- function(x, columns, col_names) {
 }
 
 render_show.condformat_show_columns_select <- function(showobj, finalshow, x, ...) {
-  columns <- tidyselect::vars_select(colnames(x), !!! showobj[["column_expr"]])
+  columns <- do.call(tidyselect::vars_select, c(list(colnames(x)), showobj[["column_expr"]]))
   if (!identical(showobj[["col_names"]], NA)) {
     names(columns) <- showobj[["col_names"]]
   } else {

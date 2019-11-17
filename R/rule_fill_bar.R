@@ -53,7 +53,7 @@ rule_fill_bar <- function(x, columns, expression,
 
 #' @importFrom scales rescale
 rule_to_cf_field.rule_fill_bar <- function(rule, xfiltered, xview, ...) {
-  columns <- tidyselect::vars_select(colnames(xview), !!! rule[["columns"]])
+  columns <- do.call(tidyselect::vars_select, c(list(colnames(xview)), rule[["columns"]]))
   if (length(columns) == 0) {
     return(NULL)
   }

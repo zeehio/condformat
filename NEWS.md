@@ -8,6 +8,7 @@
 ## Other
 
 * Tests requiring xlsx are skipped if xlsx is not available (#20)
+* Fix warning due to rlang update
 
 # condformat 0.8.0
 
