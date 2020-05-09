@@ -7,7 +7,7 @@ r_github_packages:
 
 before_script:
   - Rscript -e 'install.packages("remites")'
-  - Rscript -e 'remotes::install_git("tidyverse/dplyr")'
+  - Rscript -e 'remotes::install_github("tidyverse/dplyr")'
 
 after_success:
   - Rscript -e 'covr::codecov()'
