@@ -5,6 +5,10 @@ sudo: false
 r_github_packages:
   - jimhester/covr
 
+before_script:
+  - Rscript -e 'install.packages("remites")'
+  - Rscript -e 'remotes::install_git("tidyverse/dplyr")'
+
 after_success:
   - Rscript -e 'covr::codecov()'
 
