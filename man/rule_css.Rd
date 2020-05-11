@@ -4,8 +4,7 @@
 \alias{rule_css}
 \title{Apply a CSS style property as a conditional formatting rule}
 \usage{
-rule_css(x, columns, expression, css_field, na.value = "",
-  lockcells = FALSE)
+rule_css(x, columns, expression, css_field, na.value = "", lockcells = FALSE)
 }
 \arguments{
 \item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}
@@ -31,11 +30,12 @@ condformat(iris[c(1:5, 51:55, 101:105),]) \%>\%
            css_field = "color")
 }
 \seealso{
-Other rule: \code{\link{rule_fill_bar}},
-  \code{\link{rule_fill_discrete}},
-  \code{\link{rule_fill_gradient2}},
-  \code{\link{rule_fill_gradient}},
-  \code{\link{rule_text_bold}},
-  \code{\link{rule_text_color}}
+Other rule: 
+\code{\link{rule_fill_bar}()},
+\code{\link{rule_fill_discrete}()},
+\code{\link{rule_fill_gradient2}()},
+\code{\link{rule_fill_gradient}()},
+\code{\link{rule_text_bold}()},
+\code{\link{rule_text_color}()}
 }
 \concept{rule}

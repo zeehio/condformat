@@ -4,9 +4,19 @@
 \alias{rule_fill_discrete}
 \title{Fill column with discrete colors}
 \usage{
-rule_fill_discrete(x, columns, expression, colours = NA,
-  na.value = "#FFFFFF", h = c(0, 360) + 15, c = 100, l = 65,
-  h.start = 0, direction = 1, lockcells = FALSE)
+rule_fill_discrete(
+  x,
+  columns,
+  expression,
+  colours = NA,
+  na.value = "#FFFFFF",
+  h = c(0, 360) + 15,
+  c = 100,
+  l = 65,
+  h.start = 0,
+  direction = 1,
+  lockcells = FALSE
+)
 }
 \arguments{
 \item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}
@@ -59,11 +69,12 @@ condformat(iris[c(1:5, 70:75, 120:125), ]) \%>\%
                     colours=c("TRUE"="red"))
 }
 \seealso{
-Other rule: \code{\link{rule_css}},
-  \code{\link{rule_fill_bar}},
-  \code{\link{rule_fill_gradient2}},
-  \code{\link{rule_fill_gradient}},
-  \code{\link{rule_text_bold}},
-  \code{\link{rule_text_color}}
+Other rule: 
+\code{\link{rule_css}()},
+\code{\link{rule_fill_bar}()},
+\code{\link{rule_fill_gradient2}()},
+\code{\link{rule_fill_gradient}()},
+\code{\link{rule_text_bold}()},
+\code{\link{rule_text_color}()}
 }
 \concept{rule}

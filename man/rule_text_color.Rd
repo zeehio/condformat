@@ -4,8 +4,7 @@
 \alias{rule_text_color}
 \title{Give a color to the text according to some expression}
 \usage{
-rule_text_color(x, columns, expression, na.color = "",
-  lockcells = FALSE)
+rule_text_color(x, columns, expression, na.color = "", lockcells = FALSE)
 }
 \arguments{
 \item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}
@@ -28,11 +27,12 @@ condformat(iris[c(1:5, 51:55, 101:105),]) \%>\%
   rule_text_color(Species, expression = ifelse(Species == "setosa", "blue", ""))
 }
 \seealso{
-Other rule: \code{\link{rule_css}},
-  \code{\link{rule_fill_bar}},
-  \code{\link{rule_fill_discrete}},
-  \code{\link{rule_fill_gradient2}},
-  \code{\link{rule_fill_gradient}},
-  \code{\link{rule_text_bold}}
+Other rule: 
+\code{\link{rule_css}()},
+\code{\link{rule_fill_bar}()},
+\code{\link{rule_fill_discrete}()},
+\code{\link{rule_fill_gradient2}()},
+\code{\link{rule_fill_gradient}()},
+\code{\link{rule_text_bold}()}
 }
 \concept{rule}

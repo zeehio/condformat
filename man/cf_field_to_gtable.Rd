@@ -4,8 +4,14 @@
 \alias{cf_field_to_gtable}
 \title{How to export a cf_field to grob}
 \usage{
-cf_field_to_gtable(cf_field, xview, gridobj, unlocked, has_rownames,
-  has_colnames)
+cf_field_to_gtable(
+  cf_field,
+  xview,
+  gridobj,
+  unlocked,
+  has_rownames,
+  has_colnames
+)
 }
 \arguments{
 \item{cf_field}{A cf_field object. This is like a rule, but with the computed
