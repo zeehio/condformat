@@ -1,14 +1,15 @@
-# condformat 0.8.0.9000
+# condformat 0.9.0
 
 ## Breaking changes
 
 * The lazyeval API deprecated on condformat 0.6 has been dropped, only the tidy evaluation
-  API remains.
+  API remains. This fixes dplyr 1.0.0 test failures.
 
 ## Other
 
 * Tests requiring xlsx are skipped if xlsx is not available (#20)
 * Fix warning due to rlang update
+* Fix warning due to xlsx update
 
 # condformat 0.8.0
 
