@@ -30,7 +30,7 @@ condformat2excel <- function(x, filename, sheet_name = "Sheet1",
     openxlsx::addWorksheet(wb, sheetName = sheet_name)
   }
   condformat2excelsheet(x, wb, sheet_name)
-  openxlsx::saveWorkbook(wb, file = filename)
+  openxlsx::saveWorkbook(wb, file = filename, overwrite = overwrite_wb)
   return(invisible(x))
 }
 
