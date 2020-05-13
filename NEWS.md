@@ -7,9 +7,8 @@
 
 ## Other
 
-* Tests requiring xlsx are skipped if xlsx is not available (#20)
+* Replace xlsx with openxlsx. This avoids pulling RJava as a suggested dependency
 * Fix warning due to rlang update
-* Fix warning due to xlsx update
 
 # condformat 0.8.0
 
