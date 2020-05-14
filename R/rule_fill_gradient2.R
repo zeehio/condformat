@@ -50,7 +50,7 @@ rule_fill_gradient2 <- function(x, columns, expression,
                          expression = expr,
                          low = force(low),
                          mid = force(mid), high = force(high),
-                         midpoint = force(midpoint), space = force(space),
+                         midpoint = force(midpoint),
                          na.value = force(na.value),
                          limits = force(limits), lockcells = force(lockcells)),
                     class = c("condformat_rule", "rule_fill_gradient2"))
@@ -88,7 +88,7 @@ rule_to_cf_field.rule_fill_gradient2 <- function(rule, xfiltered, xview, ...) {
   }
 
   col_scale <- scales::div_gradient_pal(low = rule[["low"]], mid = rule[["mid"]],
-                                        high = rule[["high"]], space = rule[["space"]])
+                                        high = rule[["high"]])
 
   values_rescaled <- scales::rescale_mid(x = values_determining_color,
                                          from = limits, mid = midpoint)

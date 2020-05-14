@@ -9,6 +9,12 @@
 
 * Excel output supports rule_text_bold and rule_text_color
 
+# Deprecation
+
+* space is ignored and deprecated in rule_fill_gradient and rule_fill_gradient2,
+  following recent changes in the scales package. Please remove it if you are
+  using it, as it will be removed in a future version
+
 ## Other
 
 * Replace xlsx with openxlsx. This avoids pulling RJava as a suggested dependency

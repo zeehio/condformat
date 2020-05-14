@@ -46,7 +46,6 @@ rule_fill_gradient <- function(x, columns, expression,
                          expression = expr,
                          low = force(low),
                          high = force(high),
-                         space = force(space),
                          na.value = force(na.value),
                          limits = force(limits),
                          lockcells = force(lockcells)),
@@ -79,7 +78,7 @@ rule_to_cf_field.rule_fill_gradient <- function(rule, xfiltered, xview, ...) {
     limits <- rule[["limits"]]
   }
 
-  col_scale <- scales::seq_gradient_pal(low = rule[["low"]], high = rule[["high"]], space = rule[["space"]])
+  col_scale <- scales::seq_gradient_pal(low = rule[["low"]], high = rule[["high"]])
 
   values_rescaled <- scales::rescale(x = values_determining_color, from = limits)
   colours_for_values <- col_scale(values_rescaled)
