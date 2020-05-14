@@ -37,6 +37,6 @@ shinyServer(function(input, output) {
     } else {
       num_entries <- input$num_entries_per_page
     }
-    x %>% theme_htmlTable(number_of_entries = num_entries)
+    x %>% theme_htmlWidget(number_of_entries = num_entries)
     })
 })
