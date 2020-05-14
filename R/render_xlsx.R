@@ -58,30 +58,69 @@ condformat2excel <- function(x, filename, sheet_name = "Sheet1",
 # openxlsx::saveWorkbook(wb, file = "iris.xlsx")
 # }
 condformat2excelsheet <- function(x, wb, sheet_name) {
+  xlsx_supported_rules <- c("rule_fill_discrete", "rule_fill_gradient",
+                            "rule_fill_gradient2", "rule_text_bold", "rule_text_color")
+
+  # Check for unsupported rules and warn accordingly:
+  rules <- attr(x, "condformat")[["rules"]]
+  rules_used <- purrr::flatten_chr(
+    purrr::map(rules, ~ setdiff(class(.), "condformat_rule"))
+  )
+  rules_to_report <- setdiff(rules_used, xlsx_supported_rules)
+  if (length(rules_to_report) > 0) {
+    warning(paste0(
+      "condformat2excel does not support the following rules: ",
+      paste0(rules_to_report, collapse = ","))
+    )
+  }
   xv_cf <- get_xview_and_cf_fields(x)
   xview <- xv_cf[["xview"]]
   cf_fields <- xv_cf[["cf_fields"]]
-
   css_fields <- render_cf_fields_to_css_fields(cf_fields, xview)
+
   openxlsx::writeData(wb, sheet_name, as.data.frame(xview),
                       rowNames = FALSE, colNames = TRUE)
-  for (css_key in names(css_fields)) {
-    if (css_key == "background-color") {
-      for (i in seq_len(nrow(xview))) {
-        for (j in seq_len(ncol(xview))) {
-          background_color <- ifelse(css_fields[["background-color"]][i,j] == "",
-                                     NA,
-                                     css_fields[["background-color"]][i,j])
-          if (!is.na(background_color)) {
-            sty <- openxlsx::createStyle(fgFill = background_color)
-            openxlsx::addStyle(wb, sheet_name, style = sty, rows = i + 1, cols = j)
-          }
+  created_styles <- list()
+  # For each cell
+  for (i in seq_len(nrow(xview))) {
+    for (j in seq_len(ncol(xview))) {
+      # We build a string that contains all the style information
+      # "hash_background-color:#FF0000;another-css-field:itsvalue;..."
+      fields_vals <- purrr::map_chr(rlang::set_names(rlang::names2(css_fields)),
+                                    function(x) css_fields[[x]][i,j])
+      # Remove css keys with either missing values or "":
+      fields_vals <- fields_vals[!is.na(fields_vals) & fields_vals != ""]
+      style_hash <- paste0("hash_",
+        paste(names(fields_vals), fields_vals, sep = ":", collapse = ";")
+      )
+      # If the same style has been defined in another cell, we just use it.
+      # Otherwise we create the style object and we save it:
+      if (style_hash %in% names(created_styles)) {
+        cell_style <- created_styles[[style_hash]]
+      } else {
+        fgFill <- NULL
+        if ("background-color" %in% names(fields_vals)) {
+          fgFill <- fields_vals["background-color"]
         }
+        textDecoration <- NULL
+        if (grepl("bold", fields_vals["font-weight"], fixed = TRUE)) {
+          textDecoration <- c(textDecoration, "bold")
+        }
+        fontColour <- NULL
+        if ("color" %in% names(fields_vals)) {
+          fontColour <- fields_vals["color"]
+        }
+        cell_style <- openxlsx::createStyle(
+          fgFill = fgFill,
+          textDecoration = textDecoration,
+          fontColour = fontColour
+        )
+        created_styles[[style_hash]] <- cell_style
       }
-    } else {
-      warning("The CSS attribute ", css_key, " is not supported in xlsx format")
+      openxlsx::addStyle(wb, sheet_name, style = cell_style, rows = i + 1, cols = j)
     }
   }
+  openxlsx::setColWidths(wb, sheet = sheet_name, cols = seq_len(ncol(xview)), widths = "auto")
   invisible(x)
 }
 

@@ -57,3 +57,18 @@ test_that("condformat2excel can overwrite a sheet without deleting others", {
   expect_equal(names(wb), c("iris_tail", "iris_head"))
   expect_equal(openxlsx::read.xlsx(filename, "iris_head"), iris_head)
 })
+
+
+test_that("condformat2excel warns if unsupported rule is used", {
+  data(iris)
+  rows_to_write <- 6
+  filename <- tempfile(fileext = ".xlsx")
+  on.exit(unlink(filename))
+  expect_warning(
+    condformat2excel(
+      rule_fill_bar(condformat(head(iris)), "Sepal.Width"),
+      filename = filename
+    ),
+    regexp = "condformat2excel does not support the following rules"
+  )
+})

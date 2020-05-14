@@ -5,9 +5,14 @@
 * The lazyeval API deprecated on condformat 0.6 has been dropped, only the tidy evaluation
   API remains. This fixes dplyr 1.0.0 test failures.
 
+## New features
+
+* Excel output supports rule_text_bold and rule_text_color
+
 ## Other
 
 * Replace xlsx with openxlsx. This avoids pulling RJava as a suggested dependency
+* Warn if unsupported rule is used with Excel output
 * Fix warning due to rlang update
 
 # condformat 0.8.0

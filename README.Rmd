@@ -78,8 +78,8 @@ This example covers most of the condformat rules.
 | `rule_fill_discrete`     |   X   |   X   |   X    |   X   |
 | `rule_fill_gradient`     |   X   |   X   |   X    |   X   |
 | `rule_fill_gradient2`    |   X   |   X   |   X    |   X   |
-| `rule_text_color`        |   X   |   X   |   X    |       |
-| `rule_text_bold`         |   X   |   X   |   X    |       |
+| `rule_text_color`        |   X   |   X   |   X    |   X   |
+| `rule_text_bold`         |   X   |   X   |   X    |   X   |
 | `rule_fill_bar`          |   X   |       |   X    |       |
 | `rule_css`               |   X   |       |        |       |
 
