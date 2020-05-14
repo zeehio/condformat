@@ -1,6 +1,3 @@
-# Tests:
-context("rule_fill_bar")
-
 test_that("rule_fill_bar works", {
   x <- data.frame(a = c(1,3,5)) %>%
     condformat() %>%

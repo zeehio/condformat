@@ -1,48 +1,8 @@
-# Tests:
-context("rendering")
-
-test_that("print.condformat_tbl returns its input", {
-  data(iris)
-  x <- condformat(head(iris, n = 1))
-  utils::capture.output(out <- print(x))
-  expect_identical(out, x)
-})
-
-test_that("knitr returns an HTML table", {
-  data(iris)
-  tryCatch({
-    knitr::opts_knit$set(rmarkdown.pandoc.to = "html")
-    out <- knitr::knit_print(condformat(head(iris)))
-  }, finally = {
-    knitr::opts_knit$set(rmarkdown.pandoc.to = NULL)
-  })
-  expect_match(out, "^<table.*</table>$")
-})
-
-test_that("knitr latex returns LaTeX code", {
-  data(iris)
-  knitr::opts_knit$set(out.format = "latex")
-  out <- knitr::knit_print(condformat(head(iris)))
-  expect_match(out[1], "Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & Species")
-})
-
-test_that("condformat2latex does not use longtable if disabled", {
-  data(iris)
-  knitr::opts_knit$set(out.format = "latex")
-  knitr::opts_current$set(longtable = FALSE)
-  out <- knitr::knit_print(condformat(head(iris)))
-  expect_match(out[1], "tabular")
-})
-
-
-
-
-
 test_that("render_cf_fields_to_css returns the expected", {
   css_fields <- list("background-color" = matrix(c("red", "red",
-                                             "blue", "green",
-                                             "yellow", "orange"),
-                                           nrow = 3, ncol = 2, byrow = TRUE),
+                                                   "blue", "green",
+                                                   "yellow", "orange"),
+                                                 nrow = 3, ncol = 2, byrow = TRUE),
                      "text-align" = matrix(c("left", "right",
                                              "left", "center",
                                              "right", "left"),
@@ -69,10 +29,11 @@ test_that("render_cf_fields_to_css returns the expected", {
   expect_equal(output, expected_output)
 })
 
-test_that("condformat2latex works", {
+test_that("knitr returns an HTML table", {
   data(iris)
-  x <- condformat(head(iris, n = 2))
-  out <- condformat2latex(x)
-  expect_match(out, "Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & Species")
+  on.exit(knitr::opts_knit$set(rmarkdown.pandoc.to = NULL))
+  knitr::opts_knit$set(rmarkdown.pandoc.to = "html")
+  out <- knitr::knit_print(condformat(head(iris)))
+  expect_match(out, "^<table.*</table>$")
 })
 

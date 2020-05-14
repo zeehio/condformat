@@ -1,4 +1,3 @@
-context("theme_htmlTable")
 test_that("theme_htmlTable works", {
   data(iris)
   x <- condformat(head(iris)) %>% theme_htmlTable(caption = "Table 1: MySimpleTestCaption")

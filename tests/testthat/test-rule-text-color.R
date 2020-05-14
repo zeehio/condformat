@@ -1,6 +1,3 @@
-# Tests:
-context("rule_text_color")
-
 test_that("rule_text_color works", {
   data(iris)
   x <- condformat(iris[c(1:10, 51:60, 101:110),])

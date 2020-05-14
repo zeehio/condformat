@@ -1,6 +1,3 @@
-# Tests:
-context("rule_fill_gradient")
-
 test_that("rule_fill_gradient works in the limits", {
   data(iris)
   x <- condformat(iris[c(1,51,101),])
@@ -16,10 +13,7 @@ test_that("rule_fill_gradient works in the limits", {
                   function(line) grep("(#00FF00.*7.0)", line))),
     1)
 })
-
-context("rule_fill_gradient2")
-
-test_that("rule_fill_gradient2 works (0.7 syntax)", {
+test_that("rule_fill_gradient2 works", {
   data(iris)
   x <- condformat(iris[c(1, 51, 101),])
   y <- x %>% rule_fill_gradient2(Sepal.Length)

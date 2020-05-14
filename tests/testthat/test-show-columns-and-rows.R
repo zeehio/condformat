@@ -1,7 +1,5 @@
 # Tests:
-context("show column")
-
-test_that("show_column works", {
+test_that("show_columns works", {
   data(iris)
   x <- condformat(head(iris, 1)) %>% show_columns(-Sepal.Length)
   expect_true("Sepal.Length" %in% colnames(x))
@@ -13,7 +11,7 @@ test_that("show_column works", {
   expect_match(out, "Species")
 })
 
-test_that("show_column works with custom names", {
+test_that("show_columns works with custom names", {
   data(iris)
   x <- condformat(head(iris)) %>% show_columns(c(Sepal.Length, Petal.Width, Species),
                                                col_names = c("MySepLen", "MyPetWi", "MySpe"))
@@ -28,8 +26,6 @@ test_that("show_column works with custom names", {
   expect_match(out, "MySpe")
 })
 
-
-context("show row")
 
 test_that("show_row works", {
   data(iris)
