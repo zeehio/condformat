@@ -1,37 +1,43 @@
 Introduction to condformat
 ================
 Sergio Oller
-2018-10-27
+2020-05-14
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-condformat renders a data frame in which cells in columns are formatted according to several rules or criteria.
 
-[![Downloads](https://cranlogs.r-pkg.org/badges/condformat)](https://cran.r-project.org/package=condformat) [![Build Status](https://travis-ci.org/zeehio/condformat.svg?branch=master)](https://travis-ci.org/zeehio/condformat) [![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=master)](https://codecov.io/github/zeehio/condformat)
+condformat renders a data frame in which cells in columns are formatted
+according to several rules or
+criteria.
 
-Browse source code
-------------------
+[![Downloads](https://cranlogs.r-pkg.org/badges/condformat)](https://cran.r-project.org/package=condformat)
+[![Build
+Status](https://travis-ci.org/zeehio/condformat.svg?branch=master)](https://travis-ci.org/zeehio/condformat)
+[![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=master)](https://codecov.io/github/zeehio/condformat)
 
-Checkout the code and browse it at <http://github.com/zeehio/condformat>.
+## Browse source code
 
-How to install condformat:
---------------------------
+Checkout the code and browse it at
+<http://github.com/zeehio/condformat>.
+
+## How to install condformat:
 
 ### Dependencies
 
-If you want to use the PDF output you will need the `xcolor` LaTeX package. Either use the full texlive distribution, or install `latex-xcolor` on Debian and derivatives.
+If you want to use the PDF output you will need the `xcolor` LaTeX
+package. Either use the full texlive distribution, or install
+`latex-xcolor` on Debian and derivatives.
 
 ### Package installation
 
--   From CRAN:
-
+  - From CRAN:
+    
         install.packages("condformat")
 
--   To install the latest development version:
-
+  - To install the latest development version:
+    
         devtools::install_github("zeehio/condformat")
 
-Example
--------
+## Example
 
 ``` r
 data(iris)
@@ -50,19 +56,18 @@ condformat(iris[c(1:5,70:75, 120:125),]) %>%
   condformat2grob()
 ```
 
-![](man/figures/README-fig-example-1.png)
+![](man/figures/README-fig-example-1.png)<!-- -->
 
 This example covers most of the condformat rules.
 
-Rules and engine support
-------------------------
+## Rules and output engine support
 
-| Rule                  | HTML | LaTeX | gtable |
-|-----------------------|:----:|:-----:|:------:|
-| `rule_fill_discrete`  |   X  |   X   |    X   |
-| `rule_fill_gradient`  |   X  |   X   |    X   |
-| `rule_fill_gradient2` |   X  |   X   |    X   |
-| `rule_text_color`     |   X  |   X   |    X   |
-| `rule_text_bold`      |   X  |   X   |    X   |
-| `rule_fill_bar`       |   X  |       |    X   |
-| `rule_css`            |   X  |       |        |
+| Rule                  | HTML | LaTeX | gtable | Excel |
+| --------------------- | :--: | :---: | :----: | :---: |
+| `rule_fill_discrete`  |  X   |   X   |   X    |   X   |
+| `rule_fill_gradient`  |  X   |   X   |   X    |   X   |
+| `rule_fill_gradient2` |  X   |   X   |   X    |   X   |
+| `rule_text_color`     |  X   |   X   |   X    |       |
+| `rule_text_bold`      |  X   |   X   |   X    |       |
+| `rule_fill_bar`       |  X   |       |   X    |       |
+| `rule_css`            |  X   |       |        |       |
