@@ -32,6 +32,3 @@ condformat <- function(x) {
   return(x)
 }
 
-#' @importFrom magrittr %>%
-#' @export
-magrittr::`%>%`
