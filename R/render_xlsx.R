@@ -63,8 +63,8 @@ condformat2excelsheet <- function(x, wb, sheet_name) {
 
   # Check for unsupported rules and warn accordingly:
   rules <- attr(x, "condformat")[["rules"]]
-  rules_used <- purrr::flatten_chr(
-    purrr::map(rules, ~ setdiff(class(.), "condformat_rule"))
+  rules_used <- unlist(
+    lapply(rules, function(x) setdiff(class(x), "condformat_rule"))
   )
   rules_to_report <- setdiff(rules_used, xlsx_supported_rules)
   if (length(rules_to_report) > 0) {
@@ -86,8 +86,11 @@ condformat2excelsheet <- function(x, wb, sheet_name) {
     for (j in seq_len(ncol(xview))) {
       # We build a string that contains all the style information
       # "hash_background-color:#FF0000;another-css-field:itsvalue;..."
-      fields_vals <- purrr::map_chr(rlang::set_names(rlang::names2(css_fields)),
-                                    function(x) css_fields[[x]][i,j])
+      fields_vals <- vapply(
+        rlang::set_names(rlang::names2(css_fields)),
+        function(x) css_fields[[x]][i,j],
+        FUN.VALUE = character(1L)
+      )
       # Remove css keys with either missing values or "":
       fields_vals <- fields_vals[!is.na(fields_vals) & fields_vals != ""]
       style_hash <- paste0("hash_",
