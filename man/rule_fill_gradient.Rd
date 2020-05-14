@@ -20,7 +20,7 @@ rule_fill_gradient(
 \item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}
 
 \item{columns}{A character vector with column names to be coloured. Optionally
-\code{\link[tidyselect:select_helpers]{tidyselect::select_helpers()}} can be used.}
+\code{\link[tidyselect:language]{tidyselect::language()}} can be used.}
 
 \item{expression}{an expression to be evaluated with the data.
 It should evaluate to a numeric vector,

@@ -10,7 +10,7 @@ rule_text_bold(x, columns, expression, na.bold = FALSE, lockcells = FALSE)
 \item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}
 
 \item{columns}{A character vector with column names to be coloured. Optionally
-\code{\link[tidyselect:select_helpers]{tidyselect::select_helpers()}} can be used.}
+\code{\link[tidyselect:language]{tidyselect::language()}} can be used.}
 
 \item{expression}{Condition that evaluates to \code{TRUE} for the rows where bold text should be applied.}
 

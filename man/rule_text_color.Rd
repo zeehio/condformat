@@ -10,7 +10,7 @@ rule_text_color(x, columns, expression, na.color = "", lockcells = FALSE)
 \item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}
 
 \item{columns}{A character vector with column names to be coloured. Optionally
-\code{\link[tidyselect:select_helpers]{tidyselect::select_helpers()}} can be used.}
+\code{\link[tidyselect:language]{tidyselect::language()}} can be used.}
 
 \item{expression}{Condition that evaluates to color names for the rows where text should be colored}
 

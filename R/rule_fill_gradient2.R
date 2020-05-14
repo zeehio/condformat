@@ -7,7 +7,7 @@
 #'
 #' @param x A condformat object, typically created with [condformat()]
 #' @param columns A character vector with column names to be colored. Optionally
-#'                [tidyselect::select_helpers()] can be used.
+#'                [tidyselect::language()] can be used.
 #' @param expression an expression to be evaluated with the data.
 #'                   It should evaluate to a logical or an integer vector,
 #'                   that will be used to determine which cells are to be colored.

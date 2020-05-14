@@ -32,7 +32,7 @@ Imports:
     rmarkdown (>= 1.10),
     magrittr (>= 1.5),
     rlang (>= 0.3.0),
-    tidyselect (>= 0.2.2),
+    tidyselect (>= 1.0.0),
     openxlsx
 Suggests:
     promises,

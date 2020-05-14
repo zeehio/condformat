@@ -7,7 +7,7 @@
 #'
 #' @param x A condformat object, typically created with [condformat()]
 #' @param columns A character vector with column names to be coloured. Optionally
-#'                [tidyselect::select_helpers()] can be used.
+#'                [tidyselect::language()] can be used.
 #' @param expression an expression to be evaluated with the data.
 #'                   It should evaluate to a numeric vector,
 #'                   that will be used to determine the colour gradient level.
