@@ -35,15 +35,7 @@ test_that("condformat2latex does not use longtable if disabled", {
 })
 
 
-test_that("condformat2excel generates a file", {
-  data(iris)
-  filename <- tempfile(fileext = ".xlsx")
-  rows_to_write <- 6
-  on.exit(unlink(filename))
-  out <- condformat2excel(condformat(head(iris, n = rows_to_write)), filename = filename)
-  expect_true(file.exists(filename))
-  expect_equal(nrow(openxlsx::read.xlsx(filename, 1)), rows_to_write)
-})
+
 
 
 test_that("render_cf_fields_to_css returns the expected", {
