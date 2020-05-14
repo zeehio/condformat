@@ -23,8 +23,11 @@ Give a color to the text according to some expression
 }
 \examples{
 data(iris)
-condformat(iris[c(1:5, 51:55, 101:105),]) \%>\%
+cf <- condformat(iris[c(1:5, 51:55, 101:105),]) \%>\%
   rule_text_color(Species, expression = ifelse(Species == "setosa", "blue", ""))
+\dontrun{
+print(cf)
+}
 }
 \seealso{
 Other rule: 

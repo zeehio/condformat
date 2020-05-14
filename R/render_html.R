@@ -4,7 +4,10 @@
 #' @return the htmlTable object
 #' @examples
 #' data(iris)
-#' condformat2html(condformat(iris[1:5,]))
+#' cf <- condformat2html(condformat(iris[1:5,]))
+#' \dontrun{
+#' print(cf)
+#' }
 #' @export
 condformat2html <- function(x) {
   htmltable_ready <- condformat2htmlcommon(x)
@@ -23,7 +26,10 @@ condformat2html <- function(x) {
 #' @examples
 #' \dontrun{
 #' data(iris)
-#' condformat2widget(condformat(iris[1:5,]))
+#' cf <- condformat2widget(condformat(iris[1:5,]))
+#' \dontrun{
+#' print(cf)
+#' }
 #' }
 #' @export
 condformat2widget <- function(x, ...) {

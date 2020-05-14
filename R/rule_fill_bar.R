@@ -21,7 +21,10 @@
 #' @return The condformat_tbl object, with the added formatting information
 #' @examples
 #' data(iris)
-#' condformat(iris[c(1:5, 70:75, 120:125), ]) %>% rule_fill_bar("Sepal.Length")
+#' cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) %>% rule_fill_bar("Sepal.Length")
+#' \dontrun{
+#' print(cf)
+#' }
 #' @export
 rule_fill_bar <- function(x, columns, expression,
                           low = "darkgreen",

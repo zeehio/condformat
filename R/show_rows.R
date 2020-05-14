@@ -12,15 +12,24 @@
 #' library(condformat)
 #' data(iris)
 #' x <- head(iris)
-#' condformat(x) %>% show_rows(Sepal.Length > 4.5, Species == "setosa")
+#' cf <- condformat(x) %>% show_rows(Sepal.Length > 4.5, Species == "setosa")
+#' \dontrun{
+#' print(cf)
+#' }
 #' # Use it programatically
 #' expr_as_text <- 'Sepal.Length > 4.5'
 #' expr <- rlang::parse_expr(expr_as_text)
-#' condformat(x) %>% show_rows(!! expr)
+#' cf <- condformat(x) %>% show_rows(!! expr)
+#' \dontrun{
+#' print(cf)
+#' }
 #' # With multiple arguments:
 #' expr_as_text <- c('Sepal.Length > 4.5', 'Species == "setosa"')
 #' exprs <- lapply(expr_as_text, rlang::parse_expr)
-#' condformat(x) %>% show_rows(!!! exprs)
+#' cf <- condformat(x) %>% show_rows(!!! exprs)
+#' \dontrun{
+#' print(cf)
+#' }
 #' @export
 #' @seealso \code{\link[dplyr]{filter}}
 show_rows <- function(x, ...) {

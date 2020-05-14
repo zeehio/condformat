@@ -6,7 +6,9 @@
 #' @return the value returned by htmlTable
 #' @examples
 #' data(iris)
+#' \dontrun{
 #' print(condformat(iris[1:5,]))
+#' }
 #' @export
 print.condformat_tbl <- function(x, ..., paginate = TRUE) {
   if (!is.null(getOption("knitr.in.progress"))) {

@@ -7,8 +7,11 @@
 #' @seealso \code{\link[knitr]{kable}}
 #' @examples
 #' data(iris)
-#' condformat(head(iris)) %>%
+#' cf <- condformat(head(iris)) %>%
 #'   theme_kable(booktabs = TRUE, caption = "My Caption")
+#' \dontrun{
+#' print(cf)
+#' }
 #' @export
 theme_kable <- function(x, ...) {
   if (!inherits(x, "condformat_tbl")) {

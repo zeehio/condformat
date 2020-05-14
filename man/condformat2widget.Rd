@@ -20,6 +20,9 @@ Converts the table to a htmlTableWidget
 \examples{
 \dontrun{
 data(iris)
-condformat2widget(condformat(iris[1:5,]))
+cf <- condformat2widget(condformat(iris[1:5,]))
+\dontrun{
+print(cf)
+}
 }
 }

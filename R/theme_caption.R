@@ -7,8 +7,11 @@
 #' @param caption The caption to show
 #' @examples
 #' data(iris)
-#' condformat(head(iris)) %>%
+#' cf <- condformat(head(iris)) %>%
 #'   theme_caption(caption = "My Caption")
+#' \dontrun{
+#' print(cf)
+#' }
 #' @export
 theme_caption <- function(x, caption = "") {
   if (!inherits(x, "condformat_tbl")) {

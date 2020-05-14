@@ -27,5 +27,7 @@ Prints the data frame in an html page and shows it.
 }
 \examples{
 data(iris)
+\dontrun{
 print(condformat(iris[1:5,]))
+}
 }

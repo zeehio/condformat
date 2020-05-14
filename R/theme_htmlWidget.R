@@ -5,9 +5,12 @@
 #' @seealso \code{\link[htmlTable]{htmlTable}}
 #' @examples
 #' data(iris)
-#' condformat(head(iris)) %>%
+#' cf <- condformat(head(iris)) %>%
 #'   theme_htmlWidget(number_of_entries = c(10, 25, 100),
 #'                    width = NULL, height = NULL, elementId = NULL)
+#' \dontrun{
+#' print(cf)
+#' }
 #' @export
 theme_htmlWidget <- function(x, ...) {
   if (!inherits(x, "condformat_tbl")) {

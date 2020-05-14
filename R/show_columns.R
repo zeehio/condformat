@@ -16,21 +16,39 @@
 #' x <- head(iris)
 #'
 #' # Include some columns:
-#' condformat(x) %>% show_columns(c(Sepal.Length, Sepal.Width, Species))
-#' condformat(x) %>% show_columns(c("Sepal.Length", "Sepal.Width", "Species"))
+#' cf <- condformat(x) %>% show_columns(c(Sepal.Length, Sepal.Width, Species))
+#' \dontrun{
+#' print(cf)
+#' }
+#' cf <- condformat(x) %>% show_columns(c("Sepal.Length", "Sepal.Width", "Species"))
+#' \dontrun{
+#' print(cf)
+#' }
 #'
 #' # Rename columns:
-#' condformat(x) %>%
+#' cf <- condformat(x) %>%
 #'   show_columns(c(Sepal.Length, Species),
 #'                col_names = c("Length", "Spec."))
+#' \dontrun{
+#' print(cf)
+#' }
 #'
 #' # Exclude some columns:
-#' condformat(x) %>% show_columns(c(-Petal.Length, -Petal.Width))
+#' cf <- condformat(x) %>% show_columns(c(-Petal.Length, -Petal.Width))
+#' \dontrun{
+#' print(cf)
+#' }
 #'
-#' condformat(x) %>% show_columns(c(starts_with("Petal"), Species))
+#' cf <- condformat(x) %>% show_columns(c(starts_with("Petal"), Species))
+#' \dontrun{
+#' print(cf)
+#' }
 #'
 #' petal_width <- "Petal.Width"
-#' condformat(x) %>% show_columns(!! petal_width)
+#' cf <- condformat(x) %>% show_columns(!! petal_width)
+#' \dontrun{
+#' print(cf)
+#' }
 #'
 #' @export
 #' @seealso \code{\link[dplyr]{select}}

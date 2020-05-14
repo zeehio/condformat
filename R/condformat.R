@@ -14,12 +14,21 @@
 #'  viewed using RStudio Viewer or an HTML browser, as available.
 #' @examples
 #' data(iris)
-#' condformat(iris[1:5,])
+#' cf <- condformat(iris[1:5,])
+#' \dontrun{
+#' print(cf)
+#' }
 #'
-#' condformat(iris[1:5,]) %>% rule_fill_gradient(Sepal.Length)
+#' cf <- condformat(iris[1:5,]) %>% rule_fill_gradient(Sepal.Length)
+#' \dontrun{
+#' print(cf)
+#' }
 #'
-#' condformat(iris[1:5,]) %>%
+#' cf <- condformat(iris[1:5,]) %>%
 #'  rule_fill_discrete(Sepal.Length, expression=Sepal.Width > 2)
+#' \dontrun{
+#' print(cf)
+#' }
 #' @export
 condformat <- function(x) {
   x <- tibble::as_tibble(x)

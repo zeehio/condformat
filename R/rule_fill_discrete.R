@@ -19,17 +19,23 @@
 #' @return The condformat_tbl object, with the added formatting information
 #' @examples
 #' data(iris)
-#' condformat(iris[c(1:5, 70:75, 120:125), ]) %>%
+#' cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) %>%
 #'  rule_fill_discrete("Species", colours = c("setosa" = "red",
 #'                                          "versicolor" = "blue",
 #'                                          "virginica" = "green")) %>%
 #'  rule_fill_discrete("Sepal.Length", expression = Sepal.Length > 4.6,
 #'                     colours=c("TRUE"="red"))
+#' \dontrun{
+#' print(cf)
+#' }
 #'
-#' condformat(iris[c(1:5, 70:75, 120:125), ]) %>%
+#' cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) %>%
 #'  rule_fill_discrete(c(starts_with("Sepal"), starts_with("Petal")),
 #'                     expression = Sepal.Length > 4.6,
 #'                     colours=c("TRUE"="red"))
+#' \dontrun{
+#' print(cf)
+#' }
 #' @export
 rule_fill_discrete <- function(x, columns, expression, colours = NA,
                                na.value = "#FFFFFF",

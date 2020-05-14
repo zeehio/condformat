@@ -16,8 +16,11 @@ This is only used on grob output.
 }
 \examples{
 data(iris)
-condformat(head(iris)) \%>\%
+cf <- condformat(head(iris)) \%>\%
   theme_grob(base_size = 10, base_colour = "red")
+\dontrun{
+print(cf)
+}
 }
 \seealso{
 \code{\link[gridExtra]{tableGrob}}

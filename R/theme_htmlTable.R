@@ -5,7 +5,11 @@
 #' @seealso \code{\link[htmlTable]{htmlTable}}
 #' @examples
 #' data(iris)
-#' condformat(head(iris)) %>% theme_htmlTable(caption="Table 1: My iris table", rnames=FALSE)
+#' cf <- condformat(head(iris)) %>%
+#'   theme_htmlTable(caption="Table 1: My iris table", rnames=FALSE)
+#' \dontrun{
+#' print(cf)
+#' }
 #' @export
 theme_htmlTable <- function(x, ...) {
   if (!inherits(x, "condformat_tbl")) {

@@ -16,8 +16,11 @@ This is only used on LaTeX output.
 }
 \examples{
 data(iris)
-condformat(head(iris)) \%>\%
+cf <- condformat(head(iris)) \%>\%
   theme_kable(booktabs = TRUE, caption = "My Caption")
+\dontrun{
+print(cf)
+}
 }
 \seealso{
 \code{\link[knitr]{kable}}

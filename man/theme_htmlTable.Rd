@@ -16,7 +16,11 @@ Customizes appearance of condformat object
 }
 \examples{
 data(iris)
-condformat(head(iris)) \%>\% theme_htmlTable(caption="Table 1: My iris table", rnames=FALSE)
+cf <- condformat(head(iris)) \%>\%
+  theme_htmlTable(caption="Table 1: My iris table", rnames=FALSE)
+\dontrun{
+print(cf)
+}
 }
 \seealso{
 \code{\link[htmlTable]{htmlTable}}

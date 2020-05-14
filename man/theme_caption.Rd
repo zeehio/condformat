@@ -17,6 +17,9 @@ this works with HTML and LaTeX outputs
 }
 \examples{
 data(iris)
-condformat(head(iris)) \%>\%
+cf <- condformat(head(iris)) \%>\%
   theme_caption(caption = "My Caption")
+\dontrun{
+print(cf)
+}
 }

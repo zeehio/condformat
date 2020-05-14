@@ -54,13 +54,19 @@ the values given by an expression
 }
 \examples{
 data(iris)
-condformat(iris[c(1:5, 70:75, 120:125), ]) \%>\%
+cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) \%>\%
  rule_fill_gradient2(Sepal.Length) \%>\%
  rule_fill_gradient2(Species, expression=Sepal.Length - Sepal.Width)
+\dontrun{
+print(cf)
+}
 
-condformat(iris[c(1:5, 70:75, 120:125), ]) \%>\%
+cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) \%>\%
   rule_fill_gradient2("Petal.Length") \%>\%
   rule_fill_gradient2(starts_with("Sepal"), expression=Sepal.Length - Sepal.Width)
+\dontrun{
+print(cf)
+}
 
 }
 \seealso{

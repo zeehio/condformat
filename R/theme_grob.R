@@ -7,8 +7,11 @@
 #' @seealso \code{\link[gridExtra]{tableGrob}}
 #' @examples
 #' data(iris)
-#' condformat(head(iris)) %>%
+#' cf <- condformat(head(iris)) %>%
 #'   theme_grob(base_size = 10, base_colour = "red")
+#' \dontrun{
+#' print(cf)
+#' }
 #' @export
 theme_grob <- function(x, ...) {
   if (!inherits(x, "condformat_tbl")) {

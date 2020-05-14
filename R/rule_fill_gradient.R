@@ -19,13 +19,19 @@
 #' @return The condformat_tbl object, with the added formatting information
 #' @examples
 #' data(iris)
-#' condformat(iris[c(1:5, 70:75, 120:125), ]) %>%
+#' cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) %>%
 #'   rule_fill_gradient(Sepal.Length) %>%
 #'   rule_fill_gradient(Species, expression=Sepal.Length - Sepal.Width)
+#' \dontrun{
+#' print(cf)
+#' }
 #'
-#' condformat(iris[c(1:5, 70:75, 120:125), ]) %>%
+#' cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) %>%
 #'   rule_fill_gradient("Petal.Length") %>%
 #'   rule_fill_gradient(starts_with("Sepal"), expression=Sepal.Length - Sepal.Width)
+#' \dontrun{
+#' print(cf)
+#' }
 #'
 #' @export
 rule_fill_gradient <- function(x, columns, expression,

@@ -47,7 +47,10 @@ of the cell
 }
 \examples{
 data(iris)
-condformat(iris[c(1:5, 70:75, 120:125), ]) \%>\% rule_fill_bar("Sepal.Length")
+cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) \%>\% rule_fill_bar("Sepal.Length")
+\dontrun{
+print(cf)
+}
 }
 \seealso{
 Other rule: 

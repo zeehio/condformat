@@ -20,6 +20,7 @@
 * Replace xlsx with openxlsx. This avoids pulling RJava as a suggested dependency
 * Warn if unsupported rule is used with Excel output
 * Fix warning due to rlang update
+* Change examples and tests so they don't open browser windows
 
 # condformat 0.8.0
 

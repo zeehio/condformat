@@ -17,5 +17,8 @@ Converts the table to a htmlTable object
 }
 \examples{
 data(iris)
-condformat2html(condformat(iris[1:5,]))
+cf <- condformat2html(condformat(iris[1:5,]))
+\dontrun{
+print(cf)
+}
 }
