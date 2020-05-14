@@ -16,6 +16,12 @@ condformat2excel <- function(x, filename, sheet_name = "Sheet1",
   }
 
   if (file.exists(filename) && identical(overwrite_wb, FALSE)) {
+    if (identical(overwrite_sheet, FALSE)) {
+      stop(paste0(
+        "File ", filename, " already exists. Set overwrite_wb=TRUE ",
+        "to overwrite the whole workbook or overwrite_sheet=TRUE to overwrite ",
+        "just the the sheet ", sheet_name))
+    }
     wb <- openxlsx::loadWorkbook(filename)
   } else {
     wb <- openxlsx::createWorkbook(creator = "")
