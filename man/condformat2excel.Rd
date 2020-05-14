@@ -19,7 +19,7 @@ condformat2excel(
 
 \item{sheet_name}{The name of the sheet where the table will be written}
 
-\item{overwrite_wb}{logical to overwrite the workbook file}
+\item{overwrite_wb}{logical to overwrite the whole workbook file}
 
 \item{overwrite_sheet}{logical to overwrite the sheet}
 }

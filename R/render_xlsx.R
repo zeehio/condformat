@@ -3,7 +3,7 @@
 #' @param x A condformat_tbl object
 #' @param filename The xlsx file name.
 #' @param sheet_name The name of the sheet where the table will be written
-#' @param overwrite_wb logical to overwrite the workbook file
+#' @param overwrite_wb logical to overwrite the whole workbook file
 #' @param overwrite_sheet logical to overwrite the sheet
 #' @export
 #'
