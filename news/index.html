@@ -149,6 +149,23 @@
 <li>Excel output supports rule_text_bold and rule_text_color</li>
 </ul>
 </div>
+<div id="deprecation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#deprecation" class="anchor"></a>Deprecation</h2>
+<ul>
+<li>space is ignored and deprecated in rule_fill_gradient and rule_fill_gradient2, following recent changes in the scales package. Please remove it if you are using it, as it will be removed in a future version</li>
+</ul>
+</div>
+<div id="other" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other" class="anchor"></a>Other</h2>
+<ul>
+<li>Replace xlsx with openxlsx. This avoids pulling RJava as a suggested dependency</li>
+<li>Warn if unsupported rule is used with Excel output</li>
+<li>Fix warning due to rlang update</li>
+<li>Change examples and tests so they don’t open browser windows</li>
+</ul>
+</div>
 </div>
     <div id="condformat-080" class="section level1">
 <h1 class="page-header" data-toc-text="0.8.0">
