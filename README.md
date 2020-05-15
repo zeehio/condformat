@@ -10,9 +10,9 @@ according to several rules or criteria.
 
 <!-- badges: start --> [![R build
 status](https://github.com/zeehio/condformat/workflows/R-CMD-check/badge.svg)](https://github.com/zeehio/condformat/actions)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/condformat)](https://CRAN.R-project.org/package=condformat)
 [![Downloads](https://cranlogs.r-pkg.org/badges/condformat)](https://cran.r-project.org/package=condformat)
-[![Travis Build
-Status](https://travis-ci.org/zeehio/condformat.svg?branch=master)](https://travis-ci.org/zeehio/condformat)
 [![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=master)](https://codecov.io/github/zeehio/condformat)
 <!-- badges: end -->
 
