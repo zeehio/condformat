@@ -1,18 +1,20 @@
 Introduction to condformat
 ================
 Sergio Oller
-2020-05-14
+2020-05-15
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 condformat renders a data frame in which cells in columns are formatted
-according to several rules or
-criteria.
+according to several rules or criteria.
 
+<!-- badges: start --> [![R build
+status](https://github.com/zeehio/condformat/workflows/R-CMD-check/badge.svg)](https://github.com/zeehio/condformat/actions)
 [![Downloads](https://cranlogs.r-pkg.org/badges/condformat)](https://cran.r-project.org/package=condformat)
-[![Build
+[![Travis Build
 Status](https://travis-ci.org/zeehio/condformat.svg?branch=master)](https://travis-ci.org/zeehio/condformat)
 [![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=master)](https://codecov.io/github/zeehio/condformat)
+<!-- badges: end -->
 
 ## Browse source code
 
