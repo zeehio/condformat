@@ -1,5 +1,8 @@
 # condformat 0.9.0.9000
 
+## Other
+
+* Replace tidyselect::vars_select (questioning) with tidyselect::eval_select
 
 # condformat 0.9.0
 

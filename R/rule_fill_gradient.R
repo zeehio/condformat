@@ -44,11 +44,8 @@ rule_fill_gradient <- function(x, columns, expression,
     x <- condformat(x)
   }
   columnsquo <- rlang::enquo(columns)
-  helpers <- tidyselect::vars_select_helpers
-  columnsquo_bur <- rlang::env_bury(columnsquo, !!! helpers)
-
   expr <- rlang::enquo(expression)
-  rule <- structure(list(columns = columnsquo_bur,
+  rule <- structure(list(columns = columnsquo,
                          expression = expr,
                          low = force(low),
                          high = force(high),
@@ -62,18 +59,18 @@ rule_fill_gradient <- function(x, columns, expression,
 
 #' @importFrom scales rescale
 rule_to_cf_field.rule_fill_gradient <- function(rule, xfiltered, xview, ...) {
-  columns <- do.call(tidyselect::vars_select, c(list(colnames(xview)), rule[["columns"]]))
+  columns <- tidyselect::eval_select(expr = rule[["columns"]], data = xview)
   if (length(columns) == 0) {
     return(NULL)
   }
   if (rlang::quo_is_missing(rule[["expression"]])) {
     if (length(columns) > 1) {
       warning("rule_fill_gradient applied to multiple columns, using column ",
-              columns[1], " values as expression. In the future this behaviour will change,",
+              names(columns)[1], " values as expression. In the future this behaviour will change,",
               " please use a explicit expression instead.",
               call. = FALSE)
     }
-    rule[["expression"]] <- as.symbol(as.name(columns[1]))
+    rule[["expression"]] <- rlang::sym(names(columns)[1])
   }
   values_determining_color <- rlang::eval_tidy(rule[["expression"]], data = xfiltered)
   values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))

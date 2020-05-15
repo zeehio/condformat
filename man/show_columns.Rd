@@ -10,7 +10,7 @@ show_columns(x, columns, col_names)
 \item{x}{A condformat object, typically created with \code{\link[=condformat]{condformat()}}}
 
 \item{columns}{A character vector with column names to be to show. It can also be an expression
-can be used that will be parsed like in \code{\link[tidyselect:vars_select]{tidyselect::vars_select()}}. See examples.}
+can be used that will be parsed according to \code{\link[tidyselect:language]{tidyselect::language()}}. See examples.}
 
 \item{col_names}{Character vector with the column names for the selected columns}
 }

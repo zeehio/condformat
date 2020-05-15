@@ -6,7 +6,7 @@
 #' on them.
 #' @param x A condformat object, typically created with [condformat()]
 #' @param columns A character vector with column names to be to show. It can also be an expression
-#'                can be used that will be parsed like in [tidyselect::vars_select()]. See examples.
+#'                can be used that will be parsed according to [tidyselect::language()]. See examples.
 #' @param col_names Character vector with the column names for the selected columns
 #'
 #' @return The condformat object with the rule added
@@ -58,17 +58,15 @@ show_columns <- function(x, columns, col_names) {
   }
 
   columnsquo <- rlang::enquo(columns)
-  helpers <- tidyselect::vars_select_helpers
-  columnsquo_bur <- rlang::env_bury(columnsquo, !!! helpers)
 
   if (missing(col_names)) {
     col_names <- NA
   }
 
-  showobj <- structure(list(column_expr = columnsquo_bur,
+  showobj <- structure(list(column_expr = columnsquo,
                             col_names = col_names),
-                            class = c("condformat_show_columns",
-                                      "condformat_show_columns_select"))
+                       class = c("condformat_show_columns",
+                                 "condformat_show_columns_select"))
   x2 <- x
   condformatopts <- attr(x2, "condformat")
   condformatopts[[c("show", "cols")]] <- c(condformatopts[[c("show", "cols")]], list(showobj))
@@ -77,11 +75,10 @@ show_columns <- function(x, columns, col_names) {
 }
 
 render_show.condformat_show_columns_select <- function(showobj, finalshow, x, ...) {
-  columns <- do.call(tidyselect::vars_select, c(list(colnames(x)), showobj[["column_expr"]]))
+  columns <- tidyselect::eval_select(expr = showobj[["column_expr"]], data = x)
+  columns <- rlang::set_names(names(columns))
   if (!identical(showobj[["col_names"]], NA)) {
     names(columns) <- showobj[["col_names"]]
-  } else {
-    names(columns) <- columns
   }
   # If a variable had already been excluded, do not show it:
   columns <- columns[columns %in% finalshow[["cols"]]]
