@@ -11,10 +11,12 @@
 #' @export
 condformat2html <- function(x) {
   htmltable_ready <- condformat2htmlcommon(x)
-  thetable <- do.call(htmlTable::htmlTable,
-                      c(list(x = htmltable_ready[["xview"]],
-                             css.cell = htmltable_ready[["css_cell"]]),
-                        htmltable_ready[["htmlTableArgs"]]))
+  thetable <- rlang::exec(
+    htmlTable::htmlTable,
+    x = htmltable_ready[["xview"]],
+    css.cell = htmltable_ready[["css_cell"]],
+    !!!htmltable_ready[["htmlTableArgs"]]
+  )
   return(thetable)
 }
 
@@ -41,11 +43,13 @@ condformat2widget <- function(x, ...) {
   }
   # Deprecation path ends here
   htmltable_ready <- condformat2htmlcommon(x)
-  thewidget <- do.call(what = htmlTable::htmlTableWidget,
-                       args = c(list(x = htmltable_ready[["xview"]],
-                                     css.cell = htmltable_ready[["css_cell"]]),
-                                htmltable_ready[["htmlTableArgs"]],
-                                htmltable_ready[["htmlWidget"]]))
+  thewidget <- rlang::exec(
+    htmlTable::htmlTableWidget,
+    x = htmltable_ready[["xview"]],
+    css.cell = htmltable_ready[["css_cell"]],
+    !!!htmltable_ready[["htmlTableArgs"]],
+    !!!htmltable_ready[["htmlWidget"]]
+  )
   return(thewidget)
 }
 

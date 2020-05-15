@@ -18,10 +18,12 @@ condformat2grob <- function(x) {
   finaltheme <- render_theme_condformat_tbl(themes, xview)
   tableGrobArgs <- finaltheme[["tableGrobArgs"]]
 
-  gridobj <- do.call(gridExtra::tableGrob,
-                     c(list(d = xview,
-                            cols = final_colnames),
-                       tableGrobArgs))
+  gridobj <- rlang::exec(
+    gridExtra::tableGrob,
+    d = xview,
+    cols = final_colnames,
+    !!!tableGrobArgs
+  )
   has_rownames <- !("rows" %in% names(tableGrobArgs) && is.null(tableGrobArgs[["rows"]]))
   has_colnames <- !is.null(final_colnames)
   gridobj <- render_cf_fields_to_grob(cf_fields, xview, gridobj, has_rownames, has_colnames)

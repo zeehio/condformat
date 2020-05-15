@@ -33,8 +33,7 @@ theme_htmlTable <- function(x, ...) {
               paste(wrong_args[!deprecated_args], collapse = ", "),
               ". This will be an error in a future condformat version")
       htmlwidgetargs <- htmlargs[wrong_args[deprecated_args]]
-      x <- do.call(theme_htmlWidget, args = c(list(x = x),
-                                              htmlwidgetargs))
+      x <- rlang::exec(theme_htmlWidget, x = x, !!!htmlwidgetargs)
       wrong_args <- wrong_args[!deprecated_args]
     }
     # Deprecation code path ends here

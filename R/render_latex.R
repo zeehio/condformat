@@ -44,11 +44,13 @@ condformat2latex <- function(x) {
   if (!is.null(caption)) {
     kable_args[["caption"]] <- caption
   }
-  do.call(knitr::kable,
-          c(list(x = formatted_text,
-                 format = "latex",
-                 escape = FALSE),
-            kable_args))
+  rlang::exec(
+    knitr::kable,
+    x = formatted_text,
+    format = "latex",
+    escape = FALSE,
+    !!!kable_args
+  )
 }
 
 paste0mat <- function(x,y) {
