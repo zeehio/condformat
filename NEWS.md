@@ -12,7 +12,7 @@
 
 * Excel output supports rule_text_bold and rule_text_color
 
-# Deprecation
+## Deprecation
 
 * space is ignored and deprecated in rule_fill_gradient and rule_fill_gradient2,
   following recent changes in the scales package. Please remove it if you are
