@@ -24,8 +24,8 @@ test_that("condformat2excel can write multiple sheets", {
     sheet_name = "tail_iris"
   )
   expect_true(file.exists(filename))
-  wb <- openxlsx::loadWorkbook(filename)
-  expect_equal(names(wb), c("head_iris", "tail_iris"))
+  workbook <- openxlsx::loadWorkbook(filename)
+  expect_equal(names(workbook), c("head_iris", "tail_iris"))
   expect_equal(nrow(openxlsx::read.xlsx(filename, 1)), rows_to_write)
 })
 
@@ -53,8 +53,8 @@ test_that("condformat2excel can overwrite a sheet without deleting others", {
     sheet_name = "iris_head"
   )
   expect_true(file.exists(filename))
-  wb <- openxlsx::loadWorkbook(filename)
-  expect_equal(names(wb), c("iris_tail", "iris_head"))
+  workbook <- openxlsx::loadWorkbook(filename)
+  expect_equal(names(workbook), c("iris_tail", "iris_head"))
   expect_equal(openxlsx::read.xlsx(filename, "iris_head"), iris_head)
 })
 

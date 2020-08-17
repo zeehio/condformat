@@ -14,7 +14,7 @@ condformat2excel <- function(x, filename, sheet_name = "Sheet1",
   if (!grepl(pattern = '\\.xlsx$', filename)) { # endsWith(filename, ".xlsx")
     filename <- paste0(filename, ".xlsx")
   }
-
+  workbook <- NULL
   if (file.exists(filename) && identical(overwrite_wb, FALSE)) {
     if (identical(overwrite_sheet, FALSE)) {
       stop(paste0(
@@ -22,22 +22,22 @@ condformat2excel <- function(x, filename, sheet_name = "Sheet1",
         "to overwrite the whole workbook or overwrite_sheet=TRUE to overwrite ",
         "just the the sheet ", sheet_name))
     }
-    wb <- openxlsx::loadWorkbook(filename)
+    workbook <- openxlsx::loadWorkbook(filename)
   } else {
-    wb <- openxlsx::createWorkbook(creator = "")
+    workbook <- openxlsx::createWorkbook(creator = "")
   }
 
-  if (sheet_name %in% names(wb)) {
+  if (sheet_name %in% names(workbook)) {
     if (overwrite_sheet) {
-      openxlsx::removeWorksheet(wb = wb, sheet = sheet_name)
-      openxlsx::addWorksheet(wb, sheetName = sheet_name)
+      openxlsx::removeWorksheet(wb = workbook, sheet = sheet_name)
+      openxlsx::addWorksheet(workbook, sheetName = sheet_name)
     }
   } else {
-    openxlsx::addWorksheet(wb, sheetName = sheet_name)
+    openxlsx::addWorksheet(workbook, sheetName = sheet_name)
   }
-  condformat2excelsheet(x, wb, sheet_name)
+  condformat2excelsheet(x, workbook, sheet_name)
   openxlsx::saveWorkbook(
-    wb,
+    workbook,
     file = filename,
     overwrite = overwrite_wb | overwrite_sheet
   )
@@ -52,12 +52,12 @@ condformat2excel <- function(x, filename, sheet_name = "Sheet1",
 # \dontrun{
 # x <- condformat(iris[1:5,])
 # library(openxlsx)
-# wb <- openxlsx::createWorkbook(creator = "")
-# openxlsx::addWorksheet(wb, sheetName = "sheet name")
-# condformat2excelsheet(x, wb, "sheet name")
-# openxlsx::saveWorkbook(wb, file = "iris.xlsx")
+# workbook <- openxlsx::createWorkbook(creator = "")
+# openxlsx::addWorksheet(workbook, sheetName = "sheet name")
+# condformat2excelsheet(x, workbook, "sheet name")
+# openxlsx::saveWorkbook(workbook, file = "iris.xlsx")
 # }
-condformat2excelsheet <- function(x, wb, sheet_name) {
+condformat2excelsheet <- function(x, workbook, sheet_name) {
   xlsx_supported_rules <- c("rule_fill_discrete", "rule_fill_gradient",
                             "rule_fill_gradient2", "rule_text_bold", "rule_text_color")
 
@@ -78,7 +78,7 @@ condformat2excelsheet <- function(x, wb, sheet_name) {
   cf_fields <- xv_cf[["cf_fields"]]
   css_fields <- render_cf_fields_to_css_fields(cf_fields, xview)
 
-  openxlsx::writeData(wb, sheet_name, as.data.frame(xview),
+  openxlsx::writeData(workbook, sheet_name, as.data.frame(xview),
                       rowNames = FALSE, colNames = TRUE)
   created_styles <- list()
   # For each cell
@@ -120,10 +120,10 @@ condformat2excelsheet <- function(x, wb, sheet_name) {
         )
         created_styles[[style_hash]] <- cell_style
       }
-      openxlsx::addStyle(wb, sheet_name, style = cell_style, rows = i + 1, cols = j)
+      openxlsx::addStyle(workbook, sheet_name, style = cell_style, rows = i + 1, cols = j)
     }
   }
-  openxlsx::setColWidths(wb, sheet = sheet_name, cols = seq_len(ncol(xview)), widths = "auto")
+  openxlsx::setColWidths(workbook, sheet = sheet_name, cols = seq_len(ncol(xview)), widths = "auto")
   invisible(x)
 }
 
