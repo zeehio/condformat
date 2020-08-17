@@ -132,7 +132,7 @@
     <p>Customizes appearance of condformat object</p>
     </div>
 
-    <pre class="usage"><span class='fu'>theme_htmlTable</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>theme_htmlTable</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,11 +152,11 @@
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/htmlTable/man/htmlTable.html'>htmlTable</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>iris</span>)
-<span class='no'>cf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='condformat.html'>condformat</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>iris</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'>theme_htmlTable</span>(<span class='kw'>caption</span><span class='kw'>=</span><span class='st'>"Table 1: My iris table"</span>, <span class='kw'>rnames</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>cf</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>iris</span>)
+<span class='kw'>cf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='condformat.html'>condformat</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>iris</span>)) <span class='op'>%&gt;%</span>
+  <span class='fu'>theme_htmlTable</span>(caption=<span class='st'>"Table 1: My iris table"</span>, rnames=<span class='fl'>FALSE</span>)
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>cf</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

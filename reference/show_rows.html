@@ -136,7 +136,7 @@ Compared to <code><a href='https://dplyr.tidyverse.org/reference/filter.html'>fi
 rows from the actual data frame, they are removed only for printing.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>show_rows</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>show_rows</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,26 +160,26 @@ as shown in the examples</p>
     <div class='dont-index'><p><code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>condformat</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>iris</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>iris</span>)
-<span class='no'>cf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='condformat.html'>condformat</a></span>(<span class='no'>x</span>) <span class='kw'>%&gt;%</span> <span class='fu'>show_rows</span>(<span class='no'>Sepal.Length</span> <span class='kw'>&gt;</span> <span class='fl'>4.5</span>, <span class='no'>Species</span> <span class='kw'>==</span> <span class='st'>"setosa"</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>cf</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://condformat.sergioller.com'>condformat</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>iris</span>)
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>iris</span>)
+<span class='kw'>cf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='condformat.html'>condformat</a></span>(<span class='kw'>x</span>) <span class='op'>%&gt;%</span> <span class='fu'>show_rows</span>(<span class='kw'>Sepal.Length</span> <span class='op'>&gt;</span> <span class='fl'>4.5</span>, <span class='kw'>Species</span> <span class='op'>==</span> <span class='st'>"setosa"</span>)
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>cf</span>)
 }
 <span class='co'># Use it programatically</span>
-<span class='no'>expr_as_text</span> <span class='kw'>&lt;-</span> <span class='st'>'Sepal.Length &gt; 4.5'</span>
-<span class='no'>expr</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/parse_expr.html'>parse_expr</a></span>(<span class='no'>expr_as_text</span>)
-<span class='no'>cf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='condformat.html'>condformat</a></span>(<span class='no'>x</span>) <span class='kw'>%&gt;%</span> <span class='fu'>show_rows</span>(!! <span class='no'>expr</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>cf</span>)
+<span class='kw'>expr_as_text</span> <span class='op'>&lt;-</span> <span class='st'>'Sepal.Length &gt; 4.5'</span>
+<span class='kw'>expr</span> <span class='op'>&lt;-</span> <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/parse_expr.html'>parse_expr</a></span>(<span class='kw'>expr_as_text</span>)
+<span class='kw'>cf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='condformat.html'>condformat</a></span>(<span class='kw'>x</span>) <span class='op'>%&gt;%</span> <span class='fu'>show_rows</span>(<span class='op'>!</span><span class='op'>!</span> <span class='kw'>expr</span>)
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>cf</span>)
 }
 <span class='co'># With multiple arguments:</span>
-<span class='no'>expr_as_text</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Sepal.Length &gt; 4.5'</span>, <span class='st'>'Species == "setosa"'</span>)
-<span class='no'>exprs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>expr_as_text</span>, <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='no'><a href='https://rlang.r-lib.org/reference/parse_expr.html'>parse_expr</a></span>)
-<span class='no'>cf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='condformat.html'>condformat</a></span>(<span class='no'>x</span>) <span class='kw'>%&gt;%</span> <span class='fu'>show_rows</span>(!!! <span class='no'>exprs</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>cf</span>)
+<span class='kw'>expr_as_text</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Sepal.Length &gt; 4.5'</span>, <span class='st'>'Species == "setosa"'</span>)
+<span class='kw'>exprs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='kw'>expr_as_text</span>, <span class='kw'>rlang</span>::<span class='kw'><a href='https://rlang.r-lib.org/reference/parse_expr.html'>parse_expr</a></span>)
+<span class='kw'>cf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='condformat.html'>condformat</a></span>(<span class='kw'>x</span>) <span class='op'>%&gt;%</span> <span class='fu'>show_rows</span>(<span class='op'>!</span><span class='op'>!</span><span class='op'>!</span> <span class='kw'>exprs</span>)
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>cf</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

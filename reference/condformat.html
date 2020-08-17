@@ -136,7 +136,7 @@ the formatting of their cells, that can be viewed when the <code>condformat_tbl<
 object is printed.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>condformat</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>condformat</span>(<span class='kw'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,21 +156,21 @@ data frame.</p>
 viewed using RStudio Viewer or an HTML browser, as available.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>iris</span>)
-<span class='no'>cf</span> <span class='kw'>&lt;-</span> <span class='fu'>condformat</span>(<span class='no'>iris</span>[<span class='fl'>1</span>:<span class='fl'>5</span>,])
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>cf</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>iris</span>)
+<span class='kw'>cf</span> <span class='op'>&lt;-</span> <span class='fu'>condformat</span>(<span class='kw'>iris</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>,])
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>cf</span>)
 }
 
-<span class='no'>cf</span> <span class='kw'>&lt;-</span> <span class='fu'>condformat</span>(<span class='no'>iris</span>[<span class='fl'>1</span>:<span class='fl'>5</span>,]) <span class='kw'>%&gt;%</span> <span class='fu'><a href='rule_fill_gradient.html'>rule_fill_gradient</a></span>(<span class='no'>Sepal.Length</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>cf</span>)
+<span class='kw'>cf</span> <span class='op'>&lt;-</span> <span class='fu'>condformat</span>(<span class='kw'>iris</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>,]) <span class='op'>%&gt;%</span> <span class='fu'><a href='rule_fill_gradient.html'>rule_fill_gradient</a></span>(<span class='kw'>Sepal.Length</span>)
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>cf</span>)
 }
 
-<span class='no'>cf</span> <span class='kw'>&lt;-</span> <span class='fu'>condformat</span>(<span class='no'>iris</span>[<span class='fl'>1</span>:<span class='fl'>5</span>,]) <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='rule_fill_discrete.html'>rule_fill_discrete</a></span>(<span class='no'>Sepal.Length</span>, <span class='kw'>expression</span><span class='kw'>=</span><span class='no'>Sepal.Width</span> <span class='kw'>&gt;</span> <span class='fl'>2</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>cf</span>)
+<span class='kw'>cf</span> <span class='op'>&lt;-</span> <span class='fu'>condformat</span>(<span class='kw'>iris</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>,]) <span class='op'>%&gt;%</span>
+ <span class='fu'><a href='rule_fill_discrete.html'>rule_fill_discrete</a></span>(<span class='kw'>Sepal.Length</span>, expression=<span class='kw'>Sepal.Width</span> <span class='op'>&gt;</span> <span class='fl'>2</span>)
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>cf</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

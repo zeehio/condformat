@@ -79,13 +79,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="introduction_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to condformat</h1>
                         <h4 class="author">Sergio Oller</h4>
             
-            <h4 class="date">2020-05-15</h4>
+            <h4 class="date">2020-08-17</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/zeehio/condformat/blob/master/vignettes/introduction.Rmd"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -109,34 +109,36 @@
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example:</h2>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">iris</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">condformat</span>)
-<span class="fu"><a href="../reference/condformat.html">condformat</a></span>(<span class="no">iris</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fl">5</span>,<span class="fl">70</span>:<span class="fl">75</span>, <span class="fl">120</span>:<span class="fl">125</span>),]) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/rule_fill_discrete.html">rule_fill_discrete</a></span>(<span class="no">Species</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/rule_fill_discrete.html">rule_fill_discrete</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">Sepal.Width</span>, <span class="no">Sepal.Length</span>),
-                     <span class="kw">expression</span> <span class="kw">=</span> <span class="no">Sepal.Width</span> <span class="kw">&gt;</span> <span class="no">Sepal.Length</span> - <span class="fl">2.25</span>,
-                     <span class="kw">colours</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"TRUE"</span> <span class="kw">=</span> <span class="st">"#7D00FF"</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/rule_fill_gradient2.html">rule_fill_gradient2</a></span>(<span class="no">Petal.Length</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/rule_text_bold.html">rule_text_bold</a></span>(<span class="no">Sepal.Length</span>, <span class="no">Species</span> <span class="kw">==</span> <span class="st">"setosa"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/rule_text_color.html">rule_text_color</a></span>(<span class="no">Sepal.Length</span>, <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="no">Species</span> <span class="kw">==</span> <span class="st">"setosa"</span>, <span class="st">"yellow"</span>, <span class="st">""</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/rule_fill_bar.html">rule_fill_bar</a></span>(<span class="no">Petal.Width</span>, <span class="kw">limits</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">NA</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">iris</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://condformat.sergioller.com">condformat</a></span>)
+<span class="fu"><a href="../reference/condformat.html">condformat</a></span>(<span class="kw">iris</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="fl">70</span><span class="op">:</span><span class="fl">75</span>, <span class="fl">120</span><span class="op">:</span><span class="fl">125</span>),]) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/rule_fill_discrete.html">rule_fill_discrete</a></span>(<span class="kw">Species</span>) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/rule_fill_discrete.html">rule_fill_discrete</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">Sepal.Width</span>, <span class="kw">Sepal.Length</span>),
+                     expression = <span class="kw">Sepal.Width</span> <span class="op">&gt;</span> <span class="kw">Sepal.Length</span> <span class="op">-</span> <span class="fl">2.25</span>,
+                     colours = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"TRUE"</span> = <span class="st">"#7D00FF"</span>)) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/rule_fill_gradient2.html">rule_fill_gradient2</a></span>(<span class="kw">Petal.Length</span>) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/rule_text_bold.html">rule_text_bold</a></span>(<span class="kw">Sepal.Length</span>, <span class="kw">Species</span> <span class="op">==</span> <span class="st">"setosa"</span>) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/rule_text_color.html">rule_text_color</a></span>(<span class="kw">Sepal.Length</span>, <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="kw">Species</span> <span class="op">==</span> <span class="st">"setosa"</span>, <span class="st">"yellow"</span>, <span class="st">""</span>)) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/rule_fill_bar.html">rule_fill_bar</a></span>(<span class="kw">Petal.Width</span>, limits = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">NA</span>))
+</pre></div>
 <table class="table gmisc_table">
 <thead><tr>
 <th style="border-bottom: 1px solid grey; border-top: 2px solid grey;">
 </th>
-<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
 Sepal.Length
 </th>
-<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
 Sepal.Width
 </th>
-<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
 Petal.Length
 </th>
-<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
 Petal.Width
 </th>
-<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
 Species
 </th>
 </tr></thead>
