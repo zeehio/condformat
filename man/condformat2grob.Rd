@@ -4,10 +4,15 @@
 \alias{condformat2grob}
 \title{Converts the table to a grid object}
 \usage{
-condformat2grob(x)
+condformat2grob(x, draw = TRUE)
 }
 \arguments{
 \item{x}{A condformat_tbl object}
+
+\item{draw}{Boolean value (default TRUE). If TRUE, the table is
+immediately drawn using grid::draw and the grob is returned.
+If FALSE, the grob is returned without drawing. Set draw=FALSE
+when using the grob in composite images with grid.arrange/ggarrange.}
 }
 \value{
 the grid object
