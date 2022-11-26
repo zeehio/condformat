@@ -54,7 +54,7 @@ and derivatives.
 * To install the latest development version: 
 
     ```
-    devtools::install_github("zeehio/condformat")
+    remotes::install_github("zeehio/condformat")
     ```
 
 ## Example

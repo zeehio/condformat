@@ -1,7 +1,7 @@
 Introduction to condformat
 ================
 Sergio Oller
-2020-05-15
+2022-11-26
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -37,13 +37,13 @@ package. Either use the full texlive distribution, or install
 
 ### Package installation
 
-  - From CRAN:
-    
-        install.packages("condformat")
+- From CRAN:
 
-  - To install the latest development version:
-    
-        devtools::install_github("zeehio/condformat")
+      install.packages("condformat")
+
+- To install the latest development version:
+
+      remotes::install_github("zeehio/condformat")
 
 ## Example
 
@@ -71,7 +71,7 @@ This example covers most of the condformat rules.
 ## Rules and output engine support
 
 | Rule                  | HTML | LaTeX | gtable | Excel |
-| --------------------- | :--: | :---: | :----: | :---: |
+|-----------------------|:----:|:-----:|:------:|:-----:|
 | `rule_fill_discrete`  |  X   |   X   |   X    |   X   |
 | `rule_fill_gradient`  |  X   |   X   |   X    |   X   |
 | `rule_fill_gradient2` |  X   |   X   |   X    |   X   |
