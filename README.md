@@ -25,7 +25,7 @@ status](https://github.com/zeehio/condformat/workflows/R-CMD-check/badge.svg)](h
 ## Browse source code
 
 Checkout the code and browse it at
-<http://github.com/zeehio/condformat>.
+<https://github.com/zeehio/condformat>.
 
 ## How to install condformat:
 

@@ -8,7 +8,7 @@ Authors@R: person(given = "Sergio", family = "Oller Moreno",
                   comment = c(ORCID = "0000-0002-8994-1549"))
 URL: https://condformat.sergioller.com,
     https://github.com/zeehio/condformat
-BugReports: http://github.com/zeehio/condformat/issues
+BugReports: https://github.com/zeehio/condformat/issues
 Description: Apply and visualize conditional formatting to data frames in R.
     It renders a data frame with cells formatted according to
     criteria defined by rules, using a tidy evaluation syntax. The table is
