@@ -9,7 +9,8 @@
 
 ## Other
 
-* Replace tidyselect::vars_select (questioning) with tidyselect::eval_select
+* Replace tidyselect::vars_select (questioning) with tidyselect::eval_select()
+* Avoid drawing plots on tests, use vdiffr instead.
 
 # condformat 0.9.0
 
