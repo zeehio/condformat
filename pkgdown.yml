@@ -3,7 +3,7 @@ pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   introduction: introduction.html
-last_built: 2022-11-26T10:23Z
+last_built: 2022-11-26T10:32Z
 urls:
   reference: https://condformat.sergioller.com/reference
   article: https://condformat.sergioller.com/articles
