@@ -18,7 +18,6 @@ Description: Apply and visualize conditional formatting to data frames in R.
     package supports both 'HTML' and 'LaTeX' outputs in 'knitr' reports, and
     exporting to an 'xlsx' file.
 License: BSD_3_clause + file LICENSE
-LazyData: TRUE
 NeedsCompilation: no
 Imports:
     dplyr (>= 0.7.7),
