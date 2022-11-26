@@ -41,5 +41,5 @@ Suggests:
     testthat (>= 1.0)
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.2.2.9000
+RoxygenNote: 7.2.1
 Roxygen: list(markdown = TRUE)
