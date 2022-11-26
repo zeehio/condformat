@@ -1,6 +1,6 @@
 ## Test environments
-* local Ubuntu 18.04 install, R 3.6.3
-* OSX (on github actions) R-4.0.0
+* local Ubuntu 22.04 install, R 4.2.2
+* OSX (on github actions) R-4.2.2
 * win-builder (devel and release)
 * r_hub
 
@@ -8,4 +8,5 @@
 There are no NOTEs, WARNINGs or ERRORs.
 
 ## Downstream dependencies
-There are no known downstream dependencies.
+
+- uncoverappLib (BioConductor): No issues introduced by this release
