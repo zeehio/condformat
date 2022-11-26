@@ -1,12 +1,10 @@
-# condformat 0.9.1
+# condformat 0.9.0.9000
 
 ## New features
 
 * `condformat2grob` function takes an optional `draw=TRUE` parameter which
   controls whether the grob is immediately drawn during the function call.
   `draw=FALSE` allows easier use in composite figures with grid.arrange/ggarrange.
-
-# condformat 0.9.0.9000
 
 ## Other
 
