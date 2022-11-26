@@ -1,17 +1,18 @@
 #' Converts the table to a grid object
 #'
 #' @param x A condformat_tbl object
-#' @param draw Boolean value (default TRUE). If TRUE, the table is 
-#'             immediately drawn using grid::draw and the grob is returned. 
-#'             If FALSE, the grob is returned without drawing. Set draw=FALSE
-#'             when using the grob in composite images with grid.arrange/ggarrange.
+#' @param draw A logical. If `TRUE` (default), the table is 
+#' immediately drawn using `grid::draw()` and the grob is returned. 
+#' If `FALSE`, the grob is returned without drawing. Set `draw=FALSE`
+#' when using the grob in composite images with [gridExtra::grid.arrange()] or
+#' `ggpubr::ggarrange()`.
 #' @return the grid object
 #' @examples
 #' library(condformat)
 #' data.frame(Student = c("Alice", "Bob", "Charlie"),
 #'            Evaluation = c("Great", "Well done", "Good job!")) %>%
-#'  condformat %>%
-#'  condformat2grob
+#'  condformat() %>%
+#'  condformat2grob()
 #' @export
 condformat2grob <- function(x, draw=TRUE) {
   xv_cf <- get_xview_and_cf_fields(x)

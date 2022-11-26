@@ -9,10 +9,11 @@ condformat2grob(x, draw = TRUE)
 \arguments{
 \item{x}{A condformat_tbl object}
 
-\item{draw}{Boolean value (default TRUE). If TRUE, the table is
-immediately drawn using grid::draw and the grob is returned.
-If FALSE, the grob is returned without drawing. Set draw=FALSE
-when using the grob in composite images with grid.arrange/ggarrange.}
+\item{draw}{A logical. If \code{TRUE} (default), the table is
+immediately drawn using \code{grid::draw()} and the grob is returned.
+If \code{FALSE}, the grob is returned without drawing. Set \code{draw=FALSE}
+when using the grob in composite images with \code{\link[gridExtra:arrangeGrob]{gridExtra::grid.arrange()}} or
+\code{ggpubr::ggarrange()}.}
 }
 \value{
 the grid object
@@ -24,6 +25,6 @@ Converts the table to a grid object
 library(condformat)
 data.frame(Student = c("Alice", "Bob", "Charlie"),
            Evaluation = c("Great", "Well done", "Good job!")) \%>\%
- condformat \%>\%
- condformat2grob
+ condformat() \%>\%
+ condformat2grob()
 }
