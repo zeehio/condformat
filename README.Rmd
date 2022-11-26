@@ -26,7 +26,7 @@ cells in columns are formatted according to several rules or criteria.
   [![Documentation](https://img.shields.io/badge/documentation-pkgdown-informational)](https://condformat.sergioller.com/)
 
   [![R build status](https://github.com/zeehio/condformat/workflows/R-CMD-check/badge.svg)](https://github.com/zeehio/condformat/actions)
-  [![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=master)](https://codecov.io/github/zeehio/condformat)
+  [![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=main)](https://codecov.io/github/zeehio/condformat)
   
   <!-- badges: end -->
 
