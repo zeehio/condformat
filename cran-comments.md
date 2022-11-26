@@ -9,4 +9,6 @@ There are no NOTEs, WARNINGs or ERRORs.
 
 ## Downstream dependencies
 
-- uncoverappLib (BioConductor): No issues introduced by this release
+No issues introduced by this release. The known dependencies are:
+
+- uncoverappLib (BioConductor)
