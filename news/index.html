@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">condformat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="http://github.com/zeehio/condformat/" class="external-link">
+  <a href="https://github.com/zeehio/condformat/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -54,19 +54,20 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href="http://github.com/zeehio/condformat/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/zeehio/condformat/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.9.0.9000" id="condformat-0909000">condformat 0.9.0.9000<a class="anchor" aria-label="anchor" href="#condformat-0909000"></a></h2>
+<h2 class="page-header" data-toc-text="0.10.0" id="condformat-0100">condformat 0.10.0<a class="anchor" aria-label="anchor" href="#condformat-0100"></a></h2>
 <div class="section level3">
-<h3 id="new-features-0-9-0-9000">New features<a class="anchor" aria-label="anchor" href="#new-features-0-9-0-9000"></a></h3>
+<h3 id="new-features-0-10-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-10-0"></a></h3>
 <ul><li>
-<code><a href="../reference/condformat2grob.html">condformat2grob()</a></code> function takes an optional <code>draw=TRUE</code> parameter which controls whether the grob is immediately drawn during the function call. <code>draw=FALSE</code> allows easier use in composite figures with <code><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">gridExtra::grid.arrange()</a></code> or <code>ggpubr::ggarrange()</code> (<a href="http://github.com/interzoneboy" class="external-link">@interzoneboy</a>, <a href="http://github.com/zeehio/condformat/issues/31" class="external-link">#31</a>)</li>
+<code><a href="../reference/condformat2grob.html">condformat2grob()</a></code> function takes an optional <code>draw=TRUE</code> parameter which controls whether the grob is immediately drawn during the function call. <code>draw=FALSE</code> allows easier use in composite figures with <code><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">gridExtra::grid.arrange()</a></code> or <code>ggpubr::ggarrange()</code> (<a href="https://github.com/interzoneboy" class="external-link">@interzoneboy</a>, <a href="https://github.com/zeehio/condformat/issues/31" class="external-link">#31</a>)</li>
 </ul></div>
 <div class="section level3">
-<h3 id="other-0-9-0-9000">Other<a class="anchor" aria-label="anchor" href="#other-0-9-0-9000"></a></h3>
-<ul><li>Replace tidyselect::vars_select (questioning) with tidyselect::eval_select()</li>
+<h3 id="other-0-10-0">Other<a class="anchor" aria-label="anchor" href="#other-0-10-0"></a></h3>
+<ul><li>Replace <code><a href="https://tidyselect.r-lib.org/reference/vars_select.html" class="external-link">tidyselect::vars_select()</a></code> (questioning) with <code><a href="https://tidyselect.r-lib.org/reference/eval_select.html" class="external-link">tidyselect::eval_select()</a></code>
+</li>
 <li>Avoid drawing plots on tests, use vdiffr instead.</li>
 </ul></div>
 </div>
@@ -120,9 +121,9 @@
 <div class="section level3">
 <h3 id="other-0-8-0">Other<a class="anchor" aria-label="anchor" href="#other-0-8-0"></a></h3>
 <ul><li>Replace dependency: Use grDevices instead of gplots</li>
-<li>Depend on knitr 1.18: slidy and other rmarkdown formats are properly detected (<a href="http://github.com/zeehio/condformat/issues/13" class="external-link">#13</a>)</li>
+<li>Depend on knitr 1.18: slidy and other rmarkdown formats are properly detected (<a href="https://github.com/zeehio/condformat/issues/13" class="external-link">#13</a>)</li>
 <li>Drop rJava from suggests (xlsx fix released)</li>
-<li>Bump rlang dependency (parse_quosure -&gt; parse_expr) (<a href="http://github.com/zeehio/condformat/issues/18" class="external-link">#18</a>, Thanks to <a href="http://github.com/lionel-" class="external-link">@lionel-</a> for the advice and code review!)</li>
+<li>Bump rlang dependency (parse_quosure -&gt; parse_expr) (<a href="https://github.com/zeehio/condformat/issues/18" class="external-link">#18</a>, Thanks to <a href="https://github.com/lionel-" class="external-link">@lionel-</a> for the advice and code review!)</li>
 <li>Internal: More modular code. CSS tags to LaTeX conversion is based on S3 methods so new rules don’t need to touch the code for LaTeX export.</li>
 </ul></div>
 </div>
@@ -130,8 +131,8 @@
 <h2 class="page-header" data-toc-text="0.7.0" id="condformat-070">condformat 0.7.0<small>2017-10-19</small><a class="anchor" aria-label="anchor" href="#condformat-070"></a></h2>
 <ul><li>Add a new condformat API, that is based on tidy evaluation principles and leverages on rlang and tidyselect. The old API is still fully functional but deprecated.</li>
 <li>Add a <code>rule_css</code> to let the user specify arbitrary CSS fields. For this rule there is no support for PDF or Excel output.</li>
-<li>Improve <code>condformat2excel</code> to export to a specific Excel sheet (<a href="http://github.com/zeehio/condformat/issues/11" class="external-link">#11</a>)</li>
-<li>Fix <code>condformat2latex</code> and add regression test (<a href="http://github.com/zeehio/condformat/issues/9" class="external-link">#9</a>)</li>
+<li>Improve <code>condformat2excel</code> to export to a specific Excel sheet (<a href="https://github.com/zeehio/condformat/issues/11" class="external-link">#11</a>)</li>
+<li>Fix <code>condformat2latex</code> and add regression test (<a href="https://github.com/zeehio/condformat/issues/9" class="external-link">#9</a>)</li>
 <li>Fix <code>rescale</code> and <code>rescale_mid</code> calls (recent scales use a S3 generic, so we need to import it)</li>
 </ul></div>
     <div class="section level2">
@@ -142,13 +143,13 @@
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.5.0" id="condformat-050">condformat 0.5.0<small>2017-01-23</small><a class="anchor" aria-label="anchor" href="#condformat-050"></a></h2>
-<ul><li>Shiny support: Add <code>condformatOutput</code> and <code>renderCondformat</code>. Closes <a href="http://github.com/zeehio/condformat/issues/3" class="external-link">#3</a>.
+<ul><li>Shiny support: Add <code>condformatOutput</code> and <code>renderCondformat</code>. Closes <a href="https://github.com/zeehio/condformat/issues/3" class="external-link">#3</a>.
 <ul><li>Use pagination in shiny if recent enough <code>htmlTable</code> package is installed.</li>
 </ul></li>
-<li>PDF support: Fix extra <code>NULL</code> when printing. Closes <a href="http://github.com/zeehio/condformat/issues/4" class="external-link">#4</a>.</li>
+<li>PDF support: Fix extra <code>NULL</code> when printing. Closes <a href="https://github.com/zeehio/condformat/issues/4" class="external-link">#4</a>.</li>
 <li>Demote xlsx (and rJava) to Suggests.</li>
-<li>Fix standard evaluation functions, they now use formulas. See the examples (Reported in <a href="http://github.com/zeehio/condformat/issues/5" class="external-link">#5</a>).</li>
-<li>Fix Excel export (fixed in 80440ecfd16fb74e3e0aa4c6ebc623ad2ae74b15, reported in <a href="http://github.com/zeehio/condformat/issues/7" class="external-link">#7</a>)</li>
+<li>Fix standard evaluation functions, they now use formulas. See the examples (Reported in <a href="https://github.com/zeehio/condformat/issues/5" class="external-link">#5</a>).</li>
+<li>Fix Excel export (fixed in 80440ecfd16fb74e3e0aa4c6ebc623ad2ae74b15, reported in <a href="https://github.com/zeehio/condformat/issues/7" class="external-link">#7</a>)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.0" id="condformat-040">condformat 0.4.0<small>2016-07-25</small><a class="anchor" aria-label="anchor" href="#condformat-040"></a></h2>
