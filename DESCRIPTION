@@ -38,7 +38,8 @@ Imports:
 Suggests:
     promises,
     shiny (>= 1.0.5),
-    testthat (>= 1.0)
+    testthat (>= 1.0),
+    vdiffr (>= 1.0.4)
 VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.2.1
