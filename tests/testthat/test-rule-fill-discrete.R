@@ -93,7 +93,7 @@ test_that("rule_fill_discrete gtable works", {
   #skip_if_not_installed("vdiffr")
   cfg <- condformat(iris[c(1,70, 120), "Species", drop = FALSE]) %>%
     rule_fill_discrete(Species) %>%
-    condformat2grob()
+    condformat2grob(draw = FALSE)
   expect_equal(cfg$grobs[[14]]$gp$fill, "#F8766D")
   expect_equal(cfg$grobs[[15]]$gp$fill, "#00BA38")
   expect_equal(cfg$grobs[[16]]$gp$fill, "#619CFF")
