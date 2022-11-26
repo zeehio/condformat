@@ -31,8 +31,8 @@ test_that("render_cf_fields_to_css returns the expected", {
 
 test_that("knitr returns an HTML table", {
   data(iris)
-  on.exit(knitr::opts_knit$set(rmarkdown.pandoc.to = NULL))
-  knitr::opts_knit$set(rmarkdown.pandoc.to = "html")
+  on.exit(knitr::opts_knit$set(rmarkdown.pandoc.to = NULL, out.format = NULL))
+  knitr::opts_knit$set(rmarkdown.pandoc.to = "html", out.format = "html")
   out <- knitr::knit_print(condformat(head(iris)))
   expect_match(out, "^<table.*</table>$")
 })
