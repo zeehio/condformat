@@ -41,5 +41,5 @@ Suggests:
     vdiffr (>= 1.0.4)
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
