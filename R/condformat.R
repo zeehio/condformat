@@ -1,7 +1,7 @@
 #' Conditional formatting for data frames
 #'
-#' A \code{condformat_tbl} object is a data frame with attributes regarding
-#' the formatting of their cells, that can be viewed when the \code{condformat_tbl}
+#' A `condformat_tbl` object is a data frame with attributes regarding
+#' the formatting of their cells, that can be viewed when the `condformat_tbl`
 #' object is printed.
 #'
 #' @param x A matrix or data.frame

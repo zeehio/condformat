@@ -1,7 +1,7 @@
 #' Selects the variables to be printed
 #'
 #' Keeps the variables you mention in the printed table.
-#' Compared to \code{\link[dplyr]{select}}, show_columns does not remove the
+#' Compared to [dplyr::select()], show_columns does not remove the
 #' columns from the data frame, so formatting rules can still depend
 #' on them.
 #' @param x A condformat object, typically created with [condformat()]
@@ -51,7 +51,7 @@
 #' }
 #'
 #' @export
-#' @seealso \code{\link[dplyr]{select}}
+#' @seealso [dplyr::select()]
 show_columns <- function(x, columns, col_names) {
   if (!inherits(x, "condformat_tbl")) {
     x <- condformat(x)

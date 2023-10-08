@@ -19,7 +19,7 @@ The condformat object with the rule added
 }
 \description{
 Keeps the variables you mention in the printed table.
-Compared to \code{\link[dplyr]{select}}, show_columns does not remove the
+Compared to \code{\link[dplyr:select]{dplyr::select()}}, show_columns does not remove the
 columns from the data frame, so formatting rules can still depend
 on them.
 }
@@ -65,5 +65,5 @@ print(cf)
 
 }
 \seealso{
-\code{\link[dplyr]{select}}
+\code{\link[dplyr:select]{dplyr::select()}}
 }

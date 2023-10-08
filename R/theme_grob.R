@@ -4,7 +4,7 @@
 #'
 #' @param x The condformat object
 #' @param ... Arguments to be passed to gridExtra::tableGrob (see examples)
-#' @seealso \code{\link[gridExtra]{tableGrob}}
+#' @seealso [gridExtra::tableGrob()]
 #' @examples
 #' data(iris)
 #' cf <- condformat(head(iris)) %>%

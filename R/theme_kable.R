@@ -4,7 +4,7 @@
 #'
 #' @param x The condformat object
 #' @param ... Arguments to be passed to knitr::kable (see examples)
-#' @seealso \code{\link[knitr]{kable}}
+#' @seealso [knitr::kable()]
 #' @examples
 #' data(iris)
 #' cf <- condformat(head(iris)) %>%

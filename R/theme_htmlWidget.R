@@ -2,7 +2,7 @@
 #'
 #' @param x The condformat object
 #' @param ... Arguments to be passed to htmlTable::htmlTableWidget (see examples)
-#' @seealso \code{\link[htmlTable]{htmlTable}}
+#' @seealso [htmlTable::htmlTable()]
 #' @examples
 #' data(iris)
 #' cf <- condformat(head(iris)) %>%

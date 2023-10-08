@@ -24,5 +24,5 @@ cf <- condformat(head(iris)) \%>\%
 condformat2grob(cf)
 }
 \seealso{
-\code{\link[gridExtra]{tableGrob}}
+\code{\link[gridExtra:tableGrob]{gridExtra::tableGrob()}}
 }

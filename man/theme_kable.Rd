@@ -23,5 +23,5 @@ print(cf)
 }
 }
 \seealso{
-\code{\link[knitr]{kable}}
+\code{\link[knitr:kable]{knitr::kable()}}
 }

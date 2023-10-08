@@ -23,5 +23,5 @@ print(cf)
 }
 }
 \seealso{
-\code{\link[htmlTable]{htmlTable}}
+\code{\link[htmlTable:htmlTable]{htmlTable::htmlTable()}}
 }

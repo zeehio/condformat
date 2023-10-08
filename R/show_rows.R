@@ -1,7 +1,7 @@
 #' Selects the rows to be printed
 #'
 #' Keeps the rows you mention in the printed table.
-#' Compared to \code{\link[dplyr]{filter}}, show_rows does not remove the
+#' Compared to [dplyr::filter()], show_rows does not remove the
 #' rows from the actual data frame, they are removed only for printing.
 #' @param x condformat_tbl object
 #' @param ... Expressions used for filtering
@@ -31,7 +31,7 @@
 #' print(cf)
 #' }
 #' @export
-#' @seealso \code{\link[dplyr]{filter}}
+#' @seealso [dplyr::filter()]
 show_rows <- function(x, ...) {
   expr <- rlang::quos(...)
   showobj <- structure(list(row_expr = expr),

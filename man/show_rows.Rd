@@ -17,7 +17,7 @@ as shown in the examples
 }
 \description{
 Keeps the rows you mention in the printed table.
-Compared to \code{\link[dplyr]{filter}}, show_rows does not remove the
+Compared to \code{\link[dplyr:filter]{dplyr::filter()}}, show_rows does not remove the
 rows from the actual data frame, they are removed only for printing.
 }
 \examples{
@@ -44,5 +44,5 @@ print(cf)
 }
 }
 \seealso{
-\code{\link[dplyr]{filter}}
+\code{\link[dplyr:filter]{dplyr::filter()}}
 }
