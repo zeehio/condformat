@@ -1,14 +1,18 @@
 ## Test environments
-* local Ubuntu 22.04 install, R 4.2.2
-* OSX (on github actions) R-4.2.2
-* win-builder (devel and release)
+* local Ubuntu 22.04 install, R 4.3.1
+* OSX (on github actions) R-4.3.1
+* win-builder (devel)
 * r_hub
 
 ## R CMD check results
 There are no NOTEs, WARNINGs or ERRORs.
 
-## Downstream dependencies
 
-No issues introduced by this release. The known dependencies are:
+## revdepcheck results
 
-- uncoverappLib (BioConductor)
+We checked 1 reverse dependencies (0 from CRAN + 1 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
+
+ * We saw 0 new problems
+ * We failed to check 0 packages
+
+
