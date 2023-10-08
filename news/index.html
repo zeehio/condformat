@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">condformat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.1</span>
       </span>
     </div>
 
@@ -119,7 +119,7 @@
 <code>theme_caption</code> (HTML, PDF) Set a caption.</li>
 <li>
 <code>condformat2grob</code>: Engine to render tables as graphics</li>
-<li>Shiny: renderCondformat works with async promises (if htmlwidgets 1.3 is available)</li>
+<li>Shiny: <code>renderCondformat</code> works with “async” promises (if htmlwidgets 1.3 is available)</li>
 </ul></div>
 <div class="section level3">
 <h3 id="deprecations-0-8-0">Deprecations:<a class="anchor" aria-label="anchor" href="#deprecations-0-8-0"></a></h3>
@@ -146,7 +146,7 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.6.0" id="condformat-060">condformat 0.6.0<small>2017-05-18</small><a class="anchor" aria-label="anchor" href="#condformat-060"></a></h2>
 <ul><li>Fix tibble formatting issues, causing package malfunction.</li>
-<li>Bugfix: <code><a href="../reference/theme_htmlTable.html">theme_htmlTable()</a></code> now accepts the <code>css.cell</code> argument (thanks to 鱼飞灰 for reporting it)</li>
+<li>Fix: <code><a href="../reference/theme_htmlTable.html">theme_htmlTable()</a></code> now accepts the <code>css.cell</code> argument (thanks to 鱼飞灰 for reporting it)</li>
 <li>Require latest <code>htmlTable</code>. Improve/fix printing of condformat</li>
 </ul></div>
     <div class="section level2">
@@ -157,7 +157,7 @@
 <li>PDF support: Fix extra <code>NULL</code> when printing. Closes <a href="https://github.com/zeehio/condformat/issues/4" class="external-link">#4</a>.</li>
 <li>Demote xlsx (and rJava) to Suggests.</li>
 <li>Fix standard evaluation functions, they now use formulas. See the examples (Reported in <a href="https://github.com/zeehio/condformat/issues/5" class="external-link">#5</a>).</li>
-<li>Fix Excel export (fixed in 80440ecfd16fb74e3e0aa4c6ebc623ad2ae74b15, reported in <a href="https://github.com/zeehio/condformat/issues/7" class="external-link">#7</a>)</li>
+<li>Fix Excel export (fixed in <code>80440ecfd16fb74e3e0aa4c6ebc623ad2ae74b15</code>, reported in <a href="https://github.com/zeehio/condformat/issues/7" class="external-link">#7</a>)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.0" id="condformat-040">condformat 0.4.0<small>2016-07-25</small><a class="anchor" aria-label="anchor" href="#condformat-040"></a></h2>

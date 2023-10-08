@@ -19,7 +19,7 @@ object is printed."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/aj
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">condformat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.1</span>
       </span>
     </div>
 
@@ -80,13 +80,13 @@ object is printed.</p>
     <h2>Value</h2>
     
 
-<p>The condformat_tbl object. This object can be piped to apply
+<p>The <code>condformat_tbl</code> object. This object can be piped to apply
 conditional formatting rules. It can also be used as a conventional
 data frame.</p>
 
 
-<p>The condformat_tbl print method generates an htmlTable, to be
-viewed using RStudio Viewer or an HTML browser, as available.</p>
+<p>The <code>condformat_tbl</code> print method generates an <code>htmlTable</code>, to be
+viewed using the 'RStudio Viewer' or an 'HTML browser', as available.</p>
     </div>
 
     <div id="ref-examples">
@@ -97,12 +97,12 @@ viewed using RStudio Viewer or an HTML browser, as available.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu">condformat</span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="op">]</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="rule_fill_gradient.html">rule_fill_gradient</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu">condformat</span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="rule_fill_gradient.html">rule_fill_gradient</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu">condformat</span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="op">]</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu">condformat</span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span> <span class="fu"><a href="rule_fill_discrete.html">rule_fill_discrete</a></span><span class="op">(</span><span class="va">Sepal.Length</span>, expression<span class="op">=</span><span class="va">Sepal.Width</span> <span class="op">&gt;</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span></span></span>

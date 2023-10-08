@@ -3,7 +3,7 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   introduction: introduction.html
-last_built: 2023-10-08T04:32Z
+last_built: 2023-10-08T06:31Z
 urls:
   reference: https://zeehio.github.io/condformat/reference
   article: https://zeehio.github.io/condformat/articles
