@@ -3,7 +3,9 @@
 ## Fixes
 
 * Fix `theme_grob()` documentation
-* Updated URL
+* Updated URLs
+* Register internal S3 methods
+* Minor documentation formatting
 
 # condformat 0.10.0
 
