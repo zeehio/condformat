@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{Object to print}
 
-\item{...}{On a LaTeX output these are unused. On an HTML output can have "paginate=TRUE" or "paginate = FALSE"}
+\item{...}{On a LaTeX output these are unused. On an HTML output can have \code{paginate=TRUE} or \code{paginate = FALSE}}
 }
 \description{
 Print method for knitr, exporting to HTML or LaTeX as needed

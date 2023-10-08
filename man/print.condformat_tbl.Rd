@@ -2,12 +2,12 @@
 % Please edit documentation in R/condformat_render.R
 \name{print.condformat_tbl}
 \alias{print.condformat_tbl}
-\title{Prints the data frame in an html page and shows it.}
+\title{Prints the data frame in an HTML page and shows it.}
 \usage{
 \method{print}{condformat_tbl}(x, ..., paginate = TRUE)
 }
 \arguments{
-\item{x}{A condformat_tbl object}
+\item{x}{A \code{condformat_tbl} object}
 
 \item{...}{
   Arguments passed on to \code{\link[htmltools:html_print]{htmltools::html_print}}
@@ -17,13 +17,13 @@
 HTML page. Can be \code{NULL}, in which case no viewer will be invoked.}
   }}
 
-\item{paginate}{A logical value. If TRUE the printing will be paginated}
+\item{paginate}{A logical value. If \code{TRUE} the printing will be paginated}
 }
 \value{
-the value returned by htmlTable
+the value returned by \code{\link[htmlTable:htmlTable]{htmlTable::htmlTable()}}
 }
 \description{
-Prints the data frame in an html page and shows it.
+Prints the data frame in an HTML page and shows it.
 }
 \examples{
 data(iris)

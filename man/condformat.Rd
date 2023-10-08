@@ -10,12 +10,12 @@ condformat(x)
 \item{x}{A matrix or data.frame}
 }
 \value{
-The condformat_tbl object. This object can be piped to apply
+The \code{condformat_tbl} object. This object can be piped to apply
 conditional formatting rules. It can also be used as a conventional
 data frame.
 
-The condformat_tbl print method generates an htmlTable, to be
-viewed using RStudio Viewer or an HTML browser, as available.
+The \code{condformat_tbl} print method generates an \code{htmlTable}, to be
+viewed using the 'RStudio Viewer' or an 'HTML browser', as available.
 }
 \description{
 A \code{condformat_tbl} object is a data frame with attributes regarding

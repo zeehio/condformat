@@ -54,7 +54,7 @@
 * `theme_kable` (PDF) pass options to kable
 * `theme_caption` (HTML, PDF) Set a caption.
 * `condformat2grob`: Engine to render tables as graphics
-* Shiny: renderCondformat works with async promises (if htmlwidgets 1.3 is available)
+* Shiny: `renderCondformat` works with "async" promises (if htmlwidgets 1.3 is available)
 
 ## Deprecations:
 
@@ -90,7 +90,7 @@
 # condformat 0.6.0
 
 * Fix tibble formatting issues, causing package malfunction.
-* Bugfix: `theme_htmlTable()` now accepts the `css.cell` argument (thanks
+* Fix: `theme_htmlTable()` now accepts the `css.cell` argument (thanks
   to 鱼飞灰 for reporting it)
 * Require latest `htmlTable`. Improve/fix printing of condformat
 
@@ -103,7 +103,7 @@
 * PDF support: Fix extra `NULL` when printing. Closes #4.
 * Demote xlsx (and rJava) to Suggests.
 * Fix standard evaluation functions, they now use formulas. See the examples (Reported in #5).
-* Fix Excel export (fixed in 80440ecfd16fb74e3e0aa4c6ebc623ad2ae74b15, reported in #7)
+* Fix Excel export (fixed in `80440ecfd16fb74e3e0aa4c6ebc623ad2ae74b15`, reported in #7)
 
 # condformat 0.4.0
 

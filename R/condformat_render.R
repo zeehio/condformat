@@ -1,9 +1,9 @@
-#' Prints the data frame in an html page and shows it.
+#' Prints the data frame in an HTML page and shows it.
 #'
-#' @param x A condformat_tbl object
+#' @param x A `condformat_tbl` object
 #' @inheritDotParams htmltools::html_print -html
-#' @param paginate A logical value. If TRUE the printing will be paginated
-#' @return the value returned by htmlTable
+#' @param paginate A logical value. If `TRUE` the printing will be paginated
+#' @return the value returned by [htmlTable::htmlTable()]
 #' @examples
 #' data(iris)
 #' \dontrun{
@@ -29,7 +29,7 @@ condformat2html_or_widget <- function(x, paginate = TRUE) {
 
 #' Print method for knitr, exporting to HTML or LaTeX as needed
 #' @param x Object to print
-#' @param ... On a LaTeX output these are unused. On an HTML output can have "paginate=TRUE" or "paginate = FALSE"
+#' @param ... On a LaTeX output these are unused. On an HTML output can have `paginate=TRUE` or `paginate = FALSE`
 #' @importFrom knitr knit_print
 #' @export
 knit_print.condformat_tbl <- function(x, ...) {
@@ -95,7 +95,7 @@ render_show_condformat_tbl <- function(x) {
   return(finalshow)
 }
 
-# Renders the css matrix to format the xview table
+# Renders the css matrix to format the `xview` table
 #
 # @param rules List of rules to be applied
 # @param xview Data frame with the rows and columns that will be printed
