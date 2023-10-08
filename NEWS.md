@@ -1,5 +1,10 @@
 # condformat 0.10.0.9000
 
+## Fixes
+
+* Fix `theme_grob()` documentation
+* Updated URL
+
 # condformat 0.10.0
 
 ## New features
