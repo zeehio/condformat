@@ -14,7 +14,7 @@ according to several rules or criteria.
 status](https://www.r-pkg.org/badges/version/condformat)](https://CRAN.R-project.org/package=condformat)
 [![Downloads](https://cranlogs.r-pkg.org/badges/condformat)](https://cran.r-project.org/package=condformat)
 
-[![Documentation](https://img.shields.io/badge/documentation-pkgdown-informational)](https://condformat.sergioller.com/)
+[![Documentation](https://img.shields.io/badge/documentation-pkgdown-informational)](https://zeehio.github.io/condformat)
 
 [![R build
 status](https://github.com/zeehio/condformat/workflows/R-CMD-check/badge.svg)](https://github.com/zeehio/condformat/actions)
