@@ -59,6 +59,7 @@ rule_to_cf_field.rule_text_color <- function(rule, xfiltered, xview, ...) {
 }
 
 
+#' @export
 cf_field_to_latex.cf_field_rule_text_color <- function(cf_field, xview, unlocked) {
   # \textcolor[RGB]{0,255,0}{This text will appear green-colored}
   css_values <- cf_field[["css_values"]]
@@ -78,6 +79,7 @@ cf_field_to_latex.cf_field_rule_text_color <- function(cf_field, xview, unlocked
   list(before = before, after = after, unlocked = unlocked)
 }
 
+#' @export
 cf_field_to_gtable.cf_field_rule_text_color <- function(cf_field, xview, gridobj, unlocked, has_rownames, has_colnames) {
   css_values <- cf_field[["css_values"]]
   to_lock <- !is.na(css_values)

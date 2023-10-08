@@ -110,6 +110,7 @@ rule_to_cf_field.rule_fill_discrete <- function(rule, xfiltered, xview, ...) {
 }
 
 # Used by rule_fill_discrete, rule_fill_gradient and rule_fill_gradient2 functions
+#' @export
 cf_field_to_latex.cf_field_rule_fill_solid <- function(cf_field, xview, unlocked) {
   colours <- cf_field[["css_values"]]
   to_lock <- !is.na(colours)
@@ -130,6 +131,7 @@ cf_field_to_latex.cf_field_rule_fill_solid <- function(cf_field, xview, unlocked
 }
 
 # Used by rule_fill_discrete, rule_fill_gradient and rule_fill_gradient2 functions
+#' @export
 cf_field_to_gtable.cf_field_rule_fill_solid <- function(cf_field, xview, gridobj, unlocked, has_rownames, has_colnames) {
   colours <- cf_field[["css_values"]]
   to_lock <- !is.na(colours)

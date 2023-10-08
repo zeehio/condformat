@@ -115,6 +115,7 @@ rule_to_cf_field.rule_fill_bar <- function(rule, xfiltered, xview, ...) {
 }
 
 # This is used by all CSS based rules
+#' @export
 cf_field_to_css.cf_field_rule_bar_gradient <- function(cf_field, xview, css_fields, unlocked) {
   bar_width_percent <- cf_field[["bar_width_percent"]]
 
@@ -171,6 +172,7 @@ cf_field_to_css.cf_field_rule_bar_gradient <- function(cf_field, xview, css_fiel
   return(list(css_fields = css_fields, unlocked = unlocked))
 }
 
+#' @export
 cf_field_to_gtable.cf_field_rule_bar_gradient <- function(
   cf_field, xview, gridobj, unlocked, has_rownames, has_colnames) {
 

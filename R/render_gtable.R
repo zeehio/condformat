@@ -1,8 +1,8 @@
 #' Converts the table to a grid object
 #'
 #' @param x A condformat_tbl object
-#' @param draw A logical. If `TRUE` (default), the table is 
-#' immediately drawn using `grid::draw()` and the grob is returned. 
+#' @param draw A logical. If `TRUE` (default), the table is
+#' immediately drawn using `grid::draw()` and the grob is returned.
 #' If `FALSE`, the grob is returned without drawing. Set `draw=FALSE`
 #' when using the grob in composite images with [gridExtra::grid.arrange()] or
 #' `ggpubr::ggarrange()`.
@@ -67,6 +67,7 @@ render_cf_fields_to_grob <- function(cf_fields, xview, gridobj, has_rownames, ha
 #' @export
 cf_field_to_gtable <- function(cf_field, xview, gridobj, unlocked, has_rownames, has_colnames) UseMethod("cf_field_to_gtable")
 
+#' @export
 cf_field_to_gtable.default <- function(cf_field, xview, gridobj, unlocked, has_rownames, has_colnames) {
   warning("cf key ", class(cf_field)[1], " is not supported by condformat in this output format")
   list(gridobj = gridobj, unlocked = unlocked)

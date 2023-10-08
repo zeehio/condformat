@@ -62,6 +62,7 @@ rule_to_cf_field.rule_css <- function(rule, xfiltered, xview, ...) {
 }
 
 # This is used by all CSS based rules
+#' @export
 cf_field_to_css.cf_field_css <- function(cf_field, xview, css_fields, unlocked) {
   css_key <- cf_field[["css_key"]]
   css_values <- cf_field[["css_values"]]

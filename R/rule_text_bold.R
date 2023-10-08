@@ -62,6 +62,7 @@ rule_to_cf_field.rule_text_bold <- function(rule, xfiltered, xview, ...) {
   return(cf_field)
 }
 
+#' @export
 cf_field_to_latex.cf_field_rule_text_bold <- function(cf_field, xview, unlocked) {
   css_values <- cf_field[["css_values"]]
   to_lock <- !is.na(css_values)
@@ -75,6 +76,7 @@ cf_field_to_latex.cf_field_rule_text_bold <- function(cf_field, xview, unlocked)
   list(before = before, after = after, unlocked = unlocked)
 }
 
+#' @export
 cf_field_to_gtable.cf_field_rule_text_bold <- function(cf_field, xview, gridobj, unlocked, has_rownames, has_colnames) {
   css_values <- cf_field[["css_values"]]
   to_lock <- !is.na(css_values)

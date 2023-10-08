@@ -100,6 +100,7 @@ escape_latex = function(x, newlines = FALSE, spaces = FALSE) {
 #' @export
 cf_field_to_latex <- function(cf_field, xview, unlocked) UseMethod("cf_field_to_latex")
 
+#' @export
 cf_field_to_latex.default <- function(cf_field, xview, unlocked) {
   warning("cf key ", class(cf_field)[1], " is not supported by condformat in LaTeX output")
   before <- matrix("", nrow = nrow(xview), ncol = ncol(xview))
