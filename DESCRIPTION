@@ -6,7 +6,7 @@ Date: 2022-11-26
 Authors@R: person(given = "Sergio", family = "Oller Moreno",
                   email = "sergioller@gmail.com", role = c("aut", "cph", "cre"),
                   comment = c(ORCID = "0000-0002-8994-1549"))
-URL: https://zeehio.github.io/condformat,
+URL: https://zeehio.github.io/condformat/,
     https://github.com/zeehio/condformat
 BugReports: https://github.com/zeehio/condformat/issues
 Description: Apply and visualize conditional formatting to data frames in R.
