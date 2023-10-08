@@ -18,7 +18,7 @@ status](https://www.r-pkg.org/badges/version/condformat)](https://CRAN.R-project
 
 [![R build
 status](https://github.com/zeehio/condformat/workflows/R-CMD-check/badge.svg)](https://github.com/zeehio/condformat/actions)
-[![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=main)](https://codecov.io/github/zeehio/condformat)
+[![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=main)](https://app.codecov.io/github/zeehio/condformat)
 
 <!-- badges: end -->
 
