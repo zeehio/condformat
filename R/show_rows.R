@@ -46,7 +46,7 @@ show_rows <- function(x, ...) {
   return(x2)
 }
 
-render_show.condformat_show_rows_filter <- function(showobj, finalshow, x) {
+render_show.condformat_show_rows_filter <- function(showobj, finalshow, x, ...) {
   xfiltered <- dplyr::filter(x, !!! showobj[["row_expr"]])
   finalshow[["xfiltered"]] <- xfiltered
   return(finalshow)
