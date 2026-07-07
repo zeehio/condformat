@@ -151,7 +151,12 @@ cf_field_to_css.cf_field_rule_bar_gradient <- function(cf_field, xview, css_fiel
   col_bg <- cf_field[["col_background"]]
 
   background_color <- get_css_key(css_fields, "background-color", dim(xview))
-  background_color[mask & pbar_is_na] <- sprintf("#%02X%02X%02X", col_na[1], col_na[2], col_na[3])
+  # NA cells are excluded from `mask`, so this branch needs to be gated on
+  # `unlocked` alone. pbar_is_na holds raw NA (not FALSE) for columns the
+  # rule doesn't target, so clean that up first to avoid NA in the index.
+  na_cell <- pbar_is_na
+  na_cell[is.na(na_cell)] <- FALSE
+  background_color[unlocked & na_cell] <- sprintf("#%02X%02X%02X", col_na[1], col_na[2], col_na[3])
   background_color[mask & !pbar_is_na] <- sprintf("#%02X%02X%02X", col_bg[1], col_bg[2], col_bg[3])
   css_fields[["background-color"]] <- background_color
 
@@ -168,6 +173,7 @@ cf_field_to_css.cf_field_rule_bar_gradient <- function(cf_field, xview, css_fiel
 
   if (identical(cf_field[["lock_cells"]], TRUE)) {
     unlocked[mask] <- FALSE
+    unlocked[na_cell] <- FALSE
   }
   return(list(css_fields = css_fields, unlocked = unlocked))
 }
@@ -197,6 +203,9 @@ cf_field_to_gtable.cf_field_rule_bar_gradient <- function(
 
   row_col <- which(!is.na(pbar_is_na), arr.ind = TRUE)
   for (tocolor in seq_len(nrow(row_col))) {
+    if (!unlocked[row_col[tocolor, 1], row_col[tocolor, 2]]) {
+      next
+    }
     ind <- find_cell(gridobj,
                      as.integer(has_colnames) + row_col[tocolor, 1],
                      as.integer(has_rownames) + row_col[tocolor, 2],
@@ -208,9 +217,16 @@ cf_field_to_gtable.cf_field_rule_bar_gradient <- function(
       #grid::removeGrob(gridobj, rect$name)
       grad_levels <- 100
       fill_to <- round(100*bar_width_percent[row_col[tocolor, 1], row_col[tocolor, 2]])
+      # colorRampPalette(...)(0) errors (it can't request zero colours), so
+      # a 0%-width bar gets no gradient colours at all, just the background.
+      if (fill_to > 0) {
+        ramp_colors <- grDevices::colorRampPalette(c(col_low, col_high), space = "Lab")(fill_to)
+      } else {
+        ramp_colors <- character(0)
+      }
       gp <- grid::gpar(col = NA,
                        fill = c(
-                         grDevices::colorRampPalette(c(col_low, col_high), space = "Lab")(fill_to),
+                         ramp_colors,
                          rep(col_bg, grad_levels - fill_to)))
       gridobj <- gtable::gtable_add_grob(gridobj,
                                          grobs = grid::rectGrob(
@@ -231,7 +247,12 @@ cf_field_to_gtable.cf_field_rule_bar_gradient <- function(
   }
 
   if (identical(cf_field[["lock_cells"]], TRUE)) {
+    # `mask` already excludes NA cells; lock those separately, cleaning the
+    # raw NA that pbar_is_na holds for untargeted columns first.
+    na_cell <- pbar_is_na
+    na_cell[is.na(na_cell)] <- FALSE
     unlocked[mask] <- FALSE
+    unlocked[na_cell] <- FALSE
   }
   return(list(gridobj = gridobj, unlocked = unlocked))
 }
