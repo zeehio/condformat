@@ -5,6 +5,15 @@ test_that("theme_htmlTable works", {
   expect_match(out, "MySimpleTestCaption")
 })
 
+test_that("theme_htmlTable args accumulate across chained calls", {
+  data(iris)
+  out <- condformat(head(iris)) %>%
+    theme_htmlTable(caption = "MyChainedCaption") %>%
+    theme_htmlTable(rnames = FALSE) %>%
+    condformat2html()
+  expect_match(out, "MyChainedCaption")
+})
+
 test_that("theme_caption works", {
   x <- data.frame(a = 1) %>% theme_caption("potato") %>% condformat2html()
   out <- strsplit(x, "\n", fixed = TRUE)[[1]]
