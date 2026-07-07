@@ -21,12 +21,12 @@ test_that("condformat2grob combines multiple rules on the same cell", {
   cfg <- data.frame(a = "Dog") %>%
     condformat() %>%
     rule_fill_discrete("a", colours = c("Dog" = "#FF0000")) %>%
-    rule_text_bold("a", expression = TRUE) %>%
+    rule_text_color("a", expression = "blue") %>%
     condformat2grob(draw = FALSE)
   ind_bg <- find_cell(cfg, 2, 2, name = "core-bg")
   ind_fg <- find_cell(cfg, 2, 2, name = "core-fg")
   expect_equal(cfg$grobs[ind_bg][[1]][["gp"]][["fill"]], "#FF0000")
-  expect_equal(cfg$grobs[ind_fg][[1]][["gp"]][["fontface"]], "bold")
+  expect_equal(unname(cfg$grobs[ind_fg][[1]][["gp"]][["col"]]), "blue")
 })
 
 test_that("condformat2grob draws without error when draw = TRUE", {
