@@ -132,3 +132,35 @@ test_that("rule_fill_bar na.value does not crash when only some columns are targ
   expect_equal(css_fields$`background-color`[2, 1], "#BEBEBE")
   expect_true(is.na(css_fields$`background-color`[1, 2]))
 })
+
+test_that("rule_fill_bar lockcells prevents further CSS rules from overwriting na.value", {
+  y <- data.frame(a = c(1, NA, 5)) %>%
+    condformat() %>%
+    rule_fill_bar(a, na.value = "red", lockcells = TRUE) %>%
+    rule_fill_bar(a, na.value = "blue")
+  xv_cf <- get_xview_and_cf_fields(y)
+  css_fields <- render_cf_fields_to_css_fields(xv_cf$cf_fields, xv_cf$xview)
+  expect_equal(css_fields$`background-color`[2, 1], "#FF0000")
+})
+
+test_that("rule_fill_bar lockcells prevents further gtable rules from applying", {
+  cfg <- data.frame(a = c(1, 3, 5)) %>%
+    condformat() %>%
+    rule_fill_bar(a, background = "red", lockcells = TRUE) %>%
+    rule_fill_bar(a, background = "blue") %>%
+    condformat2grob(draw = FALSE)
+  # row 1 (a=1) rescales to exactly 0%, so its fill is background colour only
+  ind <- find_cell(cfg, 2, 2, name = "core-bg")
+  fill <- cfg$grobs[ind][[1]][["gp"]][["fill"]]
+  expect_true(all(fill == "#FF0000"))
+})
+
+test_that("rule_fill_bar lockcells prevents further gtable rules from overwriting na.value", {
+  cfg <- data.frame(a = c(1, NA, 5)) %>%
+    condformat() %>%
+    rule_fill_bar(a, na.value = "red", lockcells = TRUE) %>%
+    rule_fill_bar(a, na.value = "blue") %>%
+    condformat2grob(draw = FALSE)
+  ind <- find_cell(cfg, 3, 2, name = "core-bg")
+  expect_equal(cfg$grobs[ind][[1]][["gp"]][["fill"]], "#FF0000")
+})

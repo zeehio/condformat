@@ -173,6 +173,7 @@ cf_field_to_css.cf_field_rule_bar_gradient <- function(cf_field, xview, css_fiel
 
   if (identical(cf_field[["lock_cells"]], TRUE)) {
     unlocked[mask] <- FALSE
+    unlocked[na_cell] <- FALSE
   }
   return(list(css_fields = css_fields, unlocked = unlocked))
 }
@@ -202,6 +203,9 @@ cf_field_to_gtable.cf_field_rule_bar_gradient <- function(
 
   row_col <- which(!is.na(pbar_is_na), arr.ind = TRUE)
   for (tocolor in seq_len(nrow(row_col))) {
+    if (!unlocked[row_col[tocolor, 1], row_col[tocolor, 2]]) {
+      next
+    }
     ind <- find_cell(gridobj,
                      as.integer(has_colnames) + row_col[tocolor, 1],
                      as.integer(has_rownames) + row_col[tocolor, 2],
@@ -243,7 +247,12 @@ cf_field_to_gtable.cf_field_rule_bar_gradient <- function(
   }
 
   if (identical(cf_field[["lock_cells"]], TRUE)) {
+    # `mask` already excludes NA cells; lock those separately, cleaning the
+    # raw NA that pbar_is_na holds for untargeted columns first.
+    na_cell <- pbar_is_na
+    na_cell[is.na(na_cell)] <- FALSE
     unlocked[mask] <- FALSE
+    unlocked[na_cell] <- FALSE
   }
   return(list(gridobj = gridobj, unlocked = unlocked))
 }
