@@ -6,6 +6,9 @@
   and grob/gtable output in `rule_fill_discrete()`, `rule_fill_gradient()`,
   `rule_fill_gradient2()`, `rule_text_bold()` and `rule_text_color()`. HTML
   and Excel output were not affected.
+* Fix `theme_htmlTable()` discarding arguments accumulated from earlier
+  `theme_htmlTable()` calls in the same pipeline, due to a `%in%` check
+  against list values instead of list names.
 
 # condformat 0.10.1
 

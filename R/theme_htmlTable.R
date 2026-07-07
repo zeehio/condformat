@@ -58,7 +58,7 @@ add_theme_to_condformat <- function(x, theme) {
 
 #' @importFrom htmlTable htmlTable
 render_theme.theme_htmlTable <- function(themeobj, finaltheme, xview, ...) {
-  if (!"html" %in% finaltheme) {
+  if (!"html" %in% names(finaltheme)) {
     finaltheme[["html"]] <- list()
   }
   for (paramname in names(themeobj[["htmlargs"]])) {
