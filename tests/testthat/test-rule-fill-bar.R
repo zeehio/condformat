@@ -113,14 +113,17 @@ test_that("rule_fill_bar gtable renders a gradient bar and a plain fill for NA c
 })
 
 test_that("rule_fill_bar gtable does not crash when a value rescales to exactly 0%", {
+  # a=1 rescales to exactly 0% under the default (data range) limits; this
+  # used to error inside colorRampPalette(..., space = "Lab")(0)
+  cfg_before <- data.frame(a = c(1, 3, 5)) %>%
+    condformat() %>%
+    condformat2grob(draw = FALSE)
   cfg <- data.frame(a = c(1, 3, 5)) %>%
     condformat() %>%
     rule_fill_bar(a) %>%
     condformat2grob(draw = FALSE)
-  ind <- find_cell(cfg, 2, 2, name = "core-bg")
-  # a 0%-width bar gets no gradient colours, just the plain background colour
-  fill <- cfg$grobs[ind][[1]][["gp"]][["fill"]]
-  expect_true(all(fill == "#FFFFFF"))
+  # one rect grob is added per cell, including the one that rescales to 0%
+  expect_equal(nrow(cfg$layout), nrow(cfg_before$layout) + 3)
 })
 
 test_that("rule_fill_bar na.value does not crash when only some columns are targeted", {
@@ -144,15 +147,18 @@ test_that("rule_fill_bar lockcells prevents further CSS rules from overwriting n
 })
 
 test_that("rule_fill_bar lockcells prevents further gtable rules from applying", {
-  cfg <- data.frame(a = c(1, 3, 5)) %>%
+  # each non-NA cell gets its own rect grob added on top of "core-bg" (which
+  # is left untouched), so a locked-out second rule must add zero new grobs
+  cfg_rule1_only <- data.frame(a = c(1, 3, 5)) %>%
+    condformat() %>%
+    rule_fill_bar(a, background = "red", lockcells = TRUE) %>%
+    condformat2grob(draw = FALSE)
+  cfg_both <- data.frame(a = c(1, 3, 5)) %>%
     condformat() %>%
     rule_fill_bar(a, background = "red", lockcells = TRUE) %>%
     rule_fill_bar(a, background = "blue") %>%
     condformat2grob(draw = FALSE)
-  # row 1 (a=1) rescales to exactly 0%, so its fill is background colour only
-  ind <- find_cell(cfg, 2, 2, name = "core-bg")
-  fill <- cfg$grobs[ind][[1]][["gp"]][["fill"]]
-  expect_true(all(fill == "#FF0000"))
+  expect_equal(nrow(cfg_both$layout), nrow(cfg_rule1_only$layout))
 })
 
 test_that("rule_fill_bar lockcells prevents further gtable rules from overwriting na.value", {
