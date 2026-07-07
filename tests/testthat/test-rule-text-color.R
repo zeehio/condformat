@@ -26,5 +26,5 @@ test_that("rule_text_color lockcells prevents further gtable rules from applying
     rule_text_color("a", expression = "blue") %>%
     condformat2grob(draw = FALSE)
   ind <- find_cell(cfg, 2, 2, name = "core-fg")
-  expect_equal(cfg$grobs[ind][[1]][["gp"]][["col"]], "red")
+  expect_equal(unname(cfg$grobs[ind][[1]][["gp"]][["col"]]), "red")
 })
