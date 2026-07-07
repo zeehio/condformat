@@ -125,7 +125,7 @@ cf_field_to_latex.cf_field_rule_fill_solid <- function(cf_field, xview, unlocked
     function(x) sprintf("\\cellcolor[HTML]{%02X%02X%02X}", x[1],x[2],x[3]))
   after <- matrix("", nrow = nrow(colours), ncol = ncol(colours))
   if (cf_field[["lock_cells"]]) {
-    unlocked <- unlocked | to_lock
+    unlocked <- unlocked & !to_lock
   }
   list(before = before, after = after, unlocked = unlocked)
 }
@@ -146,6 +146,9 @@ cf_field_to_gtable.cf_field_rule_fill_solid <- function(cf_field, xview, gridobj
     fill <- grDevices::col2rgb(colours[row_col[tocolor, 1], row_col[tocolor, 2]])
     fill <- sprintf("#%02X%02X%02X", fill[1], fill[2], fill[3])
     gridobj$grobs[ind][[1]][["gp"]] <- grid::gpar(fill = fill)
+  }
+  if (cf_field[["lock_cells"]]) {
+    unlocked <- unlocked & !to_lock
   }
   list(gridobj = gridobj, unlocked = unlocked)
 }

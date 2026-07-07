@@ -18,3 +18,13 @@ test_that("rule_text_bold works for LaTeX output", {
     strsplit(split = "\n", fixed = TRUE)
   expect_true(any(grepl(pattern = "\\textbf{potato}", x[[1]], fixed = TRUE)))
 })
+
+test_that("rule_text_bold lockcells prevents further LaTeX rules from applying", {
+  out <- condformat(data.frame(a = "potato")) %>%
+    rule_text_bold("a", expression = TRUE, lockcells = TRUE) %>%
+    rule_text_bold("a", expression = TRUE) %>%
+    condformat2latex()
+  matches <- gregexpr("\\textbf{", out, fixed = TRUE)[[1]]
+  n_matches <- if (identical(matches, -1L)) 0L else length(matches)
+  expect_equal(n_matches, 1L)
+})

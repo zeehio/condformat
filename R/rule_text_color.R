@@ -74,7 +74,7 @@ cf_field_to_latex.cf_field_rule_text_color <- function(cf_field, xview, unlocked
   after[nchar(css_values) > 0 ] <- "}"
 
   if (cf_field[["lock_cells"]]) {
-    unlocked <- unlocked | to_lock
+    unlocked <- unlocked & !to_lock
   }
   list(before = before, after = after, unlocked = unlocked)
 }
@@ -95,7 +95,7 @@ cf_field_to_gtable.cf_field_rule_text_color <- function(cf_field, xview, gridobj
   }
 
   if (cf_field[["lock_cells"]]) {
-    unlocked <- unlocked | to_lock
+    unlocked <- unlocked & !to_lock
   }
   list(gridobj = gridobj, unlocked = unlocked)
 }
