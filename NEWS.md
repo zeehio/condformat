@@ -9,6 +9,12 @@
 * Fix `theme_htmlTable()` discarding arguments accumulated from earlier
   `theme_htmlTable()` calls in the same pipeline, due to a `%in%` check
   against list values instead of list names.
+* Fix `rule_fill_bar()`'s `na.value` never being applied to `background-color`
+  in HTML output: the CSS mask used to gate that assignment already excluded
+  NA cells, so the assignment was dead code.
+* Fix `rule_fill_bar()` erroring in grob/gtable output when a value rescaled
+  to exactly 0% of the bar width (`colorRampPalette()` can't return zero
+  colours); such cells now render with just the background colour.
 
 # condformat 0.10.1
 

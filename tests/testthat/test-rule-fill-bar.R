@@ -14,9 +14,8 @@ test_that("rule_fill_bar computes border, background-color and background-image"
   xv_cf <- get_xview_and_cf_fields(x)
   css_fields <- render_cf_fields_to_css_fields(xv_cf$cf_fields, xv_cf$xview)
 
-  # NA cells get no border/gradient/background-color (na.value is only used
-  # for the gtable fill, not for the CSS/HTML background-color)
-  expect_true(is.na(css_fields$`background-color`[2, 1]))
+  # NA cells get na.value as background-color, and no border/gradient
+  expect_equal(css_fields$`background-color`[2, 1], "#BEBEBE")
   expect_true(is.na(css_fields$border[2, 1]))
   expect_true(is.na(css_fields$`background-image`[2, 1]))
 
@@ -35,7 +34,7 @@ test_that("rule_fill_bar respects custom low/high/background/na.value colours", 
   xv_cf <- get_xview_and_cf_fields(x)
   css_fields <- render_cf_fields_to_css_fields(xv_cf$cf_fields, xv_cf$xview)
 
-  expect_true(is.na(css_fields$`background-color`[2, 1]))
+  expect_equal(css_fields$`background-color`[2, 1], "#FFFF00")
   expect_equal(css_fields$`background-color`[1, 1], "#000000")
   expect_equal(
     css_fields$`background-image`[1, 1],
@@ -111,4 +110,25 @@ test_that("rule_fill_bar gtable renders a gradient bar and a plain fill for NA c
 
   ind_na <- find_cell(cfg, 3, 2, name = "core-bg")
   expect_equal(cfg$grobs[ind_na][[1]][["gp"]][["fill"]], "#BEBEBE")
+})
+
+test_that("rule_fill_bar gtable does not crash when a value rescales to exactly 0%", {
+  cfg <- data.frame(a = c(1, 3, 5)) %>%
+    condformat() %>%
+    rule_fill_bar(a) %>%
+    condformat2grob(draw = FALSE)
+  ind <- find_cell(cfg, 2, 2, name = "core-bg")
+  # a 0%-width bar gets no gradient colours, just the plain background colour
+  fill <- cfg$grobs[ind][[1]][["gp"]][["fill"]]
+  expect_true(all(fill == "#FFFFFF"))
+})
+
+test_that("rule_fill_bar na.value does not crash when only some columns are targeted", {
+  x <- data.frame(a = c(1, NA, 5), b = c(10, 20, 30)) %>%
+    condformat() %>%
+    rule_fill_bar(a)
+  xv_cf <- get_xview_and_cf_fields(x)
+  css_fields <- render_cf_fields_to_css_fields(xv_cf$cf_fields, xv_cf$xview)
+  expect_equal(css_fields$`background-color`[2, 1], "#BEBEBE")
+  expect_true(is.na(css_fields$`background-color`[1, 2]))
 })
