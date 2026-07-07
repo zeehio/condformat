@@ -1,5 +1,12 @@
 # condformat 0.10.1.9000
 
+## Fixes
+
+* Fix `lockcells = TRUE` being ignored (or worse, unlocking cells) for LaTeX
+  and grob/gtable output in `rule_fill_discrete()`, `rule_fill_gradient()`,
+  `rule_fill_gradient2()`, `rule_text_bold()` and `rule_text_color()`. HTML
+  and Excel output were not affected.
+
 # condformat 0.10.1
 
 ## Fixes

@@ -98,3 +98,23 @@ test_that("rule_fill_discrete gtable works", {
   expect_equal(cfg$grobs[[16]]$gp$fill, "#619CFF")
   vdiffr::expect_doppelganger(title = "rule_fill_discrete gtable", cfg)
 })
+
+test_that("rule_fill_discrete lockcells prevents further LaTeX rules from applying", {
+  out <- data.frame(a = "Dog") %>%
+    condformat() %>%
+    rule_fill_discrete("a", colours = c("Dog" = "#FF0000"), lockcells = TRUE) %>%
+    rule_fill_discrete("a", colours = c("Dog" = "#0000FF")) %>%
+    condformat2latex()
+  expect_true(grepl("FF0000", out, fixed = TRUE))
+  expect_false(grepl("0000FF", out, fixed = TRUE))
+})
+
+test_that("rule_fill_discrete lockcells prevents further gtable rules from applying", {
+  cfg <- data.frame(a = "Dog") %>%
+    condformat() %>%
+    rule_fill_discrete("a", colours = c("Dog" = "#FF0000"), lockcells = TRUE) %>%
+    rule_fill_discrete("a", colours = c("Dog" = "#0000FF")) %>%
+    condformat2grob(draw = FALSE)
+  ind <- find_cell(cfg, 2, 2, name = "core-bg")
+  expect_equal(cfg$grobs[ind][[1]][["gp"]][["fill"]], "#FF0000")
+})
