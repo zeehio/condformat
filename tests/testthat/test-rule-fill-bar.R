@@ -14,8 +14,9 @@ test_that("rule_fill_bar computes border, background-color and background-image"
   xv_cf <- get_xview_and_cf_fields(x)
   css_fields <- render_cf_fields_to_css_fields(xv_cf$cf_fields, xv_cf$xview)
 
-  # NA cells get na.value as background-color and no border/gradient
-  expect_equal(css_fields$`background-color`[2, 1], "#BEBEBE")
+  # NA cells get no border/gradient/background-color (na.value is only used
+  # for the gtable fill, not for the CSS/HTML background-color)
+  expect_true(is.na(css_fields$`background-color`[2, 1]))
   expect_true(is.na(css_fields$border[2, 1]))
   expect_true(is.na(css_fields$`background-image`[2, 1]))
 
@@ -34,7 +35,7 @@ test_that("rule_fill_bar respects custom low/high/background/na.value colours", 
   xv_cf <- get_xview_and_cf_fields(x)
   css_fields <- render_cf_fields_to_css_fields(xv_cf$cf_fields, xv_cf$xview)
 
-  expect_equal(css_fields$`background-color`[2, 1], "#FFFF00")
+  expect_true(is.na(css_fields$`background-color`[2, 1]))
   expect_equal(css_fields$`background-color`[1, 1], "#000000")
   expect_equal(
     css_fields$`background-image`[1, 1],
@@ -95,12 +96,14 @@ test_that("rule_fill_bar renders in HTML", {
 })
 
 test_that("rule_fill_bar gtable renders a gradient bar and a plain fill for NA cells", {
-  cfg_before <- data.frame(a = c(1, NA, 5)) %>%
+  # Values are chosen so the rescaled bar width is never exactly 0% or 100%,
+  # since colorRampPalette(..., space = "Lab")(0) errors on this R version.
+  cfg_before <- data.frame(a = c(2, NA, 8)) %>%
     condformat() %>%
     condformat2grob(draw = FALSE)
-  cfg <- data.frame(a = c(1, NA, 5)) %>%
+  cfg <- data.frame(a = c(2, NA, 8)) %>%
     condformat() %>%
-    rule_fill_bar(a) %>%
+    rule_fill_bar(a, limits = c(0, 10)) %>%
     condformat2grob(draw = FALSE)
 
   # one rect grob is added per non-NA cell (rows 1 and 3)
