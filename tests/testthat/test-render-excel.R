@@ -109,7 +109,7 @@ test_that("condformat2excel applies and caches fill/bold/color styles across rep
     condformat() %>%
     rule_fill_discrete("a", colours = c("Dog" = "#FF0000", "Cat" = "#00FF00")) %>%
     rule_text_bold("a", expression = a == "Dog") %>%
-    rule_text_color("a", expression = "blue")
+    rule_text_color("a", expression = ifelse(a == "Dog", "blue", "purple"))
   condformat2excel(x, filename = filename)
   expect_true(file.exists(filename))
   workbook <- openxlsx::loadWorkbook(filename)
