@@ -10,6 +10,13 @@ test_that("rule_text_color works", {
   expect_false(grepl(pattern = "\\textcolor[RGB]{0,0,255}{versicolor}", out, fixed = TRUE))
 })
 
+test_that("rule_text_color recycles a scalar expression to every row", {
+  out <- condformat(iris[1:5, ]) %>%
+    rule_text_color(Species, expression = "red") %>%
+    condformat2html()
+  expect_equal(lengths(regmatches(out, gregexpr("color: red", out))), 5)
+})
+
 test_that("rule_text_color lockcells prevents further LaTeX rules from applying", {
   out <- condformat(data.frame(a = "potato")) %>%
     rule_text_color("a", expression = "red", lockcells = TRUE) %>%

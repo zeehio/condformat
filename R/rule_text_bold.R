@@ -43,6 +43,7 @@ rule_to_cf_field.rule_text_bold <- function(rule, xfiltered, xview, ...) {
     rule[["expression"]] <- rlang::sym(names(columns)[1])
   }
   bold_or_not <- rlang::eval_tidy(rule[["expression"]], data = xfiltered)
+  bold_or_not <- rep(bold_or_not, length.out = nrow(xfiltered))
   stopifnot(identical(length(bold_or_not), nrow(xview)))
   # Recycle css values to fit all the columns:
   bold_or_not_mat_l <- matrix(bold_or_not, nrow = nrow(xview),

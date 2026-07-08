@@ -19,6 +19,11 @@
   later CSS/HTML rules, and not protecting any cell (NA or not) from later
   grob/gtable rules: the grob/gtable renderer painted every targeted cell
   unconditionally and never checked incoming lock state at all.
+* Fix `rule_text_bold()`, `rule_text_color()` and `rule_css()` erroring when
+  `expression` evaluates to a single (scalar) value on a table with more than
+  one row, unlike `rule_fill_discrete()`, `rule_fill_gradient()`,
+  `rule_fill_gradient2()` and `rule_fill_bar()`, which already recycled such
+  values to every row.
 
 # condformat 0.10.1
 
