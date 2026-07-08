@@ -60,6 +60,10 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.10.1.9000" id="condformat-01019000">condformat 0.10.1.9000<a class="anchor" aria-label="anchor" href="#condformat-01019000"></a></h2>
 <div class="section level3">
+<h3 id="new-features-0-10-1-9000">New features<a class="anchor" aria-label="anchor" href="#new-features-0-10-1-9000"></a></h3>
+<ul><li>Add a <code>.col</code> pronoun usable in the <code>expression</code> argument of <code><a href="../reference/rule_fill_discrete.html">rule_fill_discrete()</a></code>, <code><a href="../reference/rule_fill_gradient.html">rule_fill_gradient()</a></code>, <code><a href="../reference/rule_fill_gradient2.html">rule_fill_gradient2()</a></code>, <code><a href="../reference/rule_fill_bar.html">rule_fill_bar()</a></code>, <code><a href="../reference/rule_text_bold.html">rule_text_bold()</a></code>, <code><a href="../reference/rule_text_color.html">rule_text_color()</a></code> and <code><a href="../reference/rule_css.html">rule_css()</a></code>. When <code>columns</code> selects more than one column, <code>.col</code> is bound to each column’s own values in turn, so a single rule call can format several columns based on each one’s own condition (closes <a href="https://github.com/zeehio/condformat/issues/19" class="external-link">#19</a>): <code>rule_fill_discrete(c(Sepal.Length, Sepal.Width), .col &gt; 3)</code> is now equivalent to chaining the rule once per column. <code>expression</code> now also defaults to <code>.col</code> when omitted, replacing the previous behaviour of silently using only the first selected column (with a warning) when no expression was given for a multi-column selection.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="fixes-0-10-1-9000">Fixes<a class="anchor" aria-label="anchor" href="#fixes-0-10-1-9000"></a></h3>
 <ul><li>Fix <code>lockcells = TRUE</code> being ignored (or worse, unlocking cells) for LaTeX and grob/gtable output in <code><a href="../reference/rule_fill_discrete.html">rule_fill_discrete()</a></code>, <code><a href="../reference/rule_fill_gradient.html">rule_fill_gradient()</a></code>, <code><a href="../reference/rule_fill_gradient2.html">rule_fill_gradient2()</a></code>, <code><a href="../reference/rule_text_bold.html">rule_text_bold()</a></code> and <code><a href="../reference/rule_text_color.html">rule_text_color()</a></code>. HTML and Excel output were not affected.</li>
 <li>Fix <code><a href="../reference/theme_htmlTable.html">theme_htmlTable()</a></code> discarding arguments accumulated from earlier <code><a href="../reference/theme_htmlTable.html">theme_htmlTable()</a></code> calls in the same pipeline, due to a <code>%in%</code> check against list values instead of list names.</li>
@@ -207,7 +211,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>

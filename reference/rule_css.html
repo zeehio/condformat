@@ -80,7 +80,10 @@
 
 
 <dt id="arg-expression">expression<a class="anchor" aria-label="anchor" href="#arg-expression"></a></dt>
-<dd><p>This expression should evaluate to an array of the values</p></dd>
+<dd><p>This expression should evaluate to an array of the values.
+When <code>columns</code> selects more than one column, the expression is
+evaluated once per column, with the <code>.col</code> pronoun bound to that
+column's own values. If omitted, it defaults to <code>.col</code>.</p></dd>
 
 
 <dt id="arg-css-field">css_field<a class="anchor" aria-label="anchor" href="#arg-css-field"></a></dt>
@@ -129,7 +132,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>

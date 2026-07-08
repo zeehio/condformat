@@ -96,7 +96,11 @@ the values given by an expression</p>
 <dt id="arg-expression">expression<a class="anchor" aria-label="anchor" href="#arg-expression"></a></dt>
 <dd><p>an expression to be evaluated with the data.
 It should evaluate to a logical or an integer vector,
-that will be used to determine which cells are to be colored.</p></dd>
+that will be used to determine which cells are to be colored.
+When <code>columns</code> selects more than one column, the expression is
+evaluated once per column, with the <code>.col</code> pronoun bound to that
+column's own values (and <code>limits</code>/<code>midpoint</code>, if not given,
+computed from that column alone). If omitted, it defaults to <code>.col</code>.</p></dd>
 
 
 <dt id="arg-low">low<a class="anchor" aria-label="anchor" href="#arg-low"></a></dt>
@@ -178,7 +182,7 @@ other values are deprecated.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>

@@ -80,7 +80,10 @@
 
 
 <dt id="arg-expression">expression<a class="anchor" aria-label="anchor" href="#arg-expression"></a></dt>
-<dd><p>Condition that evaluates to color names for the rows where text should be colored</p></dd>
+<dd><p>Condition that evaluates to color names for the rows where text should be colored.
+When <code>columns</code> selects more than one column, the expression is
+evaluated once per column, with the <code>.col</code> pronoun bound to that
+column's own values. If omitted, it defaults to <code>.col</code>.</p></dd>
 
 
 <dt id="arg-na-color">na.color<a class="anchor" aria-label="anchor" href="#arg-na-color"></a></dt>
@@ -124,7 +127,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>
