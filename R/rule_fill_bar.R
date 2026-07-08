@@ -11,6 +11,10 @@
 #' @param expression an expression to be evaluated with the data.
 #'                   It should evaluate to a numeric vector,
 #'                   that will be used to determine the colour gradient level.
+#'                   When `columns` selects more than one column, the expression is
+#'                   evaluated once per column, with the `.col` pronoun bound to that
+#'                   column's own values (and `limits`, if not given, computed from
+#'                   that column alone). If omitted, it defaults to `.col`.
 #' @param low Colour for the beginning of the bar
 #' @param high Colour for the end of the bar
 #' @param background Background colour for the cell
@@ -58,43 +62,39 @@ rule_to_cf_field.rule_fill_bar <- function(rule, xfiltered, xview, ...) {
     return(NULL)
   }
   if (rlang::quo_is_missing(rule[["expression"]])) {
-    if (length(columns) > 1) {
-      warning("rule_fill_bar applied to multiple columns, using column ",
-              names(columns)[1], " values as expression. In the future this behaviour will change,",
-              " please use a explicit expression instead.",
-              call. = FALSE)
-    }
-    rule[["expression"]] <- rlang::sym(names(columns)[1])
+    rule[["expression"]] <- rlang::sym(".col")
   }
-  values_determining_color <- rlang::eval_tidy(rule[["expression"]], data = xfiltered)
-  values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
-
-  if (identical(rule[["limits"]], NA)) {
-    limits <- range(values_determining_color, na.rm = TRUE)
-  } else {
-    limits <- rule[["limits"]]
-    if (is.na(limits[1])) {
-      limits[1] <- min(values_determining_color, na.rm = TRUE)
-    }
-    if (is.na(limits[2])) {
-      limits[2] <- max(values_determining_color, na.rm = TRUE)
-    }
-  }
-
-  values_rescaled <- scales::rescale(x = values_determining_color, from = limits)
-  stopifnot(identical(length(values_rescaled), nrow(xview)))
+  values_per_column <- eval_expression_per_column(rule[["expression"]], xfiltered, columns)
 
   bar_width_percent <- matrix(NA,
                               nrow = nrow(xview), ncol = ncol(xview),
                               byrow = FALSE)
   colnames(bar_width_percent) <- colnames(xview)
-  bar_width_percent[, columns] <- values_rescaled
   pbar_is_na <- matrix(NA,
                        nrow = nrow(xview), ncol = ncol(xview),
                        byrow = FALSE)
   colnames(pbar_is_na) <- colnames(xview)
 
-  pbar_is_na[, columns] <- is.na(values_rescaled)
+  for (col_name in names(columns)) {
+    values_determining_color <- values_per_column[[col_name]]
+    if (identical(rule[["limits"]], NA)) {
+      limits <- range(values_determining_color, na.rm = TRUE)
+    } else {
+      limits <- rule[["limits"]]
+      if (is.na(limits[1])) {
+        limits[1] <- min(values_determining_color, na.rm = TRUE)
+      }
+      if (is.na(limits[2])) {
+        limits[2] <- max(values_determining_color, na.rm = TRUE)
+      }
+    }
+
+    values_rescaled <- scales::rescale(x = values_determining_color, from = limits)
+    stopifnot(identical(length(values_rescaled), nrow(xview)))
+
+    bar_width_percent[, col_name] <- values_rescaled
+    pbar_is_na[, col_name] <- is.na(values_rescaled)
+  }
 
   col_low <- grDevices::col2rgb(rule[["low"]])
   col_high <- grDevices::col2rgb(rule[["high"]])

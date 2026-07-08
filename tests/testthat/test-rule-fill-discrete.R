@@ -52,12 +52,27 @@ test_that("rule_fill_discrete lock cells", {
   expect_failure(expect_match(out, "blue"))
 })
 
-test_that("rule_fill_discrete syntax with multiple variables and no expression gives warning", {
+test_that("rule_fill_discrete applied to multiple columns without an expression colors each by its own values", {
   expect_warning(
-    condformat2html(
+    out <- condformat2html(
       rule_fill_discrete(condformat(head(iris)),
                          c("Species", "Sepal.Length"))),
-    "multiple columns")
+    NA)
+  expect_match(out, "^<table.*</table>$")
+})
+
+test_that(".col lets one rule colour several columns by their own values (#19)", {
+  out_col <- condformat(iris[1:5, ]) %>%
+    rule_fill_discrete(c(Sepal.Length, Sepal.Width), .col > 3,
+                       colours = c("TRUE" = "red", "FALSE" = "blue")) %>%
+    condformat2html()
+  out_chained <- condformat(iris[1:5, ]) %>%
+    rule_fill_discrete(Sepal.Length, Sepal.Length > 3,
+                       colours = c("TRUE" = "red", "FALSE" = "blue")) %>%
+    rule_fill_discrete(Sepal.Width, Sepal.Width > 3,
+                       colours = c("TRUE" = "red", "FALSE" = "blue")) %>%
+    condformat2html()
+  expect_equal(out_col, out_chained)
 })
 
 test_that("rule_fill_discrete has expected LaTeX output", {

@@ -24,7 +24,11 @@ rule_fill_gradient(
 
 \item{expression}{an expression to be evaluated with the data.
 It should evaluate to a numeric vector,
-that will be used to determine the colour gradient level.}
+that will be used to determine the colour gradient level.
+When \code{columns} selects more than one column, the expression is
+evaluated once per column, with the \code{.col} pronoun bound to that
+column's own values (and \code{limits}, if not given, computed from
+that column alone). If omitted, it defaults to \code{.col}.}
 
 \item{low}{colour for low end of gradient.}
 

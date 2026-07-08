@@ -10,6 +10,10 @@
 #' @param expression an expression to be evaluated with the data.
 #'                   It should evaluate to a logical or an integer vector,
 #'                   that will be used to determine which cells are to be coloured.
+#'                   When `columns` selects more than one column, the expression is
+#'                   evaluated once per column, with the `.col` pronoun bound to that
+#'                   column's own values, so the same call can colour several columns
+#'                   based on each one's own condition. If omitted, it defaults to `.col`.
 #' @param colours a character vector with colours as values and the expression
 #'                possible results as names.
 #' @inheritParams scales::hue_pal
@@ -33,6 +37,14 @@
 #'  rule_fill_discrete(c(starts_with("Sepal"), starts_with("Petal")),
 #'                     expression = Sepal.Length > 4.6,
 #'                     colours=c("TRUE"="red"))
+#' \dontrun{
+#' print(cf)
+#' }
+#'
+#' # .col lets each selected column use its own values in the expression:
+#' cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) %>%
+#'  rule_fill_discrete(c(Sepal.Length, Sepal.Width), .col > 3,
+#'                     colours = c("TRUE" = "red"))
 #' \dontrun{
 #' print(cf)
 #' }
@@ -67,40 +79,37 @@ rule_to_cf_field.rule_fill_discrete <- function(rule, xfiltered, xview, ...) {
     return(NULL)
   }
   if (rlang::quo_is_missing(rule[["expression"]])) {
-    if (length(columns) > 1) {
-      warning("rule_fill_discrete applied to multiple columns, using column ",
-              names(columns)[1], " values as expression. In the future this behaviour will change,",
-              "please use a explicit expression instead.",
-              call. = FALSE)
-    }
-    rule[["expression"]] <- rlang::sym(names(columns)[1])
+    rule[["expression"]] <- rlang::sym(".col")
   }
-  values_determining_color <- as.factor(rlang::eval_tidy(rule[["expression"]], data = xfiltered))
-  values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
+  values_per_column <- eval_expression_per_column(rule[["expression"]], xfiltered, columns)
 
-  colours_for_values <- NA
-  if (identical(rule[["colours"]], NA)) {
-    # colours not given: Create a palette
-    number_colours <- length(unique(values_determining_color))
-    col_scale <- scales::hue_pal(h = rule[["h"]], c = rule[["c"]], l = rule[["l"]],
-                                 h.start = rule[["h.start"]],
-                                 direction = rule[["direction"]])(number_colours)
-    colours_for_values <- col_scale[as.integer(values_determining_color)]
-  } else if (is.character(rule[["colours"]])) {
-    colours_for_values <- rule[["colours"]][match(values_determining_color, names(rule[["colours"]]))]
-  } else if (is.function(rule[["colours"]])) {
-    colours_for_values <- rule[["colours"]](values_determining_color)
-    if (is.factor(colours_for_values)) {
-      colours_for_values <- as.character(colours_for_values)
-    }
-  }
-  colours_for_values[is.na(colours_for_values)] <- rule[["na.value"]]
-  stopifnot(identical(length(colours_for_values), nrow(xview)))
   colours_for_values_mat <- matrix(NA,
                                    nrow = nrow(xview), ncol = ncol(xview),
                                    byrow = FALSE)
   colnames(colours_for_values_mat) <- colnames(xview)
-  colours_for_values_mat[, columns] <- colours_for_values
+  for (col_name in names(columns)) {
+    values_determining_color <- as.factor(values_per_column[[col_name]])
+
+    colours_for_values <- NA
+    if (identical(rule[["colours"]], NA)) {
+      # colours not given: Create a palette
+      number_colours <- length(unique(values_determining_color))
+      col_scale <- scales::hue_pal(h = rule[["h"]], c = rule[["c"]], l = rule[["l"]],
+                                   h.start = rule[["h.start"]],
+                                   direction = rule[["direction"]])(number_colours)
+      colours_for_values <- col_scale[as.integer(values_determining_color)]
+    } else if (is.character(rule[["colours"]])) {
+      colours_for_values <- rule[["colours"]][match(values_determining_color, names(rule[["colours"]]))]
+    } else if (is.function(rule[["colours"]])) {
+      colours_for_values <- rule[["colours"]](values_determining_color)
+      if (is.factor(colours_for_values)) {
+        colours_for_values <- as.character(colours_for_values)
+      }
+    }
+    colours_for_values[is.na(colours_for_values)] <- rule[["na.value"]]
+    stopifnot(identical(length(colours_for_values), nrow(xview)))
+    colours_for_values_mat[, col_name] <- colours_for_values
+  }
   cf_field <- structure(list(css_key = "background-color",
                              css_values = colours_for_values_mat,
                              lock_cells = rule[["lockcells"]]),

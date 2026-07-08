@@ -73,11 +73,25 @@ test_that("rule_fill_bar lockcells prevents further CSS rules from applying", {
   expect_equal(css_fields$`background-color`[1, 1], "#FF0000")
 })
 
-test_that("rule_fill_bar warns when applied to multiple columns without an explicit expression", {
+test_that("rule_fill_bar applied to multiple columns without an expression uses each column's own values", {
   expect_warning(
-    condformat2html(
+    out <- condformat2html(
       rule_fill_bar(condformat(data.frame(a = 1:3, b = 4:6)), c("a", "b"))),
-    "multiple columns")
+    NA)
+  expect_match(out, "^<table.*</table>$")
+})
+
+test_that(".col lets one rule_fill_bar call use each column's own range (#19)", {
+  out_col <- data.frame(a = 1:3, b = c(10, 20, 40)) %>%
+    condformat() %>%
+    rule_fill_bar(c(a, b), .col) %>%
+    condformat2html()
+  out_chained <- data.frame(a = 1:3, b = c(10, 20, 40)) %>%
+    condformat() %>%
+    rule_fill_bar(a, a) %>%
+    rule_fill_bar(b, b) %>%
+    condformat2html()
+  expect_equal(out_col, out_chained)
 })
 
 test_that("rule_fill_bar is not supported in LaTeX and warns", {

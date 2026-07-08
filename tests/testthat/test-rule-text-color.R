@@ -17,6 +17,20 @@ test_that("rule_text_color recycles a scalar expression to every row", {
   expect_equal(lengths(regmatches(out, gregexpr("color: red", out))), 5)
 })
 
+test_that(".col lets one rule_text_color call colour several columns by their own values (#19)", {
+  x <- data.frame(a = c(1, 5), b = c(5, 1))
+  out_col <- x %>%
+    condformat() %>%
+    rule_text_color(c(a, b), ifelse(.col > 3, "red", "blue")) %>%
+    condformat2html()
+  out_chained <- x %>%
+    condformat() %>%
+    rule_text_color(a, ifelse(a > 3, "red", "blue")) %>%
+    rule_text_color(b, ifelse(b > 3, "red", "blue")) %>%
+    condformat2html()
+  expect_equal(out_col, out_chained)
+})
+
 test_that("rule_text_color lockcells prevents further LaTeX rules from applying", {
   out <- condformat(data.frame(a = "potato")) %>%
     rule_text_color("a", expression = "red", lockcells = TRUE) %>%

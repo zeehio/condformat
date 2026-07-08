@@ -1,5 +1,18 @@
 # condformat 0.10.1.9000
 
+## New features
+
+* Add a `.col` pronoun usable in the `expression` argument of `rule_fill_discrete()`,
+  `rule_fill_gradient()`, `rule_fill_gradient2()`, `rule_fill_bar()`, `rule_text_bold()`,
+  `rule_text_color()` and `rule_css()`. When `columns` selects more than one column,
+  `.col` is bound to each column's own values in turn, so a single rule call can
+  format several columns based on each one's own condition (closes #19):
+  `rule_fill_discrete(c(Sepal.Length, Sepal.Width), .col > 3)` is now equivalent to
+  chaining the rule once per column. `expression` now also defaults to `.col` when
+  omitted, replacing the previous behaviour of silently using only the first
+  selected column (with a warning) when no expression was given for a multi-column
+  selection.
+
 ## Fixes
 
 * Fix `lockcells = TRUE` being ignored (or worse, unlocking cells) for LaTeX

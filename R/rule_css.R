@@ -1,7 +1,10 @@
 #' Apply a CSS style property as a conditional formatting rule
 #' @family rule
 #' @inheritParams rule_fill_discrete
-#' @param expression This expression should evaluate to an array of the values
+#' @param expression This expression should evaluate to an array of the values.
+#'                   When `columns` selects more than one column, the expression is
+#'                   evaluated once per column, with the `.col` pronoun bound to that
+#'                   column's own values. If omitted, it defaults to `.col`.
 #'
 #' @param css_field CSS style property name (e.g. `"color"`)
 #' @param na.value CSS property value to be used in missing values (e.g. `"grey"`)
@@ -38,23 +41,19 @@ rule_to_cf_field.rule_css <- function(rule, xfiltered, xview, ...) {
     return(NULL)
   }
   if (rlang::quo_is_missing(rule[["expression"]])) {
-    if (length(columns) > 1) {
-      warning("rule_css applied to multiple columns, using column ",
-              names(columns)[1], " values as expression. In the future this behaviour will change,",
-              "please use a explicit expression instead.",
-              call. = FALSE)
-    }
-    rule[["expression"]] <- rlang::sym(names(columns)[1])
+    rule[["expression"]] <- rlang::sym(".col")
   }
-  css_values <- rlang::eval_tidy(rule[["expression"]], data = xfiltered)
-  css_values <- rep(css_values, length.out = nrow(xfiltered))
-  stopifnot(identical(length(css_values), nrow(xview)))
-  # Recycle css values to fit all the columns:
+  values_per_column <- eval_expression_per_column(rule[["expression"]], xfiltered, columns)
+
   css_values_mat <- matrix(NA,
                            nrow = nrow(xview), ncol = ncol(xview),
                            byrow = FALSE)
   colnames(css_values_mat) <- colnames(xview)
-  css_values_mat[, columns] <- css_values
+  for (col_name in names(columns)) {
+    css_values <- values_per_column[[col_name]]
+    stopifnot(identical(length(css_values), nrow(xview)))
+    css_values_mat[, col_name] <- css_values
+  }
   cf_field <- structure(list(css_key = rule[["css_field"]],
                              css_values = css_values_mat,
                              lock_cells = rule[["lockcells"]]),

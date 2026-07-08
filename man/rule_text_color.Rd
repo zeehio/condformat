@@ -12,7 +12,10 @@ rule_text_color(x, columns, expression, na.color = "", lockcells = FALSE)
 \item{columns}{A character vector with column names to be coloured. Optionally
 \code{\link[tidyselect:language]{tidyselect::language()}} can be used.}
 
-\item{expression}{Condition that evaluates to color names for the rows where text should be colored}
+\item{expression}{Condition that evaluates to color names for the rows where text should be colored.
+When \code{columns} selects more than one column, the expression is
+evaluated once per column, with the \code{.col} pronoun bound to that
+column's own values. If omitted, it defaults to \code{.col}.}
 
 \item{na.color}{Color for missing values}
 

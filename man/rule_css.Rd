@@ -12,7 +12,10 @@ rule_css(x, columns, expression, css_field, na.value = "", lockcells = FALSE)
 \item{columns}{A character vector with column names to be coloured. Optionally
 \code{\link[tidyselect:language]{tidyselect::language()}} can be used.}
 
-\item{expression}{This expression should evaluate to an array of the values}
+\item{expression}{This expression should evaluate to an array of the values.
+When \code{columns} selects more than one column, the expression is
+evaluated once per column, with the \code{.col} pronoun bound to that
+column's own values. If omitted, it defaults to \code{.col}.}
 
 \item{css_field}{CSS style property name (e.g. \code{"color"})}
 
