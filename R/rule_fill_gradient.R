@@ -11,6 +11,10 @@
 #' @param expression an expression to be evaluated with the data.
 #'                   It should evaluate to a numeric vector,
 #'                   that will be used to determine the colour gradient level.
+#'                   When `columns` selects more than one column, the expression is
+#'                   evaluated once per column, with the `.col` pronoun bound to that
+#'                   column's own values (and `limits`, if not given, computed from
+#'                   that column alone). If omitted, it defaults to `.col`.
 #' @inheritParams scales::seq_gradient_pal
 #' @param limits range of limits that the gradient should cover
 #' @param na.value fill color for missing values
@@ -64,33 +68,28 @@ rule_to_cf_field.rule_fill_gradient <- function(rule, xfiltered, xview, ...) {
     return(NULL)
   }
   if (rlang::quo_is_missing(rule[["expression"]])) {
-    if (length(columns) > 1) {
-      warning("rule_fill_gradient applied to multiple columns, using column ",
-              names(columns)[1], " values as expression. In the future this behaviour will change,",
-              " please use a explicit expression instead.",
-              call. = FALSE)
-    }
-    rule[["expression"]] <- rlang::sym(names(columns)[1])
+    rule[["expression"]] <- rlang::sym(".col")
   }
-  values_determining_color <- rlang::eval_tidy(rule[["expression"]], data = xfiltered)
-  values_determining_color <- rep(values_determining_color, length.out = nrow(xfiltered))
-
-  if (identical(rule[["limits"]], NA)) {
-    limits <- range(values_determining_color, na.rm = TRUE)
-  } else {
-    limits <- rule[["limits"]]
-  }
+  values_per_column <- eval_expression_per_column(rule[["expression"]], xfiltered, columns)
 
   col_scale <- scales::seq_gradient_pal(low = rule[["low"]], high = rule[["high"]])
 
-  values_rescaled <- scales::rescale(x = values_determining_color, from = limits)
-  colours_for_values <- col_scale(values_rescaled)
-  stopifnot(identical(length(colours_for_values), nrow(xview)))
   colours_for_values_mat <- matrix(NA,
                                    nrow = nrow(xview), ncol = ncol(xview),
                                    byrow = FALSE)
   colnames(colours_for_values_mat) <- colnames(xview)
-  colours_for_values_mat[, columns] <- colours_for_values
+  for (col_name in names(columns)) {
+    values_determining_color <- values_per_column[[col_name]]
+    if (identical(rule[["limits"]], NA)) {
+      limits <- range(values_determining_color, na.rm = TRUE)
+    } else {
+      limits <- rule[["limits"]]
+    }
+    values_rescaled <- scales::rescale(x = values_determining_color, from = limits)
+    colours_for_values <- col_scale(values_rescaled)
+    stopifnot(identical(length(colours_for_values), nrow(xview)))
+    colours_for_values_mat[, col_name] <- colours_for_values
+  }
   cf_field <- structure(list(css_key = "background-color",
                              css_values = colours_for_values_mat,
                              lock_cells = rule[["lockcells"]]),

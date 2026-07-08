@@ -16,3 +16,17 @@ test_that("rule_css recycles a scalar expression to every row", {
     condformat2html()
   expect_equal(lengths(regmatches(out, gregexpr("border-style: solid", out))), 5)
 })
+
+test_that(".col lets one rule_css call style several columns by their own values (#19)", {
+  x <- data.frame(a = c(1, 5), b = c(5, 1))
+  out_col <- x %>%
+    condformat() %>%
+    rule_css(c(a, b), ifelse(.col > 3, "solid", "dashed"), css_field = "border-style") %>%
+    condformat2html()
+  out_chained <- x %>%
+    condformat() %>%
+    rule_css(a, ifelse(a > 3, "solid", "dashed"), css_field = "border-style") %>%
+    rule_css(b, ifelse(b > 3, "solid", "dashed"), css_field = "border-style") %>%
+    condformat2html()
+  expect_equal(out_col, out_chained)
+})

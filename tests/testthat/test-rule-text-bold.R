@@ -26,6 +26,20 @@ test_that("rule_text_bold recycles a scalar expression to every row", {
   expect_equal(lengths(regmatches(out, gregexpr("font-weight: bold", out))), 5)
 })
 
+test_that(".col lets one rule_text_bold call bold several columns by their own values (#19)", {
+  x <- data.frame(a = c(1, 5), b = c(5, 1))
+  out_col <- x %>%
+    condformat() %>%
+    rule_text_bold(c(a, b), .col > 3) %>%
+    condformat2html()
+  out_chained <- x %>%
+    condformat() %>%
+    rule_text_bold(a, a > 3) %>%
+    rule_text_bold(b, b > 3) %>%
+    condformat2html()
+  expect_equal(out_col, out_chained)
+})
+
 test_that("rule_text_bold lockcells prevents further LaTeX rules from applying", {
   out <- condformat(data.frame(a = "potato")) %>%
     rule_text_bold("a", expression = TRUE, lockcells = TRUE) %>%

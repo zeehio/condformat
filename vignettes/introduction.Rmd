@@ -41,3 +41,27 @@ condformat(iris[c(1:5,70:75, 120:125),]) %>%
   rule_fill_bar(Petal.Width, limits = c(0, NA))
 ```
 
+## The `.col` pronoun
+
+When a rule targets several columns at once, its `expression` can use the
+`.col` pronoun to refer to each targeted column's own values, instead of a
+single shared expression applied identically to every column. This:
+
+```{r, eval = FALSE}
+condformat(iris) %>%
+  rule_fill_discrete(c(Sepal.Length, Sepal.Width), .col > 3)
+```
+
+is equivalent to chaining the rule once per column:
+
+```{r, eval = FALSE}
+condformat(iris) %>%
+  rule_fill_discrete(Sepal.Length, Sepal.Length > 3) %>%
+  rule_fill_discrete(Sepal.Width, Sepal.Width > 3)
+```
+
+`.col` works the same way in `rule_fill_gradient()`, `rule_fill_gradient2()`,
+`rule_fill_bar()`, `rule_text_bold()`, `rule_text_color()` and `rule_css()`.
+If `expression` is omitted entirely, it now defaults to `.col`, so each
+selected column is formatted based on its own values.
+

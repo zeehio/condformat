@@ -12,7 +12,10 @@ rule_text_bold(x, columns, expression, na.bold = FALSE, lockcells = FALSE)
 \item{columns}{A character vector with column names to be coloured. Optionally
 \code{\link[tidyselect:language]{tidyselect::language()}} can be used.}
 
-\item{expression}{Condition that evaluates to \code{TRUE} for the rows where bold text should be applied.}
+\item{expression}{Condition that evaluates to \code{TRUE} for the rows where bold text should be applied.
+When \code{columns} selects more than one column, the expression is
+evaluated once per column, with the \code{.col} pronoun bound to that
+column's own values. If omitted, it defaults to \code{.col}.}
 
 \item{na.bold}{If \code{TRUE}, make missing values bold.}
 

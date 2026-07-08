@@ -26,7 +26,11 @@ rule_fill_discrete(
 
 \item{expression}{an expression to be evaluated with the data.
 It should evaluate to a logical or an integer vector,
-that will be used to determine which cells are to be coloured.}
+that will be used to determine which cells are to be coloured.
+When \code{columns} selects more than one column, the expression is
+evaluated once per column, with the \code{.col} pronoun bound to that
+column's own values, so the same call can colour several columns
+based on each one's own condition. If omitted, it defaults to \code{.col}.}
 
 \item{colours}{a character vector with colours as values and the expression
 possible results as names.}
@@ -70,6 +74,14 @@ cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) \%>\%
  rule_fill_discrete(c(starts_with("Sepal"), starts_with("Petal")),
                     expression = Sepal.Length > 4.6,
                     colours=c("TRUE"="red"))
+\dontrun{
+print(cf)
+}
+
+# .col lets each selected column use its own values in the expression:
+cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) \%>\%
+ rule_fill_discrete(c(Sepal.Length, Sepal.Width), .col > 3,
+                    colours = c("TRUE" = "red"))
 \dontrun{
 print(cf)
 }

@@ -2,6 +2,9 @@
 #' @family rule
 #' @inheritParams rule_fill_discrete
 #' @param expression Condition that evaluates to `TRUE` for the rows where bold text should be applied.
+#'                   When `columns` selects more than one column, the expression is
+#'                   evaluated once per column, with the `.col` pronoun bound to that
+#'                   column's own values. If omitted, it defaults to `.col`.
 #'
 #' @param na.bold If `TRUE`, make missing values bold.
 #' @examples
@@ -34,26 +37,19 @@ rule_to_cf_field.rule_text_bold <- function(rule, xfiltered, xview, ...) {
     return(NULL)
   }
   if (rlang::quo_is_missing(rule[["expression"]])) {
-    if (length(columns) > 1) {
-      warning("rule_text_bold applied to multiple columns, using column ",
-              names(columns)[1], " values as expression. In the future this behaviour will change,",
-              "please use a explicit expression instead.",
-              call. = FALSE)
-    }
-    rule[["expression"]] <- rlang::sym(names(columns)[1])
+    rule[["expression"]] <- rlang::sym(".col")
   }
-  bold_or_not <- rlang::eval_tidy(rule[["expression"]], data = xfiltered)
-  bold_or_not <- rep(bold_or_not, length.out = nrow(xfiltered))
-  stopifnot(identical(length(bold_or_not), nrow(xview)))
-  # Recycle css values to fit all the columns:
-  bold_or_not_mat_l <- matrix(bold_or_not, nrow = nrow(xview),
-                              ncol = ncol(xview), byrow = FALSE)
+  values_per_column <- eval_expression_per_column(rule[["expression"]], xfiltered, columns)
 
   bold_or_not_mat <- matrix(NA, nrow = nrow(xview), ncol = ncol(xview))
   colnames(bold_or_not_mat) <- colnames(xview)
-  bold_or_not_mat[bold_or_not, columns] <- "bold"
-  bold_or_not_mat[!bold_or_not, columns] <- "normal"
-  bold_or_not_mat[is.na(bold_or_not), columns] <- rule[["na.value"]]
+  for (col_name in names(columns)) {
+    bold_or_not <- values_per_column[[col_name]]
+    stopifnot(identical(length(bold_or_not), nrow(xview)))
+    col_values <- ifelse(bold_or_not, "bold", "normal")
+    col_values[is.na(bold_or_not)] <- rule[["na.value"]]
+    bold_or_not_mat[, col_name] <- col_values
+  }
 
   cf_field <- structure(list(css_key = "font-weight",
                              css_values = bold_or_not_mat,

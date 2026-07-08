@@ -1,7 +1,10 @@
 #' Give a color to the text according to some expression
 #' @family rule
 #' @inheritParams rule_fill_discrete
-#' @param expression Condition that evaluates to color names for the rows where text should be colored
+#' @param expression Condition that evaluates to color names for the rows where text should be colored.
+#'                   When `columns` selects more than one column, the expression is
+#'                   evaluated once per column, with the `.col` pronoun bound to that
+#'                   column's own values. If omitted, it defaults to `.col`.
 #'
 #' @param na.color Color for missing values
 #' @examples
@@ -34,23 +37,19 @@ rule_to_cf_field.rule_text_color <- function(rule, xfiltered, xview, ...) {
     return(NULL)
   }
   if (rlang::quo_is_missing(rule[["expression"]])) {
-    if (length(columns) > 1) {
-      warning("rule_text_color applied to multiple columns, using column ",
-              names(columns)[1], " values as expression. In the future this behaviour will change,",
-              "please use a explicit expression instead.",
-              call. = FALSE)
-    }
-    rule[["expression"]] <- rlang::sym(names(columns)[1])
+    rule[["expression"]] <- rlang::sym(".col")
   }
-  colors <- rlang::eval_tidy(rule[["expression"]], data = xfiltered)
-  colors <- rep(colors, length.out = nrow(xfiltered))
-  colors[is.na(colors)] <- rule[["na.value"]]
-  stopifnot(identical(length(colors), nrow(xview)))
-  # Recycle css values to fit all the columns:
+  values_per_column <- eval_expression_per_column(rule[["expression"]], xfiltered, columns)
+
   colors_mat <- matrix(NA, nrow = nrow(xview),
                        ncol = ncol(xview))
   colnames(colors_mat) <- colnames(xview)
-  colors_mat[, columns] <- colors
+  for (col_name in names(columns)) {
+    colors <- values_per_column[[col_name]]
+    colors[is.na(colors)] <- rule[["na.value"]]
+    stopifnot(identical(length(colors), nrow(xview)))
+    colors_mat[, col_name] <- colors
+  }
   cf_field <- structure(list(css_key = "color",
                              css_values = colors_mat,
                              lock_cells = rule[["lockcells"]]),
