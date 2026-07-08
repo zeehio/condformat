@@ -47,6 +47,7 @@ rule_to_cf_field.rule_css <- function(rule, xfiltered, xview, ...) {
     rule[["expression"]] <- rlang::sym(names(columns)[1])
   }
   css_values <- rlang::eval_tidy(rule[["expression"]], data = xfiltered)
+  css_values <- rep(css_values, length.out = nrow(xfiltered))
   stopifnot(identical(length(css_values), nrow(xview)))
   # Recycle css values to fit all the columns:
   css_values_mat <- matrix(NA,

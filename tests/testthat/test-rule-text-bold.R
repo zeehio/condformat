@@ -19,6 +19,13 @@ test_that("rule_text_bold works for LaTeX output", {
   expect_true(any(grepl(pattern = "\\textbf{potato}", x[[1]], fixed = TRUE)))
 })
 
+test_that("rule_text_bold recycles a scalar expression to every row", {
+  out <- condformat(iris[1:5, ]) %>%
+    rule_text_bold(Species, expression = TRUE) %>%
+    condformat2html()
+  expect_equal(lengths(regmatches(out, gregexpr("font-weight: bold", out))), 5)
+})
+
 test_that("rule_text_bold lockcells prevents further LaTeX rules from applying", {
   out <- condformat(data.frame(a = "potato")) %>%
     rule_text_bold("a", expression = TRUE, lockcells = TRUE) %>%

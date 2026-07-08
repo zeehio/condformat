@@ -43,6 +43,7 @@ rule_to_cf_field.rule_text_color <- function(rule, xfiltered, xview, ...) {
     rule[["expression"]] <- rlang::sym(names(columns)[1])
   }
   colors <- rlang::eval_tidy(rule[["expression"]], data = xfiltered)
+  colors <- rep(colors, length.out = nrow(xfiltered))
   colors[is.na(colors)] <- rule[["na.value"]]
   stopifnot(identical(length(colors), nrow(xview)))
   # Recycle css values to fit all the columns:
