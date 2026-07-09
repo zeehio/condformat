@@ -116,3 +116,52 @@ test_that("condformat2excel applies and caches fill/bold/color styles across rep
   expect_true(length(workbook$styleObjects) > 0)
   expect_equal(nrow(openxlsx::read.xlsx(filename, 1)), 6)
 })
+
+test_that("condformat2excel preserves openxlsx's automatic Date column format", {
+  # openxlsx::writeData() auto-applies a Date number format to Date columns.
+  # condformat2excelsheet's own per-cell styling (applied to every cell, even
+  # ones with no rule) must not silently reset it back to General.
+  df <- data.frame(
+    id = 1:3,
+    d = as.Date(c("2024-01-01", "2024-06-15", "2024-12-31")),
+    grp = c("a", "b", "a")
+  )
+  cf <- condformat(df) |> rule_fill_discrete("grp")
+  filename <- tempfile(fileext = ".xlsx")
+  on.exit(unlink(filename))
+  condformat2excel(cf, filename = filename)
+  workbook <- openxlsx::loadWorkbook(filename)
+  date_col <- which(names(df) == "d")
+  date_styles <- Filter(function(s) date_col %in% s$cols, workbook$styleObjects)
+  expect_true(length(date_styles) > 0)
+  expect_true(all(vapply(date_styles, function(s) {
+    !is.null(s$style$numFmt) && identical(s$style$numFmt$numFmtId, "14")
+  }, logical(1))))
+})
+
+test_that("condformat2excelsheet merges with, rather than replaces, pre-existing cell styles", {
+  # In-memory workbook$styleObjects can contain multiple overlapping, not yet
+  # reconciled entries for the same cell; only a save+reload round trip
+  # reflects what actually ends up rendered, so we check that.
+  df <- data.frame(id = 1:3, note = c("a", "b", "c"))
+  cf <- condformat(df) # no rules at all: every cell gets an "empty" style
+  workbook <- openxlsx::createWorkbook(creator = "")
+  openxlsx::addWorksheet(workbook, sheetName = "sheet1")
+  # Simulate a user pre-applying their own formatting before calling
+  # condformat2excelsheet, e.g. a currency-like number format on "id":
+  openxlsx::addStyle(
+    workbook, "sheet1",
+    style = openxlsx::createStyle(numFmt = "$#,##0.00"),
+    rows = 2:4, cols = 1
+  )
+  condformat2excelsheet(cf, workbook, "sheet1")
+  filename <- tempfile(fileext = ".xlsx")
+  on.exit(unlink(filename))
+  openxlsx::saveWorkbook(workbook, file = filename, overwrite = TRUE)
+  reloaded <- openxlsx::loadWorkbook(filename)
+  id_styles <- Filter(function(s) 1 %in% s$cols, reloaded$styleObjects)
+  expect_true(length(id_styles) > 0)
+  expect_true(all(vapply(id_styles, function(s) {
+    !is.null(s$style$numFmt) && identical(s$style$numFmt$formatCode, "$#,##0.00")
+  }, logical(1))))
+})
