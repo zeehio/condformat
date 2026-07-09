@@ -43,7 +43,7 @@ knit_print.condformat_tbl <- function(x, ...) {
       use_longtable <- TRUE
     }
     return(knitr::asis_output(
-      condformat2latex(x %>% theme_kable(longtable = use_longtable)),
+      condformat2latex(x |> theme_kable(longtable = use_longtable)),
       meta = latex_dependencies))
   } else if (knitr::is_html_output()) {
     dots <- list(...)

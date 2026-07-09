@@ -1,7 +1,7 @@
 test_that("rule_text_color works", {
   data(iris)
   x <- condformat(iris[c(1:10, 51:60, 101:110),])
-  y <- x %>% rule_text_color(Species,
+  y <- x |> rule_text_color(Species,
                              expression = ifelse(Species == "setosa", "blue", ""))
   out <- condformat2html(y)
   expect_match(out, "color: blue.*setosa")
@@ -11,40 +11,40 @@ test_that("rule_text_color works", {
 })
 
 test_that("rule_text_color recycles a scalar expression to every row", {
-  out <- condformat(iris[1:5, ]) %>%
-    rule_text_color(Species, expression = "red") %>%
+  out <- condformat(iris[1:5, ]) |>
+    rule_text_color(Species, expression = "red") |>
     condformat2html()
   expect_equal(lengths(regmatches(out, gregexpr("color: red", out))), 5)
 })
 
 test_that(".col lets one rule_text_color call colour several columns by their own values (#19)", {
   x <- data.frame(a = c(1, 5), b = c(5, 1))
-  out_col <- x %>%
-    condformat() %>%
-    rule_text_color(c(a, b), ifelse(.col > 3, "red", "blue")) %>%
+  out_col <- x |>
+    condformat() |>
+    rule_text_color(c(a, b), ifelse(.col > 3, "red", "blue")) |>
     condformat2html()
-  out_chained <- x %>%
-    condformat() %>%
-    rule_text_color(a, ifelse(a > 3, "red", "blue")) %>%
-    rule_text_color(b, ifelse(b > 3, "red", "blue")) %>%
+  out_chained <- x |>
+    condformat() |>
+    rule_text_color(a, ifelse(a > 3, "red", "blue")) |>
+    rule_text_color(b, ifelse(b > 3, "red", "blue")) |>
     condformat2html()
   expect_equal(out_col, out_chained)
 })
 
 test_that("rule_text_color lockcells prevents further LaTeX rules from applying", {
-  out <- condformat(data.frame(a = "potato")) %>%
-    rule_text_color("a", expression = "red", lockcells = TRUE) %>%
-    rule_text_color("a", expression = "blue") %>%
+  out <- condformat(data.frame(a = "potato")) |>
+    rule_text_color("a", expression = "red", lockcells = TRUE) |>
+    rule_text_color("a", expression = "blue") |>
     condformat2latex()
   expect_true(grepl("RGB]{255,0,0}", out, fixed = TRUE))
   expect_false(grepl("RGB]{0,0,255}", out, fixed = TRUE))
 })
 
 test_that("rule_text_color lockcells prevents further gtable rules from applying", {
-  cfg <- data.frame(a = "potato") %>%
-    condformat() %>%
-    rule_text_color("a", expression = "red", lockcells = TRUE) %>%
-    rule_text_color("a", expression = "blue") %>%
+  cfg <- data.frame(a = "potato") |>
+    condformat() |>
+    rule_text_color("a", expression = "red", lockcells = TRUE) |>
+    rule_text_color("a", expression = "blue") |>
     condformat2grob(draw = FALSE)
   ind <- find_cell(cfg, 2, 2, name = "core-fg")
   expect_equal(unname(cfg$grobs[ind][[1]][["gp"]][["col"]]), "red")

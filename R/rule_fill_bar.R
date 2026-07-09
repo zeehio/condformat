@@ -25,7 +25,7 @@
 #' @return The condformat_tbl object, with the added formatting information
 #' @examples
 #' data(iris)
-#' cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) %>% rule_fill_bar("Sepal.Length")
+#' cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) |> rule_fill_bar("Sepal.Length")
 #' \dontrun{
 #' print(cf)
 #' }

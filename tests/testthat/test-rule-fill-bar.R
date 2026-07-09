@@ -1,6 +1,6 @@
 test_that("rule_fill_bar works", {
-  x <- data.frame(a = c(1,3,5)) %>%
-    condformat() %>%
+  x <- data.frame(a = c(1,3,5)) |>
+    condformat() |>
     rule_fill_bar(a)
   xv_cf <- get_xview_and_cf_fields(x)
   css_fields <- render_cf_fields_to_css_fields(xv_cf$cf_fields, xv_cf$xview)
@@ -8,8 +8,8 @@ test_that("rule_fill_bar works", {
 })
 
 test_that("rule_fill_bar computes border, background-color and background-image", {
-  x <- data.frame(a = c(1, NA, 5)) %>%
-    condformat() %>%
+  x <- data.frame(a = c(1, NA, 5)) |>
+    condformat() |>
     rule_fill_bar(a)
   xv_cf <- get_xview_and_cf_fields(x)
   css_fields <- render_cf_fields_to_css_fields(xv_cf$cf_fields, xv_cf$xview)
@@ -28,8 +28,8 @@ test_that("rule_fill_bar computes border, background-color and background-image"
 })
 
 test_that("rule_fill_bar respects custom low/high/background/na.value colours", {
-  x <- data.frame(a = c(1, NA, 5)) %>%
-    condformat() %>%
+  x <- data.frame(a = c(1, NA, 5)) |>
+    condformat() |>
     rule_fill_bar(a, low = "red", high = "blue", background = "black", na.value = "yellow")
   xv_cf <- get_xview_and_cf_fields(x)
   css_fields <- render_cf_fields_to_css_fields(xv_cf$cf_fields, xv_cf$xview)
@@ -42,8 +42,8 @@ test_that("rule_fill_bar respects custom low/high/background/na.value colours", 
 })
 
 test_that("rule_fill_bar respects explicit limits", {
-  x <- data.frame(a = c(1, 3, 5)) %>%
-    condformat() %>%
+  x <- data.frame(a = c(1, 3, 5)) |>
+    condformat() |>
     rule_fill_bar(a, limits = c(0, 10))
   xv_cf <- get_xview_and_cf_fields(x)
   css_fields <- render_cf_fields_to_css_fields(xv_cf$cf_fields, xv_cf$xview)
@@ -53,8 +53,8 @@ test_that("rule_fill_bar respects explicit limits", {
 })
 
 test_that("rule_fill_bar fills in missing limits with the data range", {
-  x <- data.frame(a = c(1, 3, 5)) %>%
-    condformat() %>%
+  x <- data.frame(a = c(1, 3, 5)) |>
+    condformat() |>
     rule_fill_bar(a, limits = c(NA, 10))
   xv_cf <- get_xview_and_cf_fields(x)
   css_fields <- render_cf_fields_to_css_fields(xv_cf$cf_fields, xv_cf$xview)
@@ -64,9 +64,9 @@ test_that("rule_fill_bar fills in missing limits with the data range", {
 })
 
 test_that("rule_fill_bar lockcells prevents further CSS rules from applying", {
-  y <- data.frame(a = c(1, 3, 5)) %>%
-    condformat() %>%
-    rule_fill_bar(a, background = "red", lockcells = TRUE) %>%
+  y <- data.frame(a = c(1, 3, 5)) |>
+    condformat() |>
+    rule_fill_bar(a, background = "red", lockcells = TRUE) |>
     rule_fill_bar(a, background = "blue")
   xv_cf <- get_xview_and_cf_fields(y)
   css_fields <- render_cf_fields_to_css_fields(xv_cf$cf_fields, xv_cf$xview)
@@ -82,28 +82,28 @@ test_that("rule_fill_bar applied to multiple columns without an expression uses 
 })
 
 test_that(".col lets one rule_fill_bar call use each column's own range (#19)", {
-  out_col <- data.frame(a = 1:3, b = c(10, 20, 40)) %>%
-    condformat() %>%
-    rule_fill_bar(c(a, b), .col) %>%
+  out_col <- data.frame(a = 1:3, b = c(10, 20, 40)) |>
+    condformat() |>
+    rule_fill_bar(c(a, b), .col) |>
     condformat2html()
-  out_chained <- data.frame(a = 1:3, b = c(10, 20, 40)) %>%
-    condformat() %>%
-    rule_fill_bar(a, a) %>%
-    rule_fill_bar(b, b) %>%
+  out_chained <- data.frame(a = 1:3, b = c(10, 20, 40)) |>
+    condformat() |>
+    rule_fill_bar(a, a) |>
+    rule_fill_bar(b, b) |>
     condformat2html()
   expect_equal(out_col, out_chained)
 })
 
 test_that("rule_fill_bar is not supported in LaTeX and warns", {
   expect_warning(
-    condformat2latex(data.frame(a = c(1, 3, 5)) %>% condformat() %>% rule_fill_bar(a)),
+    condformat2latex(data.frame(a = c(1, 3, 5)) |> condformat() |> rule_fill_bar(a)),
     "not supported by condformat in LaTeX")
 })
 
 test_that("rule_fill_bar renders in HTML", {
-  out <- data.frame(a = c(1, 3, 5)) %>%
-    condformat() %>%
-    rule_fill_bar(a) %>%
+  out <- data.frame(a = c(1, 3, 5)) |>
+    condformat() |>
+    rule_fill_bar(a) |>
     condformat2html()
   expect_match(out, "linear-gradient")
 })
@@ -111,12 +111,12 @@ test_that("rule_fill_bar renders in HTML", {
 test_that("rule_fill_bar gtable renders a gradient bar and a plain fill for NA cells", {
   # Values are chosen so the rescaled bar width is never exactly 0% or 100%,
   # since colorRampPalette(..., space = "Lab")(0) errors on this R version.
-  cfg_before <- data.frame(a = c(2, NA, 8)) %>%
-    condformat() %>%
+  cfg_before <- data.frame(a = c(2, NA, 8)) |>
+    condformat() |>
     condformat2grob(draw = FALSE)
-  cfg <- data.frame(a = c(2, NA, 8)) %>%
-    condformat() %>%
-    rule_fill_bar(a, limits = c(0, 10)) %>%
+  cfg <- data.frame(a = c(2, NA, 8)) |>
+    condformat() |>
+    rule_fill_bar(a, limits = c(0, 10)) |>
     condformat2grob(draw = FALSE)
 
   # one rect grob is added per non-NA cell (rows 1 and 3)
@@ -129,20 +129,20 @@ test_that("rule_fill_bar gtable renders a gradient bar and a plain fill for NA c
 test_that("rule_fill_bar gtable does not crash when a value rescales to exactly 0%", {
   # a=1 rescales to exactly 0% under the default (data range) limits; this
   # used to error inside colorRampPalette(..., space = "Lab")(0)
-  cfg_before <- data.frame(a = c(1, 3, 5)) %>%
-    condformat() %>%
+  cfg_before <- data.frame(a = c(1, 3, 5)) |>
+    condformat() |>
     condformat2grob(draw = FALSE)
-  cfg <- data.frame(a = c(1, 3, 5)) %>%
-    condformat() %>%
-    rule_fill_bar(a) %>%
+  cfg <- data.frame(a = c(1, 3, 5)) |>
+    condformat() |>
+    rule_fill_bar(a) |>
     condformat2grob(draw = FALSE)
   # one rect grob is added per cell, including the one that rescales to 0%
   expect_equal(nrow(cfg$layout), nrow(cfg_before$layout) + 3)
 })
 
 test_that("rule_fill_bar na.value does not crash when only some columns are targeted", {
-  x <- data.frame(a = c(1, NA, 5), b = c(10, 20, 30)) %>%
-    condformat() %>%
+  x <- data.frame(a = c(1, NA, 5), b = c(10, 20, 30)) |>
+    condformat() |>
     rule_fill_bar(a)
   xv_cf <- get_xview_and_cf_fields(x)
   css_fields <- render_cf_fields_to_css_fields(xv_cf$cf_fields, xv_cf$xview)
@@ -151,9 +151,9 @@ test_that("rule_fill_bar na.value does not crash when only some columns are targ
 })
 
 test_that("rule_fill_bar lockcells prevents further CSS rules from overwriting na.value", {
-  y <- data.frame(a = c(1, NA, 5)) %>%
-    condformat() %>%
-    rule_fill_bar(a, na.value = "red", lockcells = TRUE) %>%
+  y <- data.frame(a = c(1, NA, 5)) |>
+    condformat() |>
+    rule_fill_bar(a, na.value = "red", lockcells = TRUE) |>
     rule_fill_bar(a, na.value = "blue")
   xv_cf <- get_xview_and_cf_fields(y)
   css_fields <- render_cf_fields_to_css_fields(xv_cf$cf_fields, xv_cf$xview)
@@ -163,23 +163,23 @@ test_that("rule_fill_bar lockcells prevents further CSS rules from overwriting n
 test_that("rule_fill_bar lockcells prevents further gtable rules from applying", {
   # each non-NA cell gets its own rect grob added on top of "core-bg" (which
   # is left untouched), so a locked-out second rule must add zero new grobs
-  cfg_rule1_only <- data.frame(a = c(1, 3, 5)) %>%
-    condformat() %>%
-    rule_fill_bar(a, background = "red", lockcells = TRUE) %>%
+  cfg_rule1_only <- data.frame(a = c(1, 3, 5)) |>
+    condformat() |>
+    rule_fill_bar(a, background = "red", lockcells = TRUE) |>
     condformat2grob(draw = FALSE)
-  cfg_both <- data.frame(a = c(1, 3, 5)) %>%
-    condformat() %>%
-    rule_fill_bar(a, background = "red", lockcells = TRUE) %>%
-    rule_fill_bar(a, background = "blue") %>%
+  cfg_both <- data.frame(a = c(1, 3, 5)) |>
+    condformat() |>
+    rule_fill_bar(a, background = "red", lockcells = TRUE) |>
+    rule_fill_bar(a, background = "blue") |>
     condformat2grob(draw = FALSE)
   expect_equal(nrow(cfg_both$layout), nrow(cfg_rule1_only$layout))
 })
 
 test_that("rule_fill_bar lockcells prevents further gtable rules from overwriting na.value", {
-  cfg <- data.frame(a = c(1, NA, 5)) %>%
-    condformat() %>%
-    rule_fill_bar(a, na.value = "red", lockcells = TRUE) %>%
-    rule_fill_bar(a, na.value = "blue") %>%
+  cfg <- data.frame(a = c(1, NA, 5)) |>
+    condformat() |>
+    rule_fill_bar(a, na.value = "red", lockcells = TRUE) |>
+    rule_fill_bar(a, na.value = "blue") |>
     condformat2grob(draw = FALSE)
   ind <- find_cell(cfg, 3, 2, name = "core-bg")
   expect_equal(cfg$grobs[ind][[1]][["gp"]][["fill"]], "#FF0000")

@@ -1,28 +1,28 @@
 test_that("rule_fill_discrete works", {
   data(iris)
   x <- condformat(iris[c(1:10, 51:60, 101:110),])
-  y <- x %>% rule_fill_discrete("Species",
+  y <- x |> rule_fill_discrete("Species",
                                 expression = Sepal.Length > max(Sepal.Length),
                                 colours = c("TRUE" = "red", "FALSE" = "blue"))
   out <- condformat2html(y)
   expect_failure(expect_match(out, "red"))
 
-  y <- x %>% rule_fill_discrete("Species",
+  y <- x |> rule_fill_discrete("Species",
                                 expression  = Sepal.Length >= min(Sepal.Length),
                                 colours = c("TRUE" = "red", "FALSE" = "blue"))
 
   out <- condformat2html(y)
   expect_failure(expect_match(out, "blue"))
 
-  y <- x %>% rule_fill_discrete("Species")
+  y <- x |> rule_fill_discrete("Species")
   out <- condformat2html(y)
   expect_match(out, "^<table.*</table>$")
 
-  y <- x %>% rule_fill_discrete(starts_with("Species"))
+  y <- x |> rule_fill_discrete(starts_with("Species"))
   out <- condformat2html(y)
   expect_match(out, "^<table.*</table>$")
 
-  y <- x %>% rule_fill_discrete(c(starts_with("Species"), starts_with("Sepal")),
+  y <- x |> rule_fill_discrete(c(starts_with("Species"), starts_with("Sepal")),
                                 expression = Species)
   out <- condformat2html(y)
   expect_match(out, "^<table.*</table>$")
@@ -32,19 +32,19 @@ test_that("rule_fill_discrete works", {
 test_that("rule_fill_discrete lock cells", {
   data(iris)
   x <- condformat(head(iris))
-  y <- x %>% rule_fill_discrete("Species",
+  y <- x |> rule_fill_discrete("Species",
                                 expression  = 1,
-                                colours = c("1" = "red")) %>%
+                                colours = c("1" = "red")) |>
     rule_fill_discrete("Species",
                        expression  = 1,
                        colours = c("1" = "blue"))
   out <- condformat2html(y)
   expect_failure(expect_match(out, "red"))
 
-  y <- x %>% rule_fill_discrete("Species",
+  y <- x |> rule_fill_discrete("Species",
                                 expression  = 1,
                                 colours = c("1" = "red"),
-                                lockcells = TRUE) %>%
+                                lockcells = TRUE) |>
     rule_fill_discrete("Species",
                        expression  = 1,
                        colours = c("1" = "blue"))
@@ -62,22 +62,22 @@ test_that("rule_fill_discrete applied to multiple columns without an expression 
 })
 
 test_that(".col lets one rule colour several columns by their own values (#19)", {
-  out_col <- condformat(iris[1:5, ]) %>%
+  out_col <- condformat(iris[1:5, ]) |>
     rule_fill_discrete(c(Sepal.Length, Sepal.Width), .col > 3,
-                       colours = c("TRUE" = "red", "FALSE" = "blue")) %>%
+                       colours = c("TRUE" = "red", "FALSE" = "blue")) |>
     condformat2html()
-  out_chained <- condformat(iris[1:5, ]) %>%
+  out_chained <- condformat(iris[1:5, ]) |>
     rule_fill_discrete(Sepal.Length, Sepal.Length > 3,
-                       colours = c("TRUE" = "red", "FALSE" = "blue")) %>%
+                       colours = c("TRUE" = "red", "FALSE" = "blue")) |>
     rule_fill_discrete(Sepal.Width, Sepal.Width > 3,
-                       colours = c("TRUE" = "red", "FALSE" = "blue")) %>%
+                       colours = c("TRUE" = "red", "FALSE" = "blue")) |>
     condformat2html()
   expect_equal(out_col, out_chained)
 })
 
 test_that("rule_fill_discrete has expected LaTeX output", {
-  latex <- condformat(data.frame(a = c("Dog", "Cat", "Mouse"))) %>%
-    rule_fill_discrete("a", colours = c("Dog" = "#A52A2A")) %>%
+  latex <- condformat(data.frame(a = c("Dog", "Cat", "Mouse"))) |>
+    rule_fill_discrete("a", colours = c("Dog" = "#A52A2A")) |>
     condformat2latex()
   expect_true("\\cellcolor[HTML]{A52A2A}Dog\\\\" %in% strsplit(latex, "\n", fixed = TRUE)[[1]])
 })
@@ -87,10 +87,10 @@ test_that("rule_fill_discrete accepts a function as colours=", {
     ifelse(x == "potato", "#FF0000", "#00FF00")
   }
 
-  x <- data.frame(a = c("potato", "apple")) %>%
-    condformat() %>%
-    rule_fill_discrete("a", colours = num_to_colour) %>%
-    condformat2html() %>%
+  x <- data.frame(a = c("potato", "apple")) |>
+    condformat() |>
+    rule_fill_discrete("a", colours = num_to_colour) |>
+    condformat2html() |>
     strsplit("\n", fixed = TRUE)
   expect_true(
     any(
@@ -105,8 +105,8 @@ test_that("rule_fill_discrete accepts a function as colours=", {
 
 test_that("rule_fill_discrete gtable works", {
   skip_if_not_installed("vdiffr")
-  cfg <- condformat(iris[c(1,70, 120), "Species", drop = FALSE]) %>%
-    rule_fill_discrete(Species) %>%
+  cfg <- condformat(iris[c(1,70, 120), "Species", drop = FALSE]) |>
+    rule_fill_discrete(Species) |>
     condformat2grob(draw = FALSE)
   expect_equal(cfg$grobs[[14]]$gp$fill, "#F8766D")
   expect_equal(cfg$grobs[[15]]$gp$fill, "#00BA38")
@@ -115,20 +115,20 @@ test_that("rule_fill_discrete gtable works", {
 })
 
 test_that("rule_fill_discrete lockcells prevents further LaTeX rules from applying", {
-  out <- data.frame(a = "Dog") %>%
-    condformat() %>%
-    rule_fill_discrete("a", colours = c("Dog" = "#FF0000"), lockcells = TRUE) %>%
-    rule_fill_discrete("a", colours = c("Dog" = "#0000FF")) %>%
+  out <- data.frame(a = "Dog") |>
+    condformat() |>
+    rule_fill_discrete("a", colours = c("Dog" = "#FF0000"), lockcells = TRUE) |>
+    rule_fill_discrete("a", colours = c("Dog" = "#0000FF")) |>
     condformat2latex()
   expect_true(grepl("FF0000", out, fixed = TRUE))
   expect_false(grepl("0000FF", out, fixed = TRUE))
 })
 
 test_that("rule_fill_discrete lockcells prevents further gtable rules from applying", {
-  cfg <- data.frame(a = "Dog") %>%
-    condformat() %>%
-    rule_fill_discrete("a", colours = c("Dog" = "#FF0000"), lockcells = TRUE) %>%
-    rule_fill_discrete("a", colours = c("Dog" = "#0000FF")) %>%
+  cfg <- data.frame(a = "Dog") |>
+    condformat() |>
+    rule_fill_discrete("a", colours = c("Dog" = "#FF0000"), lockcells = TRUE) |>
+    rule_fill_discrete("a", colours = c("Dog" = "#0000FF")) |>
     condformat2grob(draw = FALSE)
   ind <- find_cell(cfg, 2, 2, name = "core-bg")
   expect_equal(cfg$grobs[ind][[1]][["gp"]][["fill"]], "#FF0000")

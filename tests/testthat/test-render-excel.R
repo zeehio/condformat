@@ -105,10 +105,10 @@ test_that("condformat2excel overwrite_wb replaces the whole workbook", {
 test_that("condformat2excel applies and caches fill/bold/color styles across repeated rows", {
   filename <- tempfile(fileext = ".xlsx")
   on.exit(unlink(filename))
-  x <- data.frame(a = rep(c("Dog", "Cat"), 3)) %>%
-    condformat() %>%
-    rule_fill_discrete("a", colours = c("Dog" = "#FF0000", "Cat" = "#00FF00")) %>%
-    rule_text_bold("a", expression = a == "Dog") %>%
+  x <- data.frame(a = rep(c("Dog", "Cat"), 3)) |>
+    condformat() |>
+    rule_fill_discrete("a", colours = c("Dog" = "#FF0000", "Cat" = "#00FF00")) |>
+    rule_text_bold("a", expression = a == "Dog") |>
     rule_text_color("a", expression = ifelse(a == "Dog", "blue", "purple"))
   condformat2excel(x, filename = filename)
   expect_true(file.exists(filename))

@@ -21,8 +21,8 @@ although patches to enable them are welcome.
 
 Its syntax should be familiar to `ggplot` users, with tidy evaluation.
 
-    condformat(a_data_frame) %>%          # A data frame to print
-      rule_fill_discrete(ColumnA) %>%     # Add formatting rules to the data frame
+    condformat(a_data_frame) |>          # A data frame to print
+      rule_fill_discrete(ColumnA) |>     # Add formatting rules to the data frame
       rule_fill_gradient(ColumnB)
 
 ## Example:
@@ -30,14 +30,14 @@ Its syntax should be familiar to `ggplot` users, with tidy evaluation.
 ```{r}
 data(iris)
 library(condformat)
-condformat(iris[c(1:5,70:75, 120:125),]) %>%
-  rule_fill_discrete(Species) %>%
+condformat(iris[c(1:5,70:75, 120:125),]) |>
+  rule_fill_discrete(Species) |>
   rule_fill_discrete(c(Sepal.Width, Sepal.Length),
                      expression = Sepal.Width > Sepal.Length - 2.25,
-                     colours = c("TRUE" = "#7D00FF")) %>%
-  rule_fill_gradient2(Petal.Length) %>%
-  rule_text_bold(Sepal.Length, Species == "setosa") %>%
-  rule_text_color(Sepal.Length, ifelse(Species == "setosa", "yellow", "")) %>%
+                     colours = c("TRUE" = "#7D00FF")) |>
+  rule_fill_gradient2(Petal.Length) |>
+  rule_text_bold(Sepal.Length, Species == "setosa") |>
+  rule_text_color(Sepal.Length, ifelse(Species == "setosa", "yellow", "")) |>
   rule_fill_bar(Petal.Width, limits = c(0, NA))
 ```
 
@@ -48,15 +48,15 @@ When a rule targets several columns at once, its `expression` can use the
 single shared expression applied identically to every column. This:
 
 ```{r, eval = FALSE}
-condformat(iris) %>%
+condformat(iris) |>
   rule_fill_discrete(c(Sepal.Length, Sepal.Width), .col > 3)
 ```
 
 is equivalent to chaining the rule once per column:
 
 ```{r, eval = FALSE}
-condformat(iris) %>%
-  rule_fill_discrete(Sepal.Length, Sepal.Length > 3) %>%
+condformat(iris) |>
+  rule_fill_discrete(Sepal.Length, Sepal.Length > 3) |>
   rule_fill_discrete(Sepal.Width, Sepal.Width > 3)
 ```
 
