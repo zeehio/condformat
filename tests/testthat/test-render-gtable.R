@@ -1,3 +1,5 @@
+skip_if_not_installed("gridExtra")
+
 test_that("basic condformat works", {
   skip_if_not_installed("vdiffr")
   cf <- condformat(iris[c(1:5,70:75, 120:125),])

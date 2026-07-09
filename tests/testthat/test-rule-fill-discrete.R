@@ -105,6 +105,7 @@ test_that("rule_fill_discrete accepts a function as colours=", {
 
 test_that("rule_fill_discrete gtable works", {
   skip_if_not_installed("vdiffr")
+  skip_if_not_installed("gridExtra")
   cfg <- condformat(iris[c(1,70, 120), "Species", drop = FALSE]) |>
     rule_fill_discrete(Species) |>
     condformat2grob(draw = FALSE)
@@ -125,6 +126,7 @@ test_that("rule_fill_discrete lockcells prevents further LaTeX rules from applyi
 })
 
 test_that("rule_fill_discrete lockcells prevents further gtable rules from applying", {
+  skip_if_not_installed("gridExtra")
   cfg <- data.frame(a = "Dog") |>
     condformat() |>
     rule_fill_discrete("a", colours = c("Dog" = "#FF0000"), lockcells = TRUE) |>

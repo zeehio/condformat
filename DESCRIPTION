@@ -24,19 +24,19 @@ Depends:
 Imports:
     dplyr (>= 1.1.4),
     grDevices,
-    gridExtra (>= 2.3),
-    gtable (>= 0.3.6),
     htmlTable (>= 2.4.3),
     htmltools (>= 0.5.8.1),
     knitr (>= 1.50),
-    openxlsx (>= 4.2.8),
-    rmarkdown (>= 2.29),
     rlang (>= 1.1.6),
     scales (>= 1.4.0),
     tibble (>= 3.3.0),
     tidyselect (>= 1.2.1)
 Suggests:
+    gridExtra (>= 2.3),
+    gtable (>= 0.3.6),
+    openxlsx (>= 4.2.8),
     promises,
+    rmarkdown (>= 2.29),
     shiny (>= 1.11.1),
     testthat (>= 3.2.3),
     vdiffr (>= 1.0.8)

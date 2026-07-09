@@ -1,5 +1,7 @@
 #' Converts the table to a grid object
 #'
+#' Requires the `gridExtra` package (`install.packages("gridExtra")`).
+#'
 #' @param x A condformat_tbl object
 #' @param draw A logical. If `TRUE` (default), the table is
 #' immediately drawn using `grid::draw()` and the grob is returned.
@@ -9,12 +11,15 @@
 #' @return the grid object
 #' @examples
 #' library(condformat)
-#' data.frame(Student = c("Alice", "Bob", "Charlie"),
-#'            Evaluation = c("Great", "Well done", "Good job!")) |>
-#'  condformat() |>
-#'  condformat2grob()
+#' if (requireNamespace("gridExtra", quietly = TRUE)) {
+#'   data.frame(Student = c("Alice", "Bob", "Charlie"),
+#'              Evaluation = c("Great", "Well done", "Good job!")) |>
+#'    condformat() |>
+#'    condformat2grob()
+#' }
 #' @export
 condformat2grob <- function(x, draw=TRUE) {
+  require_suggested_package("gridExtra", "condformat2grob()")
   xv_cf <- get_xview_and_cf_fields(x)
   xview <- xv_cf[["xview"]]
   cf_fields <- xv_cf[["cf_fields"]]

@@ -109,6 +109,7 @@ test_that("rule_fill_bar renders in HTML", {
 })
 
 test_that("rule_fill_bar gtable renders a gradient bar and a plain fill for NA cells", {
+  skip_if_not_installed("gridExtra")
   # Values are chosen so the rescaled bar width is never exactly 0% or 100%,
   # since colorRampPalette(..., space = "Lab")(0) errors on this R version.
   cfg_before <- data.frame(a = c(2, NA, 8)) |>
@@ -127,6 +128,7 @@ test_that("rule_fill_bar gtable renders a gradient bar and a plain fill for NA c
 })
 
 test_that("rule_fill_bar gtable does not crash when a value rescales to exactly 0%", {
+  skip_if_not_installed("gridExtra")
   # a=1 rescales to exactly 0% under the default (data range) limits; this
   # used to error inside colorRampPalette(..., space = "Lab")(0)
   cfg_before <- data.frame(a = c(1, 3, 5)) |>
@@ -161,6 +163,7 @@ test_that("rule_fill_bar lockcells prevents further CSS rules from overwriting n
 })
 
 test_that("rule_fill_bar lockcells prevents further gtable rules from applying", {
+  skip_if_not_installed("gridExtra")
   # each non-NA cell gets its own rect grob added on top of "core-bg" (which
   # is left untouched), so a locked-out second rule must add zero new grobs
   cfg_rule1_only <- data.frame(a = c(1, 3, 5)) |>
@@ -176,6 +179,7 @@ test_that("rule_fill_bar lockcells prevents further gtable rules from applying",
 })
 
 test_that("rule_fill_bar lockcells prevents further gtable rules from overwriting na.value", {
+  skip_if_not_installed("gridExtra")
   cfg <- data.frame(a = c(1, NA, 5)) |>
     condformat() |>
     rule_fill_bar(a, na.value = "red", lockcells = TRUE) |>

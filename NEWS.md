@@ -10,6 +10,16 @@
 
 ## Dependencies
 
+* Move `gridExtra`, `gtable`, `openxlsx` and `rmarkdown` from `Imports` to
+  `Suggests`. These are each only needed for one specific, optional output
+  path: `openxlsx` for `condformat2excel()`/`condformat2excelsheet()`,
+  `gridExtra`/`gtable` for `condformat2grob()`/`theme_grob()`, and
+  `rmarkdown` for LaTeX/PDF output via `knit_print()`. If you only ever use
+  condformat's default HTML/RStudio-viewer printing, you no longer need to
+  install any of these. Calling one of the functions above without the
+  corresponding package installed now stops with a clear
+  `install.packages(...)` hint instead of a generic "there is no package
+  called" error, or (for `rmarkdown`) failing deep inside `knit_print()`.
 * Bump the minimum required version of all versioned dependencies to the
   release that was current about a year ago, rather than today's exact
   latest release, so users aren't forced onto a brand new patch just to

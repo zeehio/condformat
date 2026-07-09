@@ -12,16 +12,19 @@ theme_grob(x, ...)
 \item{...}{Arguments to be passed to gridExtra::tableGrob (see examples)}
 }
 \description{
-This is only used on grob output.
+This is only used on grob output, which requires the \code{gridExtra} package
+(\code{install.packages("gridExtra")}).
 }
 \examples{
 data(iris)
-cf <- condformat(head(iris)) |>
-  theme_grob(
-    rows = NULL,
-    theme = gridExtra::ttheme_default(base_size = 10, base_colour = "red")
-  )
-condformat2grob(cf)
+if (requireNamespace("gridExtra", quietly = TRUE)) {
+  cf <- condformat(head(iris)) |>
+    theme_grob(
+      rows = NULL,
+      theme = gridExtra::ttheme_default(base_size = 10, base_colour = "red")
+    )
+  condformat2grob(cf)
+}
 }
 \seealso{
 \code{\link[gridExtra:tableGrob]{gridExtra::tableGrob()}}
