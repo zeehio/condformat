@@ -60,6 +60,10 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.10.1.9000" id="condformat-01019000">condformat 0.10.1.9000<a class="anchor" aria-label="anchor" href="#condformat-01019000"></a></h2>
 <div class="section level3">
+<h3 id="breaking-changes-0-10-1-9000">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-10-1-9000"></a></h3>
+<ul><li>Drop the <code>magrittr</code> dependency and the <code>%&gt;%</code> pipe operator it re-exported (part of <a href="https://github.com/zeehio/condformat/issues/43" class="external-link">#43</a>). condformat now requires R &gt;= 4.1 and its own examples, tests and vignette use the native base R pipe (<code>|&gt;</code>) instead. If your code relied on <code><a href="https://zeehio.github.io/condformat/">library(condformat)</a></code> making <code>%&gt;%</code> available, either <code><a href="https://magrittr.tidyverse.org" class="external-link">library(magrittr)</a></code> yourself or switch to <code>|&gt;</code>.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="dependencies-0-10-1-9000">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies-0-10-1-9000"></a></h3>
 <ul><li>Bump the minimum required version of all versioned dependencies to the release that was current about a year ago, rather than today’s exact latest release, so users aren’t forced onto a brand new patch just to install condformat (part of <a href="https://github.com/zeehio/condformat/issues/43" class="external-link">#43</a>): <code>dplyr</code> (&gt;= 1.1.4), <code>gtable</code> (&gt;= 0.3.6), <code>htmlTable</code> (&gt;= 2.4.3), <code>htmltools</code> (&gt;= 0.5.8.1), <code>knitr</code> (&gt;= 1.50), <code>openxlsx</code> (&gt;= 4.2.8), <code>rmarkdown</code> (&gt;= 2.29), <code>rlang</code> (&gt;= 1.1.6), <code>scales</code> (&gt;= 1.4.0), <code>tibble</code> (&gt;= 3.3.0), <code>tidyselect</code> (&gt;= 1.2.1), <code>shiny</code> (&gt;= 1.11.1), <code>testthat</code> (&gt;= 3.2.3) and <code>vdiffr</code> (&gt;= 1.0.8). <code>gridExtra</code>’s floor (&gt;= 2.3) is unchanged, as that release is still the latest on CRAN as of a year ago.</li>
 </ul></div>
