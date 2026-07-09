@@ -36,12 +36,12 @@ print(cf)
 }
 }
 \seealso{
-Other rule: 
-\code{\link{rule_fill_bar}()},
-\code{\link{rule_fill_discrete}()},
-\code{\link{rule_fill_gradient2}()},
-\code{\link{rule_fill_gradient}()},
-\code{\link{rule_text_bold}()},
-\code{\link{rule_text_color}()}
+Other rule:
+\code{\link[=rule_fill_bar]{rule_fill_bar()}},
+\code{\link[=rule_fill_discrete]{rule_fill_discrete()}},
+\code{\link[=rule_fill_gradient]{rule_fill_gradient()}},
+\code{\link[=rule_fill_gradient2]{rule_fill_gradient2()}},
+\code{\link[=rule_text_bold]{rule_text_bold()}},
+\code{\link[=rule_text_color]{rule_text_color()}}
 }
 \concept{rule}
