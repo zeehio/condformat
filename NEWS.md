@@ -42,6 +42,12 @@
 
 ## Fixes
 
+* Fix `condformat2excel()`/`condformat2excelsheet()` silently discarding any
+  pre-existing cell formatting on every export — including a Date column's
+  automatic format from `openxlsx::writeData()` — even for cells with no
+  condformat rule applied to them. `condformat2excelsheet()`'s own styling
+  now uses `stack = TRUE` internally, so it merges with, rather than
+  replaces, formatting that was already there (related to #25).
 * Fix `lockcells = TRUE` being ignored (or worse, unlocking cells) for LaTeX
   and grob/gtable output in `rule_fill_discrete()`, `rule_fill_gradient()`,
   `rule_fill_gradient2()`, `rule_text_bold()` and `rule_text_color()`. HTML

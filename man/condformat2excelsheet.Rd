@@ -23,13 +23,17 @@ worksheet) yourself, so you can add other sheets, or apply additional
 \code{openxlsx} formatting, before saving it with \code{\link[openxlsx:saveWorkbook]{openxlsx::saveWorkbook()}}.
 }
 \details{
-\code{\link[openxlsx:addStyle]{openxlsx::addStyle()}} replaces any style already present at a cell
-unless you pass \code{stack = TRUE}, in which case it merges the new style
-with the existing one instead. Since this function already applies a
-style (fill colour, bold, font colour) to every cell, remember to pass
-\code{stack = TRUE} to your own \code{openxlsx::addStyle()} calls if you want your
-formatting (e.g. a number format) to combine with condformat's, rather
-than replacing it. See the example below.
+This function applies its own styling (fill colour, bold, font colour) to
+every cell using \code{stack = TRUE}, so it merges with, rather than replaces,
+any formatting you already applied (e.g. a number format on a Date column,
+set either by you or automatically by \code{\link[openxlsx:writeData]{openxlsx::writeData()}}).
+
+\code{\link[openxlsx:addStyle]{openxlsx::addStyle()}} itself defaults to replacing, not merging, any
+style already present at a cell. So if you add your own \code{openxlsx}
+formatting \emph{after} calling this function, remember to pass
+\code{stack = TRUE} to your own call too, or it will silently replace
+condformat's own styling instead of combining with it. See the example
+below.
 }
 \examples{
 data(iris)

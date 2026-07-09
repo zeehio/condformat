@@ -54,13 +54,17 @@ condformat2excel <- function(x, filename, sheet_name = "Sheet1",
 #' worksheet) yourself, so you can add other sheets, or apply additional
 #' `openxlsx` formatting, before saving it with [openxlsx::saveWorkbook()].
 #'
-#' [openxlsx::addStyle()] replaces any style already present at a cell
-#' unless you pass `stack = TRUE`, in which case it merges the new style
-#' with the existing one instead. Since this function already applies a
-#' style (fill colour, bold, font colour) to every cell, remember to pass
-#' `stack = TRUE` to your own `openxlsx::addStyle()` calls if you want your
-#' formatting (e.g. a number format) to combine with condformat's, rather
-#' than replacing it. See the example below.
+#' This function applies its own styling (fill colour, bold, font colour) to
+#' every cell using `stack = TRUE`, so it merges with, rather than replaces,
+#' any formatting you already applied (e.g. a number format on a Date column,
+#' set either by you or automatically by [openxlsx::writeData()]).
+#'
+#' [openxlsx::addStyle()] itself defaults to replacing, not merging, any
+#' style already present at a cell. So if you add your own `openxlsx`
+#' formatting *after* calling this function, remember to pass
+#' `stack = TRUE` to your own call too, or it will silently replace
+#' condformat's own styling instead of combining with it. See the example
+#' below.
 #'
 #' @param x A condformat object, typically created with [condformat()]
 #' @param workbook An `openxlsx` Workbook object, as created with
@@ -153,7 +157,7 @@ condformat2excelsheet <- function(x, workbook, sheet_name) {
         )
         created_styles[[style_hash]] <- cell_style
       }
-      openxlsx::addStyle(workbook, sheet_name, style = cell_style, rows = i + 1, cols = j)
+      openxlsx::addStyle(workbook, sheet_name, style = cell_style, rows = i + 1, cols = j, stack = TRUE)
     }
   }
   openxlsx::setColWidths(workbook, sheet = sheet_name, cols = seq_len(ncol(xview)), widths = "auto")
