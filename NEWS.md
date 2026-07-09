@@ -38,6 +38,14 @@
   `rule_fill_gradient2()` and `rule_fill_bar()`, which already recycled such
   values to every row.
 
+## Other
+
+* Fix the bundled shiny example (`inst/shinyexample/`): `requireNamespace()`
+  now passes `quietly = TRUE`, so it no longer prints a package-startup
+  message every time the optional `colourpicker` dependency isn't installed.
+  Also modernised the legacy `shinyUI()`/`shinyServer()` wrappers to the
+  current `ui <- ...` / `server <- function(input, output) {...}` style.
+
 # condformat 0.10.1
 
 ## Fixes
