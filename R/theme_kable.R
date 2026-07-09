@@ -7,7 +7,7 @@
 #' @seealso [knitr::kable()]
 #' @examples
 #' data(iris)
-#' cf <- condformat(head(iris)) %>%
+#' cf <- condformat(head(iris)) |>
 #'   theme_kable(booktabs = TRUE, caption = "My Caption")
 #' \dontrun{
 #' print(cf)

@@ -7,7 +7,7 @@
 #' @seealso [gridExtra::tableGrob()]
 #' @examples
 #' data(iris)
-#' cf <- condformat(head(iris)) %>%
+#' cf <- condformat(head(iris)) |>
 #'   theme_grob(
 #'     rows = NULL,
 #'     theme = gridExtra::ttheme_default(base_size = 10, base_colour = "red")

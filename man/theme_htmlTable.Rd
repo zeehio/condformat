@@ -16,7 +16,7 @@ Customizes appearance of condformat object
 }
 \examples{
 data(iris)
-cf <- condformat(head(iris)) \%>\%
+cf <- condformat(head(iris)) |>
   theme_htmlTable(caption="Table 1: My iris table", rnames=FALSE)
 \dontrun{
 print(cf)

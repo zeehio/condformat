@@ -29,17 +29,17 @@ data(iris)
 x <- head(iris)
 
 # Include some columns:
-cf <- condformat(x) \%>\% show_columns(c(Sepal.Length, Sepal.Width, Species))
+cf <- condformat(x) |> show_columns(c(Sepal.Length, Sepal.Width, Species))
 \dontrun{
 print(cf)
 }
-cf <- condformat(x) \%>\% show_columns(c("Sepal.Length", "Sepal.Width", "Species"))
+cf <- condformat(x) |> show_columns(c("Sepal.Length", "Sepal.Width", "Species"))
 \dontrun{
 print(cf)
 }
 
 # Rename columns:
-cf <- condformat(x) \%>\%
+cf <- condformat(x) |>
   show_columns(c(Sepal.Length, Species),
                col_names = c("Length", "Spec."))
 \dontrun{
@@ -47,18 +47,18 @@ print(cf)
 }
 
 # Exclude some columns:
-cf <- condformat(x) \%>\% show_columns(c(-Petal.Length, -Petal.Width))
+cf <- condformat(x) |> show_columns(c(-Petal.Length, -Petal.Width))
 \dontrun{
 print(cf)
 }
 
-cf <- condformat(x) \%>\% show_columns(c(starts_with("Petal"), Species))
+cf <- condformat(x) |> show_columns(c(starts_with("Petal"), Species))
 \dontrun{
 print(cf)
 }
 
 petal_width <- "Petal.Width"
-cf <- condformat(x) \%>\% show_columns(!! petal_width)
+cf <- condformat(x) |> show_columns(!! petal_width)
 \dontrun{
 print(cf)
 }

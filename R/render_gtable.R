@@ -10,8 +10,8 @@
 #' @examples
 #' library(condformat)
 #' data.frame(Student = c("Alice", "Bob", "Charlie"),
-#'            Evaluation = c("Great", "Well done", "Good job!")) %>%
-#'  condformat() %>%
+#'            Evaluation = c("Great", "Well done", "Good job!")) |>
+#'  condformat() |>
 #'  condformat2grob()
 #' @export
 condformat2grob <- function(x, draw=TRUE) {

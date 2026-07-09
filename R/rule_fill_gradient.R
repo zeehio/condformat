@@ -23,15 +23,15 @@
 #' @return The condformat_tbl object, with the added formatting information
 #' @examples
 #' data(iris)
-#' cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) %>%
-#'   rule_fill_gradient(Sepal.Length) %>%
+#' cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) |>
+#'   rule_fill_gradient(Sepal.Length) |>
 #'   rule_fill_gradient(Species, expression=Sepal.Length - Sepal.Width)
 #' \dontrun{
 #' print(cf)
 #' }
 #'
-#' cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) %>%
-#'   rule_fill_gradient("Petal.Length") %>%
+#' cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) |>
+#'   rule_fill_gradient("Petal.Length") |>
 #'   rule_fill_gradient(starts_with("Sepal"), expression=Sepal.Length - Sepal.Width)
 #' \dontrun{
 #' print(cf)

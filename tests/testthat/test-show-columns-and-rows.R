@@ -1,7 +1,7 @@
 # Tests:
 test_that("show_columns works", {
   data(iris)
-  x <- condformat(head(iris, 1)) %>% show_columns(-Sepal.Length)
+  x <- condformat(head(iris, 1)) |> show_columns(-Sepal.Length)
   expect_true("Sepal.Length" %in% colnames(x))
   out <- as.character(condformat2html(x))
   expect_failure(expect_match(out, "Sepal.Length"))
@@ -13,7 +13,7 @@ test_that("show_columns works", {
 
 test_that("show_columns works with custom names", {
   data(iris)
-  x <- condformat(head(iris)) %>% show_columns(c(Sepal.Length, Petal.Width, Species),
+  x <- condformat(head(iris)) |> show_columns(c(Sepal.Length, Petal.Width, Species),
                                                col_names = c("MySepLen", "MyPetWi", "MySpe"))
   expect_true("Sepal.Length" %in% colnames(x))
   expect_true("Petal.Length" %in% colnames(x))
@@ -29,7 +29,7 @@ test_that("show_columns works with custom names", {
 
 test_that("show_row works", {
   data(iris)
-  x <- condformat(head(iris, n = 10)) %>%
+  x <- condformat(head(iris, n = 10)) |>
     show_rows(Sepal.Length == 5.1, Sepal.Width == 3.5,
               Petal.Length == 1.4, Petal.Width == 0.2)
   # in the data frame nothing is filtered
@@ -41,7 +41,7 @@ test_that("show_row works", {
 
 test_that("show_row works with strings, thanks to rlang", {
   data(iris)
-  x <- condformat(head(iris, n = 10)) %>%
+  x <- condformat(head(iris, n = 10)) |>
     show_rows(!! rlang::parse_expr("Sepal.Length == 5.1"),
               !! rlang::parse_expr("Sepal.Width == 3.5"),
               !! rlang::parse_expr("Petal.Length == 1.4"),
@@ -58,7 +58,7 @@ test_that("show_row works after modifying data frame", {
   data(iris)
   x <- condformat(head(iris, n = 10))
   x$Sepal.Length <- x$Sepal.Length + 1
-  x <- x %>% show_rows(Sepal.Length == 6.1, Sepal.Width == 3.5,
+  x <- x |> show_rows(Sepal.Length == 6.1, Sepal.Width == 3.5,
                        Petal.Length == 1.4, Petal.Width == 0.2)
   # in the data frame nothing is filtered
   expect_equal(nrow(x), 10)

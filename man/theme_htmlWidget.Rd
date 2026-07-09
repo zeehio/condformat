@@ -16,7 +16,7 @@ Customizes appearance of condformat object
 }
 \examples{
 data(iris)
-cf <- condformat(head(iris)) \%>\%
+cf <- condformat(head(iris)) |>
   theme_htmlWidget(number_of_entries = c(10, 25, 100),
                    width = NULL, height = NULL, elementId = NULL)
 \dontrun{
