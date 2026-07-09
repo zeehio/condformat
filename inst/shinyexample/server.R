@@ -12,7 +12,7 @@ library(condformat)
 data(iris)
 
 # Define server logic required to show condformat usage
-shinyServer(function(input, output) {
+server <- function(input, output) {
   output$iris <- renderCondformat({
     x <- condformat(iris)
     column1 <- input$gradientcol1
@@ -39,4 +39,4 @@ shinyServer(function(input, output) {
     }
     x |> theme_htmlWidget(number_of_entries = num_entries)
     })
-})
+}

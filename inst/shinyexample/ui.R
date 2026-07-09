@@ -15,7 +15,7 @@ data(iris)
 # install.packages("colourpicker")
 # to get a nice colour picker in shiny. This is a workaround
 colourpick <- function(inputId, label, value = "purple") {
-  if (!requireNamespace("colourpicker")) {
+  if (!requireNamespace("colourpicker", quietly = TRUE)) {
     return(textInput(inputId = inputId, label = label, value = value))
   } else {
     colourpicker::colourInput(inputId = inputId, label = label, value = value)
@@ -23,7 +23,7 @@ colourpick <- function(inputId, label, value = "purple") {
 }
 
 # Define UI for application that draws a histogram
-shinyUI(fluidPage(
+ui <- fluidPage(
 
   # Application title
   titlePanel("Condformat example"),
@@ -46,4 +46,4 @@ shinyUI(fluidPage(
        condformatOutput("iris")
     )
   )
-))
+)
