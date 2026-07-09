@@ -12,7 +12,7 @@ condformat2grob(x, draw = TRUE)
 \item{draw}{A logical. If \code{TRUE} (default), the table is
 immediately drawn using \code{grid::draw()} and the grob is returned.
 If \code{FALSE}, the grob is returned without drawing. Set \code{draw=FALSE}
-when using the grob in composite images with \code{\link[gridExtra:arrangeGrob]{gridExtra::grid.arrange()}} or
+when using the grob in composite images with \code{\link[gridExtra:grid.arrange]{gridExtra::grid.arrange()}} or
 \code{ggpubr::ggarrange()}.}
 }
 \value{

@@ -1,5 +1,16 @@
 # condformat 0.10.1.9000
 
+## Dependencies
+
+* Bump the minimum required version of all versioned dependencies to their
+  latest CRAN release, to test and develop against currently supported
+  releases (part of #43): `dplyr` (>= 1.2.1), `gridExtra` (>= 2.3.1),
+  `gtable` (>= 0.3.6), `htmlTable` (>= 2.5.0), `htmltools` (>= 0.5.9),
+  `knitr` (>= 1.51), `openxlsx` (>= 4.2.8.1), `rmarkdown` (>= 2.31),
+  `rlang` (>= 1.3.0), `scales` (>= 1.4.0), `tibble` (>= 3.3.1),
+  `tidyselect` (>= 1.2.1), `shiny` (>= 1.14.0), `testthat` (>= 3.3.2) and
+  `vdiffr` (>= 1.0.9).
+
 ## New features
 
 * Add a `.col` pronoun usable in the `expression` argument of `rule_fill_discrete()`,

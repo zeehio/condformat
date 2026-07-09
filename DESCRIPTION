@@ -20,26 +20,26 @@ Description: Apply and visualize conditional formatting to data frames in R.
 License: BSD_3_clause + file LICENSE
 NeedsCompilation: no
 Imports:
-    dplyr (>= 0.7.7),
+    dplyr (>= 1.2.1),
     grDevices,
-    gridExtra (>= 2.3),
-    gtable (>= 0.2.0),
-    htmlTable (>= 1.9),
-    htmltools (>= 0.3.6),
-    knitr (>= 1.20),
+    gridExtra (>= 2.3.1),
+    gtable (>= 0.3.6),
+    htmlTable (>= 2.5.0),
+    htmltools (>= 0.5.9),
+    knitr (>= 1.51),
     magrittr (>= 1.5),
-    openxlsx (>= 4.1.5),
-    rmarkdown (>= 1.10),
-    rlang (>= 0.3.0),
-    scales (>= 1.0.0),
-    tibble (>= 1.3.4),
-    tidyselect (>= 1.0.0)
+    openxlsx (>= 4.2.8.1),
+    rmarkdown (>= 2.31),
+    rlang (>= 1.3.0),
+    scales (>= 1.4.0),
+    tibble (>= 3.3.1),
+    tidyselect (>= 1.2.1)
 Suggests:
     promises,
-    shiny (>= 1.0.5),
-    testthat (>= 1.0),
-    vdiffr (>= 1.0.4)
+    shiny (>= 1.14.0),
+    testthat (>= 3.3.2),
+    vdiffr (>= 1.0.9)
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.0.0
