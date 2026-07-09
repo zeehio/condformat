@@ -5,6 +5,9 @@
 #' @param sheet_name The name of the sheet where the table will be written
 #' @param overwrite_wb logical to overwrite the whole workbook file
 #' @param overwrite_sheet logical to overwrite the sheet
+#' @seealso [condformat2excelsheet()], to write into a worksheet of an
+#'   `openxlsx` workbook you're building yourself, so you can add more
+#'   sheets or apply extra `openxlsx` formatting before saving.
 #' @export
 #'
 condformat2excel <- function(x, filename, sheet_name = "Sheet1",
@@ -44,19 +47,49 @@ condformat2excel <- function(x, filename, sheet_name = "Sheet1",
   return(invisible(x))
 }
 
-# Writes the table to an Excel sheet
-#
-# @param x A condformat_tbl object
-# @param sheet The sheet object
-# @examples
-# \dontrun{
-# x <- condformat(iris[1:5,])
-# library(openxlsx)
-# workbook <- openxlsx::createWorkbook(creator = "")
-# openxlsx::addWorksheet(workbook, sheetName = "sheet name")
-# condformat2excelsheet(x, workbook, "sheet name")
-# openxlsx::saveWorkbook(workbook, file = "iris.xlsx")
-# }
+#' Writes the table to a worksheet of an existing Excel workbook
+#'
+#' Unlike [condformat2excel()], this does not create the workbook or save it
+#' to disk: you pass in an `openxlsx` workbook (and an already-added
+#' worksheet) yourself, so you can add other sheets, or apply additional
+#' `openxlsx` formatting, before saving it with [openxlsx::saveWorkbook()].
+#'
+#' [openxlsx::addStyle()] replaces any style already present at a cell
+#' unless you pass `stack = TRUE`, in which case it merges the new style
+#' with the existing one instead. Since this function already applies a
+#' style (fill colour, bold, font colour) to every cell, remember to pass
+#' `stack = TRUE` to your own `openxlsx::addStyle()` calls if you want your
+#' formatting (e.g. a number format) to combine with condformat's, rather
+#' than replacing it. See the example below.
+#'
+#' @param x A condformat object, typically created with [condformat()]
+#' @param workbook An `openxlsx` Workbook object, as created with
+#'   [openxlsx::createWorkbook()] or loaded with [openxlsx::loadWorkbook()]
+#' @param sheet_name The name of a worksheet already present in `workbook`
+#'   (for instance added with [openxlsx::addWorksheet()]) where the table
+#'   will be written
+#' @seealso [condformat2excel()], which creates the workbook, writes a single
+#'   sheet with this function, and saves it to disk in one call.
+#' @export
+#'
+#' @examples
+#' data(iris)
+#' cf <- condformat(iris[1:5, ]) |>
+#'   rule_fill_gradient(Sepal.Width)
+#' \dontrun{
+#' workbook <- openxlsx::createWorkbook(creator = "")
+#' openxlsx::addWorksheet(workbook, sheetName = "iris")
+#' condformat2excelsheet(cf, workbook, "iris")
+#' # Combine condformat's own fill colour on Sepal.Width (column 2) with a
+#' # percentage number format, using stack = TRUE so it doesn't replace
+#' # condformat's own styling:
+#' openxlsx::addStyle(
+#'   workbook, "iris",
+#'   style = openxlsx::createStyle(numFmt = "0%"),
+#'   rows = 2:6, cols = 2, stack = TRUE
+#' )
+#' openxlsx::saveWorkbook(workbook, file = "iris.xlsx", overwrite = TRUE)
+#' }
 condformat2excelsheet <- function(x, workbook, sheet_name) {
   xlsx_supported_rules <- c("rule_fill_discrete", "rule_fill_gradient",
                             "rule_fill_gradient2", "rule_text_bold", "rule_text_color")

@@ -23,6 +23,12 @@
 
 ## New features
 
+* Export `condformat2excelsheet()`, which writes a condformat table into a
+  worksheet of an `openxlsx` workbook you're already building, without
+  creating or saving the workbook itself (closes #25). Its docs show how to
+  combine condformat's own cell styling with your own `openxlsx::addStyle()`
+  calls (e.g. a number format) via `stack = TRUE`, since `addStyle()`
+  replaces existing styles by default.
 * Add a `.col` pronoun usable in the `expression` argument of `rule_fill_discrete()`,
   `rule_fill_gradient()`, `rule_fill_gradient2()`, `rule_fill_bar()`, `rule_text_bold()`,
   `rule_text_color()` and `rule_css()`. When `columns` selects more than one column,

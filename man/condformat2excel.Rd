@@ -26,3 +26,8 @@ condformat2excel(
 \description{
 Writes the table to an Excel workbook
 }
+\seealso{
+\code{\link[=condformat2excelsheet]{condformat2excelsheet()}}, to write into a worksheet of an
+\code{openxlsx} workbook you're building yourself, so you can add more
+sheets or apply extra \code{openxlsx} formatting before saving.
+}
