@@ -1,3 +1,5 @@
+skip_if_not_installed("openxlsx")
+
 test_that("condformat2excel generates a file", {
   data(iris)
   filename <- tempfile(fileext = ".xlsx")

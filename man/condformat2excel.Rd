@@ -24,7 +24,7 @@ condformat2excel(
 \item{overwrite_sheet}{logical to overwrite the sheet}
 }
 \description{
-Writes the table to an Excel workbook
+Requires the \code{openxlsx} package (\code{install.packages("openxlsx")}).
 }
 \seealso{
 \code{\link[=condformat2excelsheet]{condformat2excelsheet()}}, to write into a worksheet of an

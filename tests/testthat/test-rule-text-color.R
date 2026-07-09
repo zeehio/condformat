@@ -41,6 +41,7 @@ test_that("rule_text_color lockcells prevents further LaTeX rules from applying"
 })
 
 test_that("rule_text_color lockcells prevents further gtable rules from applying", {
+  skip_if_not_installed("gridExtra")
   cfg <- data.frame(a = "potato") |>
     condformat() |>
     rule_text_color("a", expression = "red", lockcells = TRUE) |>

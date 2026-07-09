@@ -17,12 +17,14 @@ condformat2excelsheet(x, workbook, sheet_name)
 will be written}
 }
 \description{
+Requires the \code{openxlsx} package (\code{install.packages("openxlsx")}).
+}
+\details{
 Unlike \code{\link[=condformat2excel]{condformat2excel()}}, this does not create the workbook or save it
 to disk: you pass in an \code{openxlsx} workbook (and an already-added
 worksheet) yourself, so you can add other sheets, or apply additional
 \code{openxlsx} formatting, before saving it with \code{\link[openxlsx:saveWorkbook]{openxlsx::saveWorkbook()}}.
-}
-\details{
+
 This function applies its own styling (fill colour, bold, font colour) to
 every cell using \code{stack = TRUE}, so it merges with, rather than replaces,
 any formatting you already applied (e.g. a number format on a Date column,

@@ -50,3 +50,22 @@ resolve_limits <- function(values, limits) {
   }
   limits
 }
+
+# Stops with an install hint if a Suggested-only package isn't available.
+# Used by entry points that need an optional dependency at runtime (e.g. an
+# output backend), so the error clearly explains what to install instead of
+# failing deep inside a `pkg::fun()` call with "there is no package called".
+#
+# @param pkg The package name, e.g. `"openxlsx"`
+# @param reason A short description of what needs it, e.g.
+#               `"condformat2excel() and condformat2excelsheet()"`
+require_suggested_package <- function(pkg, reason) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    stop(
+      "Package '", pkg, "' is required for ", reason, ". ",
+      "Install it with install.packages(\"", pkg, "\").",
+      call. = FALSE
+    )
+  }
+  invisible(NULL)
+}

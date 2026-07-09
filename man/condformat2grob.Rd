@@ -19,12 +19,14 @@ when using the grob in composite images with \code{\link[gridExtra:grid.arrange]
 the grid object
 }
 \description{
-Converts the table to a grid object
+Requires the \code{gridExtra} package (\code{install.packages("gridExtra")}).
 }
 \examples{
 library(condformat)
-data.frame(Student = c("Alice", "Bob", "Charlie"),
-           Evaluation = c("Great", "Well done", "Good job!")) |>
- condformat() |>
- condformat2grob()
+if (requireNamespace("gridExtra", quietly = TRUE)) {
+  data.frame(Student = c("Alice", "Bob", "Charlie"),
+             Evaluation = c("Great", "Well done", "Good job!")) |>
+   condformat() |>
+   condformat2grob()
+}
 }

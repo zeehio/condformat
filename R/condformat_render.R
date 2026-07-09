@@ -34,6 +34,7 @@ condformat2html_or_widget <- function(x, paginate = TRUE) {
 #' @export
 knit_print.condformat_tbl <- function(x, ...) {
   if (knitr::is_latex_output()) {
+    require_suggested_package("rmarkdown", "LaTeX/PDF output from condformat")
     latex_dependencies <- list(rmarkdown::latex_dependency(name = "xcolor",
                                                            options = "table"))
     use_longtable <- knitr::opts_current$get("longtable")

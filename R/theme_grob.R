@@ -1,18 +1,21 @@
 #' Customizes appearance of condformat object
 #'
-#' This is only used on grob output.
+#' This is only used on grob output, which requires the `gridExtra` package
+#' (`install.packages("gridExtra")`).
 #'
 #' @param x The condformat object
 #' @param ... Arguments to be passed to gridExtra::tableGrob (see examples)
 #' @seealso [gridExtra::tableGrob()]
 #' @examples
 #' data(iris)
-#' cf <- condformat(head(iris)) |>
-#'   theme_grob(
-#'     rows = NULL,
-#'     theme = gridExtra::ttheme_default(base_size = 10, base_colour = "red")
-#'   )
-#' condformat2grob(cf)
+#' if (requireNamespace("gridExtra", quietly = TRUE)) {
+#'   cf <- condformat(head(iris)) |>
+#'     theme_grob(
+#'       rows = NULL,
+#'       theme = gridExtra::ttheme_default(base_size = 10, base_colour = "red")
+#'     )
+#'   condformat2grob(cf)
+#' }
 #' @export
 theme_grob <- function(x, ...) {
   if (!inherits(x, "condformat_tbl")) {

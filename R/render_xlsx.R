@@ -1,5 +1,7 @@
 #' Writes the table to an Excel workbook
 #'
+#' Requires the `openxlsx` package (`install.packages("openxlsx")`).
+#'
 #' @param x A condformat_tbl object
 #' @param filename The xlsx file name.
 #' @param sheet_name The name of the sheet where the table will be written
@@ -13,6 +15,7 @@
 condformat2excel <- function(x, filename, sheet_name = "Sheet1",
                              overwrite_wb = FALSE,
                              overwrite_sheet = TRUE) {
+  require_suggested_package("openxlsx", "condformat2excel() and condformat2excelsheet()")
 
   if (!grepl(pattern = '\\.xlsx$', filename)) { # endsWith(filename, ".xlsx")
     filename <- paste0(filename, ".xlsx")
@@ -48,6 +51,8 @@ condformat2excel <- function(x, filename, sheet_name = "Sheet1",
 }
 
 #' Writes the table to a worksheet of an existing Excel workbook
+#'
+#' Requires the `openxlsx` package (`install.packages("openxlsx")`).
 #'
 #' Unlike [condformat2excel()], this does not create the workbook or save it
 #' to disk: you pass in an `openxlsx` workbook (and an already-added
@@ -95,6 +100,7 @@ condformat2excel <- function(x, filename, sheet_name = "Sheet1",
 #' openxlsx::saveWorkbook(workbook, file = "iris.xlsx", overwrite = TRUE)
 #' }
 condformat2excelsheet <- function(x, workbook, sheet_name) {
+  require_suggested_package("openxlsx", "condformat2excel() and condformat2excelsheet()")
   xlsx_supported_rules <- c("rule_fill_discrete", "rule_fill_gradient",
                             "rule_fill_gradient2", "rule_text_bold", "rule_text_color",
                             "rule_fill_bar")
