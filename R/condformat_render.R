@@ -74,7 +74,7 @@ get_xview_and_cf_fields <- function(x) {
   rules <- attr(x, "condformat")[["rules"]]
   cf_fields <- rules_to_cf_fields(rules, xfiltered, xview)
 
-  list(cf_fields = cf_fields, xview = xview,
+  list(cf_fields = cf_fields, xview = xview, xfiltered = xfiltered,
        final_colnames = names(finalshow[["cols"]]))
 }
 

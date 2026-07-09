@@ -49,6 +49,18 @@ The condformat_tbl object, with the added formatting information
 Fills the background of a column cell using a bar proportional to the value
 of the cell
 }
+\details{
+In Excel output (\code{\link[=condformat2excel]{condformat2excel()}}/\code{\link[=condformat2excelsheet]{condformat2excelsheet()}}), this is
+rendered using Excel's own native data bar conditional formatting, coloured
+with \code{low} (\code{high}, \code{background} and \code{lockcells} don't apply to it, since
+Excel data bars are solid-coloured and are a workbook-level conditional
+formatting rule, not a per-cell style). This only happens when \code{expression}
+is left at its default (or explicitly \code{.col}): Excel data bars always
+reflect a cell's own displayed value against a range, so a custom
+\code{expression} (e.g. sizing one column's bar by another column's values)
+can't be replicated there and is skipped, with a warning; the cell's flat
+\code{background}/\code{na.value} colours are still applied in that case.
+}
 \examples{
 data(iris)
 cf <- condformat(iris[c(1:5, 70:75, 120:125), ]) |> rule_fill_bar("Sepal.Length")

@@ -28,3 +28,25 @@ eval_expression_per_column <- function(expr, xfiltered, columns) {
   names(values) <- col_names
   values
 }
+
+# Resolves a rule's `limits` argument against a vector of values: `NA`
+# computes both endpoints from `values`'s range, and either endpoint alone
+# being `NA` fills in just that one from `values`, leaving the other as given.
+#
+# @param values A numeric vector (e.g. one column's own values, or the result
+#               of evaluating a rule's `expression`)
+# @param limits A rule's `limits` argument: `NA`, or a length-2 numeric vector
+#               whose elements may individually be `NA`
+# @return A length-2 numeric vector with no `NA`s
+resolve_limits <- function(values, limits) {
+  if (identical(limits, NA)) {
+    return(range(values, na.rm = TRUE))
+  }
+  if (is.na(limits[1])) {
+    limits[1] <- min(values, na.rm = TRUE)
+  }
+  if (is.na(limits[2])) {
+    limits[2] <- max(values, na.rm = TRUE)
+  }
+  limits
+}

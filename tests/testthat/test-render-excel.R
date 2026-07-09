@@ -66,7 +66,8 @@ test_that("condformat2excel warns if unsupported rule is used", {
   on.exit(unlink(filename))
   expect_warning(
     condformat2excel(
-      rule_fill_bar(condformat(head(iris)), "Sepal.Width"),
+      rule_css(condformat(head(iris)), "Species",
+               expression = "red", css_field = "color"),
       filename = filename
     ),
     regexp = "condformat2excel does not support the following rules"
@@ -164,4 +165,76 @@ test_that("condformat2excelsheet merges with, rather than replaces, pre-existing
   expect_true(all(vapply(id_styles, function(s) {
     !is.null(s$style$numFmt) && identical(s$style$numFmt$formatCode, "$#,##0.00")
   }, logical(1))))
+})
+
+test_that("condformat2excel renders rule_fill_bar as a native Excel data bar", {
+  data(iris)
+  cf <- condformat(iris[1:5, ]) |>
+    rule_fill_bar("Sepal.Length", low = "darkgreen", high = "white")
+  filename <- tempfile(fileext = ".xlsx")
+  on.exit(unlink(filename))
+  condformat2excel(cf, filename = filename)
+  workbook <- openxlsx::loadWorkbook(filename)
+  cf_entries <- workbook$worksheets[[1]]$conditionalFormatting
+  expect_equal(names(cf_entries), "A2:A6")
+  xml <- cf_entries[[1]]
+  expect_match(xml, 'type="dataBar"', fixed = TRUE)
+  # low, not high, is the colour actually used (see add_rule_fill_bar_databars)
+  expect_match(xml, 'rgb="FF006400"', fixed = TRUE) # darkgreen
+  expect_match(xml, 'val="4.6"', fixed = TRUE) # min(Sepal.Length[1:5])
+  expect_match(xml, 'val="5.1"', fixed = TRUE) # max(Sepal.Length[1:5])
+})
+
+test_that("condformat2excel respects explicit limits for rule_fill_bar's data bar", {
+  cf <- condformat(data.frame(v = c(1, 5, 9))) |>
+    rule_fill_bar("v", limits = c(0, 10))
+  filename <- tempfile(fileext = ".xlsx")
+  on.exit(unlink(filename))
+  condformat2excel(cf, filename = filename)
+  workbook <- openxlsx::loadWorkbook(filename)
+  xml <- workbook$worksheets[[1]]$conditionalFormatting[[1]]
+  expect_match(xml, 'val="0"', fixed = TRUE)
+  expect_match(xml, 'val="10"', fixed = TRUE)
+})
+
+test_that("condformat2excel adds one data bar per column for rule_fill_bar with .col", {
+  data(iris)
+  cf <- condformat(iris[1:5, ]) |> rule_fill_bar(c(Sepal.Length, Sepal.Width))
+  filename <- tempfile(fileext = ".xlsx")
+  on.exit(unlink(filename))
+  condformat2excel(cf, filename = filename)
+  workbook <- openxlsx::loadWorkbook(filename)
+  expect_equal(names(workbook$worksheets[[1]]$conditionalFormatting), c("A2:A6", "B2:B6"))
+})
+
+test_that("condformat2excel skips the data bar (but keeps cell colours) for a custom expression", {
+  data(iris)
+  cf <- condformat(iris[1:5, ]) |>
+    rule_fill_bar(Sepal.Length, expression = Sepal.Width, background = "yellow")
+  filename <- tempfile(fileext = ".xlsx")
+  on.exit(unlink(filename))
+  expect_warning(
+    condformat2excel(cf, filename = filename),
+    regexp = "data bar itself is skipped"
+  )
+  workbook <- openxlsx::loadWorkbook(filename)
+  expect_equal(length(workbook$worksheets[[1]]$conditionalFormatting), 0)
+  fill_styles <- Filter(function(s) !is.null(s$style$fill), workbook$styleObjects)
+  expect_true(length(fill_styles) > 0)
+})
+
+test_that("condformat2excel doesn't error on an all-NA rule_fill_bar column", {
+  # An all-NA column already produces "no non-missing arguments to min/max"
+  # warnings from the shared CSS/gtable range() computation (a pre-existing
+  # gap, unrelated to the xlsx-specific data bar code this test targets),
+  # so those are suppressed here.
+  cf <- condformat(data.frame(v = c(NA_real_, NA_real_))) |> rule_fill_bar("v")
+  filename <- tempfile(fileext = ".xlsx")
+  on.exit(unlink(filename))
+  expect_true(file.exists({
+    suppressWarnings(condformat2excel(cf, filename = filename))
+    filename
+  }))
+  workbook <- openxlsx::loadWorkbook(filename)
+  expect_equal(length(workbook$worksheets[[1]]$conditionalFormatting), 0)
 })

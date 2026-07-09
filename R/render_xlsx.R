@@ -96,7 +96,8 @@ condformat2excel <- function(x, filename, sheet_name = "Sheet1",
 #' }
 condformat2excelsheet <- function(x, workbook, sheet_name) {
   xlsx_supported_rules <- c("rule_fill_discrete", "rule_fill_gradient",
-                            "rule_fill_gradient2", "rule_text_bold", "rule_text_color")
+                            "rule_fill_gradient2", "rule_text_bold", "rule_text_color",
+                            "rule_fill_bar")
 
   # Check for unsupported rules and warn accordingly:
   rules <- attr(x, "condformat")[["rules"]]
@@ -112,6 +113,7 @@ condformat2excelsheet <- function(x, workbook, sheet_name) {
   }
   xv_cf <- get_xview_and_cf_fields(x)
   xview <- xv_cf[["xview"]]
+  xfiltered <- xv_cf[["xfiltered"]]
   cf_fields <- xv_cf[["cf_fields"]]
   css_fields <- render_cf_fields_to_css_fields(cf_fields, xview)
 
@@ -160,7 +162,67 @@ condformat2excelsheet <- function(x, workbook, sheet_name) {
       openxlsx::addStyle(workbook, sheet_name, style = cell_style, rows = i + 1, cols = j, stack = TRUE)
     }
   }
+  for (rule in rules) {
+    if (inherits(rule, "rule_fill_bar")) {
+      add_rule_fill_bar_databars(rule, xview, xfiltered, workbook, sheet_name)
+    }
+  }
   openxlsx::setColWidths(workbook, sheet = sheet_name, cols = seq_len(ncol(xview)), widths = "auto")
   invisible(x)
+}
+
+# rule_fill_bar()'s gradient bar has no solid-fill CSS equivalent (it's a
+# `background-image: linear-gradient(...)`), which is why the per-cell CSS
+# loop above only carries over its flat `background`/`na.value` colours.
+# Excel has an actual native "data bar" conditional formatting feature, which
+# we use here instead -- but unlike a CSS/gtable bar, it always reflects the
+# cell's own displayed value against a range, not an arbitrary expression, so
+# we only add it when `expression` is the default (missing or `.col`).
+#
+# Excel data bars are solid-coloured, not a `low`-to-`high` blend along their
+# length, so only `low` is used as the bar's colour (`high` only affects
+# CSS/gtable output). `openxlsx::conditionalFormatting(type = "databar")`
+# also requires `style` and `rule` (the numeric range) to have the same
+# length, but when `style` has 2 colours it silently keeps only the second
+# one -- so `style` is passed as `low` repeated twice, to specify an
+# explicit numeric range while still ending up with `low` as the one colour
+# that's actually used.
+add_rule_fill_bar_databars <- function(rule, xview, xfiltered, workbook, sheet_name) {
+  columns <- tidyselect::eval_select(expr = rule[["columns"]], data = xview)
+  if (length(columns) == 0) {
+    return(invisible(NULL))
+  }
+  expr_is_default_col <- rlang::quo_is_missing(rule[["expression"]]) ||
+    identical(rlang::quo_get_expr(rule[["expression"]]), quote(.col))
+  if (!expr_is_default_col) {
+    warning(paste0(
+      "condformat2excel: rule_fill_bar() with a custom `expression` only ",
+      "gets its background/na.value colours applied in Excel output; the ",
+      "data bar itself is skipped, since Excel data bars always reflect a ",
+      "cell's own displayed value, not an arbitrary expression."
+    ))
+    return(invisible(NULL))
+  }
+  for (col_name in names(columns)) {
+    values <- xfiltered[[col_name]]
+    if (all(is.na(values))) {
+      next
+    }
+    # openxlsx::conditionalFormatting() always applies to the full
+    # min(rows):max(rows) span, so there's no way to exclude individual NA
+    # rows from the middle of the range here. That's fine: writeData() writes
+    # NA as a genuinely blank cell (no value at all), and Excel's data bars
+    # skip blank cells natively, so they're simply not drawn a bar.
+    limits <- resolve_limits(values, rule[["limits"]])
+    openxlsx::conditionalFormatting(
+      workbook, sheet_name,
+      cols = columns[[col_name]],
+      rows = seq_len(nrow(xview)) + 1L, # +1 for the header row
+      type = "databar",
+      style = rep(rule[["low"]], 2),
+      rule = limits
+    )
+  }
+  invisible(NULL)
 }
 

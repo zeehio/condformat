@@ -23,6 +23,14 @@
 
 ## New features
 
+* `rule_fill_bar()` is now supported in Excel output, rendered using Excel's
+  own native data bar conditional formatting (coloured with `low`) instead of
+  being dropped with an "unsupported rule" warning. This only applies when
+  `expression` is left at its default (or explicitly `.col`), since Excel
+  data bars always reflect a cell's own displayed value against a range and
+  can't replicate an arbitrary custom `expression`; in that case the data bar
+  itself is skipped (with a warning) but the flat `background`/`na.value`
+  cell colours are still applied, as before.
 * Export `condformat2excelsheet()`, which writes a condformat table into a
   worksheet of an `openxlsx` workbook you're already building, without
   creating or saving the workbook itself (closes #25). Its docs show how to
