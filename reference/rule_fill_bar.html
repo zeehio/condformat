@@ -129,6 +129,19 @@ that column alone). If omitted, it defaults to <code>.col</code>.</p></dd>
     <h2>Value</h2>
     <p>The condformat_tbl object, with the added formatting information</p>
     </div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>In Excel output (<code><a href="condformat2excel.html">condformat2excel()</a></code>/<code><a href="condformat2excelsheet.html">condformat2excelsheet()</a></code>), this is
+rendered using Excel's own native data bar conditional formatting, coloured
+with <code>low</code> (<code>high</code>, <code>background</code> and <code>lockcells</code> don't apply to it, since
+Excel data bars are solid-coloured and are a workbook-level conditional
+formatting rule, not a per-cell style). This only happens when <code>expression</code>
+is left at its default (or explicitly <code>.col</code>): Excel data bars always
+reflect a cell's own displayed value against a range, so a custom
+<code>expression</code> (e.g. sizing one column's bar by another column's values)
+can't be replicated there and is skipped, with a warning; the cell's flat
+<code>background</code>/<code>na.value</code> colours are still applied in that case.</p>
+    </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other rule:
