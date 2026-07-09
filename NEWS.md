@@ -2,14 +2,16 @@
 
 ## Dependencies
 
-* Bump the minimum required version of all versioned dependencies to their
-  latest CRAN release, to test and develop against currently supported
-  releases (part of #43): `dplyr` (>= 1.2.1), `gridExtra` (>= 2.3.1),
-  `gtable` (>= 0.3.6), `htmlTable` (>= 2.5.0), `htmltools` (>= 0.5.9),
-  `knitr` (>= 1.51), `openxlsx` (>= 4.2.8.1), `rmarkdown` (>= 2.31),
-  `rlang` (>= 1.3.0), `scales` (>= 1.4.0), `tibble` (>= 3.3.1),
-  `tidyselect` (>= 1.2.1), `shiny` (>= 1.14.0), `testthat` (>= 3.3.2) and
-  `vdiffr` (>= 1.0.9).
+* Bump the minimum required version of all versioned dependencies to the
+  release that was current about a year ago, rather than today's exact
+  latest release, so users aren't forced onto a brand new patch just to
+  install condformat (part of #43): `dplyr` (>= 1.1.4), `gtable` (>= 0.3.6),
+  `htmlTable` (>= 2.4.3), `htmltools` (>= 0.5.8.1), `knitr` (>= 1.50),
+  `openxlsx` (>= 4.2.8), `rmarkdown` (>= 2.29), `rlang` (>= 1.1.6),
+  `scales` (>= 1.4.0), `tibble` (>= 3.3.0), `tidyselect` (>= 1.2.1),
+  `shiny` (>= 1.11.1), `testthat` (>= 3.2.3) and `vdiffr` (>= 1.0.8).
+  `gridExtra`'s floor (>= 2.3) is unchanged, as that release is still the
+  latest on CRAN as of a year ago.
 
 ## New features
 
