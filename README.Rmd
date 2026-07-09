@@ -88,6 +88,10 @@ This example covers most of the condformat rules.
 | `rule_fill_gradient2`    |   X   |   X   |   X    |   X   |
 | `rule_text_color`        |   X   |   X   |   X    |   X   |
 | `rule_text_bold`         |   X   |   X   |   X    |   X   |
-| `rule_fill_bar`          |   X   |       |   X    |       |
+| `rule_fill_bar`          |   X   |       |   X    |   X¹  |
 | `rule_css`               |   X   |       |        |       |
+
+¹ In Excel, `rule_fill_bar()` is rendered as a native data bar and only
+  supports the default `expression` (`.col`); a custom `expression` falls
+  back to applying just the `background`/`na.value` cell colours.
 
