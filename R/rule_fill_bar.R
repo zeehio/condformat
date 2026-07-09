@@ -3,6 +3,17 @@
 #' Fills the background of a column cell using a bar proportional to the value
 #' of the cell
 #'
+#' In Excel output ([condformat2excel()]/[condformat2excelsheet()]), this is
+#' rendered using Excel's own native data bar conditional formatting, coloured
+#' with `low` (`high`, `background` and `lockcells` don't apply to it, since
+#' Excel data bars are solid-coloured and are a workbook-level conditional
+#' formatting rule, not a per-cell style). This only happens when `expression`
+#' is left at its default (or explicitly `.col`): Excel data bars always
+#' reflect a cell's own displayed value against a range, so a custom
+#' `expression` (e.g. sizing one column's bar by another column's values)
+#' can't be replicated there and is skipped, with a warning; the cell's flat
+#' `background`/`na.value` colours are still applied in that case.
+#'
 #' @family rule
 #'
 #' @param x A condformat object, typically created with [condformat()]
@@ -77,17 +88,7 @@ rule_to_cf_field.rule_fill_bar <- function(rule, xfiltered, xview, ...) {
 
   for (col_name in names(columns)) {
     values_determining_color <- values_per_column[[col_name]]
-    if (identical(rule[["limits"]], NA)) {
-      limits <- range(values_determining_color, na.rm = TRUE)
-    } else {
-      limits <- rule[["limits"]]
-      if (is.na(limits[1])) {
-        limits[1] <- min(values_determining_color, na.rm = TRUE)
-      }
-      if (is.na(limits[2])) {
-        limits[2] <- max(values_determining_color, na.rm = TRUE)
-      }
-    }
+    limits <- resolve_limits(values_determining_color, rule[["limits"]])
 
     values_rescaled <- scales::rescale(x = values_determining_color, from = limits)
     stopifnot(identical(length(values_rescaled), nrow(xview)))

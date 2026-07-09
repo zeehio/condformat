@@ -1,7 +1,7 @@
 Introduction to condformat
 ================
 Sergio Oller
-2023-10-08
+2026-07-09
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -37,30 +37,30 @@ package. Either use the full texlive distribution, or install
 
 ### Package installation
 
-  - From CRAN:
-    
-        install.packages("condformat")
+- From CRAN:
 
-  - To install the latest development version:
-    
-        remotes::install_github("zeehio/condformat")
+      install.packages("condformat")
+
+- To install the latest development version:
+
+      remotes::install_github("zeehio/condformat")
 
 ## Example
 
 ``` r
 data(iris)
 library(condformat)
-condformat(iris[c(1:5,70:75, 120:125),]) %>%
-  rule_fill_discrete(Species) %>%
+condformat(iris[c(1:5,70:75, 120:125),]) |>
+  rule_fill_discrete(Species) |>
   rule_fill_discrete(c(Sepal.Width, Sepal.Length),
                      expression = Sepal.Width > Sepal.Length - 2.25,
-                     colours = c("TRUE" = "#7D00FF")) %>%
-  rule_fill_gradient2(Petal.Length) %>%
-  rule_text_bold(c(Sepal.Length, Species), Species == "versicolor") %>%
+                     colours = c("TRUE" = "#7D00FF")) |>
+  rule_fill_gradient2(Petal.Length) |>
+  rule_text_bold(c(Sepal.Length, Species), Species == "versicolor") |>
   rule_text_color(Sepal.Length,
-                  expression = ifelse(Species == "setosa", "yellow", "")) %>%
-  rule_fill_bar(Petal.Width, limits = c(0, NA)) %>%
-  theme_grob(rows = NULL) %>%
+                  expression = ifelse(Species == "setosa", "yellow", "")) |>
+  rule_fill_bar(Petal.Width, limits = c(0, NA)) |>
+  theme_grob(rows = NULL) |>
   condformat2grob()
 ```
 
@@ -71,11 +71,15 @@ This example covers most of the condformat rules.
 ## Rules and output engine support
 
 | Rule                  | HTML | LaTeX | gtable | Excel |
-| --------------------- | :--: | :---: | :----: | :---: |
+|-----------------------|:----:|:-----:|:------:|:-----:|
 | `rule_fill_discrete`  |  X   |   X   |   X    |   X   |
 | `rule_fill_gradient`  |  X   |   X   |   X    |   X   |
 | `rule_fill_gradient2` |  X   |   X   |   X    |   X   |
 | `rule_text_color`     |  X   |   X   |   X    |   X   |
 | `rule_text_bold`      |  X   |   X   |   X    |   X   |
-| `rule_fill_bar`       |  X   |       |   X    |       |
+| `rule_fill_bar`       |  X   |       |   X    |  X¹   |
 | `rule_css`            |  X   |       |        |       |
+
+¹ In Excel, `rule_fill_bar()` is rendered as a native data bar and only
+supports the default `expression` (`.col`); a custom `expression` falls
+back to applying just the `background`/`na.value` cell colours.
