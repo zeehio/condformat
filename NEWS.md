@@ -1,12 +1,15 @@
 # condformat 0.10.1.9000
 
-## Breaking changes
+## Deprecations
 
-* Drop the `magrittr` dependency and the `%>%` pipe operator it re-exported
-  (part of #43). condformat now requires R >= 4.1 and its own examples,
-  tests and vignette use the native base R pipe (`|>`) instead. If your code
-  relied on `library(condformat)` making `%>%` available, either
-  `library(magrittr)` yourself or switch to `|>`.
+* condformat's own examples, tests and vignette now use the native pipe
+  (`|>`) instead of magrittr's `%>%` (part of #43), and condformat now
+  requires R >= 4.1. Its re-exported `%>%` is kept for backward
+  compatibility, but is deprecated: using it via `library(condformat)` (or
+  `condformat::`) now emits a once-per-session warning before behaving
+  exactly as before. Please import `%>%` from magrittr or dplyr yourself,
+  or switch to `|>`, since this re-export will be removed in a future
+  release.
 
 ## Dependencies
 

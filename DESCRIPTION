@@ -27,6 +27,7 @@ Imports:
     htmlTable (>= 2.4.3),
     htmltools (>= 0.5.8.1),
     knitr (>= 1.50),
+    magrittr (>= 2.0.3),
     rlang (>= 1.1.6),
     scales (>= 1.4.0),
     tibble (>= 3.3.0),
