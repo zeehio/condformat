@@ -72,3 +72,11 @@ test_that("cf_field_to_css.default warns for an unsupported cf_field class", {
   expect_equal(result[["unlocked"]], unlocked)
 })
 
+test_that("knitr returns a paginated htmlwidget when paginate = TRUE", {
+  data(iris)
+  on.exit(knitr::opts_knit$set(rmarkdown.pandoc.to = NULL, out.format = NULL))
+  knitr::opts_knit$set(rmarkdown.pandoc.to = "html", out.format = "html")
+  out <- knitr::knit_print(condformat(head(iris)), paginate = TRUE)
+  expect_s3_class(out, "htmlwidget")
+})
+
