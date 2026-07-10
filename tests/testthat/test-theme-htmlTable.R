@@ -22,3 +22,20 @@ test_that("theme_caption works", {
   out <- strsplit(x, "\n", fixed = TRUE)[[1]]
   expect_true(any(grepl("potato", out, fixed = TRUE)))
 })
+
+test_that("theme_htmlTable redirects deprecated htmlWidget-style arguments", {
+  expect_warning(
+    x <- condformat(head(iris)) |> theme_htmlTable(number_of_entries = 10),
+    "should be given to theme_htmlWidget"
+  )
+  themes <- attr(x, "condformat")[["themes"]]
+  finaltheme <- render_theme_condformat_tbl(themes, head(iris))
+  expect_equal(finaltheme[["htmlWidget"]][["number_of_entries"]], 10)
+})
+
+test_that("theme_htmlTable errors on a genuinely unknown argument", {
+  expect_error(
+    condformat(head(iris)) |> theme_htmlTable(totally_bogus_arg = 1),
+    "unknown by htmlTable"
+  )
+})
