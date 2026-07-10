@@ -49,3 +49,40 @@ test_that("rule_text_bold lockcells prevents further LaTeX rules from applying",
   n_matches <- if (identical(matches, -1L)) 0L else length(matches)
   expect_equal(n_matches, 1L)
 })
+
+test_that("rule_text_bold renders bold cells in a gtable", {
+  skip_if_not_installed("gridExtra")
+  cfg <- condformat(data.frame(a = "potato", b = "carrot")) |>
+    rule_text_bold("a", expression = TRUE) |>
+    condformat2grob(draw = FALSE)
+  ind_bold <- find_cell(cfg, 2, 2, name = "core-fg")
+  ind_normal <- find_cell(cfg, 2, 3, name = "core-fg")
+  # grid::gpar(fontface = "bold") actually sets $font (not $fontface) to 2.
+  expect_equal(unname(cfg$grobs[ind_bold][[1]][["gp"]][["font"]]), 2)
+  expect_equal(unname(cfg$grobs[ind_normal][[1]][["gp"]][["font"]]), 1)
+})
+
+test_that("rule_text_bold lockcells prevents further gtable rules from applying", {
+  skip_if_not_installed("gridExtra")
+  cfg <- data.frame(a = "potato") |>
+    condformat() |>
+    rule_text_bold("a", expression = TRUE, lockcells = TRUE) |>
+    rule_text_bold("a", expression = FALSE) |>
+    condformat2grob(draw = FALSE)
+  ind <- find_cell(cfg, 2, 2, name = "core-fg")
+  expect_equal(unname(cfg$grobs[ind][[1]][["gp"]][["font"]]), 2)
+})
+
+test_that("rule_text_bold defaults expression to .col when omitted", {
+  out <- condformat(data.frame(a = TRUE)) |>
+    rule_text_bold(a) |>
+    condformat2html()
+  expect_match(out, "font-weight: bold")
+})
+
+test_that("rule_text_bold with an empty column selection is a no-op", {
+  out <- condformat(data.frame(a = "potato")) |>
+    rule_text_bold(starts_with("nonexistent")) |>
+    condformat2html()
+  expect_false(grepl("font-weight: bold", out, fixed = TRUE))
+})

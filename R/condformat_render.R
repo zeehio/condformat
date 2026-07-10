@@ -106,6 +106,10 @@ render_show_condformat_tbl <- function(x) {
 rules_to_cf_fields <- function(rules, xfiltered, xview) {
   cf_fields <- lapply(rules,
                       function(rule) rule_to_cf_field(rule, xfiltered, xview))
+  # A rule whose column selection matches no columns returns NULL (a no-op);
+  # drop it here so it isn't dispatched to a cf_field_to_*.default method,
+  # which would otherwise emit a spurious "cf key NULL is not supported" warning.
+  cf_fields <- Filter(Negate(is.null), cf_fields)
   return(cf_fields)
 }
 
