@@ -58,7 +58,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.11.0" id="condformat-0110">condformat 0.11.0<a class="anchor" aria-label="anchor" href="#condformat-0110"></a></h2>
+<h2 class="page-header" data-toc-text="0.11.0" id="condformat-0110">condformat 0.11.0<small>2026-07-09</small><a class="anchor" aria-label="anchor" href="#condformat-0110"></a></h2>
 <div class="section level3">
 <h3 id="breaking-changes-0-11-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-11-0"></a></h3>
 <ul><li>Drop the <code>magrittr</code> dependency and the <code>%&gt;%</code> pipe operator it re-exported (part of <a href="https://github.com/zeehio/condformat/issues/43" class="external-link">#43</a>). condformat now requires R &gt;= 4.1 and its own examples, tests and vignette use the native base R pipe (<code>|&gt;</code>) instead. If your code relied on <code><a href="https://zeehio.github.io/condformat/">library(condformat)</a></code> making <code>%&gt;%</code> available, either <code><a href="https://magrittr.tidyverse.org" class="external-link">library(magrittr)</a></code> yourself or switch to <code>|&gt;</code>.</li>
