@@ -16,8 +16,7 @@ status](https://www.r-pkg.org/badges/version/condformat)](https://CRAN.R-project
 
 [![Documentation](https://img.shields.io/badge/documentation-pkgdown-informational)](https://zeehio.github.io/condformat/)
 
-[![R build
-status](https://github.com/zeehio/condformat/workflows/R-CMD-check/badge.svg)](https://github.com/zeehio/condformat/actions)
+[![R-CMD-check.yaml](https://github.com/zeehio/condformat/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/zeehio/condformat/actions/workflows/R-CMD-check.yaml)
 [![codecov.io](https://codecov.io/github/zeehio/condformat/coverage.svg?branch=main)](https://app.codecov.io/github/zeehio/condformat)
 
 <!-- badges: end -->
