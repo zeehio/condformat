@@ -1,5 +1,18 @@
 # condformat 0.11.0.9000
 
+## Bug fixes
+
+* Applying a rule whose column selection matches no columns (e.g. an empty
+  `tidyselect` match) no longer emits a spurious "cf key NULL is not
+  supported" warning.
+
+## Tests
+
+* Substantially increased internal test coverage (shiny.R,
+  theme_htmlWidget.R, theme_htmlTable.R, rule_text_bold.R, render_html.R,
+  condformat_render.R, theme_kable.R). No user-facing changes beyond the
+  bug fix above.
+
 # condformat 0.11.0
 
 ## Breaking changes
