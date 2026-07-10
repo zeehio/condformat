@@ -37,3 +37,38 @@ test_that("knitr returns an HTML table", {
   expect_match(out, "^<table.*</table>$")
 })
 
+test_that("condformat2widget's ... argument is deprecated in favor of theme_htmlWidget", {
+  expect_warning(
+    w <- condformat2widget(condformat(head(iris)), number_of_entries = 2),
+    "deprecated.*theme_htmlWidget"
+  )
+  expect_s3_class(w, "htmlwidget")
+})
+
+test_that("condformat2htmlcommon merges a css.cell theme argument with the rule-computed CSS", {
+  # theme_htmlTable()'s public API doesn't accept css.cell (it isn't one of
+  # htmlTable::htmlTable's own formals), so the merge path in
+  # condformat2htmlcommon() is exercised here by injecting the theme args
+  # directly, bypassing that validation.
+  x <- condformat(head(iris)) |> rule_fill_discrete(Species)
+  theme <- structure(list(htmlargs = list(css.cell = "font-style: italic;")),
+                     class = c("theme_htmlTable", "condformat_theme"))
+  x <- add_theme_to_condformat(x, theme)
+  out <- condformat2html(x)
+  out_lines <- strsplit(out, "\n", fixed = TRUE)[[1]]
+  expect_true(any(grepl("font-style: italic;", out_lines, fixed = TRUE)))
+  expect_true(any(grepl("background-color", out_lines, fixed = TRUE)))
+})
+
+test_that("cf_field_to_css.default warns for an unsupported cf_field class", {
+  cf_field <- structure(list(), class = c("cf_field_bogus", "cf_field"))
+  css_fields <- list()
+  unlocked <- matrix(TRUE, nrow = 1, ncol = 1)
+  expect_warning(
+    result <- cf_field_to_css.default(cf_field, data.frame(a = 1), css_fields, unlocked),
+    "cf key cf_field_bogus is not supported"
+  )
+  expect_equal(result[["css_fields"]], css_fields)
+  expect_equal(result[["unlocked"]], unlocked)
+})
+
